@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.freeboard.dao.FreeboardDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="freeboardarticleDTO" id="freeboardarticleResult">
+ 		<result property="freePostNo" column="freePostNo"/>
+ 		<result property="freeTitle" column="freeTitle"/>
+ 		<result property="freeContent" column="freeContent"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 		<result property="freeCreatedAt" column="freeCreatedAt"/>
+ 		<result property="freeViewCount" column="freeViewCount"/>
+ 		<result property="freeFileName" column="freeFileName"/>
+ 		<result property="fbanswerNo" column="fbanswerNo"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="freeboardimageDTO" id="freeboardimageResult">
+ 		<result property="imageNo" column="imageNo"/>
+ 		<result property="" column=""/>
+ 		<result property="" column=""/>
+ 		<result property="" column=""/>
+ 		<result property="" column=""/>
+ 		<result property="" column=""/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>

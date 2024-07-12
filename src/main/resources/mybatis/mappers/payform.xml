@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="payformDTO" id="payformResult">
+ 		<result property="payformNo" column="payformNo"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 		<result property="payformSub" column="payformSub"/>
+ 		<result property="payformPrice" column="payformPrice"/>
+ 		<result property="payformDate" column="payformDate"/>
+ 		<result property="payformStatus" column="payformStatus"/>
+ 		<result property="payformPayment" column="payformPayment"/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>

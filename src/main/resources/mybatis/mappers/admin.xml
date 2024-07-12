@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.admin.dao.AdminDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="adminDTO" id="adminResult">
+ 		<result property="adminNo" column="adminNo"/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>

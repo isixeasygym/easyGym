@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.notice.dao.NoticeDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="noticeDTO" id="noticeResult">
+ 		<result property="noticeNo" column="noticeNo"/>
+ 		<result property="noticeTitle" column="noticeTitle"/>
+ 		<result property="noticeContent" column="noticeContent"/>
+ 		<result property="noticeWriteDate" column="noticeWriteDate"/>
+ 		<result property="noticeCategory" column="noticeCategory"/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>

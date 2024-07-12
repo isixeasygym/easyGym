@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.mypage.dao.MypageDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+
+	<resultMap type="reportDTO" id="reportResult">
+ 		<result property="reportNo" column="reportNo"/>
+ 		<result property="reportTitle" column="reportTitle"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 		<result property="reportContent" column="reportContent"/>
+ 		<result property="reportDate" column="reportDate"/>
+ 		<result property="reportDeleted" column="reportDeleted"/>
+ 		<result property="reportStatus" column="reportStatus"/>
+ 		<result property="reportEntName" column="reportEntName"/>
+ 		<result property="reportProcessedAt" column="reportProcessedAt"/>
+ 		<result property="reportAnswer" column="reportAnswer"/>
+ 	</resultMap>
+ 	
+	<select id="selectAllreports" resultMap="reportResult" parameterType="int">
+ 		<![CDATA[
+ 			select reportNo, reportTitle, memberNo, reportDate from report_tbl order by reportNo desc limit #{count}, 10
+ 		]]>
+ 	</select>  <!-- 페이징 => int -->
+ 	
+ </mapper>

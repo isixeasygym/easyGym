@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.contact.dao.ContactDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="contactDTO" id="contactResult">
+ 		<result property="contactNo" column="contactNo"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 		<result property="contactTitle" column="contactTitle"/>
+ 		<result property="contactWriteDate" column="contactWriteDate"/>
+ 		<result property="contactCategory" column="contactCategory"/>
+ 		<result property="contactImgName" column="contactImgName"/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>

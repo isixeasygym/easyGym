@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ 
+ 	<resultMap type="detailDTO" id="detailResult">
+ 		<result property="detailNo" column="detailNo"/>
+ 		<result property="detailBusinessName" column="detailBusinessName"/>
+ 		<result property="detailAddress" column="detailAddress"/>
+ 		<result property="detailDate" column="detailDate"/>
+ 		<result property="detailScope" column="detailScope"/>
+ 		<result property="detailBaseImage" column="detailBaseImage"/>
+ 		<result property="detailImage" column="detailImage"/>
+ 		<result property="detailServiceProgram" column="detailServiceProgram"/>
+ 		<result property="detailWhole" column="detailWhole"/>
+ 		<result property="reviewNo" column="ewviewNo"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="detaildibsDTO" id="detaildibsResult">
+ 		<result property="dibsNo" column="dibsNo"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 	</resultMap>
+ 	
+ 	<resultMap type="detailreviewDTO" id="detailreviewResult">
+ 		<result property="reviewNo" column="reviewNo"/>
+ 		<result property="reviewContent" column="reviewContent"/>
+ 		<result property="reviewImgName" column="reviewImgName"/>
+ 		<result property="reviewDate" column="reviewDate"/>
+ 		<result property="memberNo" column="memberNo"/>
+ 	</resultMap>
+ 	
+ 	
+ 
+ </mapper>
