@@ -13,7 +13,7 @@ public interface NoticeService {
 	public List noticeList() throws DataAccessException;
 
 	// 조회수 카운트
-	public int readCount(int noticeNo) throws DataAccessException;
+	public void readCount(int noticeNo) throws DataAccessException;
 	
 	//여러 개의 이미지 추가
 	public int addNotice(Map aticleMap) throws DataAccessException;

@@ -127,7 +127,7 @@
                                             <th>공지사항 제목</th>
                                             <th>작성자</th>
                                             <th>공지사항 작성일</th>
-                                            <!--<th>공지사항 조회수</th>-->
+                                            <th>공지사항 조회수</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -136,7 +136,7 @@
                                             <th>공지사항 제목</th>
                                             <th>작성자</th>
                                             <th>공지사항 작성일</th>
-                                            <!--<th>공지사항 조회수</th>-->
+                                            <th>공지사항 조회수</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -165,7 +165,7 @@
                                                         </td>
                                                         <td>${sessionScope.admin.adminId}</td>
                                                         <td>${notice.noticeWriteDate}</td>
-                                                        <!--<td>${notice.noticeHit}</td>-->
+                                                        <td>${notice.noticeHit}</td>
                                                     </tr>
                                                 </c:forEach>
                                             </c:when> 

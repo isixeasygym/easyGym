@@ -118,7 +118,6 @@ public class NoticeControllerImpl implements NoticeController{
 	@Override
 	@RequestMapping("/admin/viewNotice.do") //상세 글 보기
 	public ModelAndView viewNotice(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		noticeService.readCount(noticeNo);
 		Map noticeMap=noticeService.viewNotice(noticeNo);
 		ModelAndView mv=new ModelAndView();
 		mv.setViewName("/admin/viewNotice");  

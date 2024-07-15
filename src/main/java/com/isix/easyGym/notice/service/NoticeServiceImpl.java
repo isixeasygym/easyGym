@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isix.easyGym.notice.dao.NoticeDAO;
 import com.isix.easyGym.notice.dto.NoticeDTO;
@@ -28,9 +29,9 @@ public class NoticeServiceImpl implements NoticeService{
 	
 	// 조회수 카운트
 	@Override
-	public int readCount(int noticeNo) throws DataAccessException{
-		int hit = noticeDAO.hitCount(noticeNo);
-		return hit;
+	public void readCount(int noticeNo) throws DataAccessException{
+		noticeDAO.hitCount(noticeNo);
+		System.out.println(noticeDAO.hitCount(noticeNo)+"조회수 카운트" + "게시판번호" + noticeNo);
 	}
 
 	// 공지사항 등록
@@ -52,7 +53,7 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public Map viewNotice(int noticeNo) throws DataAccessException{
 		Map noticeMap=new HashMap<>();
-		readCount(noticeNo);
+		noticeDAO.hitCount(noticeNo);
 		NoticeDTO noticeDTO=noticeDAO.selectNotice(noticeNo);
 		List<NoticeImageDTO> imageFileList = noticeDAO.selectImageFileList(noticeNo);
 		noticeMap.put("notice", noticeDTO);
