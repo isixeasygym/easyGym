@@ -26,4 +26,5 @@ public interface MemberDAO {
 	
 	public MemberDTO loginCheck(int memberNo) throws DataAccessException;
 	
+
 }
