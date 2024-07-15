@@ -22,7 +22,9 @@ public interface MemberDAO {
 	
 	public void delMember(String id) throws DataAccessException;  //삭제하기 위해 id를 넘김
 
-	public MemberDTO loginChecking(int userId) throws DataAccessException;
-
 	public MemberDTO loginCheck(MemberDTO memberDTO) throws DataAccessException;
+	
+	public MemberDTO loginCheck(int memberNo) throws DataAccessException;
+	
+
 }
