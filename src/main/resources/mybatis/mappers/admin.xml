@@ -2,12 +2,96 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.admin.dao.AdminDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ <mapper namespace="com.isix.easyGym.admin.dao.AdminDAO">
  
- 	<resultMap type="adminDTO" id="adminResult">
- 		<result property="adminNo" column="adminNo"/>
+ 	<resultMap type="adminDTO" id="adResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
+ 		<result property="adminNo" column="adminNo"/> <!-- set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. -->
+ 		<result property="adminId" column="adminId"/>
+ 		<result property="adminPwd" column="adminPwd"/>
+ 		<result property="adminPhone" column="adminPhone"/>
+ 		<result property="adminEmail" column="adminEmail"/>
  	</resultMap>
- 	
- 	
  
+ 	<resultMap type="memberDTO" id="memResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
+ 		<result property="memberNo" column="memberNo"/> <!-- set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. -->
+ 		<result property="memberName" column="memberName"/>
+ 		<result property="memberId" column="memberId"/>
+ 		<result property="memberPwd" column="memberPwd"/>
+ 		<result property="memberPhone" column="memberPhone"/>
+ 		<result property="memberEmail" column="memberEmail"/>
+ 		<result property="memberAddr" column="memberAddr"/>
+ 		<result property="memberPost" column="memberPost"/>
+ 		<result property="memberCreatedAt" column="memberCreatedAt"/>
+ 		<result property="memberState" column="memberState"/>
+ 		<result property="memberGender" column="memberGender"/>
+ 		<result property="memberMarketing" column="memberMarketing"/>
+ 	</resultMap> 
+	
+	
+
+	<!-- SQL문 중복 제거하기 -->
+ 	<sql id="sr">
+ 		<![CDATA[
+ 			select * from member_tbl 
+ 		]]>
+ 	</sql>
+	
+	<!-- 관리자 가입 -->
+	<insert id="joinAd" parameterType="adminDTO">
+		 <![CDATA[
+			insert into admin_tbl values(#{adminNo},#{adminId},#{adminPwd},#{adminPhone},#{adminEmail})	
+		]]>
+	</insert>
+	
+	<!-- 관리자 로그인체크 -->
+	<select id="loginCheck" parameterType="adminDTO" resultType="adminDTO">
+
+			select * from admin_tbl where adminId = #{adminId} and adminPwd = #{adminPwd}
+
+	</select>
+	
+
+	<!-- 전체 회원정보 리스트 -->
+ 	<select id="selectAll" resultMap="memResult">
+ 		<![CDATA[
+ 			select * from member_tbl  order by memberNo desc 		
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 탈퇴 회원정보 리스트 -->
+ 	<select id="selectWithMem" resultMap="memResult">
+ 		<![CDATA[
+ 			select * from member_tbl where memberState=0 order by memberNo desc 		
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 회원정보 아이디로 검색 -->
+ 	<select id="selectMemberById" parameterType="String" resultType="memberDTO">
+ 		<include refid="sr"/>
+ 		<where>
+ 			memberId = #{memberId}
+ 		</where>
+ 	</select>
+ 	
+	<!-- 회원정보 탈퇴 회원 만들기 검색 -->
+	<select id="searchMember" parameterType="memberDTO" resultMap="memResult">
+ 		<include refid="sr"/>
+ 		<where>  
+ 			<choose>
+ 				<when test="name != '' and name != null and email != '' and email != null">
+ 					name=#{name} and email=#{email}
+ 				</when>
+ 				<when test="name != '' and name != null">
+ 					name like concat('%', #{name}, '%')
+ 				</when>
+ 				<when test="email != '' and email != null">
+ 					email like concat('%', #{email}, '%')
+ 				</when>
+ 			</choose>		
+ 		</where>
+ 		order by joinDate desc
+ 	</select>
+	
+ 	
  </mapper>
+ 
