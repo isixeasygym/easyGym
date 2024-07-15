@@ -2,40 +2,30 @@ package com.isix.easyGym.detail.dto;
 
 import org.springframework.stereotype.Component;
 
-@Component("detaildibsDTO")
+@Component("dibsDTO")
 public class DetailDibsDTO {
-
-	private int dibsNo;
-	private int detailNo;
-	private int memberNo;
+	private int dibsNo; // au 객체 선언해야 하는지
+	private String wholeNo;
+	private String memberNo;
 	
-	public DetailDibsDTO() {
-		
-	}
-
+	
 	public int getDibsNo() {
 		return dibsNo;
 	}
-
 	public void setDibsNo(int dibsNo) {
 		this.dibsNo = dibsNo;
 	}
-
-	public int getDetailNo() {
-		return detailNo;
+	public String getWholeNo() {
+		return wholeNo;
 	}
-
-	public void setDetailNo(int detailNo) {
-		this.detailNo = detailNo;
+	public void setWholeNo(String wholeNo) {
+		this.wholeNo = wholeNo;
 	}
-
-	public int getMemberNo() {
+	public String getMemberNo() {
 		return memberNo;
 	}
-
-	public void setMemberNo(int memberNo) {
+	public void setMemberNo(String memberNo) {
 		this.memberNo = memberNo;
 	}
-	
-	
+
 }
