@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
- PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
- "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.member.dao.MemberDAO">  <!-- namespace는 mapper의 이름을 정의 -->
- 
- 	<resultMap type="memberDTO" id="memberResult">
- 		<result property="memberNo" column="memberNo"/>
- 		<result property="memberName" column="memberName"/>
- 		<result property="memberId" column="memberId"/>
- 		<result property="memberPwd" column="memberPwd"/>
- 		<result property="memberPhone" column="memberPhone"/>
- 		<result property="memberEmail" column="memberEmail"/>
- 		<result property="memberAddr" column="memberAddr"/>
- 		<result property="memberPost" column="memberPost"/>
- 		<result property="memberCreatedAt" column="memberCreatedAt"/>
- 		<result property="memberState" column="memberState"/>
- 		<result property="memberGender" column="memberGender"/>
- 		<result property="memberMarketing" column="memberMarketing"/>
- 	</resultMap>
- 	
- 	<resultMap type="memberoperDTO" id="memberoperResult">
- 		<result property="operatorNo" column="operatorNo"/>
- 		<result property="operatorName" column="operatorName"/>
- 		<result property="operatorId" column="operatorId"/>
- 		<result property="operatorPwd" column="operatorPwd"/>
- 		<result property="operatorPhone" column="operatorPhone"/>
- 		<result property="operatorEmail" column="operatorEmail"/>
- 		<result property="operatorResNo" column="operatorResNo"/>
- 		<result property="operatorImgName" column="operatorImgName"/>
- 		<result property="operatorCreatedAt" column="operatorCreatedAt"/>
- 		<result property="operatorState" column="operatorState"/>
- 	</resultMap>
- 	
- 	
- 
- </mapper>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isix.easyGym.member.dao.MemberDAO">
+
+    <resultMap type="memberDTO" id="memberResult">
+        <result property="memberNo" column="memberNo"/>
+        <result property="memberName" column="memberName"/>
+        <result property="memberId" column="memberId"/>
+        <result property="memberPwd" column="memberPwd"/>
+        <result property="memberPhone" column="memberPhone"/>
+        <result property="memberEmail" column="memberEmail"/>
+        <result property="memberAddr" column="memberAddr"/>
+        <result property="memberPost" column="memberPost"/>
+        <result property="memberCreatedAt" column="memberCreatedAt"/>
+        <result property="memberState" column="memberState"/>
+        <result property="memberGender" column="memberGender"/>
+        <result property="memberMarketing" column="memberMarketing"/>
+    </resultMap>
+
+    <resultMap type="memberoperDTO" id="memberoperResult">
+        <result property="operatorNo" column="operatorNo"/>
+        <result property="operatorName" column="operatorName"/>
+        <result property="operatorId" column="operatorId"/>
+        <result property="operatorPwd" column="operatorPwd"/>
+        <result property="operatorPhone" column="operatorPhone"/>
+        <result property="operatorEmail" column="operatorEmail"/>
+        <result property="operatorResNo" column="operatorResNo"/>
+        <result property="operatorImgName" column="operatorImgName"/>
+        <result property="operatorCreatedAt" column="operatorCreatedAt"/>
+        <result property="operatorState" column="operatorState"/>
+    </resultMap>
+
+    <select id="loginChecking" parameterType="int" resultType="int">
+        <![CDATA[
+            SELECT m.memberNo FROM member_tbl m INNER JOIN detailDibs_tbl d ON m.memberNo = d.memberNo WHERE m.memberNo = #{userId}
+        ]]>
+    </select>
+
+</mapper>
