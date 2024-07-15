@@ -23,7 +23,14 @@ public class DetailDTO {
 		private String wholeFreeService;
 		private int wholeMonthlyPrice;
 		private String wholeKoClassification;
+		private int wholeTest;
 		
+		public int getWholeTest() {
+			return wholeTest;
+		}
+		public void setWholeTest(int wholeTest) {
+			this.wholeTest = wholeTest;
+		}
 		public int getWholeNo() {
 			return wholeNo;
 		}

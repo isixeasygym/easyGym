@@ -24,8 +24,8 @@ public interface DetailController{
 	
 	public ModelAndView review(@RequestParam("memberNo")int memberNo,@RequestParam("wholeNo") int wholeNo,MultipartHttpServletRequest MultipartRequest, HttpServletResponse response) throws Exception;
 	
-	public String dibs(@RequestParam("companyId") int companyId, @RequestParam("userId") int userId
+	/*public String dibs(@RequestParam("companyId") int companyId, @RequestParam("userId") int userId
 			, @RequestParam(value="action" ,required=false) String action,
 			RedirectAttributes rAttr, HttpServletRequest request,
-			HttpServletResponse response) throws Exception;
+			HttpServletResponse response) throws Exception;*/
 }

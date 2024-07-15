@@ -43,9 +43,9 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.delMember(id);
 	}
 
-	public MemberDTO loginCheck(int userId) throws DataAccessException{
-		memberDTO=memberDAO.loginChecking(userId);
-		return memberDTO;
+	public String loginCheck(String userId) throws DataAccessException{
+		String result = memberDAO.loginChecking(Integer.parseInt(userId));  
+		return result;
 	}
 	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
 		return memberDAO.loginCheck(memberDTO);

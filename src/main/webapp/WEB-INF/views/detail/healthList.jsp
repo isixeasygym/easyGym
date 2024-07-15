@@ -12,27 +12,24 @@
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/css/detail/list.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="${contextPath}/js/detail/list.js"></script>
 </head>
 <body>
 	<div class="content">	
 		<c:choose>
 			<c:when test="${!empty allList}">
-				<c:forEach var="allList" items="${allList}" varStatus="list">		
+				<c:forEach var="allList" items="${allList}">		
 					<div class="contentRange">
-						<div id="imgRange">
-			         	  <img class="img" src="${contextPath}/images/detail/${allList.wholeClassification}/${allList.wholeBusinessEng}/${allList.wholeBusinessEng}1.PNG" alt="${allList.wholeBusinessEng}">
-			         	</div>
+			           <div class="imgRange">
+			               <img class="img" src="${contextPath}/images/detail/${allList.wholeClassification}/${allList.wholeBusinessEng}/${allList.wholeBusinessEng}1.PNG" alt="mrtFit">
+			           </div>
 			           <div class="buttonRange">
-			               <button class="favorite-button"  data-company-id="${allList.wholeNo}">
-							
+			               <button class="favorite-button" data-company-id="${allList.wholeNo}" data-user-id="${member.memberNo}">
 			                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
 			               </button>
-						   <input type="text" value="${allList.wholeTest}" class="Test">
 			           </div>
-					   
 			           <div class="infoRange">
 			               <h6 class="classification">${allList.wholeKoClassification}</h6>
 			               <h4 class="name">${allList.wholeBusinessName}</h4>

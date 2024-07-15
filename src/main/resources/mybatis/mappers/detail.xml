@@ -21,6 +21,7 @@
  		<result property="wholeFreeService" column="wholeFreeService"/>
  		<result property="wholeMonthlyPrice" column="wholeMonthlyPrice"/>
  		<result property="wholeKoClassification" column="wholeKoClassification"/>
+ 		<result property="wholeTest" column="wholeTest"/>
  	</resultMap>
  	
  	<resultMap type="detailDibsDTO" id="detailDibsResult">
@@ -50,7 +51,7 @@
  	
  	<select id="findDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
 		<![CDATA[
- 			select * from detailDibs_tbl where wholeNo = #{wholeNo} and memberNo = #{memberNo}
+ 			select * from detaildibs_tbl where wholeNo = #{wholeNo} and memberNo = #{memberNo}
  		]]>
 	</select>
  

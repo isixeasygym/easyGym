@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -80,7 +82,7 @@ public class DetailControllerImpl implements DetailController{
 			findAll = detailService.selectAll(WholeClassification);
 			ModelAndView mav = new ModelAndView();
 			mav.addObject("allList", findAll);
-			mav.setViewName("/detail/List");
+			mav.setViewName("/detail/healthList");
 		return mav;
 	}
 	
@@ -94,28 +96,27 @@ public class DetailControllerImpl implements DetailController{
 		selectThing=(Map<String, String>) detailService.selectPopular(selectThing);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("allList", selectThing);
-		mav.setViewName("/detail/List");
+		mav.setViewName("/detail/healthList");
 		return mav;
 	}
 
 
 	
-	@PostMapping("/addFavorite")
-	@ResponseBody
-	public String dibs(@RequestParam("companyId") int companyId, @RequestParam("userId") int userId,
+	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
+	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String userId,
 	                   @RequestParam(value = "action", required = false) String action,
 	                   RedirectAttributes rAttr, HttpServletRequest request,
 	                   HttpServletResponse response) throws Exception {
 	    String status = "null";
-	    
+	    //System.out.print(userId);
 	    // 사용자 로그인 체크
-	    memberDTO = memberService.loginCheck(userId);
+	    String result = memberService.loginCheck(userId);
 	    HttpSession session = request.getSession(); // 로그인 정보 세션에 저장
 	    session.setAttribute("action", action);
 	    session.setAttribute("member", memberDTO);
 	    
 	    // 로그인 체크
-	    if (memberDTO != null) {
+	    if (!result.equals("true")) {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("companyId", companyId);
 	        paramMap.put("userId", userId);

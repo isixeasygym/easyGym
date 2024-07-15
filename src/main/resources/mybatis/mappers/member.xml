@@ -30,9 +30,9 @@
         <result property="operatorState" column="operatorState"/>
     </resultMap>
 
-    <select id="loginChecking" parameterType="int" resultType="int">
+    <select id="loginChecking" parameterType="int" resultType="String">
         <![CDATA[
-            SELECT m.memberNo FROM member_tbl m INNER JOIN detailDibs_tbl d ON m.memberNo = d.memberNo WHERE m.memberNo = #{userId}
+            SELECT if (count(*)=1, 'true' ,'false') as result FROM member_tbl m INNER JOIN detaildibs_tbl d ON m.memberNo = d.memberNo WHERE m.memberNo =  #{userId}
         ]]>
     </select>
 
