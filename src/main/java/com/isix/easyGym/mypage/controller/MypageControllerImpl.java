@@ -29,7 +29,7 @@ public class MypageControllerImpl implements MypageController {
 	private ReportDTO reportDTO;    //신고하기
 	
 	//내 정보
-/*	@RequestMapping(value = "/mypage/mypageMain.do")
+	@RequestMapping(value = "/mypage/mypageMain.do")
 	public ModelAndView mypageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("/mypage/mypageMain");
@@ -37,7 +37,7 @@ public class MypageControllerImpl implements MypageController {
 	}
 	
 	//구매내역
-	public ModelAndView buyHistory(@RequestParam("buyNo") int buyNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+/*	public ModelAndView buyHistory(@RequestParam("buyNo") int buyNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 	}
 	
