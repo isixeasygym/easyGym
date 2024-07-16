@@ -11,7 +11,8 @@ function check(f){
 	return true;
 }
 
-   const idTag = document.getElementById('memberId');
+
+const idTag = document.getElementById('memberId');
    const pwTag = document.getElementById('memberPwd');
    const repwTag = document.getElementById('repw');
    const emailTag = document.getElementById('memberEmail');
@@ -45,7 +46,7 @@ function check(f){
          alert("이메일을 입력하십시오!");
       } else if (document.join.memberPhone.value == "") {
          alert("전화번호를 입력하십시오!");
-      } else if (!(document.join.memberGender.value == 1 || document.join.memberGender.value == 2)) {
+      } else if (!(document.join.memberGender.value == 1 || document.join.uuserGender.value == 2)) {
          alert("성별을 선택하십시오!");
       } else if (document.join.memberPwd.value != document.join.repw.value) {
          alert("비밀번호가 일치하지 않습니다.");
@@ -65,7 +66,7 @@ function check(f){
       }
     
       var url = "${pageContext.request.contextPath}/uuser/checkId";
-      var param = "memberId=" + encodeURIComponent(f.memberId.value);
+      var param = "id=" + encodeURIComponent(f.uuserId.value);
     
       sendRequest(url, param, resultFn, "POST");
    } 
@@ -75,7 +76,7 @@ function check(f){
          var data = xhr.responseText;
          const join = document.getElementById("join");
          const check = document.getElementById('check');
-         const id = document.getElementById('memberId');
+         const id = document.getElementById('uuserId');
     
          check.innerText = '';
     
@@ -129,7 +130,6 @@ function check(f){
    mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기
       console.log("완성된 이메일" + memberEmail); // 이메일 확인
-
       $.ajax({
          type : 'post',
          url : '<c:url value="/uuser/mailCheck?email="/>' + email,
@@ -151,5 +151,3 @@ function check(f){
          resultMsg.style.cssText = "color: red; font-size: 10px;";
       }
    });
-
- 

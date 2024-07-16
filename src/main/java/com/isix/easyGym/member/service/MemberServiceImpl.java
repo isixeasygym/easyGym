@@ -17,6 +17,7 @@ public class MemberServiceImpl implements MemberService {
 	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   private MemberDTO memberDTO;
+	@Autowired
 	private MemberDAO memberDAO;
 
 	public List listMembers() throws DataAccessException {
@@ -42,23 +43,15 @@ public class MemberServiceImpl implements MemberService {
 	public void delMember(String id) throws DataAccessException {
 		memberDAO.delMember(id);
 	}
-
-	public MemberDTO login(MemberDTO member) throws DataAccessException {
-		return memberDAO.login(memberDTO);
-	}
-<<<<<<< HEAD
-	public boolean checkId(String memberId) {
-		return memberDAO.checkId(memberId)!=null;
-	}
 	
-	
-=======
-  
 	@Override
-  public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-     memberDTO =memberDAO.loginCheck(memberNo);
-     return memberDTO;
-  }
+	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
+		memberDTO =memberDAO.loginCheck(memberNo);
+		return memberDTO;
+	}
 
->>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
+	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
+		memberDTO=memberDAO.login(memberDTO);
+		return memberDTO;
+	} 
 }
