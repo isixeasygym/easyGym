@@ -19,6 +19,7 @@ public class FreeBoardServiceImpl implements FreeboardService {
     }
 
     
+    
     @Override
     public FreeboardArticleDTO getArticleById(int freePostNo) {
         return freeBoardDAO.getArticleById(freePostNo);

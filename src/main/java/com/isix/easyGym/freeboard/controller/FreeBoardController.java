@@ -11,4 +11,5 @@ public interface FreeBoardController {
     void createArticle(FreeboardArticleDTO article);
     void updateArticle(FreeboardArticleDTO article);
     void deleteArticle(int id);
+    
 }
