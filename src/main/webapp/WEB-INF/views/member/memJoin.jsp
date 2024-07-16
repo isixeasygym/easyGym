@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="/css/joinpage/join.css">
-<link rel="sytlesheet" href="/js/member/member.js">
 <form name="join" id="form" class="form">
 	<div class="column">
 		<div class="input-box">
@@ -15,7 +14,6 @@
 				id="duplicateBtn" onclick="checkId(this.form)">
 		</div>
 	</div>
-
 	<div class="column">
 		<div class="input-box">
 			<label>비밀번호</label> <input type="password"
@@ -28,14 +26,12 @@
 				tabindex="3" /> <br> <span id="repwError"></span>
 		</div>
 	</div>
-
 	<div class="column">
 		<div class="input-box">
 			<label>이름</label> <input type="text" placeholder="이름을 입력해 주세요."
 				name="memberName" autocomplete="off" tabindex="4" required />
 		</div>
 	</div>
-
 	<div class="input-box">
 		<label>Email</label>
 		<div class="flex_container">
@@ -92,11 +88,8 @@
 			<h3>광고성 수신 동의</h3>
 			<div class="agree-option">
 				<div class="agree">
-					<label for="emailAgree">E-mail 수신 동의</label> <input type="checkbox"
-						id="agree" name="uuserEcheck" value="1" tabindex="10">
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label
-						for="smsAgree">SMS 수신 동의</label> <input type="checkbox" id="agree"
-						name="uuserScheck" value="1" tabindex="11">
+					<label for="memberMarketing">마케팅정보 수신 동의</label> <input type="checkbox"
+						id="agree" name="memberMarketing" value="1" tabindex="10">
 				</div>
 			</div>
 		</div>
@@ -104,5 +97,5 @@
 	</div>
 	<button id="join" value="Join" disabled="disabled"
 		onclick="javascript:checkJoin()">가입하기</button>
-	<!--  <button  onclick="document.join.reset()" tabindex="12" id="reset">Reset</button> -->
 </form>
+<script src="/js/member/member.js"></script>

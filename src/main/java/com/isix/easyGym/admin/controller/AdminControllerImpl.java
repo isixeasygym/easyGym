@@ -61,6 +61,7 @@ public class AdminControllerImpl implements AdminController {
 		session.setAttribute("action", action);  
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result",result); 
+		mv.addObject("admin",admin); 
 		mv.setViewName("/admin/loginForm");
 		return mv;
 	}

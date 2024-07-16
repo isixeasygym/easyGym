@@ -85,7 +85,7 @@ document.addEventListener('click', function(event) {
 
 		// 리스트로 돌아가기
 		function backToList(obj) {
-			obj.action = "/admin/listNotice.do";
+			obj.action = "/admin/noticeList.do";
 			obj.submit();
 		}
 
