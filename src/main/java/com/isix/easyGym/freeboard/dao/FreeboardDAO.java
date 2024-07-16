@@ -1,19 +1,12 @@
 package com.isix.easyGym.freeboard.dao;
 
+import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
 import java.util.List;
 
-@Mapper
-@Repository("freeboardDAO")
-public interface FreeBoardDAO {
-
-    public List<FreeBoardDTO> selectAllArticles() throws DataAccessException;
-
-    public void insertNewArticle(FreeBoardDTO article) throws DataAccessException;
-
-    public void insertNewImages(fbImageDTO image) throws DataAccessException;
-
-    public FreeBoardDTO selectArticle(@Param("articleNo") int articleNo) throws DataAccessException;
-
-    public List<fbImageDTO> selectImageFileList(@Param("articleNo") int articleNo) throws DataAccessException;
+public interface FreeboardDAO {
+    List<FreeboardArticleDTO> getAllArticles();
+    FreeboardArticleDTO getArticleById(int freePostNo);
+    void createArticle(FreeboardArticleDTO article);
+    void updateArticle(FreeboardArticleDTO article);
+    void deleteArticle(int freePostNo);
 }
-

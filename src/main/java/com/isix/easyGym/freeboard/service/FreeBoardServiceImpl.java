@@ -1,46 +1,40 @@
 package com.isix.easyGym.freeboard.service;
 
-import java.util.List;
-
+import com.isix.easyGym.freeboard.dao.FreeboardDAO;
+import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.isix.easyGym.freeboard.dao.FreeBoardDAO;
-import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
-import com.isix.easyGym.freeboard.dto.FreeboardImageDTO;
+import java.util.List;
 
-@Service("freeboardService")
-public class FreeBoardServiceImpl {
+@Service
+public class FreeBoardServiceImpl implements FreeboardService {
 
-	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private FreeBoardDAO fbDAO;
+    private FreeboardDAO freeBoardDAO;
 
-    public List<FreeboardArticleDTO> listArticles() {
-        List<FreeBoardDTO> articles = fbDAO.selectAllArticles();
-        for (FreeboardArticleDTO article : articles) {
-            List<FreeboardImageDTO> images = fbDAO.selectImageFileList(article.getArticleNo());
-            article.setImageFileList(images);
-        }
-        return articles;
+    @Override
+    public List<FreeboardArticleDTO> getAllArticles() {
+        return freeBoardDAO.getAllArticles();
     }
 
-    @Transactional
-    public void addArticle(FreeboardArticleDTO article) {
-    	fbDAO.insertNewArticle(article);
-        if (article.getImageFileList() != null) {
-            for (FreeboardImageDTO image : article.getImageFileList()) {
-                image.setArticleNo(article.getArticleNo());
-                fbDAO.insertNewImages(image);
-            }
-        }
+    @Override
+    public FreeboardArticleDTO getArticleById(int freePostNo) {
+        return freeBoardDAO.getArticleById(freePostNo);
     }
 
-    public FreeBoardDTO viewArticle(int articleNo) {
-        FreeBoardDTO article = fbDAO.selectArticle(articleNo);
-        List<fbImageDTO> images = fbDAO.selectImageFileList(articleNo);
-        article.setImageFileList(images);
-        return article;
+    @Override
+    public void createArticle(FreeboardArticleDTO article) {
+        freeBoardDAO.createArticle(article);
+    }
+
+    @Override
+    public void updateArticle(FreeboardArticleDTO article) {
+        freeBoardDAO.updateArticle(article);
+    }
+
+    @Override
+    public void deleteArticle(int freePostNo) {
+        freeBoardDAO.deleteArticle(freePostNo);
     }
 }
