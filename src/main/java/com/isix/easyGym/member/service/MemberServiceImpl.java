@@ -17,6 +17,7 @@ public class MemberServiceImpl implements MemberService {
 	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   private MemberDTO memberDTO;
+	@Autowired
 	private MemberDAO memberDAO;
 
 	public List listMembers() throws DataAccessException {
@@ -43,14 +44,15 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.delMember(id);
 	}
 
-	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
-		return memberDAO.loginCheck(memberDTO);
+	public MemberDTO loginCheck(String userId) throws DataAccessException{
+		MemberDTO result = memberDAO.loginChecking(Integer.parseInt(userId));  
+		return result;
+		
 	}
-  
-	@Override
-  public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-     memberDTO =memberDAO.loginCheck(memberNo);
-     return memberDTO;
-  }
+
+	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
+		memberDTO=memberDAO.login(memberDTO);
+		return memberDTO;
+	} 
 
 }

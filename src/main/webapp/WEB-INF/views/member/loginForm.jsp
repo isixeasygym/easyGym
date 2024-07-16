@@ -8,7 +8,7 @@
 		<div class="col-md-6">
 			<div class="card p-4 border border-light">
 				<form class="text-center mb-3" action="/member/login.do"
-					onsubmit="return check(this)">
+					onsubmit="return check(this)" method="post">
 					<img class="mb-4" src="/images/user.png" alt=""
 						width="72" height="72">
 					<h1 class="h3 mb-3 fw-normal">로그인</h1>

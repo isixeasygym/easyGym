@@ -7,9 +7,6 @@ body{
     background-color: #F6F6F6;
 }
 
-
-
-
 .content{
     position: absolute;
     width: 730px;
@@ -19,20 +16,12 @@ body{
     background-color: #fff;
 }
 
-
-
-
-
 .contentRange{
     position: relative;
     background-color: #fff;
     height: 215px;
     cursor: pointer;
 }
-
-
-
-
 
 .imgRange{
     position: relative;
@@ -49,18 +38,16 @@ body{
 }
 
 
-
-
-
-
 .buttonRange{
     position: relative;
+	z-index: 30;
     left: 675px;
     top: -170px;
 }
 
 .favorite-button {
     display: inline-block;
+	z-index: 30;
     background: none;
     border: none;
     padding: 0;
@@ -68,12 +55,10 @@ body{
 }
 
 .dibs{
+	z-index: 30;
     width: 30px;
     height: 30px;
 }
-
-
-
 
 .infoRange{
     position: relative;
@@ -98,9 +83,6 @@ body{
     font-size: 0.8em;
     top: -53px;
 }
-
-
-
 
 .ticketRange{
     position: relative;
@@ -133,8 +115,6 @@ body{
 }
 
 
-
-
 .priceRange{
     position: relative;
     display: block;
@@ -151,9 +131,6 @@ body{
 .month {
     display: inline-block;
 }
-
-
-
 
 .serviceRange{
     display: block;
@@ -192,4 +169,8 @@ body{
     height: 5px;
     padding: 0;
 }
+input {
+	z-index: 30;
+}
+
 

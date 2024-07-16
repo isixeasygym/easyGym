@@ -20,19 +20,31 @@
 		width:300px;
 		height:300px;
 	}
+	     .location-button {
+	         margin: 10px;
+	     }
+	     .location-button img {
+	         width: 100px;
+	         height: 100px;
+	         cursor: pointer;
+	     }
+	
 </style>
 
 </head>
 <body>
 	<form action="${contextPath}/detail/showAll.do" method="get">
-		<input type=hidden name="wholeClassification" value="health">
+		<input type=hidden name="detailClassification" value="health">
 		<button type="submit">더 보기</button>
 	</form>
 	<form action="${contextPath}/detail/showAll.do" method="get">
-			<input type=hidden name="wholeClassification" value="boxing">
-			<input type=hidden name="wholeStatus" value="popular">
+			<input type=hidden name="detailClassification" value="boxing">
+			<input type=hidden name="detailStatus" value="popular">
 			<button type="submit">더 보기</button>
 	</form>
-
+	
+	 <a href="${contextPath}/detail/detail.do?detailNo=1">
+	        <img src="이미지파일.jpg" alt="장소 이미지">
+	 </a>
 </body>
 </html>

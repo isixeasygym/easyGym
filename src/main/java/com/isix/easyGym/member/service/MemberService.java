@@ -18,9 +18,8 @@ public interface MemberService {
 	
 	public void delMember(String id) throws DataAccessException;
 	
-
-	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException;
+	public MemberDTO loginCheck(String userId) throws DataAccessException;
 	
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException;
+	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException;
 
 }
