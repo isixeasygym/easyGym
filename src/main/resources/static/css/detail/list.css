@@ -1,0 +1,195 @@
+@charset "utf-8";
+
+
+
+
+body{
+    background-color: #F6F6F6;
+}
+
+
+
+
+.content{
+    position: absolute;
+    width: 730px;
+    top: 150px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: #fff;
+}
+
+
+
+
+
+.contentRange{
+    position: relative;
+    background-color: #fff;
+    height: 215px;
+    cursor: pointer;
+}
+
+
+
+
+
+.imgRange{
+    position: relative;
+	top: 15px;
+	left: 15px;
+    display: block;
+}
+
+.img{
+    height: 185px;
+    width: 165px;
+    border-radius: 10px;
+
+}
+
+
+
+
+
+
+.buttonRange{
+    position: relative;
+    left: 675px;
+    top: -170px;
+}
+
+.favorite-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.dibs{
+    width: 30px;
+    height: 30px;
+}
+
+
+
+
+.infoRange{
+    position: relative;
+    display: block;
+    top: -234px;
+    left: 195px;
+    height: 60px;
+}
+
+.classification{
+    color: #B0B0B0;
+}
+
+.name{
+    position: relative;
+    top: -25px;
+}
+
+.address{
+    position: relative;
+    color: #B0B0B0;
+    font-size: 0.8em;
+    top: -53px;
+}
+
+
+
+
+.ticketRange{
+    position: relative;
+    display: block;
+    width: 250px;
+    height: 40px;
+    left: 195px;
+    top:-175px;
+    right: 55px;
+}
+
+.dailyTicket {
+    background-color: #9DCFFF;
+    width: 41px;
+    height: 20px;
+    border-radius: 4px;
+}
+.memberTicket{
+    position: relative;
+    top: -33px;
+    left: 48px;
+    background-color: #9DCFFF;
+    width: 79px;
+    height: 20px;
+    border-radius: 4px;
+}
+.boxText{
+    color : #001EC9;
+    font-size: 0.8em;
+}
+
+
+
+
+.priceRange{
+    position: relative;
+    display: block;
+
+    top: -250px;
+    left: 570px;
+}
+
+.price {
+    display: inline-block;
+    font-size: 1.6em;
+    font-weight:600;
+}
+.month {
+    display: inline-block;
+}
+
+
+
+
+.serviceRange{
+    display: block;
+    position: relative;
+    width: 525px;
+    height: 30px;
+    background-color: #F6F6F6;
+    top: -275px;
+    border-radius: 10px;
+    left: 192px;
+}
+.freeService{
+    position: relative;
+    top: -15px;
+    left: 15px;
+    color: #B0B0B0;
+    display: inline-block;
+    font-size: 1.1em;
+}
+.provide{
+    position: relative;
+    top: -18px;
+    display: inline-block;
+    left: 45px;
+    font-size: 0.7em;
+}
+
+
+.contentBorder{
+    position: relative;
+    display: block;
+    top:-267px;
+    width: 695px;
+    border-bottom: 1px solid #B0B0B0;
+    margin: 0 auto;
+    height: 5px;
+    padding: 0;
+}
+

@@ -1,5 +1,5 @@
 package com.isix.easyGym.payform.service;
 
-public interface PayformService {
+public interface PayformService{
 
 }

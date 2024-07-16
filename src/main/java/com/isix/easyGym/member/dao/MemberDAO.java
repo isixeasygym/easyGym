@@ -26,4 +26,5 @@ public interface MemberDAO {
 	
 	public String checkId(String memberId) throws DataAccessException;
 	
+
 }

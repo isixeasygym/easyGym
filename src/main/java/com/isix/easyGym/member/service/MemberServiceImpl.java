@@ -1,4 +1,6 @@
-package com.isix.easyGym.member.service;
+ 	package com.isix.easyGym.member.service;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -10,14 +12,13 @@ import com.isix.easyGym.member.dao.MemberDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
 
 @Service("memberService")  //아래에 내용을 넣지 않더라도 기본적으로 service라는 것을 지정해줘야함
-
 public class MemberServiceImpl implements MemberService {
 
 	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    @Autowired
-    private MemberDTO memberDTO;
+  @Autowired
+  private MemberDTO memberDTO;
 	private MemberDAO memberDAO;
-	
+
 	public List listMembers() throws DataAccessException {
 		List membersList=memberDAO.selectAllMembersList();
 		return membersList;
@@ -37,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.updateMember(memberDTO);
 	}
-	
+
 	public void delMember(String id) throws DataAccessException {
 		memberDAO.delMember(id);
 	}
@@ -45,9 +46,19 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO login(MemberDTO member) throws DataAccessException {
 		return memberDAO.login(memberDTO);
 	}
+<<<<<<< HEAD
 	public boolean checkId(String memberId) {
 		return memberDAO.checkId(memberId)!=null;
 	}
 	
 	
+=======
+  
+	@Override
+  public MemberDTO loginCheck(int memberNo) throws DataAccessException {
+     memberDTO =memberDAO.loginCheck(memberNo);
+     return memberDTO;
+  }
+
+>>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
 }
