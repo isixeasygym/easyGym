@@ -33,6 +33,7 @@ public class KakaoController {
 		mav.setViewName("loginForm");
 		return mav;
 	}
+
 	@RequestMapping(value="/logout")
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
@@ -43,7 +44,5 @@ public class KakaoController {
 		mav.setViewName("loginForm");
 		return mav;
 	}
-	
-
 	
 }

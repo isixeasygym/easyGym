@@ -10,16 +10,15 @@ request.setCharacterEncoding("utf-8");
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 회원권 취소</title>
-    <script src="${contextPath}/resources/static/JS/buy/buyCancel.js"></script>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/static/CSS/buy/buyCancel.css">
+    <script src="${contextPath}/resources/static/JS/payform/payformCancel.js"></script>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/static/CSS/payform/payformCancel.css">
 </head>
 <body>
-<a href="${contextPath}/buy/form">구매폼</a>
 <div class="bg-image"></div>
 <div class="container">
     <div class="receipt_info">
         <span class="hidden">주문취소번호: <span id="cancelNo">${cancelInfo.cancelNo}</span></span>
-        <span class="hidden">주문번호: <span id="buyNo">${cancelInfo.buyNo}</span></span>
+        <span class="hidden">주문번호: <span id="payformNo">${cancelInfo.payformNo}</span></span>
         <span class="hidden">멤버 번호: <span id="memberNo">${cancelInfo.memberNo}</span></span>
         <span class="hidden">헬스장 번호: <span id="wholeNo">${cancelInfo.wholeNo}</span></span>
     </div>
