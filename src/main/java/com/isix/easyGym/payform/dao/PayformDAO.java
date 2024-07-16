@@ -10,5 +10,5 @@ import java.util.Map;
 @Mapper
 @Repository("payformDAO")
 public interface PayformDAO {
-    public Map selectMemberInfo(@Param("member") int member) throws DataAccessException;
+    public Map<String, Object> selectMemberInfo(@Param("member") int member) throws DataAccessException;
 }

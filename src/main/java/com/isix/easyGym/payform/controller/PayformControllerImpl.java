@@ -26,7 +26,7 @@ public class PayformControllerImpl implements PayformController {
 	@GetMapping("/payform/payformForm.do")
 	public ModelAndView payformForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
-		Map payformForm = payformService.payformForm(pagingMap);
+		Map<String, Object> payformForm = payformService.payformForm(pagingMap);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/payform/payformForm");
 		mav.addObject("payformForm", payformForm);

@@ -5,21 +5,18 @@
  <mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">  <!-- namespace는 mapper의 이름을 정의 -->
  
  	<resultMap type="payformDTO" id="payformResult">
- 		<result property="payformNo" column="payformNo"/>
- 		<result property="memberNo" column="memberNo"/>
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="payformSub" column="payformSub"/>
- 		<result property="payformPrice" column="payformPrice"/>
- 		<result property="payformDate" column="payformDate"/>
- 		<result property="payformStatus" column="payformStatus"/>
- 		<result property="payformPayment" column="payformPayment"/>
+ 		<result property="payformNo" column="payformNo"/>	<!--주문번호-->
+ 		<result property="memberNo" column="memberNo"/>	<!--멤버 번호-->
+ 		<result property="detailNo" column="detailNo"/>	<!--헬스장 번호-->
+ 		<result property="payformSub" column="payformSub"/>	<!--구독 개월-->
+ 		<result property="payformPrice" column="payformPrice"/>	<!--최종 금액-->
+ 		<result property="payformDate" column="payformDate"/>	<!--구매일, sysdate-->
+ 		<result property="payformStatus" column="payformStatus"/>	<!--주문상태-->
+ 		<result property="payformPayment" column="payformPayment"/>	<!--결제방법-->
+		<result property="payformCancelDate" column="payformCancelDate"/>	<!--취소일, sysdate-->
  	</resultMap>
 
-	<select id="select" resultMap="reportResult" parameterType="int">
-		<![CDATA[
- 			select reportNo, reportTitle, memberNo, reportDate from report_tbl order by reportNo desc limit #{count}, 10
- 		]]>
-	</select>
+	<select id="selectMemberInfo"
  	
  	
  
