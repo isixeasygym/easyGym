@@ -41,7 +41,12 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
+						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						</c:if>
+						<c:if test="${sessionScope.admin == null || sessionScope.admin.adminId == null}">
+						    <li><a class="dropdown-item" href="/admin/loginForm.do">Login</a></li>
+						</c:if>
                     </ul>
                 </li>
             </ul>
@@ -127,7 +132,7 @@
                                             <th>공지사항 제목</th>
                                             <th>작성자</th>
                                             <th>공지사항 작성일</th>
-                                            <!--<th>공지사항 조회수</th>-->
+                                            <th>공지사항 조회수</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -136,7 +141,7 @@
                                             <th>공지사항 제목</th>
                                             <th>작성자</th>
                                             <th>공지사항 작성일</th>
-                                            <!--<th>공지사항 조회수</th>-->
+                                            <th>공지사항 조회수</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -165,7 +170,7 @@
                                                         </td>
                                                         <td>${sessionScope.admin.adminId}</td>
                                                         <td>${notice.noticeWriteDate}</td>
-                                                        <!--<td>${notice.noticeHit}</td>-->
+                                                        <td>${notice.noticeHit}</td>
                                                     </tr>
                                                 </c:forEach>
                                             </c:when> 

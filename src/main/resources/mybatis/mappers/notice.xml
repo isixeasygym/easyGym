@@ -37,14 +37,16 @@
  	
  	<!-- 조회수 -->
 	<update id="hitCount" parameterType="int">
-		update notice_tbl set noticeHit = noticeHit + 1 where noticeNo = #{noticeNo}
+		<![CDATA[
+			update notice_tbl set noticeHit = noticeHit + 1 where noticeNo = #{noticeNo}
+		]]>
 	</update>
  	
  	<!-- 공지사항 등록 -->
  	<insert id="insertNewNotice" parameterType="java.util.Map">
     <![CDATA[
-        insert into notice_tbl (noticeNo, noticeTitle, noticeContent, noticeWriteDate,noticeCategory, imageFileName) 
-        values (#{noticeNo}, #{noticeTitle}, #{noticeContent}, sysdate(), #{noticeCategory} ,#{imageFileName})
+        insert into notice_tbl (noticeNo, noticeTitle, noticeContent, noticeWriteDate,noticeCategory,noticeHit, imageFileName) 
+        values (#{noticeNo}, #{noticeTitle}, #{noticeContent}, sysdate(), #{noticeCategory},0 ,#{imageFileName})
     ]]>
 	</insert>
  	

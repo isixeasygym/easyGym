@@ -25,6 +25,7 @@ import com.isix.easyGym.notice.dto.NoticeDTO;
 import com.isix.easyGym.notice.dto.NoticeImageDTO;
 import com.isix.easyGym.notice.service.NoticeService;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -118,7 +119,6 @@ public class NoticeControllerImpl implements NoticeController{
 	@Override
 	@RequestMapping("/admin/viewNotice.do") //상세 글 보기
 	public ModelAndView viewNotice(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		noticeService.readCount(noticeNo);
 		Map noticeMap=noticeService.viewNotice(noticeNo);
 		ModelAndView mv=new ModelAndView();
 		mv.setViewName("/admin/viewNotice");  

@@ -1,5 +1,12 @@
 package com.isix.easyGym.freeboard.service;
 
-public interface FreeboardService {
+import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
+import java.util.List;
 
+public interface FreeboardService {
+    List<FreeboardArticleDTO> getAllArticles();
+    FreeboardArticleDTO getArticleById(int freePostNo);
+    void createArticle(FreeboardArticleDTO article);
+    void updateArticle(FreeboardArticleDTO article);
+    void deleteArticle(int freePostNo);
 }

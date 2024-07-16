@@ -42,7 +42,12 @@ DOCTYPE html>
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
+						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						</c:if>
+						<c:if test="${sessionScope.admin == null || sessionScope.admin.adminId == null}">
+						    <li><a class="dropdown-item" href="/admin/loginForm.do">Login</a></li>
+						</c:if>
                     </ul>
                 </li>
             </ul>
@@ -104,7 +109,7 @@ DOCTYPE html>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">공지사항 수정</h1>
+                        <h1 class="mt-4">공지사항 상세</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="/admin/index.do">메인으로</a></li>
                             <li class="breadcrumb-item active">공지</li>
@@ -128,11 +133,15 @@ DOCTYPE html>
 								        </div>
 								        <div class="mb-3">
 								            <label for="boardTitle" class="form-label">제목</label>
-								            <input type="text" class="form-control" name="noticeTitle" id="boardTitle" value="${noticeMap.notice.noticeTitle}">
+								            <input type="text" class="form-control" name="noticeTitle" id="boardTitle" value="${noticeMap.notice.noticeTitle}" disabled>
 								        </div>
 								        <div class="mb-3">
 								            <label for="noticeContent" class="form-label">내용</label>
-								            <textarea class="form-control" id="noticeContent" name="noticeContent" rows="3">${noticeMap.notice.noticeContent}</textarea>
+								            <textarea class="form-control" id="noticeContent" name="noticeContent" rows="3" disabled>${noticeMap.notice.noticeContent}</textarea>
+								        </div>
+										<div class="mb-3">
+								            <label for="noticeHit" class="form-label">조회수</label>
+								            <textarea class="form-control" id="noticeHit" name="noticeHit" rows="3" disabled>${noticeMap.notice.noticeHit}</textarea>
 								        </div>
 								        <div class="input-group mb-3">
 											<c:if test="${not empty noticeMap.imageFileList}">
@@ -170,6 +179,7 @@ DOCTYPE html>
 										            <c:when test="${not empty noticeMap and not empty sessionScope.admin.adminId}">
 										                <input class="btn btn-outline-secondary" type="button"  value="수정하기" onclick="fn_enable(this.form)">
 										                <input class="btn btn-outline-secondary" type="button" id="deleteButton" value="삭제하기" onclick="fn_remove_notice('/admin/removeNotice.do','${noticeMap.notice.noticeNo}')">
+														<input class="btn btn-outline-secondary" type="button"  value="돌아가기" onclick="location.href='noticeList.do'" >
 										            </c:when>
 										        </c:choose>
 										    </div>
