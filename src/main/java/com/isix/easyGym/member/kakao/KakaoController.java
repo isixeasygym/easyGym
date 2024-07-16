@@ -34,14 +34,15 @@ public class KakaoController {
 		mav.setViewName("index");
 		return mav;
 	}
-	@RequestMapping(value="/logout")
-	public ModelAndView logout(HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		
-		kakaoApi.kakaoLogout((String)session.getAttribute("access token"));
-		session.removeAttribute("access token");
-		session.removeAttribute("userId");
-	}
+//	@RequestMapping(value="/logout")
+//	public ModelAndView logout(HttpSession session) {
+//		ModelAndView mav = new ModelAndView();
+//
+//		kakaoApi.kakaoLogout((String)session.getAttribute("access token"));
+//		session.removeAttribute("access token");
+//		session.removeAttribute("userId");
+//	}
+
 	
 
 	
