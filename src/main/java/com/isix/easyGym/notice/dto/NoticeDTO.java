@@ -2,19 +2,23 @@ package com.isix.easyGym.notice.dto;
 
 import java.sql.Date;
 
+import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
+@Alias("noticeDTO")
 @Component("noticeDTO")
 public class NoticeDTO {
-	
+
 	private int noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
 	private Date noticeWriteDate;
-	private int noticeCategory;
+	private String noticeCategory;
+	private int noticeHit;
+	private String imageFileName;
 	
 	public NoticeDTO() {
-		
+
 	}
 
 	public int getNoticeNo() {
@@ -49,14 +53,30 @@ public class NoticeDTO {
 		this.noticeWriteDate = noticeWriteDate;
 	}
 
-	public int getNoticeCategory() {
+	public String getNoticeCategory() {
 		return noticeCategory;
 	}
 
-	public void setNoticeCategory(int noticeCategory) {
+	public void setNoticeCategory(String noticeCategory) {
 		this.noticeCategory = noticeCategory;
+	}
+
+	public int getNoticeHit() {
+		return noticeHit;
+	}
+
+	public void setNoticeHit(int noticeHit) {
+		this.noticeHit = noticeHit;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
 	}
 	
 	
-
+	
 }
