@@ -34,8 +34,5 @@ public class FreeBoardServiceImpl implements FreeboardService {
         freeBoardDAO.updateArticle(article);
     }
 
-    @Override
-    public void deleteArticle(int freePostNo) {
-        freeBoardDAO.deleteArticle(freePostNo);
-    }
+   
 }
