@@ -41,6 +41,8 @@ public class KakaoController {
 		kakaoApi.kakaoLogout((String)session.getAttribute("access token"));
 		session.removeAttribute("access token");
 		session.removeAttribute("userId");
+		mav.setViewName("loginForm");
+		return mav;
 	}
 	
 
