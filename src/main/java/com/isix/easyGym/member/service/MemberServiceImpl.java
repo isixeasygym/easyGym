@@ -42,12 +42,12 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.delMember(id);
 	}
 
-	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
-		return memberDAO.loginCheck(memberDTO);
+	public MemberDTO login(MemberDTO member) throws DataAccessException {
+		return memberDAO.login(memberDTO);
 	}
-	@Override
-	   public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-	      memberDTO =memberDAO.loginCheck(memberNo);
-	      return memberDTO;
-	   }
+	public boolean checkId(String memberId) {
+		return memberDAO.checkId(memberId)!=null;
+	}
+	
+	
 }

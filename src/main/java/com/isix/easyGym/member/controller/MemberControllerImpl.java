@@ -1,6 +1,4 @@
 package com.isix.easyGym.member.controller;
-
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,11 +38,11 @@ public class MemberControllerImpl implements MemberController {
 	}
 
 	@Override
-	@RequestMapping(value = "/member/newJoin.do")
+	@RequestMapping(value = "/member/memJoin.do")
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/newJoin");
+		mav.setViewName("/member/memJoin");
 		return mav;
 	}
 
@@ -109,7 +108,7 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
 			HttpServletRequest req, HttpServletResponse res) throws Exception {
 		memberDTO = memberService.login(member);
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView();	
 		if (memberDTO != null) {
 			HttpSession session = req.getSession();
 			session.setAttribute("member", memberDTO);
@@ -126,9 +125,8 @@ public class MemberControllerImpl implements MemberController {
 		}
 		return mv;
 	}
-	
 
-	
+	// 로그아웃
 	@Autowired
 	private LogoutController logoutController;
 
@@ -136,5 +134,17 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return logoutController.logout(request, response);
 	}
+	
+	// 아이디 중복체크
+	@RequestMapping(value="/member/checkId", produces="application/text;charset=utf8")
+	@ResponseBody
+	public String checkId(String memberId) {
+		if(memberService.checkId(memberId)) {
+			return "이미 사용중인 ID입니다.";
+		}else {
+			return "사용 가능한 ID입니다.";
+		}
+	}
+	
 
 }

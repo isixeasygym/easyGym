@@ -28,7 +28,7 @@ public class KakaoAPI {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type = authorization_code");
 			sb.append("&client id =3c843cca4013634dd38d454b2948d9de");
-			sb.append("&redirect_uri =http://127.0.0.1/kakao-login");
+			sb.append("&redirect_uri =http://localhost:8090/kakao-login");
 			sb.append("&code="+code);
 			
 			bw.write(sb.toString());
@@ -105,7 +105,27 @@ public class KakaoAPI {
 
 	}
 
-	public void kakaoLogout(String attribute) {
+	public void kakaoLogout(String accessToken) {
+		String reqURL = "http://kapi.kakao.com/v1/user/logout";
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization",  "Bearer" + accessToken);
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode=" + responseCode);
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String result ="";
+			String line = "";
+			while((line = br.readLine())!= null) {
+				result+=line;
+			}
+			System.out.println(result);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		
 	}

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.isix.easyGym.member.kakao.KakaoAPI;
 
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 public class KakaoController {
 	KakaoAPI kakaoApi = new KakaoAPI();
 	
-	@RequestMapping(value="/kakao_login")
+	@RequestMapping(value="/kakao-login")
 	public ModelAndView kakao_login(@RequestParam("code") String code, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		// 1번 인증코드 요청 전달
@@ -31,16 +30,18 @@ public class KakaoController {
 			
 		}
 		mav.addObject("userId", userInfo.get("email"));
-		mav.setViewName("index");
+		mav.setViewName("loginForm");
 		return mav;
 	}
 	@RequestMapping(value="/logout")
 	public ModelAndView logout(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
-		kakaoApi.kakaoLogout((String)session.getAttribute("access token"));
-		session.removeAttribute("access token");
+		kakaoApi.kakaoLogout((String)session.getAttribute("access_token"));
+		session.removeAttribute("accessToken");
 		session.removeAttribute("userId");
+		mav.setViewName("loginForm");
+		return mav;
 	}
 	
 

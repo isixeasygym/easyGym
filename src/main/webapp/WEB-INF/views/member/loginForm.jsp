@@ -28,7 +28,7 @@
 					</div>
 					<button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
 					<div class="wrap">
-							<a class="kakao"href="https://kauth.kakao.com/oauth/authorize?client_id=3c843cca4013634dd38d454b2948d9de&redirect_uri=http://127.0.0.1:8090/kakao-login&response_type=code">
+							<a class="kakao"href="https://kauth.kakao.com/oauth/authorize?client_id=3c843cca4013634dd38d454b2948d9de&redirect_uri=http://localhost:8090/kakao-login&response_type=code">
 							<img src="/images/kakao_login_medium_wide.png" style="width: 100%;">
 							</a>
 					</div>

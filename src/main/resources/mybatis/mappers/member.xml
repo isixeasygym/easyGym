@@ -70,4 +70,10 @@
        ]]>
     </select>
     
+    <select id="checkId" parameterType="String" resultType="String">
+		select memberId from member_tbl where memberId=#{memberId}
+	</select>
+	
+    
+    
 </mapper>
