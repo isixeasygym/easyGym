@@ -53,7 +53,7 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public Map viewNotice(int noticeNo) throws DataAccessException{
 		Map noticeMap=new HashMap<>();
-		noticeDAO.hitCount(noticeNo);
+		//noticeDAO.hitCount(noticeNo); // 공지사항 증가@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		NoticeDTO noticeDTO=noticeDAO.selectNotice(noticeNo);
 		List<NoticeImageDTO> imageFileList = noticeDAO.selectImageFileList(noticeNo);
 		noticeMap.put("notice", noticeDTO);

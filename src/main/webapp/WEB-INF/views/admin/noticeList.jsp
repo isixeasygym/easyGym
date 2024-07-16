@@ -41,7 +41,12 @@
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
+						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						</c:if>
+						<c:if test="${sessionScope.admin == null || sessionScope.admin.adminId == null}">
+						    <li><a class="dropdown-item" href="/admin/loginForm.do">Login</a></li>
+						</c:if>
                     </ul>
                 </li>
             </ul>
