@@ -25,6 +25,7 @@ import com.isix.easyGym.notice.dto.NoticeDTO;
 import com.isix.easyGym.notice.dto.NoticeImageDTO;
 import com.isix.easyGym.notice.service.NoticeService;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
