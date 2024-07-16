@@ -17,7 +17,7 @@
  		<result property="reportAnswer" column="reportAnswer"/>
  	</resultMap>
  	
-	<select id="selectAllreports" resultMap="reportResult" parameterType="int">
+	<select id="selectMemberInfo" resultMap="reportResult" parameterType="int">
  		<![CDATA[
  			select reportNo, reportTitle, memberNo, reportDate from report_tbl order by reportNo desc limit #{count}, 10
  		]]>
