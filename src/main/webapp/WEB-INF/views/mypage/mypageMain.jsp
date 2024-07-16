@@ -4,114 +4,41 @@
 <%
     request.setCharacterEncoding("utf-8");
 %>
+<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
-    <link rel="stylesheet" href="${contextPath}/css/mypage/mypageStyle.css">
-    <!--<script src="${contextPath}/js/mypage/mypage.js"></script>-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 탭 버튼 클릭 이벤트
-            document.querySelectorAll('.nav-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-
-                    document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-
-                    if (button.dataset.target === 'my-info') {
-                        document.querySelector('.sidebar').style.display = 'block';
-                        document.querySelector('.main-content').style.width = '70%';
-                        document.querySelector('.sidebar').innerHTML = `
-                            <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
-                            <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
-                        `;
-                        document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
-                        document.getElementById('using-products').classList.add('active');
-                    } else if (button.dataset.target === 'points-coupons') {
-                        document.querySelector('.sidebar').style.display = 'block';
-                        document.querySelector('.main-content').style.width = '70%';
-                        document.querySelector('.sidebar').innerHTML = `
-                            <button class="sidebar-btn active" data-target="points">포인트</button>
-                            <button class="sidebar-btn" data-target="coupons">쿠폰</button>
-                        `;
-                        document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
-                        document.getElementById('points').classList.add('active');
-                    } else {
-                        document.querySelector('.sidebar').style.display = 'none';
-                        document.querySelector('.main-content').style.width = '100%';
-                        document.getElementById(button.dataset.target).classList.add('active', 'fullscreen');
-                    }
-                });
-            });
-
-            // 사이드바 버튼 클릭 이벤트
-            document.querySelectorAll('.sidebar-btn').forEach(button => {
-                button.addEventListener('click', sidebarBtnClickHandler);
-            });
-
-            function sidebarBtnClickHandler() {
-                document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-                document.getElementById(this.dataset.target).classList.add('active');
-            }
-
-            // 비밀번호 확인 이벤트
-            document.getElementById('password-check-btn').addEventListener('click', function() {
-                var password = document.getElementById('password').value;
-                if (password === "password") { // 실제로는 서버와의 통신이 필요합니다.
-                    document.getElementById('password-check').style.display = 'none';
-                    document.getElementById('update-form').style.display = 'block';
-                } else {
-                    alert("비밀번호가 올바르지 않습니다.");
-                }
-            });
-
-            // 포인트 내역 필터링 이벤트
-            document.getElementById('filter-points-btn').addEventListener('click', function() {
-                var startDate = document.getElementById('start-date').value;
-                var endDate = document.getElementById('end-date').value;
-                alert('조회기간: ' + startDate + ' ~ ' + endDate);
-            });
-
-            // 수정하기 버튼 클릭 이벤트
-            document.getElementById('update-btn').addEventListener('click', function() {
-                // 여기에 수정 로직을 추가합니다.
-                alert("수정되었습니다.");
-            });
-
-            // 취소 버튼 클릭 이벤트
-            document.getElementById('cancel-btn').addEventListener('click', function() {
-                location.href = '${contextPath}/mypage.jsp'; // 마이페이지 첫 화면으로 이동
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="${contextPath}/css/mypage/mypageMain.css">
+    <script src="${contextPath}/js/mypage/mypageMain.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="#" alt="Profile Image">
+            <img src="/images/1.png" alt="Profile Image">
             <h1>${member.memberName}</h1>
         </div>
         <div class="nav">
-            <button class="nav-btn active" data-target="my-info">이용권</button>
+            <button class="nav-btn active" data-target="my-info">내 정보</button>
             <button class="nav-btn" data-target="points-coupons">포인트&쿠폰</button>
             <button class="nav-btn" data-target="update-info">정보수정</button>
         </div>
         <div class="content">
             <div class="sidebar">
                 <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
+                <button class="sidebar-btn" data-target="dibs-list">찜 목록</button>
                 <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
             </div>
             <div class="main-content">
                 <div id="using-products" class="section active">
                     <h2>이용중인 상품</h2>
                     <!-- 여기에 이용중인 상품 정보를 추가 -->
+                </div>
+                <div id="dibs-list" class="section">
+                    <h2>찜 목록</h2>
+                    <!-- 여기에 찜 목록 정보를 추가 -->
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>
@@ -149,37 +76,40 @@
                     </table>
                 </div>
                 <div id="points" class="section">
-                    <h2>포인트</h2>
+                    <h2>포인트 적립/사용 내역</h2>
                     <!-- 포인트 적립 및 사용 내역을 여기에 추가 -->
                 </div>
                 <div id="coupons" class="section">
-                    <h2>쿠폰</h2>
+                    <h2>쿠폰 적립/사용 내역</h2>
                     <!-- 쿠폰 적립 및 사용 내역을 여기에 추가 -->
                 </div>
                 <div id="update-info" class="section">
-                    <div id="password-check">
+                    <div align="center" id="password-check">
                         <h2>비밀번호 확인</h2>
                         <input type="password" id="password" placeholder="비밀번호 확인">
                         <button id="password-check-btn">확인</button>
                     </div>
-                    <div id="update-form" style="display:none;">
+                    <div align="center" id="update-form" style="display:none;">
                         <h2>회원정보 수정</h2>
                         <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
-                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
+                        <p>비밀번호 : <button id="update-pwd">비밀번호 변경하기</button></p>
                         <p>이름: <input type="text" value="${member.memberName}"></p>
                         <p>성별: 
-							<input type="radio" name="sex">남자
-							<input type="radio" name="sex">여자
-						</p>
+                            <input type="radio" name="sex">남자
+                            <input type="radio" name="sex">여자
+                        </p>
                         <p>생년월일: <input type="date" value="${member.memberBirthdate}"></p>
                         <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
                         <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
+                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
                         <button id="update-btn">수정하기</button>
                         <button id="cancel-btn">취소</button>
+                        <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw.do">회원탈퇴</a></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+<%@ include file="/WEB-INF/views/layout/footer.jsp"%>
 </body>
 </html>
