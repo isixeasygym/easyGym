@@ -7,82 +7,89 @@ import org.springframework.stereotype.Component;
 
 @Component("detailDTO")
 public class DetailDTO {
-		private int wholeNo;
-		private Date wholeDate;
-		private String wholeRoadAddress;
-		private String wholeBusinessName;
-		private String wholeBusinessEng;
-		private String wholeDailyTicket;
-		private String wholeMonthlyTicket;
-		private Double wholeScope;
-		private String wholeDetail;
-		private String wholeServiceProgram;
+		private int detailNo;
+		private Date detailDate;
+		private String detailRoadAddress;
+		private String detailBusinessName;
+		private String detailBusinessEng;
+		private String detailDailyTicket;
+		private String detailMonthlyTicket;
+		private Double detailScope;
+		private String detailComment;
+		private String detailServiceProgram;
 		private int reviewNo;
-		private String wholeStatus;
-		private String wholeClassification;
-		private String wholeFreeService;
-		private int wholeMonthlyPrice;
-		private String wholeKoClassification;
+		private String detailStatus;
+		private String detailClassification;
+		private String detailFreeService;
+		private int detailMonthlyPrice;
+		private String detailKoClassification;
+		private int detailTest;
 		
-		public int getWholeNo() {
-			return wholeNo;
+		public int getdetailTest() {
+			return detailTest;
 		}
-		public void setWholeNo(int wholeNo) {
-			this.wholeNo = wholeNo;
+		public void setdetailTest(int detailTest) {
+			this.detailTest = detailTest;
 		}
-		public Date getWholeDate() {
-			return wholeDate;
+		public int getdetailNo() {
+			return detailNo;
 		}
-		public void setWholeDate(Date wholeDate) {
-			this.wholeDate = wholeDate;
+		public void setdetailNo(int detailNo) {
+			this.detailNo = detailNo;
 		}
-		public String getWholeRoadAddress() {
-			return wholeRoadAddress;
+		public Date getdetailDate() {
+			return detailDate;
 		}
-		public void setWholeRoadAddress(String wholeRoadAddress) {
-			this.wholeRoadAddress = wholeRoadAddress;
+		public void setdetailDate(Date detailDate) {
+			this.detailDate = detailDate;
 		}
-		public String getWholeBusinessName() {
-			return wholeBusinessName;
+		public String getdetailRoadAddress() {
+			return detailRoadAddress;
 		}
-		public void setWholeBusinessName(String wholeBusinessName) {
-			this.wholeBusinessName = wholeBusinessName;
+		public void setdetailRoadAddress(String detailRoadAddress) {
+			this.detailRoadAddress = detailRoadAddress;
 		}
-		public String getWholeBusinessEng() {
-			return wholeBusinessEng;
+		public String getdetailBusinessName() {
+			return detailBusinessName;
 		}
-		public void setWholeBusinessEng(String wholeBusinessEng) {
-			this.wholeBusinessEng = wholeBusinessEng;
+		public void setdetailBusinessName(String detailBusinessName) {
+			this.detailBusinessName = detailBusinessName;
 		}
-		public String getWholeDailyTicket() {
-			return wholeDailyTicket;
+		public String getdetailBusinessEng() {
+			return detailBusinessEng;
 		}
-		public void setWholeDailyTicket(String wholeDailyTicket) {
-			this.wholeDailyTicket = wholeDailyTicket;
+		public void setdetailBusinessEng(String detailBusinessEng) {
+			this.detailBusinessEng = detailBusinessEng;
 		}
-		public String getWholeMonthlyTicket() {
-			return wholeMonthlyTicket;
+		public String getdetailDailyTicket() {
+			return detailDailyTicket;
 		}
-		public void setWholeMonthlyTicket(String wholeMonthlyTicket) {
-			this.wholeMonthlyTicket = wholeMonthlyTicket;
+		public void setdetailDailyTicket(String detailDailyTicket) {
+			this.detailDailyTicket = detailDailyTicket;
 		}
-		public Double getWholeScope() {
-			return wholeScope;
+		public String getdetailMonthlyTicket() {
+			return detailMonthlyTicket;
 		}
-		public void setWholeScope(Double wholeScope) {
-			this.wholeScope = wholeScope;
+		public void setdetailMonthlyTicket(String detailMonthlyTicket) {
+			this.detailMonthlyTicket = detailMonthlyTicket;
 		}
-		public String getWholeDetail() {
-			return wholeDetail;
+		public Double getdetailScope() {
+			return detailScope;
 		}
-		public void setWholeDetail(String wholeDetail) {
-			this.wholeDetail = wholeDetail;
+		public void setdetailScope(Double detailScope) {
+			this.detailScope = detailScope;
 		}
-		public String getWholeServiceProgram() {
-			return wholeServiceProgram;
+		public String getdetailComment() {
+			return detailComment;
 		}
-		public void setWholeServiceProgram(String wholeServiceProgram) {
-			this.wholeServiceProgram = wholeServiceProgram;
+		public void setdetailComment(String detailComment) {
+			this.detailComment = detailComment;
+		}
+		public String getdetailServiceProgram() {
+			return detailServiceProgram;
+		}
+		public void setdetailServiceProgram(String detailServiceProgram) {
+			this.detailServiceProgram = detailServiceProgram;
 		}
 		public int getReviewNo() {
 			return reviewNo;
@@ -90,36 +97,36 @@ public class DetailDTO {
 		public void setReviewNo(int reviewNo) {
 			this.reviewNo = reviewNo;
 		}
-		public String getWholeStatus() {
-			return wholeStatus;
+		public String getdetailStatus() {
+			return detailStatus;
 		}
-		public void setWholeStatus(String wholeStatus) {
-			this.wholeStatus = wholeStatus;
+		public void setdetailStatus(String detailStatus) {
+			this.detailStatus = detailStatus;
 		}
-		public String getWholeClassification() {
-			return wholeClassification;
+		public String getdetailClassification() {
+			return detailClassification;
 		}
-		public void setWholeClassification(String wholeClassification) {
-			this.wholeClassification = wholeClassification;
+		public void setdetailClassification(String detailClassification) {
+			this.detailClassification = detailClassification;
 		}
-		public String getWholeFreeService() {
-			return wholeFreeService;
+		public String getdetailFreeService() {
+			return detailFreeService;
 		}
-		public void setWholeFreeService(String wholeFreeService) {
-			this.wholeFreeService = wholeFreeService;
+		public void setdetailFreeService(String detailFreeService) {
+			this.detailFreeService = detailFreeService;
 		}
 	
 		
-		public int getWholeMonthlyPrice() {
-			return wholeMonthlyPrice;
+		public int getdetailMonthlyPrice() {
+			return detailMonthlyPrice;
 		}
-		public void setWholeMonthlyPrice(int wholeMonthlyPrice) {
-			this.wholeMonthlyPrice = wholeMonthlyPrice;
+		public void setdetailMonthlyPrice(int detailMonthlyPrice) {
+			this.detailMonthlyPrice = detailMonthlyPrice;
 		}
-		public String getWholeKoClassification() {
-			return wholeKoClassification;
+		public String getdetailKoClassification() {
+			return detailKoClassification;
 		}
-		public void setWholeKoClassification(String wholeKoClassification) {
-			this.wholeKoClassification = wholeKoClassification;
+		public void setdetailKoClassification(String detailKoClassification) {
+			this.detailKoClassification = detailKoClassification;
 		}
 }

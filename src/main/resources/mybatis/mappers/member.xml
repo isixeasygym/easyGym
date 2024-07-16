@@ -4,7 +4,37 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isix.easyGym.member.dao.MemberDAO">
-<resultMap type="memberDTO" id="memResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
+
+    <resultMap type="memberDTO" id="memberResult">
+        <result property="memberNo" column="memberNo"/>
+        <result property="memberName" column="memberName"/>
+        <result property="memberId" column="memberId"/>
+        <result property="memberPwd" column="memberPwd"/>
+        <result property="memberPhone" column="memberPhone"/>
+        <result property="memberEmail" column="memberEmail"/>
+        <result property="memberAddr" column="memberAddr"/>
+        <result property="memberPost" column="memberPost"/>
+        <result property="memberCreatedAt" column="memberCreatedAt"/>
+        <result property="memberState" column="memberState"/>
+        <result property="memberGender" column="memberGender"/>
+        <result property="memberMarketing" column="memberMarketing"/>
+    </resultMap>
+
+    <resultMap type="memberoperDTO" id="memberoperResult">
+        <result property="operatorNo" column="operatorNo"/>
+        <result property="operatorName" column="operatorName"/>
+        <result property="operatorId" column="operatorId"/>
+        <result property="operatorPwd" column="operatorPwd"/>
+        <result property="operatorPhone" column="operatorPhone"/>
+        <result property="operatorEmail" column="operatorEmail"/>
+        <result property="operatorResNo" column="operatorResNo"/>
+        <result property="operatorImgName" column="operatorImgName"/>
+        <result property="operatorCreatedAt" column="operatorCreatedAt"/>
+        <result property="operatorState" column="operatorState"/>
+    </resultMap>
+
+ 	
+	<resultMap type="memberDTO" id="memResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
        <result property="memberNo" column="memberNo"/> <!-- set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. -->
        <result property="memberName" column="memberName"/>
        <result property="memberId" column="memberId"/>
@@ -26,11 +56,10 @@
     </sql>
     
     <!-- 로그인-->
-    <select id = "login" parameterType="memberDTO" resultType = "memberDTO">
-    <include refid ="selectAllMembers"/>
-    <where>
-    	memberId = #{memberId} and memberPwd = #{memberPwd}
-    </where>
+    <select id = "login" parameterType="memberDTO" resultType = "memberDTO">    
+		<![CDATA[
+          SELECT * FROM member_tbl where memberId = #{memberId} and memberPwd = #{memberPwd}
+       ]]>
     </select>
 
     <!-- 회원 추가 -->
@@ -65,11 +94,17 @@
        ]]>
     </delete>
     
-    <select id = "loginCheck" parameterType="int" resultType = "memberDTO">
+    <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
        <![CDATA[
           select * from member_tbl where memberNo = #{memberNo}
        ]]>
     </select>
+    
+    <select id="checkId" parameterType="String" resultType="String">
+		select memberId from member_tbl where memberId=#{memberId}
+	</select>
+	
+    
     
 </mapper>
 

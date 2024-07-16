@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 .bg-image {
 	background-image: url('/images/gym2.png'); /* 배경 이미지 경로 */
@@ -172,6 +172,15 @@
                 </div>
             </div>
         </div>
+		<form action="${contextPath}/detail/showAll.do" method="get">
+				<input type=hidden name="detailClassification" value="health">
+				<button type="submit">헬스 전체 더 보기</button>
+			</form>
+			<form action="${contextPath}/detail/showAll.do" method="get">
+					<input type=hidden name="detailClassification" value="boxing">
+					<input type=hidden name="detailStatus" value="popular">
+					<button type="submit">복싱 인기 더 보기</button>
+			</form>
         <h2>요가/필라테스 인기순위</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">

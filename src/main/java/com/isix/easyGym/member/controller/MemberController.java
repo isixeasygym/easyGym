@@ -32,5 +32,4 @@ public interface MemberController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//로그아웃은 어떤 정보를 넘길게 없어서 request, response만 작성
 
-
 }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 @Component("dibsDTO")
 public class DetailDibsDTO {
 	private int dibsNo; // au 객체 선언해야 하는지
-	private String wholeNo;
-	private String memberNo;
+	private int detailNo;
+	private int memberNo;
 	
 	
 	public int getDibsNo() {
@@ -15,17 +15,18 @@ public class DetailDibsDTO {
 	public void setDibsNo(int dibsNo) {
 		this.dibsNo = dibsNo;
 	}
-	public String getWholeNo() {
-		return wholeNo;
+	public int getDetailNo() {
+		return detailNo;
 	}
-	public void setWholeNo(String wholeNo) {
-		this.wholeNo = wholeNo;
+	public void setDetailNo(int detailNo) {
+		this.detailNo = detailNo;
 	}
-	public String getMemberNo() {
+	public int getMemberNo() {
 		return memberNo;
 	}
-	public void setMemberNo(String memberNo) {
+	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+
 
 }

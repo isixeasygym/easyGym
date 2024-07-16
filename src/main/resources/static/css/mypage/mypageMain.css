@@ -104,3 +104,7 @@ th, td {
 th {
     background-color: #f0f0f0;
 }
+#update-forms {
+    text-align: left;
+    margin-left: 140px;
+}
