@@ -23,16 +23,17 @@
 				<c:forEach var="allList" items="${allList}" varStatus="list">		
 					<div class="contentRange">
 						<div id="imgRange">
-			         	  <img class="img" src="${contextPath}/images/detail/${allList.wholeClassification}/${allList.wholeBusinessEng}/${allList.wholeBusinessEng}1.PNG" alt="${allList.wholeBusinessEng}">
+			         		<img class="img" src="${contextPath}/images/detail/${allList.wholeClassification}/${allList.wholeBusinessEng}/${allList.wholeBusinessEng}1.PNG" alt="${allList.wholeBusinessEng}">
 			         	</div>
-			           <div class="buttonRange">
-			               <button class="favorite-button"  data-company-id="${allList.wholeNo}">
-							
-			                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
-			               </button>
-						   <input type="text" value="${allList.wholeTest}" class="Test">
-			           </div>
-					   
+						<form>
+				            <div class="buttonRange">
+					               <button class="favorite-button" type="submit">
+									<input type="hidden" id="userId" value="{member.memberNo}">
+									<input type="hidden" id="compayId" value="{allList.detailNo}">
+					                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
+					               </button>
+				            </div>
+					   </form>
 			           <div class="infoRange">
 			               <h6 class="classification">${allList.wholeKoClassification}</h6>
 			               <h4 class="name">${allList.wholeBusinessName}</h4>
@@ -50,6 +51,9 @@
 			               <p class="provide">${allList.wholeFreeService}</p>
 			           </div>
 			           <div class="contentBorder"></div>
+					    <form action="/detail.do" method="post">
+							<input type="hidden" class="wholeNo" name="wholeNo" value="${allList.wholeNo}">	
+						</form>
 			       </div>						    				
 				</c:forEach>			   
 			</c:when>				

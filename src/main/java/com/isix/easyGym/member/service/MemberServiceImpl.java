@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,11 @@ import com.isix.easyGym.member.dto.MemberDTO;
 public class MemberServiceImpl implements MemberService {
 
 	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    @Autowired
-	private MemberDAO memberDAO;
-	
+  @Autowired
+  private MemberDTO memberDTO;
 	@Autowired
-	private MemberDTO memberDTO;
-	
+	private MemberDAO memberDAO;
+
 	public List listMembers() throws DataAccessException {
 		List membersList=memberDAO.selectAllMembersList();
 		return membersList;
@@ -38,16 +39,20 @@ public class MemberServiceImpl implements MemberService {
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.updateMember(memberDTO);
 	}
-	
+
 	public void delMember(String id) throws DataAccessException {
 		memberDAO.delMember(id);
 	}
 
-	public String loginCheck(String userId) throws DataAccessException{
-		String result = memberDAO.loginChecking(Integer.parseInt(userId));  
+	public MemberDTO loginCheck(String userId) throws DataAccessException{
+		MemberDTO result = memberDAO.loginChecking(Integer.parseInt(userId));  
 		return result;
+		
 	}
+
 	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
-		return memberDAO.loginCheck(memberDTO);
-	}
+		memberDTO=memberDAO.login(memberDTO);
+		return memberDTO;
+	} 
+
 }

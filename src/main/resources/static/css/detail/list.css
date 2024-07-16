@@ -6,6 +6,7 @@
 body{
     background-color: #F6F6F6;
 }
+
 .content{
     position: absolute;
     width: 730px;
@@ -14,33 +15,39 @@ body{
     transform: translate(-50%, 0%);
     background-color: #fff;
 }
+
 .contentRange{
     position: relative;
     background-color: #fff;
     height: 215px;
     cursor: pointer;
 }
+
 .imgRange{
     position: relative;
 	top: 15px;
 	left: 15px;
-	height: 185px;
-	width: 165px;
+    display: block;
 }
+
 .img{
     height: 185px;
     width: 165px;
     border-radius: 10px;
 
 }
+
+
 .buttonRange{
     position: relative;
-	display: inline-block;
+	z-index: 30;
     left: 675px;
     top: -170px;
 }
+
 .favorite-button {
-	display: inline-block;
+    display: inline-block;
+	z-index: 30;
     background: none;
     border: none;
     padding: 0;
@@ -48,24 +55,26 @@ body{
 }
 
 .dibs{
-	display: inline-block;
+	z-index: 30;
     width: 30px;
     height: 30px;
 }
+
 .infoRange{
+    position: relative;
     display: block;
     top: -234px;
     left: 195px;
     height: 60px;
 }
+
 .classification{
     color: #B0B0B0;
-	display: inline-block;
 }
+
 .name{
     position: relative;
     top: -25px;
-	display: inline-block;
 }
 
 .address{
@@ -73,8 +82,8 @@ body{
     color: #B0B0B0;
     font-size: 0.8em;
     top: -53px;
-	display: inline-block;
 }
+
 .ticketRange{
     position: relative;
     display: block;
@@ -104,6 +113,8 @@ body{
     color : #001EC9;
     font-size: 0.8em;
 }
+
+
 .priceRange{
     position: relative;
     display: block;
@@ -111,6 +122,7 @@ body{
     top: -250px;
     left: 570px;
 }
+
 .price {
     display: inline-block;
     font-size: 1.6em;
@@ -119,6 +131,7 @@ body{
 .month {
     display: inline-block;
 }
+
 .serviceRange{
     display: block;
     position: relative;
@@ -144,6 +157,8 @@ body{
     left: 45px;
     font-size: 0.7em;
 }
+
+
 .contentBorder{
     position: relative;
     display: block;
@@ -154,4 +169,8 @@ body{
     height: 5px;
     padding: 0;
 }
+input {
+	z-index: 30;
+}
+
 

@@ -11,8 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface MemberController {
-
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
+public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -31,4 +30,5 @@ public interface MemberController {
 	
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//로그아웃은 어떤 정보를 넘길게 없어서 request, response만 작성
+
 }

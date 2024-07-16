@@ -5,8 +5,10 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%
+	Object member=session.getAttribute("member");
 	request.setCharacterEncoding("utf-8");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,28 +25,32 @@
 				<c:forEach var="allList" items="${allList}">		
 					<div class="contentRange">
 			           <div class="imgRange">
-			               <img class="img" src="${contextPath}/images/detail/${allList.wholeClassification}/${allList.wholeBusinessEng}/${allList.wholeBusinessEng}1.PNG" alt="mrtFit">
+			               <img class="img" src="${contextPath}/images/detail/${allList.detailClassification}/${allList.detailBusinessEng}/${allList.detailBusinessEng}1.PNG" alt="mrtFit">
 			           </div>
-			           <div class="buttonRange">
-			               <button class="favorite-button" data-company-id="${allList.wholeNo}" data-user-id="${member.memberNo}">
-			                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
-			               </button>
-			           </div>
+			            <div class="buttonRange">
+				               <button class="favorite-button" >
+									<input  type="hidden" id="userId" value="${member.memberNo}">
+									<input  type="hidden" id="companyId" value="${allList.detailNo}">
+				                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
+				               </button>
+			            </div>
+						
 			           <div class="infoRange">
-			               <h6 class="classification">${allList.wholeKoClassification}</h6>
-			               <h4 class="name">${allList.wholeBusinessName}</h4>
-			               <h6 class="address">${allList.wholeRoadAddress}</h6>
+			               <h6 class="classification">${allList.detailKoClassification}</h6>
+			               <h4 class="name">${allList.detailBusinessName}</h4>
+			               <h6 class="address">${allList.detailRoadAddress}</h6>
 			           </div>
 			           <div class="ticketRange">
 			               <div class="dailyTicket"><p class="boxText">일일권</p></div>
 			               <div class="memberTicket"><p class="boxText">이지짐회원가</p></div>
 			           </div>
 			           <div class="priceRange">
-			               <p class="price">${allList.wholeMonthlyTicket}</p><p class="month">/월</p>
+			               <p class="price">${allList.detailMonthlyTicket}</p><p class="month">/월</p>
 			           </div>
+					   
 			           <div class="serviceRange">
 			               <p class="freeService">무료 서비스</p>
-			               <p class="provide">${allList.wholeFreeService}</p>
+			               <p class="provide">${allList.detailFreeService}</p>
 			           </div>
 			           <div class="contentBorder"></div>
 			       </div>						    				

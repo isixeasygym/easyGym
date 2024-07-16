@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.isix.easyGym.member.dto.MemberDTO;
-import com.isix.easyGym.member.service.MemberServiceImpl;
+import com.isix.easyGym.member.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class MemberControllerImpl implements MemberController {
 
 	@Autowired
-	private MemberServiceImpl memberService;
+	private MemberService memberService;
 
 	@Autowired
 	private MemberDTO memberDTO;
@@ -37,24 +37,20 @@ public class MemberControllerImpl implements MemberController {
 		mav.addObject("membersList", membersList);
 		return mav;
 	}
-	@GetMapping("/member/main.do")
-	public ModelAndView mainPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/main"); // main.jsp 파일이 /WEB-INF/views 디렉토리에 있다고 가정
-		return mav;
-	}
-	@GetMapping("/member/board.do")
-	public ModelAndView board(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/board"); // main.jsp 파일이 /WEB-INF/views 디렉토리에 있다고 가정
-		return mav;
-	}
-	
+
 	@Override
 	@RequestMapping(value = "/member/newJoin.do")
-	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/newJoin"); 
+		mav.setViewName("/member/newJoin");
+		return mav;
+	}
+
+	@GetMapping("/report/report.do") // 127.0.0.1:8090 => 이렇게만 매핑 보내기
+	public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/report/report");
 		return mav;
 	}
 
@@ -89,8 +85,7 @@ public class MemberControllerImpl implements MemberController {
 
 	@Override
 	@GetMapping("/member/delMember.do")
-	public ModelAndView delMember(String id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ModelAndView delMember(String id, HttpServletRequest request, HttpServletResponse response)throws Exception {
 		memberService.delMember(id);
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do"); // 회원삭제하면 listMembers 메서드를 찾아가서 다시 회원목록을
 																				// 보여주게 됨
@@ -99,48 +94,50 @@ public class MemberControllerImpl implements MemberController {
 
 	@Override
 	@GetMapping("/member/loginForm.do") // 회원의 정보를 가지고 간다. 없으면 로그인 폼으로 다시 보낸다.
-	public ModelAndView loginForm(@ModelAttribute("member") MemberDTO member, @RequestParam(value="action", required=false)String action, @RequestParam(value="result", required=false) String result, HttpServletRequest req, HttpServletResponse res) throws Exception{
+	public ModelAndView loginForm(@ModelAttribute("member") MemberDTO member,
+			@RequestParam(value = "action", required = false) String action,
+			@RequestParam(value = "result", required = false) String result, HttpServletRequest req,
+			HttpServletResponse res) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
 		mv.setViewName("/member/loginForm");
 		return mv;
 	}
-
+	
+	
 	@Override
-	@RequestMapping(value="/member/login.do")
+	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
-			HttpServletRequest req, HttpServletResponse res) throws Exception {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		memberDTO = memberService.login(member);
 		ModelAndView mv = new ModelAndView();
 		if (memberDTO != null) {
-			HttpSession session = req.getSession();
+			HttpSession session= request.getSession();
+			session.setMaxInactiveInterval(30 * 60);
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
-			String action = (String)session.getAttribute("action");
-			if(action!=null) {
-				mv.setViewName("redirect:"+action);
-			}else {
-				mv.setViewName("redirect:/member/main.do");
+			String action = (String) session.getAttribute("action");
+			if (action != null) {
+				mv.setViewName("redirect:" + action);
+			} else {
+				mv.setViewName("redirect:/main.do");
 			}
-		}else {
+		} else {
 			rAttr.addAttribute("result", "아이디, 비밀번호가 다릅니다. 다시 로그인해주세요.");
 			mv.setViewName("redirect:/member/loginForm.do");
 		}
-			return mv;	
+		return mv;
 	}
+	
+
+	
+	@Autowired
+	private LogoutController logoutController;
 
 	@Override
-	@GetMapping("/member/logout.do")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session = request.getSession(); // 세션 가져와서 ~
-		session.removeAttribute("member"); // 세션 삭제하고 ~
-		session.removeAttribute("isLogOn"); // 로그아웃 하기 ~
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/member/main.do");
-		return mav;
+		return logoutController.logout(request, response);
 	}
-	
 
-	
 
 }

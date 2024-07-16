@@ -10,22 +10,23 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
 	
-	public ModelAndView selectPopular(@RequestParam("status") String status,@RequestParam("wholeClassification") String WholeClassification,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView selectPopular(@RequestParam("status") String status,@RequestParam("detailClassification") String detailClassification,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	public ModelAndView selectAll(@RequestParam("wholeClassification") String WholeClassification, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView selectAll(@RequestParam("detailClassification") String detailClassification, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	public ModelAndView detailForm(@RequestParam("wholeNo") int wholeNo,HttpServletRequest request,
+	public ModelAndView detailForm(
+			@RequestParam("detailNo") String detailNo,HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	
-	public ModelAndView doReport(@RequestParam("memberNo")int memberNo,@RequestParam("wholeNo")int wholeNo, HttpServletRequest request,
+	public ModelAndView doReport(@RequestParam("memberNo")int memberNo,@RequestParam("detailNo")int detailNo, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	
-	public ModelAndView review(@RequestParam("memberNo")int memberNo,@RequestParam("wholeNo") int wholeNo,MultipartHttpServletRequest MultipartRequest, HttpServletResponse response) throws Exception;
+	public ModelAndView review(@RequestParam("memberNo")int memberNo,@RequestParam("detailNo") int detailNo,MultipartHttpServletRequest MultipartRequest, HttpServletResponse response) throws Exception;
 	
-	/*public String dibs(@RequestParam("companyId") int companyId, @RequestParam("userId") int userId
-			, @RequestParam(value="action" ,required=false) String action,
-			RedirectAttributes rAttr, HttpServletRequest request,
-			HttpServletResponse response) throws Exception;*/
+	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String userId,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes rAttr, HttpServletRequest request,
+            HttpServletResponse response) throws Exception;
 }

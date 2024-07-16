@@ -19,9 +19,6 @@ public class MemberDTO {
 	private String memberGender;
 	private String memberMarketing;
 	
-	public MemberDTO() {
-		
-	}
 	
 	public int getMemberNo() {
 		return memberNo;
@@ -95,24 +92,5 @@ public class MemberDTO {
 	public void setMemberMarketing(String memberMarketing) {
 		this.memberMarketing = memberMarketing;
 	}
-	public MemberDTO(int memberNo, String memberName, String memberId, String memberPwd, String memberPhone,
-			String memberEmail, String memberAddr, String memberPost, Date memberCreatedAt, int memberState,
-			String memberGender, String memberMarketing) {
-		super();
-		this.memberNo = memberNo;
-		this.memberName = memberName;
-		this.memberId = memberId;
-		this.memberPwd = memberPwd;
-		this.memberPhone = memberPhone;
-		this.memberEmail = memberEmail;
-		this.memberAddr = memberAddr;
-		this.memberPost = memberPost;
-		this.memberCreatedAt = memberCreatedAt;
-		this.memberState = memberState;
-		this.memberGender = memberGender;
-		this.memberMarketing = memberMarketing;
-	}
-	
-	
 	
 }
