@@ -9,14 +9,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원탈퇴</title>
+    <title>이용권 환불하기</title>
     <!--<link rel="stylesheet" href="${contextPath}/css/mypage/mypageStyle.css">-->
     <!--<script src="${contextPath}/js/mypage/mypage.js"></script>-->
 </head>
 <body>
-	<h2>회원탈퇴를 진행 하시겠습니까?</h2>
+	<h2>환불을 진행 하시겠습니까?</h2>
 	<form action="#">
-	    <input type="submit" value="탈퇴하기">
+	    <input type="submit" value="이용권 환불">
 	    <input type="reset" value="취소">
 	</form>
 </body>
