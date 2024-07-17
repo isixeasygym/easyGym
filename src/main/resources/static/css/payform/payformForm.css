@@ -76,7 +76,7 @@ select {
     text-decoration: line-through;
 }
 
-#finalPrice {
+#final {
     font-weight: bold;
     color: #5cc253;
     font-size: 24px;
