@@ -108,3 +108,38 @@ th {
     text-align: left;
     margin-left: 140px;
 }
+.points-total {
+    font-weight: bold;
+    color: green;
+    text-align: right;
+    margin-bottom: 10px;
+}
+.points-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.points-table th, .points-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.points-table th {
+    background-color: #f0f0f0;
+}
+.points-table .negative {
+    color: red;
+}
+.coupons-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.coupons-table th, .coupons-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.coupons-table th {
+    background-color: #f0f0f0;
+}

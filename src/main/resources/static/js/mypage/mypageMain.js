@@ -94,6 +94,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 취소 버튼 클릭 이벤트
     document.getElementById('cancel-btn').addEventListener('click', function() {
-        location.href = '${contextPath}/mypage.jsp'; // 마이페이지 첫 화면으로 이동
+        location.href = '${contextPath}/mypage/mypageMain.do'; // 마이페이지 첫 화면으로 이동
     });
+	
+	function pointsCouponsTabHandler() {
+	    sidebar.style.display = 'block';
+	    mainContent.style.width = '70%';
+	    sidebar.innerHTML = `
+	        <button class="sidebar-btn active" data-target="points">포인트</button>
+	        <button class="sidebar-btn" data-target="coupons">쿠폰</button>
+	    `;
+	    document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
+	    document.getElementById('points').classList.add('active');
+	}
+
 });
