@@ -18,11 +18,11 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDTO memberDTO;
 	private MemberDAO memberDAO;
 
-	public List listMembers() throws DataAccessException {
+	public List listMembers(MemberDTO memberDTO) throws DataAccessException {
 		List membersList = memberDAO.selectAllMembersList();
 		return membersList;
 	}
-
+	
 	public void addMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.insertMember(memberDTO);
 	}
@@ -44,8 +44,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.login(memberDTO);
 	}
 
-	public boolean checkId(String memberId) throws DataAccessException {
-		return memberDAO.checkId(memberId) != null;
+	
+
+	@Override
+	public MemberDTO checkId(int memberNo) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	
 
 }

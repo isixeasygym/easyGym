@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freeboard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/freeboard/style.css">
 </head>
 <body>
     <header>
@@ -42,34 +42,30 @@
                 </tr>
             </thead>
             <tbody id="post-list">
+				<c:choose>
+					<c:when test="${empty fbmap.fblist}">
+						<tr>
+							<td colspan="5">
+								<p align="center">등록된 게시글이 없습니다.</p>
+							</td>
+						</tr>
+					</c:when>
+					<c:when test="${!empty fbmap.fblist}">
+						<c:forEach var="fboard" items="${fbmap.fblist}">
+							<tr>
+								<td>${fboard.freeNo}</td>
+								<td><a href="/freeboard/viewfboard.do?freeNo=${fboard.freeNo}">${fboard.freeTitle}</a></td>
+								<td>memberName</td>
+								<td>${fboard.freeWriteDate}</td>
+								<td>${fboard.freeHit}</td>
+							<tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
             </tbody>
         </table>
         <button class="write-button" onclick="openPostForm()">글쓰기</button>
     </main>
-    
-    <!-- Post Modal -->
-    <div id="postModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePostForm()">&times;</span>
-            <h2>새 글 작성</h2>
-            <input type="text" id="post-title" placeholder="제목">
-            <input type="text" id="post-author" placeholder="글쓴이">
-            <textarea id="post-content" placeholder="내용"></textarea>
-            <button onclick="addPost()">등록</button>
-        </div>
-    </div>
-
-    <!-- View Modal -->
-    <div id="viewModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeViewModal()">&times;</span>
-            <h2 id="view-title"></h2>
-            <p id="view-author"></p>
-            <p id="view-timestamp"></p>
-            <p id="view-content"></p>
-        </div>
-    </div>
-
-    <script src="js/script.js"></script>
+    <script src="/js/freeboard/script.js"></script>
 </body>
 </html>
