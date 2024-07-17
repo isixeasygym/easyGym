@@ -24,7 +24,7 @@ public interface MemberDAO {
 
 	public MemberDTO login(MemberDTO member) throws DataAccessException;
 	
-	public String checkId(String memberId) throws DataAccessException;
-	
+	public boolean checkId(String memberId) throws DataAccessException;
+		
 
 }
