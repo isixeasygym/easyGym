@@ -1,7 +1,5 @@
 package com.isix.easyGym.member.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -10,10 +8,7 @@ import com.isix.easyGym.member.dto.MemberDTO;
 
 @Mapper
 @Repository("memberDAO")
-public interface MemberDAO {
-
-	public List selectAllMembersList() throws DataAccessException;  //위에 Mapper를 주면 selectAllMembersList 이런 이름을 가진 매핑을 찾아감
-	
+public interface MemberDAO {	
 	public void insertMember(MemberDTO memberDTO) throws DataAccessException;  //member.xml의 select id
 	
 	public MemberDTO selectMemberById(String id) throws DataAccessException;

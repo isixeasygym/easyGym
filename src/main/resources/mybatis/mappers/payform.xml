@@ -88,4 +88,9 @@
 		WHERE payformNo = #{payformNo}
 	</delete>
 
+	<select id="checkingBuy" parameterType="int" resultType="payformDTO">
+		select * from buy_tbl where memberNo = #{memberNo}
+	</select>
+	
+	
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.payform.dao.PayformDAO;
 
 import java.util.ArrayList;
@@ -29,4 +30,10 @@ public class PayformServiceImpl implements PayformService {
         list.add(detailDTO);
         return list;
     }
+
+	@Override
+	public PayformDTO buyCheck(int memberNo) throws DataAccessException {
+		PayformDTO buyNo= payformDAO.checkingBuy(memberNo);
+		return buyNo;
+	}
 }

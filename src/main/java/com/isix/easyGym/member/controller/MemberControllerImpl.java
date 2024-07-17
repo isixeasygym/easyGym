@@ -30,15 +30,6 @@ public class MemberControllerImpl implements MemberController {
 	@Autowired
 	private MemberDTO memberDTO;
 
-	@RequestMapping(value = "/member/listMembers.do", method = RequestMethod.GET)
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List membersList = memberService.listMembers();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/listMembers");
-		mav.addObject("membersList", membersList);
-		return mav;
-	}
-
 	@Override
 	@RequestMapping(value = "/member/memJoin.do")
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
@@ -130,26 +121,20 @@ public class MemberControllerImpl implements MemberController {
 		return mv;
 	}
 
-	// 로그아웃
-	@Autowired
-	private LogoutController logoutController;
 
-	@Override
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return logoutController.logout(request, response);
-	}
-	
 	// 아이디 중복체크
-	@RequestMapping(value="/member/checkId", produces="application/text;charset=utf8")
-	@ResponseBody
-	public String checkId(String memberId) {
-		if(memberService.checkId(memberId)) {
-			return "이미 사용중인 ID입니다.";
-		}else {
-			return "사용 가능한 ID입니다.";
+	@Override
+	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
+	public ModelAndView checkId(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if (memberService.checkId(id)) {
+			mav.addObject("message", "이미 사용중인 ID입니다.");
+		} else {
+			mav.addObject("message", "사용 가능한 ID입니다.");
 		}
+		mav.setViewName("/member/checkIdResult");
+		return mav;
 	}
-	
 
 
 }
