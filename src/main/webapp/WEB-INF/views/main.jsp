@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 .bg-image {
-	background-image: url('/images/gym2.png'); /* 배경 이미지 경로 */
+	background-image: url('/images/member/gym2.png'); /* 배경 이미지 경로 */
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -98,15 +98,15 @@
 	class="carousel slide carousel-container" data-bs-ride="carousel">
 	<div class="carousel-inner">
 		<div class="carousel-item active">
-			<img src="/images/commerc1.png" class="d-block w-100"
+			<img src="/images/member/commerc1.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
 		<div class="carousel-item">
-			<img src="/images/commerc2.png" class="d-block w-100"
+			<img src="/images/memebr/commerc2.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
 		<div class="carousel-item">
-			<img src="/images/commerc3.png" class="d-block w-100"
+			<img src="/images/member/commerc3.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
 		
