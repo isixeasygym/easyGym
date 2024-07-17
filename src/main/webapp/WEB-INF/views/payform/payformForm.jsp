@@ -24,7 +24,7 @@
             <span class="hidden">헬스장 번호: <span id="wholeNo">${payform[1].detailNo}</span></span>
         </div>
 
-        <h1><span id="wholeName">${payform[2].detailBusinessName}</span> 헬스장 구매 폼</h1>
+        <h1><span id="wholeName">${payform[1].detailBusinessName}</span> 헬스장 구매 폼</h1>
 
         <h2>구매자 정보</h2>
         <div class="form_group">
@@ -62,7 +62,7 @@
 
         <div class="form_group">
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice"><span></span>원</div>
+            <div id="final"><span id="finalPrice"></span>원</div>
         </div>
         <button type="submit" id="paymentButton">구매하기</button>
 
