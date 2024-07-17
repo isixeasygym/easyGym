@@ -4,7 +4,7 @@
 		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">
 
-	<resultMap type="com.isix.easyGym.payform.dto.PayformDTO" id="payformResult">
+	<resultMap type="payformDTO" id="payformResult">
 		<result property="payformNo" column="payformNo"/>
 		<result property="memberNo" column="memberNo"/>
 		<result property="detailNo" column="detailNo"/>
@@ -45,4 +45,9 @@
 		WHERE payformNo = #{payformNo}
 	</delete>
 
+	<select id="checkingBuy" parameterType="int" resultType="payformDTO">
+		select * from buy_tbl where memberNo = #{memberNo}
+	</select>
+	
+	
 </mapper>

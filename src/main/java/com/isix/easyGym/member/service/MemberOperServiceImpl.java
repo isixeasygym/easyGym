@@ -14,6 +14,7 @@ public class MemberOperServiceImpl implements MemberOperService {
 	@SuppressWarnings("SpringJavaInjectionPointAutowiringInspection")
 	@Autowired
 	private MemberOperDTO memberOperDTO;
+	@Autowired
 	private MemberOperDAO memberOperDAO;
 	
 

@@ -1,8 +1,8 @@
 $(document).ready(function() {
     $(".favorite-button").click(function() {
 		//alert("안녕")ㅣ
-        var companyId = $('#companyId').val();
-        var userId = $('#userId').val(); // 형제 input 필드의 값 가져오기
+        var companyId = $(this).children('.companyId').val();
+        var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
         console.log("companyId: " + companyId);
         console.log("userId: " + userId);
    
@@ -35,5 +35,10 @@ $(document).ready(function() {
             }
         });
     	
+	});
+});
+$(document).ready(function(){
+	$(".cotentRange").click(function(){
+		$('.goToDetail').submit();
 	});
 });
