@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
     loadPosts();
 });
 
@@ -58,7 +58,7 @@ async function addPost() {
 
 async function loadPosts() {
     try {
-        const response = await fetch('/api/freeboard/articles');
+        const response = await fetch('/freeboard/articles');
         const posts = await response.json();
         const postList = document.getElementById('post-list');
         postList.innerHTML = ''; // Clear the current list
@@ -108,3 +108,4 @@ async function incrementViews(postId) {
         console.error('Error incrementing views:', error);
     }
 }
+*/

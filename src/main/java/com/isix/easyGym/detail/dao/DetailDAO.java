@@ -25,5 +25,7 @@ public interface DetailDAO {
 	
 	public DetailDTO selectBusiness(int detailNo) throws DataAccessException; 
 	
-	public DetailDTO selectMember(int detailNo) throws DataAccessException;
+	public void insertReview(Map review) throws DataAccessException;
+	
+	public void removeReview(Map review) throws DataAccessException;
 }
