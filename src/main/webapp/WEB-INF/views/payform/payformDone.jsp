@@ -1,3 +1,4 @@
+<jsp:useBean id="member" scope="request" type="com.isix.easyGym.member.dto.MemberDTO"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,8 +11,8 @@ request.setCharacterEncoding("utf-8");
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 구매 완료</title>
-    <script src="${contextPath}/resources/static/JS/buy/buyDone.js"></script>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/static/CSS/buy/buyDone.css">
+    <script src="${contextPath}/resources/static/JS/payform/payformDone.js"></script>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/static/CSS/payform/payformDone.css">
 </head>
 <body>
 <div class="bg-image"></div>
@@ -22,20 +23,20 @@ request.setCharacterEncoding("utf-8");
             <div class="paymentInfo">
                 <div class="form_group">
                     <label for="payName">구매자:</label>
-                    <input type="text" id="payName" name="payName" value="${paymentInfo.payName}" readonly required>
+                    <input type="text" id="payName" name="payName" value="${member.memberName}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="userTel">휴대전화:</label>
-                    <input type="text" id="userTel" name="userTel" value="${paymentInfo.userTel}" readonly required>
+                    <input type="text" id="userTel" name="userTel" value="${member.memberPhone}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="bisName">헬스장 이름:</label>
-                    <input type="text" id="bisName" name="bisName" value="${paymentInfo.bisName}" readonly required>
+                    <input type="text" id="bisName" name="bisName" value="${member.detailBusinessName}" readonly required>
                 </div>
             </div>
 
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice">${paymentInfo.finalPrice}원</div>
+            <div id="finalPrice">${member.finalPrice}원</div>
         </div>
         <button type="submit" id="goBack">확인</button>
     </form>

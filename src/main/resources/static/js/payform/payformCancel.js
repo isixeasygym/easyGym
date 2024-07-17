@@ -4,7 +4,7 @@ window.onload = function() {
 
     subForm.addEventListener('submit', handleSubmit);  //결제하기 버튼을 누를때 함수 호출
     //TODO DB에서 금액 불러와서 이 변수에 넣기
-    let buyPrice = 90000;
+    let payformPrice = 90000;
 
     let cancelDay = document.getElementById('cancelDay').value;
     if(cancelDay <= 7) {
@@ -12,14 +12,14 @@ window.onload = function() {
 
     }else if (cancelDay <= 15) {
         document.getElementById('cancelAble').textContent = '부분적으로 가능'
-        buyPrice = Math.floor(buyPrice - (buyPrice * (cancelDay / 31)));
+        payformPrice = Math.floor(payformPrice - (payformPrice * (cancelDay / 31)));
 
     }else {
         document.getElementById('cancelAble').textContent = '불가능';
-        buyPrice = 0;
+        payformPrice = 0;
     }
 
-    finalPrice.textContent = buyPrice.toLocaleString() + '원';    //finalPrice 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
+    finalPrice.textContent = payformPrice.toLocaleString() + '원';    //finalPrice 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
 
     function handleSubmit(event) {  //결제하기 버튼 눌렀을때
         event.preventDefault();
@@ -41,6 +41,6 @@ window.onload = function() {
         });
 
         // 환불이 완료되면 환불 완료 창으로 넘겨줌
-        window.location.href=`buyRefund.html?${queryParams.toString()}`;
+        window.location.href=`payformRefund.html?${queryParams.toString()}`;
     }
 }

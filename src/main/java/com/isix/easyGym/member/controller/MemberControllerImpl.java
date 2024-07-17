@@ -1,4 +1,5 @@
 package com.isix.easyGym.member.controller;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.isix.easyGym.member.dto.MemberDTO;
-import com.isix.easyGym.member.service.MemberServiceImpl;
+import com.isix.easyGym.member.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ import jakarta.servlet.http.HttpSession;
 public class MemberControllerImpl implements MemberController {
 
 	@Autowired
-	private MemberServiceImpl memberService;
+	private MemberService memberService;
 
 	@Autowired
 	private MemberDTO memberDTO;
@@ -103,15 +104,17 @@ public class MemberControllerImpl implements MemberController {
 		mv.setViewName("/member/loginForm");
 		return mv;
 	}
-
+	
+	
 	@Override
-	@RequestMapping(value = "/member/login.do")
+	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
-			HttpServletRequest req, HttpServletResponse res) throws Exception {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		memberDTO = memberService.login(member);
 		ModelAndView mv = new ModelAndView();	
 		if (memberDTO != null) {
-			HttpSession session = req.getSession();
+			HttpSession session= request.getSession();
+			session.setMaxInactiveInterval(30 * 60);
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
 			String action = (String) session.getAttribute("action");

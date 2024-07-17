@@ -3,7 +3,7 @@ body {
 }
 
 .bg-image {
-    background-image: url("../../images/buy/fitness_inside.png");
+    background-image: url("../../images/payform/fitness_inside.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -84,7 +84,7 @@ select {
 }
 
 #paymentButton {
-    background-image: url("../../../../resources/static/images/buy/logo-toss-pay.png");
+    background-image: url("../../images/payform/logo-toss-pay.png");
     background-size: 150px;
     background-repeat: no-repeat;
     background-position: center;
