@@ -30,8 +30,8 @@ public class PayformControllerImpl implements PayformController {
     @Override
     @RequestMapping("/payform/payformForm.do")
     public ModelAndView payformForm(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
-        Map payformData = new HashMap();
-        List payform = new ArrayList();
+        Map payformData = new HashMap(); //테이블에 있는 쿼리들을 불러올 맵을 생성
+        List payform = new ArrayList(); //불러와야 할 테이블이 2개이므로 리스트로 생성하며 0번 리스트에는 member, 1번 리스트에는 detail이 들어감
         payformData.put("member", memberNo);
         payformData.put("detail", detailNo);
         payform = payformService.getPayformData(payformData);
@@ -39,5 +39,4 @@ public class PayformControllerImpl implements PayformController {
         mav.addObject("payform", payform);
         return mav;
     }
-
 }
