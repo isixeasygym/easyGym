@@ -31,9 +31,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller("detailController")
 public class DetailControllerImpl implements DetailController{
 	
-	@Autowired
-	private DetailDTO detailDTO;
-	
+
 	@Autowired
 	private DetailServiceImpl detailService;
 	
@@ -183,7 +181,6 @@ public class DetailControllerImpl implements DetailController{
 	review.put("memberNo", memberNo);
 	review.put("detailNo", detailNo);
 	goInsert=d*/
-
 
 }
 

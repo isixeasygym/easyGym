@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
 	
-	public ModelAndView selectPopular(@RequestParam("status") String status,@RequestParam("detailClassification") String detailClassification,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView selectAll(@RequestParam("detailClassification") String detailClassification, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -34,4 +33,5 @@ public interface DetailController{
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception;
+  
 }
