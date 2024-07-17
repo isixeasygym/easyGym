@@ -73,4 +73,16 @@
  		]]>
  	</insert>
  	
+ 	<delete id="removeReview" parameterType="java.util.Map">
+ 		<![CDATA[
+ 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
+ 		]]>
+ 	</delete>
+ 	
+ 	<insert id="insertReview" parameterType="java.util.Map">
+ 		<![CDATA[ 
+ 			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
+ 		]]>
+ 	</insert>
+ 	
   </mapper>

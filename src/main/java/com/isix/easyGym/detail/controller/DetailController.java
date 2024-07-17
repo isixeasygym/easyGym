@@ -20,10 +20,15 @@ public interface DetailController{
 			@RequestParam("detailNo") String detailNo,HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	
-	public ModelAndView doReport(@RequestParam("memberNo")int memberNo,@RequestParam("detailNo")int detailNo, HttpServletRequest request,
-			HttpServletResponse response) throws Exception;
+	public String deleteReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes rAttr, HttpServletRequest request,
+            HttpServletResponse response) throws Exception;
 	
-	public ModelAndView review(@RequestParam("memberNo")int memberNo,@RequestParam("detailNo") int detailNo,MultipartHttpServletRequest MultipartRequest, HttpServletResponse response) throws Exception;
+	public ModelAndView writeReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes rAttr, HttpServletRequest request,
+            HttpServletResponse response) throws Exception;
 	
 	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String userId,
             @RequestParam(value = "action", required = false) String action,
