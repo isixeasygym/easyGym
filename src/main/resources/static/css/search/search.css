@@ -1,0 +1,35 @@
+@charset "UTF-8";
+#searchForm {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    background: white;
+    border-radius: 20px;
+    padding: 5px;
+    border: 1px solid #f9deec;
+}
+
+#searchTxt {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0 10px;
+    color: #797979;
+    font-size: 16px;
+}
+
+#searchForm button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    color: #f9deec;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

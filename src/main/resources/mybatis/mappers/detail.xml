@@ -2,35 +2,75 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO">  <!-- namespace는 mapper의 이름을 정의 -->
- 
- 	<resultMap type="detailDTO" id="detailResult">
+ <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO"> 
+
+	<resultMap type="detailDTO" id="detailResult">
  		<result property="detailNo" column="detailNo"/>
- 		<result property="detailBusinessName" column="detailBusinessName"/>
- 		<result property="detailAddress" column="detailAddress"/>
  		<result property="detailDate" column="detailDate"/>
+ 		<result property="detailRoadAddress" column="detailRoadAddress"/>
+ 		<result property="detailBusinessName" column="detailBusinessName"/>
+ 		<result property="detailBusinessEng" column="detailBusinessEng"/>
+ 		<result property="detailDailyTicket" column="detailDailyTicket"/>
+ 		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
  		<result property="detailScope" column="detailScope"/>
- 		<result property="detailBaseImage" column="detailBaseImage"/>
- 		<result property="detailImage" column="detailImage"/>
+ 		<result property="detailComment" column="detailComment"/>
  		<result property="detailServiceProgram" column="detailServiceProgram"/>
- 		<result property="detailWhole" column="detailWhole"/>
- 		<result property="reviewNo" column="ewviewNo"/>
+ 		<result property="reviewNo" column="reviewNo"/>
+ 		<result property="detailStatus" column="detailStatus"/>
+ 		<result property="detailClassification" column="detailClassification"/>
+ 		<result property="detailFreeService" column="detailFreeService"/>
+ 		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+ 		<result property="detailKoClassification" column="detailKoClassification"/>
+ 		<result property="detailTest" column="detailTest"/>
  	</resultMap>
  	
- 	<resultMap type="detaildibsDTO" id="detaildibsResult">
+ 	<resultMap type="detailDibsDTO" id="detailDibsResult">
  		<result property="dibsNo" column="dibsNo"/>
  		<result property="detailNo" column="detailNo"/>
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
  	
- 	<resultMap type="detailreviewDTO" id="detailreviewResult">
+ 	<resultMap type="detailReviewDTO" id="detailReviewResult">
  		<result property="reviewNo" column="reviewNo"/>
  		<result property="reviewContent" column="reviewContent"/>
- 		<result property="reviewImgName" column="reviewImgName"/>
  		<result property="reviewDate" column="reviewDate"/>
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
+
+ 	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
+		<![CDATA[
+ 			select * from detail_tbl where detailNo = #{detailNo}
+ 		]]>
+	</select>	
+ 		
+ 	<select id="findAll" parameterType="String" resultMap="detailResult" >
+		<![CDATA[
+ 			select * from detail_tbl where detailClassification = #{detailClassification}
+ 		]]>
+	</select>
  	
+ 	<select id="findPopular" parameterType="java.util.Map" resultMap="detailResult">
+		<![CDATA[
+ 			select * from detail_tbl where detailStatus = #{detailStatus} and detailClassification = #{detailClassification}
+ 		]]>
+	</select>
  	
+ 	<select id="findDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
+		<![CDATA[
+ 			select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
+ 		]]>
+	</select>
  
- </mapper>
+ 	<delete id="removeDibs" parameterType="java.util.Map">
+ 		<![CDATA[
+ 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
+ 		]]>
+ 	</delete>
+ 	
+ 	<insert id="insertDibs" parameterType="java.util.Map">
+ 		<![CDATA[ 
+ 			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
+ 		]]>
+ 	</insert>
+ 	
+  </mapper>

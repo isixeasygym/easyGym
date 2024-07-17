@@ -32,15 +32,6 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		return fbmap;
 	}
 
-	// 한개의 이미지 추가
-	/*@Override
-	public int addArticle(ArticleDTO dto) throws DataAccessException {
-		int articleNo = boardDAO.getNewArticleNo(); // 게시판 번호 가져오기
-		dto.setArticleNo(articleNo);
-		boardDAO.insertNewArticle(dto);
-
-		return articleNo;
-	}*/
 	
 	// 여러개의 이미지 추가
 	@Override
@@ -54,12 +45,6 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		return fboardNo;
 	}
 
-	// 한개의 이미지 상세보기
-//	@Override
-//	public ArticleDTO viewArticle(int articleNo) throws DataAccessException {
-//		ArticleDTO articleDTO = boardDAO.selectArticle(articleNo);
-//		return articleDTO;
-//	}
 	
 	// 여러개의 이미지 상세보기
 
@@ -73,11 +58,6 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 
 	
-	// 한개 이미지 수정
-//	@Override
-//	public void modArticle(ArticleDTO dto) throws DataAccessException {
-//		boardDAO.updateArticle(dto);
-//	}
 	
 	
 	// 여러개 이미지 수정
