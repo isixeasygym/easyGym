@@ -18,6 +18,6 @@ window.onload = function() {
     function handleSubmit(event) {  // 결제가 완료되면 결제 완료 창으로 넘겨줌
         event.preventDefault(); //원래는
 
-        window.location.href=`buyForm.html`;
+        window.location.href=`payformForm.html`;
     }
 }

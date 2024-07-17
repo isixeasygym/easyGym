@@ -15,7 +15,7 @@ public interface DetailDAO {
 	 
 	public List findPopular(Map popular) throws DataAccessException;
 	
-	public List findAll(String WholeClassification) throws DataAccessException;
+	public List findAll(String detailClassification) throws DataAccessException;
 	
 	public DetailDibsDTO findDibs(Map ParamMap) throws DataAccessException;
 	
@@ -23,7 +23,7 @@ public interface DetailDAO {
 	
 	public void removeDibs(Map paramMap) throws DataAccessException;
 	
-	public DetailDTO selectBusiness(int wholeNo) throws DataAccessException; 
+	public DetailDTO selectBusiness(int detailNo) throws DataAccessException; 
 	
-	public DetailDTO selectMember(int wholeNo) throws DataAccessException;
+	public DetailDTO selectMember(int detailNo) throws DataAccessException;
 }

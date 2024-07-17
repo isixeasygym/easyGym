@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,13 +12,16 @@
 <!-- Bootstrap CSS 로드 -->
 <link rel="stylesheet" type="text/css"
 	href="/resources/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/css/layout/header.css">
-
+<link rel="stylesheet" type="/css/layout/header.css">
 <!-- Google Fonts 로드 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton+SC&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Anton+SC&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+	rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -36,28 +40,27 @@
 			<li class="nav-item"><a class="nav-link" href="#">Community</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Gym</a></li>
 		</ul>
-			<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-			<ul class="nav">
-				<c:choose>
-					<c:when
-						test="${sessionScope.isLogOn eq true and sessionScope.member ne null}">
-						<li class="nav-item"><a class="btn btn-info btn-sm" href="/mypage/mypageMain.do">마이페이지</a></li>
-						<li class="nav-item"><a class="btn btn-info btn-sm" href="/member/logout.do">로그아웃</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="nav-item"><a class="btn btn-info btn-sm" href="/member/loginForm.do">로그인</a></li>
-						<li class="nav-item"><a class="btn btn-info btn-sm" href="/member/joinSelect.do">회원가입</a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-			<c:if test="${not empty memberName}">
-				<h1>
-					환영합니다, <span>${memberName}님!</span>
-				</h1>
-			</c:if>
+		<form id="searchForm" action="${contextPath}/search/results" method="GET">
+			<input type="text" name="searchTxt" id="searchTxt" placeholder="검색어를 입력하세요" value="${param.searchTxt}">
+			<button type="submit" class="btn btn-info btn-sm">검색</button>
+		</form>
+		<div id="authButtons">
+<ul class="nav">
+    <c:choose>
+        <c:when test="${sessionScope.isLogOn eq true and sessionScope.member ne null}">
+            <li class="nav-item"><a class="btn btn-info btn-sm" href="#">마이페이지</a></li>
+            <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/logout.do">로그아웃</a></li>
+        </c:when>
+        <c:otherwise>
+            <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/loginForm.do">로그인</a></li>
+            <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/joinSelect.do">회원가입</a></li>
+        </c:otherwise>
+    </c:choose>
+</ul>
+<c:if test="${not empty memberName}">
+    <h1>환영합니다, <span>${memberName}님!</span></h1>
+</c:if>
 		</div>
 	</nav>
-	<div>
-		<!-- 부트스트랩 JS 로드 -->
-		<script
-			src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+	<!-- 부트스트랩 JS 로드 -->
+	<script src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

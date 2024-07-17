@@ -15,7 +15,6 @@ public interface DetailService {
 	
 	public DetailDTO viewDetail(int wholeNo) throws DataAccessException;
 
-	
 	public DetailDibsDTO findDibs(Map paramMap) throws DataAccessException;
 	
 	public void deleteDibs(Map paramMap) throws DataAccessException;
