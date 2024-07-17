@@ -1,41 +1,29 @@
 package com.isix.easyGym.freeboard.controller;
 
-import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
-import com.isix.easyGym.freeboard.service.FreeboardService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-@RestController
-@RequestMapping("/api/freeboard")
-public class FreeBoardController {
+public interface FreeBoardController {
 
-    @Autowired
-    private FreeboardService freeboardService;
+	// 전체 리스트 보기
+	public ModelAndView listFboard(@RequestParam("section") String section, @RequestParam("pageNum") String pageNum, HttpServletRequest req, HttpServletResponse res) throws Exception;
+	
+	// 글 쓰기 
+	public ModelAndView fboardForm(HttpServletRequest req, HttpServletResponse res) throws Exception;
 
-    @GetMapping("/articles")
-    public List<FreeboardArticleDTO> getAllArticles() {
-        return freeboardService.getAllArticles();
-    }
-
-    @GetMapping("/articles/{freePostNo}")
-    public FreeboardArticleDTO getArticleById(@PathVariable int freePostNo) {
-        return freeboardService.getArticleById(freePostNo);
-    }
-
-    @PostMapping("/articles")
-    public void createArticle(@RequestBody FreeboardArticleDTO article) {
-        freeboardService.createArticle(article);
-    }
-
-    @PutMapping("/articles")
-    public void updateArticle(@RequestBody FreeboardArticleDTO article) {
-        freeboardService.updateArticle(article);
-    }
-
-    @DeleteMapping("/articles/{freePostNo}")
-    public void deleteArticle(@PathVariable int freePostNo) {
-        freeboardService.deleteArticle(freePostNo);
-    }
+	// 글 추가  이미지를 추가할 수 있기 때문에 (MultipartHttpServletRequest 로 사용)
+	public ModelAndView addFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception;
+	
+	//상세 글보기
+	public ModelAndView viewFboard(@RequestParam("freeNo") int freeNo, HttpServletRequest req, HttpServletResponse res) throws Exception;
+	
+	// 글 수정
+	public ModelAndView modFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception;
+	
+	// 글 삭제
+	public ModelAndView removeFboard(@RequestParam("freeNo") int freeNo, HttpServletRequest req, HttpServletResponse res) throws Exception;
 }

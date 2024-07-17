@@ -1,40 +1,92 @@
 package com.isix.easyGym.freeboard.service;
 
-import com.isix.easyGym.freeboard.dao.FreeboardDAO;
-import com.isix.easyGym.freeboard.dto.FreeboardArticleDTO;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.isix.easyGym.freeboard.dao.FreeDAO;
+import com.isix.easyGym.freeboard.dto.FreeDTO;
+import com.isix.easyGym.freeboard.dto.FreeImageDTO;
 
 @Service
-public class FreeBoardServiceImpl implements FreeboardService {
+public class FreeBoardServiceImpl implements FreeBoardService {
 
-    @Autowired
-    private FreeboardDAO freeBoardDAO;
+	@Autowired
+	private FreeDAO freeDAO;
+	
+	@Override
+	public Map listFboard(Map<String,Integer> pagingMap) throws DataAccessException {
+		Map fbmap = new HashMap<>();
+		int section = pagingMap.get("section");
+		int pageNum = pagingMap.get("pageNum");
+		int count = (section-1)*100+(pageNum-1)*10;
+		List<FreeDTO> fblist  = freeDAO.selectAll(count);
+		int tFreeboard = freeDAO.selectToFboard(); // 토탈 게시글
+		fbmap.put("fblist", fblist); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
+		//amap.put("tArticles", tArticles);
+		fbmap.put("tFreeboard", tFreeboard);
+		return fbmap;
+	}
 
-    @Override
-    public List<FreeboardArticleDTO> getAllArticles() {
-        return freeBoardDAO.getAllArticles();
-    }
+	// 한개의 이미지 추가
+	/*@Override
+	public int addArticle(ArticleDTO dto) throws DataAccessException {
+		int articleNo = boardDAO.getNewArticleNo(); // 게시판 번호 가져오기
+		dto.setArticleNo(articleNo);
+		boardDAO.insertNewArticle(dto);
 
-    @Override
-    public FreeboardArticleDTO getArticleById(int freePostNo) {
-        return freeBoardDAO.getArticleById(freePostNo);
-    }
+		return articleNo;
+	}*/
+	
+	// 여러개의 이미지 추가
+	@Override
+	public int addFboard(Map fbmap) throws DataAccessException {
+		int fboardNo = freeDAO.getNewFreeNo(); // 게시판 번호 가져오기
+		fbmap.put("fboardNo", fboardNo);
+		freeDAO.insertNewFboard(fbmap);
+		if(fbmap.get("imageFileList")!= null) {
+			freeDAO.insertNewImages(fbmap);
+		}
+		return fboardNo;
+	}
 
-    @Override
-    public void createArticle(FreeboardArticleDTO article) {
-        freeBoardDAO.createArticle(article);
-    }
+	// 한개의 이미지 상세보기
+//	@Override
+//	public ArticleDTO viewArticle(int articleNo) throws DataAccessException {
+//		ArticleDTO articleDTO = boardDAO.selectArticle(articleNo);
+//		return articleDTO;
+//	}
+	
+	// 여러개의 이미지 상세보기
 
-    @Override
-    public void updateArticle(FreeboardArticleDTO article) {
-        freeBoardDAO.updateArticle(article);
-    }
+	public Map viewFboard(int freeNo) throws DataAccessException {
+		Map fbmap = new HashMap<>();
+		FreeDTO fDTO = freeDAO.selectFboard(freeNo);
+		List<FreeImageDTO> imageFileList = freeDAO.selectImageFileList(freeNo); // 이미지 저장 테이블에 있는 articleNo가 같은 것들을 전부 select해서 list에 담는다.
+		fbmap.put("fboard", fDTO); // article의 정보
+		fbmap.put("imageFileList", imageFileList); // 위에서 가져온 리스트를 map에 담는다.
+		return fbmap;
+	}
 
-    @Override
-    public void deleteArticle(int freePostNo) {
-        freeBoardDAO.deleteArticle(freePostNo);
-    }
+	
+	// 한개 이미지 수정
+//	@Override
+//	public void modArticle(ArticleDTO dto) throws DataAccessException {
+//		boardDAO.updateArticle(dto);
+//	}
+	
+	
+	// 여러개 이미지 수정
+	public void modFboard(Map map) throws DataAccessException {
+		freeDAO.updateFboard(map);
+		freeDAO.updateImage(map);
+	}
+
+	public void removeFboard(int freeNo) throws DataAccessException {
+		freeDAO.deleteFboard(freeNo);
+	}
 }
