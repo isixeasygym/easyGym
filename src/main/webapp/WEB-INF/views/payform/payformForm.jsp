@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%
+    Object member = session.getAttribute("member");
     request.setCharacterEncoding("utf-8");
 %>
 <!DOCTYPE html>
@@ -19,7 +20,6 @@
 <form id="membership_form" action="${contextPath}/payformTosspay.do" method="GET">
     <div class="container">
         <div class="receipt_info">
-            <span class="hidden">주문번호: <span id="payformNo"><%--${payform.payformNo}--%></span></span>
             <span class="hidden">멤버 번호: <span id="memberNo">${payform[0].memberNo}</span></span>
             <span class="hidden">헬스장 번호: <span id="wholeNo">${payform[1].detailNo}</span></span>
         </div>
@@ -41,9 +41,9 @@
         <div class="form_group">
             <label for="subscriptionMonths">구독 개월:</label>
             <select id="subscriptionMonths" name="subscriptionMonths" required>
-                <option value="1" <%--${payform.payformSub == 1 ? 'selected' : ''}--%>>1개월</option>
-                <option value="3" <%--${payform.payformSub == 3 ? 'selected' : ''}--%>>3개월</option>
-                <option value="6" <%--${payform.payformSub == 6 ? 'selected' : ''}--%>>6개월</option>
+                <option value="1">1개월</option>
+                <option value="3">3개월</option>
+                <option value="6">6개월</option>
             </select>
             <span id="discountRate"></span>
         </div>
@@ -56,13 +56,13 @@
         <div class="form_group">
             <label for="paymentMethod">결제방법:</label>
             <select id="paymentMethod" name="paymentMethod" required>
-                <option value="0" <%--${payform.payformPayment == 0 ? 'selected' : ''}--%>>신용/체크카드</option>
+                <option value="0">신용/체크카드</option>
             </select>
         </div>
 
         <div class="form_group">
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice"><%--${payform.payformPrice}--%>원</div>
+            <div id="finalPrice"><span></span>원</div>
         </div>
         <button type="submit" id="paymentButton">구매하기</button>
 
