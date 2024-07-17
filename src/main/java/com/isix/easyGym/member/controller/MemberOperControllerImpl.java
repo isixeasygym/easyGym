@@ -23,13 +23,13 @@ public class MemberOperControllerImpl implements MemberOperController {
 	@Autowired
 	private MemberOperDTO memberOperDTO;
 	
-	@Override
-	@RequestMapping(value="/member/operJoin.do")
-	public ModelAndView addOperator(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/operJoin.do");
-		return mav;
-	}
-	
+//	@Override
+//	@RequestMapping(value="/member/operJoin.do")
+//	public ModelAndView addOperator(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception{
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("/member/operJoin.do");
+//		return mav;
+//	}
+//	
 }

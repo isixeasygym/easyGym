@@ -12,8 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface MemberController {
 
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception;  //memberForm은 미수정 => 회원가입한 폼만 보여주는거라서 Annotation 관련 수정은 필요없음
@@ -28,8 +26,7 @@ public interface MemberController {
 	//result : 로그인시 가입한 이력이 있는지 판단 => 회원가입이 안되어 있다면 회원가입창으로 이동시키기 
 
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	//로그아웃은 어떤 정보를 넘길게 없어서 request, response만 작성
-
+	
+	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	// ID 중복 체크 메서드 추가
 }

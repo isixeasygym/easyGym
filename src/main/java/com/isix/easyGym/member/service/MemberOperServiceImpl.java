@@ -16,12 +16,12 @@ public class MemberOperServiceImpl implements MemberOperService {
 	private MemberOperDTO memberOperDTO;
 	private MemberOperDAO memberOperDAO;
 	
-	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException{
-		memberOperDAO.insertOperator(memberOperDTO);
-	}
-	public void updateOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
-	
-	public void delOperator(String id) throws DataAccessException;
-	
-	public MemberOperDTO login(MemberOperDTO member) throws DataAccessException;
+//	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException{
+//		memberOperDAO.insertOperator(memberOperDTO);
+//	}
+//	public void updateOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
+//	
+//	public void delOperator(String id) throws DataAccessException;
+//	
+//	public MemberOperDTO login(MemberOperDTO member) throws DataAccessException;
 }
