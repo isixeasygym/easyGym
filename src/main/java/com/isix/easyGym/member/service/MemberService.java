@@ -21,6 +21,6 @@ public interface MemberService {
 	
 	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException;
 
-	public MemberDTO checkId(int memberNo) throws DataAccessException;
+	public MemberDTO checkId(String memberId) throws DataAccessException;
 
 }

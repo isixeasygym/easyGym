@@ -15,7 +15,6 @@ import com.isix.easyGym.member.dto.MemberDTO;
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	private MemberDTO memberDTO;
 	private MemberDAO memberDAO;
 
 	public List listMembers(MemberDTO memberDTO) throws DataAccessException {
@@ -41,14 +40,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	public MemberDTO login(MemberDTO member) throws DataAccessException {
-		return memberDAO.login(memberDTO);
+		return memberDAO.login(member);
 	}
 
 	
 
 	@Override
-	public MemberDTO checkId(int memberNo) throws DataAccessException {
-		// TODO Auto-generated method stub
+	public MemberDTO checkId(String memberId) throws DataAccessException {
 		return null;
 	}
 

@@ -9,7 +9,7 @@ public class FreeImageDTO {
 	
 	private int imageFileNo;
 	private String imageFileName;
-	private Date regdate;
+	private Date regDate;
 	private int freeNo;
 
 	public FreeImageDTO() {
@@ -32,12 +32,12 @@ public class FreeImageDTO {
 		this.imageFileName = imageFileName;
 	}
 
-	public Date getRegdate() {
-		return regdate;
+	public Date getRegDate() {
+		return regDate;
 	}
 
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
 	}
 
 	public int getFreeNo() {

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이지집 공식웹사이트</title>
 <!-- jQuery 로드 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsVc/y3m5+g3ZbH1v4UQnA9Vs2K7ftwCk4vE9sIQ3Z" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"  crossorigin="anonymous"></script>
 <!-- Bootstrap CSS 로드 -->
 <link rel="stylesheet" type="text/css"
 	href="/resources/bootstrap-5.3.3-dist/css/bootstrap.min.css">
@@ -37,7 +37,7 @@
 					<li><a class="dropdown-item" href="pilates">필라테스·요가</a></li>
 					<li><a class="dropdown-item" href="boxing">복싱</a></li>
 				</ul></li>
-			<li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+			<li class="nav-item"><a class="nav-link" href="/freeboard/fboardList.do">Community</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Gym</a></li>
 		</ul>
 		<form id="searchForm" action="${contextPath}/search/results" method="GET">

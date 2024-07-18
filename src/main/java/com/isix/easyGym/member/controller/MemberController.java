@@ -12,8 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface MemberController {
 
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception;  //memberForm은 미수정 => 회원가입한 폼만 보여주는거라서 Annotation 관련 수정은 필요없음
