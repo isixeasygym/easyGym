@@ -11,6 +11,7 @@ function check(f){
 	return true;
 }
 
+
 const idTag = document.getElementById('memberId');
    const pwTag = document.getElementById('memberPwd');
    const repwTag = document.getElementById('repw');
@@ -86,7 +87,6 @@ const idTag = document.getElementById('memberId');
             check.style.cssText = "color: red; font-size: 10px;";
             join.disabled = true;
          }
-         
          check.innerText = data;
       }
    }
@@ -127,14 +127,9 @@ const idTag = document.getElementById('memberId');
    });
    
    // 이메일 
-   
-
-   
    mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기
       console.log("완성된 이메일" + memberEmail); // 이메일 확인
-      
-      
       $.ajax({
          type : 'post',
          url : '<c:url value="/uuser/mailCheck?email="/>' + email,
@@ -148,7 +143,6 @@ const idTag = document.getElementById('memberId');
    });
    
    mailCheck.addEventListener("click", ()=>{
-   
       if(mailCheckInput.value === code){
          resultMsg.innerHTML = "인증번호가 일치합니다";
          resultMsg.style.cssText = "color: blue; font-size: 10px;";

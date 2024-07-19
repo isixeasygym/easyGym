@@ -1,20 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
- PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
- "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">  <!-- namespace는 mapper의 이름을 정의 -->
- 
- 	<resultMap type="payformDTO" id="payformResult">
- 		<result property="payformNo" column="payformNo"/>
- 		<result property="memberNo" column="memberNo"/>
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="payformSub" column="payformSub"/>
- 		<result property="payformPrice" column="payformPrice"/>
- 		<result property="payformDate" column="payformDate"/>
- 		<result property="payformStatus" column="payformStatus"/>
- 		<result property="payformPayment" column="payformPayment"/>
- 	</resultMap>
- 	
- 	
- 
- </mapper>
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">
+
+	<resultMap type="payformDTO" id="payformResult">
+		<result property="payformNo" column="payformNo"/>
+		<result property="memberNo" column="memberNo"/>
+		<result property="detailNo" column="detailNo"/>
+		<result property="payformSub" column="payformSub"/>
+		<result property="payformPrice" column="payformPrice"/>
+		<result property="payformDate" column="payformDate"/>
+		<result property="payformStatus" column="payformStatus"/>
+		<result property="payformPayment" column="payformPayment"/>
+		<result property="payformCancelDate" column="payformCancelDate"/>
+	</resultMap>
+
+	<resultMap type="memberDTO" id="memberResult">
+		<result property="memberNo" column="memberNo"/>
+		<result property="memberName" column="memberName"/>
+		<result property="memberId" column="memberId"/>
+		<result property="memberPwd" column="memberPwd"/>
+		<result property="memberPhone" column="memberPhone"/>
+		<result property="memberEmail" column="memberEmail"/>
+		<result property="memberAddr" column="memberAddr"/>
+		<result property="memberPost" column="memberPost"/>
+		<result property="memberCreatedAt" column="memberCreatedAt"/>
+		<result property="memberState" column="memberState"/>
+		<result property="memberGender" column="memberGender"/>
+		<result property="memberMarketing" column="memberMarketing"/>
+	</resultMap>
+
+	<resultMap type="detailDTO" id="detailResult">
+		<result property="detailNo" column="detailNo"/>
+		<result property="detailDate" column="detailDate"/>
+		<result property="detailRoadAddress" column="detailRoadAddress"/>
+		<result property="detailBusinessName" column="detailBusinessName"/>
+		<result property="detailBusinessEng" column="detailBusinessEng"/>
+		<result property="detailDailyTicket" column="detailDailyTicket"/>
+		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+		<result property="detailScope" column="detailScope"/>
+		<result property="detailComment" column="detailComment"/>
+		<result property="detailServiceProgram" column="detailServiceProgram"/>
+		<result property="reviewNo" column="reviewNo"/>
+		<result property="detailStatus" column="detailStatus"/>
+		<result property="detailClassification" column="detailClassification"/>
+		<result property="detailFreeService" column="detailFreeService"/>
+		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+		<result property="detailKoClassification" column="detailKoClassification"/>
+		<result property="detailTest" column="detailTest"/>
+	</resultMap>
+
+	<select id="selectMemberByNo" resultType="MemberDTO">
+		SELECT * FROM member_tbl WHERE memberNo = #{memberNo}
+	</select>
+
+	<select id="selectDetailByNo" resultType="DetailDTO">
+		SELECT * FROM detail_tbl WHERE detailNo = #{detailNo}
+	</select>
+
+	<insert id="selecteeeeeeeePayform" >
+		SELECT
+		p.payformNo, p.memberNo, p.detailNo, p.payformSub, p.payformPrice,
+		p.payformDate, p.payformStatus, p.payformPayment, p.payformCancelDate,
+		m.memberName, m.memberPhone,
+		d.detailBusinessName, d.detailMonthlyTicket
+		FROM
+		payform_tbl p
+		JOIN member_tbl m ON p.memberNo = m.memberNo
+		JOIN detail_tbl d ON p.detailNo = d.detailNo
+		WHERE
+		p.memberNo = #{memberNo} AND p.detailNo = #{detailNo}
+	</insert>
+
+	<insert id="insertPayform" parameterType="com.isix.easyGym.payform.dto.PayformDTO">
+		INSERT INTO payform_tbl (
+		memberNo, detailNo, payformSub, payformPrice, payformDate,
+		payformStatus, payformPayment
+		) VALUES (
+		#{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, NOW(),
+		#{payformStatus}, #{payformPayment}
+		)
+	</insert>
+
+	<delete id="deletePayform" parameterType="int">
+		DELETE FROM payform_tbl
+		WHERE payformNo = #{payformNo}
+	</delete>
+
+	<select id="checkingBuy" parameterType="int" resultType="payformDTO">
+		select * from buy_tbl where memberNo = #{memberNo}
+	</select>
+	
+	
+</mapper>

@@ -37,10 +37,8 @@ dependencies {
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'com.google.code.gson:gson:2.11.0'
-	
-	
-	
-	
+	implementation 'javax.servlet:javax.servlet-api:3.1.0' // 원하는 버전으로 수정 가능
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	
 }
 

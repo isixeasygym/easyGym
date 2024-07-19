@@ -5,27 +5,28 @@
  <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO"> 
 
 	<resultMap type="detailDTO" id="detailResult">
- 		<result property="wholeNo" column="wholeNo"/>
- 		<result property="wholeDate" column="wholeDate"/>
- 		<result property="wholeRoadAddress" column="wholeRoadAddress"/>
- 		<result property="wholeBusinessName" column="wholeBusinessName"/>
- 		<result property="wholeBusinessEng" column="wholeBusinessEng"/>
- 		<result property="wholeDailyTicket" column="wholeDailyTicket"/>
- 		<result property="wholeMonthlyTicket" column="wholeMonthlyTicket"/>
- 		<result property="wholeScope" column="wholeScope"/>
- 		<result property="wholeDetail" column="wholeDetail"/>
- 		<result property="wholeServiceProgram" column="wholeServiceProgram"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 		<result property="detailDate" column="detailDate"/>
+ 		<result property="detailRoadAddress" column="detailRoadAddress"/>
+ 		<result property="detailBusinessName" column="detailBusinessName"/>
+ 		<result property="detailBusinessEng" column="detailBusinessEng"/>
+ 		<result property="detailDailyTicket" column="detailDailyTicket"/>
+ 		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+ 		<result property="detailScope" column="detailScope"/>
+ 		<result property="detailComment" column="detailComment"/>
+ 		<result property="detailServiceProgram" column="detailServiceProgram"/>
  		<result property="reviewNo" column="reviewNo"/>
- 		<result property="wholeStatus" column="wholeStatus"/>
- 		<result property="wholeClassification" column="wholeClassification"/>
- 		<result property="wholeFreeService" column="wholeFreeService"/>
- 		<result property="wholeMonthlyPrice" column="wholeMonthlyPrice"/>
- 		<result property="wholeKoClassification" column="wholeKoClassification"/>
+ 		<result property="detailStatus" column="detailStatus"/>
+ 		<result property="detailClassification" column="detailClassification"/>
+ 		<result property="detailFreeService" column="detailFreeService"/>
+ 		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+ 		<result property="detailKoClassification" column="detailKoClassification"/>
+ 		<result property="detailTest" column="detailTest"/>
  	</resultMap>
  	
  	<resultMap type="detailDibsDTO" id="detailDibsResult">
  		<result property="dibsNo" column="dibsNo"/>
- 		<result property="wholeNo" column="wholeNo"/>
+ 		<result property="detailNo" column="detailNo"/>
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
  	
@@ -35,34 +36,52 @@
  		<result property="reviewDate" column="reviewDate"/>
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
- 	
+
+ 	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
+		<![CDATA[
+ 			select * from detail_tbl where detailNo = #{detailNo}
+ 		]]>
+	</select>	
+ 		
  	<select id="findAll" parameterType="String" resultMap="detailResult" >
 		<![CDATA[
- 			select * from whole_tbl where wholeClassification = #{wholeClassification}
+ 			select * from detail_tbl where detailClassification = #{detailClassification}
  		]]>
 	</select>
  	
  	<select id="findPopular" parameterType="java.util.Map" resultMap="detailResult">
 		<![CDATA[
- 			select * from whole_tbl where wholeStatus = #{wholeStatus} and wholeClassification = #{wholeClassification}
+ 			select * from detail_tbl where detailStatus = #{detailStatus} and detailClassification = #{detailClassification}
  		]]>
 	</select>
  	
  	<select id="findDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
 		<![CDATA[
- 			select * from detailDibs_tbl where wholeNo = #{wholeNo} and memberNo = #{memberNo}
+ 			select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
  		]]>
 	</select>
  
  	<delete id="removeDibs" parameterType="java.util.Map">
  		<![CDATA[
- 			delete from dibs_tbl where memberNo=#{memberNo} and wholeNo = #{wholeNo}
+ 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
  		]]>
  	</delete>
  	
  	<insert id="insertDibs" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into dibs_tbl values(#{dibsNo},#{wholeNo},#{memberNo})
+ 			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
+ 		]]>
+ 	</insert>
+ 	
+ 	<delete id="removeReview" parameterType="java.util.Map">
+ 		<![CDATA[
+ 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
+ 		]]>
+ 	</delete>
+ 	
+ 	<insert id="insertReview" parameterType="java.util.Map">
+ 		<![CDATA[ 
+ 			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
  		]]>
  	</insert>
  	

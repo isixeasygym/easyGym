@@ -1,0 +1,315 @@
+@charset "utf-8";
+
+#animation_canvas {
+    position: relative;  /* 고정시킬 자식이 있어서 부모는 relative를 줌 */
+    width: 900px;  /* 이미지 하나 정도 보이는 크기 */
+    overflow: hidden;  /* 내 영역을 벗어나면 안보이게 하기 (일단 어떻게 만들어지는지 보기 위해 주석처리하고 마지막에 풀 예정 => 하게 되면 하나 외의 사진들이 그 자리에는 있지만 안보이게 됨.) */
+}
+
+.slider_panel {
+    width: 10800px;  /* 원래는 사진 1장당 600px * 5장 = 3000px. 근데 앞뒤로 사진을 한장씩 더 붙여서 px을 늘리면서 양옆으로 사진을 보냄 */
+    position: relative;
+}
+
+.slider_image {  /* 슬라이더 보이는 이미지 */
+    width: 900px;  /* 부모 크기와 똑같이 줌 */
+    height: 600px;
+    float: left;  /* 아래 내려오던 사진도 전부 옆으로 보냄 */
+}
+
+.slider_text_panel {
+    position: absolute;  /* 설명글을 이미지 위에 올리기 위함 */
+    top: 200px;
+    left: 50px;
+}
+
+.slider_text {
+    position: absolute;  /* 설명글을 절대적 위치로 둬서 설명글끼리 겹치게 함 */
+    width: 300px;  /* 설명이 많다면 더 키워줘라 */
+    height: 200px;
+    color: yellow;
+}
+
+.control_panel {
+    position: absolute;
+    top: 380px;
+    left: 270px;
+    height: 13px;
+    overflow: hidden;  /* 컨트롤 버튼 이미지 하나당 3개의 버튼이 보이는데 이거 안하면 전부 보이게 됨 */
+    text-align: center;
+    margin: 0 auto;
+    z-index: 10px;
+}
+
+.control_button {
+    position: relative;
+    cursor: pointer;
+    background: url(/images/slide/point_button.png);
+    width: 12px;
+    height: 46px;
+    float: left;
+}
+
+.control_button:hover {
+    top: -16px;  /* 버튼을 hover하면 버튼 이미지가 위로 올라가게 함 / -16px = 회색, -32px = 파란색 */
+}
+
+.control_button.active {  /* 클래스가 두 개 */
+    top: -31px;  /* 버튼을 클릭하면 px만큼 올라가라 */
+}
+
+.left_control {
+    position: absolute;
+    top: 300px;
+    left: 5px;
+    cursor: pointer;
+    z-index: 10px;
+}
+.right_control {
+   position: absolute;
+   top: 300px;
+   right: 5px;
+   cursor: pointer;
+   z-index: 10px;
+}
+
+a {
+    text-decoration-line: none;
+    cursor: pointer;
+}
+
+body{
+    background-color: #F6F6F6;
+}
+
+#detailRange{
+    position: absolute;
+    width: 900px;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: #fff;
+}
+
+
+#pointer{
+    display: inline-block;
+}
+#fiveStar{
+    display: inline-block;
+}
+
+#address{
+    display: inline-block;
+}
+
+#grade{
+   display: inline-block;
+}
+#gradeLink{
+    display: inline-block;
+}
+
+.buttonRange{
+    position: relative;
+	z-index: 30;
+    left: 675px;
+    top: -170px;
+}
+
+.favorite-button {
+    display: inline-block;
+	z-index: 30;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.dibs{
+	z-index: 30;
+    width: 30px;
+    height: 30px;
+}
+
+#memberTicketRange{
+    height: 230px;
+    border-bottom: 2px solid #F6F6F6;
+    width: 900px;
+}
+
+.common {
+    display: inline-block;
+}
+
+.ticketPrice{
+    position: relative;
+    display: inline-block;
+    left: 300px;
+}
+.month {
+    display: inline-block;
+}
+
+.memberTicketBox {
+    margin: 0 auto;
+    border: 1px solid #F6F6F6;
+    border-radius:  20px;
+    width: 820px;
+    box-shadow: 5px 5px 4px #EAEAEA;
+}
+
+#dailyAndInfoRange{
+    height: 370px;
+    border-bottom: 2px solid #F6F6F6;
+}
+
+#dailyInfoBox{
+    margin: 0 auto;
+    width: 820px;
+    height: 120px;
+    border-radius:  20px;
+    background-color:  #F6F6F6;
+}
+
+#commentRange{
+    padding: 40px 0;
+    border-bottom: 2px solid #F6F6F6;
+	text-align: center;
+}
+
+#commentBox {
+    width: 778px;
+    border-radius:  20px;
+    background-color:  #F6F6F6;
+    margin: 0 auto;
+    padding: 16px 20px;
+}
+
+.auto-resize-textarea {
+    min-height: 100px; /* 최소 높이 설정 */
+    padding: 10px 0 0 0; /* 내부 여백 설정 */
+    font-size: 14px; /* 폰트 크기 설정 */
+    line-height: 1.5; /* 줄 간격 설정 */
+    border: 1px solid #f6f6f6; /* 테두리 설정 */
+    box-sizing: border-box; /* 내부 여백과 테두리를 포함한 크기 설정 */
+    resize: none; /* 크기 조절 불가능하도록 설정 */
+    overflow-y: hidden; /* 세로 스크롤바 숨기기 */
+    text-align: left; /* 텍스트를 왼쪽 정렬로 설정 */
+    background-color: #f6f6f6; /* 배경색 설정 */
+    color: #333; /* 텍스트 색상 설정 */
+    cursor: default; /* 기본 커서 스타일로 설정 */
+    border-radius: 20px; /* 테두리 둥글게 설정 */
+    width: 820px; /* 너비 설정 */
+    transition: height 0.2s; /* 높이 변화 시 애니메이션 */
+}
+
+/* 포커스 시 outline 제거 */
+.auto-resize-textarea:focus {
+    outline: none;
+}
+
+#operatingRange{
+	text-align: center;
+    padding: 40px 0;
+    border-bottom: 2px solid #F6F6F6;
+}
+
+#operatingBox{
+    width: 778px;
+    border-radius:  20px;
+    background-color:  #F6F6F6;
+    margin: 0 auto;
+    padding: 16px 20px;
+}
+
+#convenienceFacility{
+    border-bottom: 2px solid #F6F6F6;
+    height: 180px;
+}
+
+#FacilityRange{
+    position: relative;
+    width: 850px;
+    left: 20px;
+}
+
+.FacilityImage{
+    display: inline-block;
+    width: 70px;
+    height: 110px;
+    padding-left: 17px;
+}
+
+#imageRange{
+	width: 900px;
+	height:400px;
+	border-bottom: 2px solid #F6F6F6;
+}
+
+#imageBox{
+	text-align: center;
+	width: 900px;
+	margin:0 auto;	
+}
+
+#reviewImageRange{
+	border-bottom: 2px solid #F6F6F6;
+}
+
+#reviewImage{	
+	padding: 15px 15px;
+}
+
+#produ{
+    color: #757575;
+    font-size: 0.8em;
+    position: relative;
+    left: 30px;
+}
+#reviewRange{
+	border-bottom: 2px solid #F6F6F6;
+}
+
+.reviewImage{
+	width: 60px;
+	height: 60px;
+	display: block;
+}
+
+#ticketChoiceRange {
+    text-align: center;
+    height: 90px;
+    position: fixed;
+    bottom: 0; left: 0;
+}
+
+#ticketChoice{
+    color: #fff;
+    padding: 15px;
+    background-color: #2478FF;
+    font-size: 1.2em;
+    border: 1px solid #2478FF;
+    border-radius: 20px;
+    font-style: #ccc;
+    width: 850px;
+    margin: 0 auto;
+}
+
+.ReviewRange{
+	width: 900px;
+}
+
+.personReviewRange{
+	width: 778px;
+	margin:0 auto;
+	border-bottom: 2px solid #F6F6F6;
+	padding: 30px;
+}
+
+#button:hover{
+    cursor: pointer;
+}
+
+
+

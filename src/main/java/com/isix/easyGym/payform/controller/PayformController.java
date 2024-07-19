@@ -2,8 +2,11 @@ package com.isix.easyGym.payform.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface PayformController {
-    ModelAndView buyForm(HttpServletRequest request, HttpServletResponse response) throws Exception;  //memberForm으로 이동할 거라서 addObject는 필요없음
+    public ModelAndView payformForm(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException;
 }

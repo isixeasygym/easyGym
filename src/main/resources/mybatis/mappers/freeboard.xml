@@ -2,28 +2,100 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.freeboard.dao.FreeboardDAO">  <!-- namespace는 mapper의 이름을 정의 -->
+ <mapper namespace="com.isix.easyGym.freeboard.dao.FreeDAO">  <!-- namespace는 mapper의 이름을 정의 -->
  
- 	<resultMap type="freeboardarticleDTO" id="freeboardarticleResult">
- 		<result property="freePostNo" column="freePostNo"/>
+ <!--	<resultMap type="freeDTO" id="fbResult">  typeAlias에 설정한 alias를 type으로 준다. 
+ 		<result property="freeNo" column="freeNo"/>  set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. 
  		<result property="freeTitle" column="freeTitle"/>
  		<result property="freeContent" column="freeContent"/>
+ 		<result property="freeWriteDate" column="freeWriteDate"/>
+ 		<result property="freeHit" column="freeHit"/>
+ 		<result property="rating" column="rating"/>
  		<result property="memberNo" column="memberNo"/>
- 		<result property="freeCreatedAt" column="freeCreatedAt"/>
- 		<result property="freeViewCount" column="freeViewCount"/>
- 		<result property="freeFileName" column="freeFileName"/>
- 		<result property="fbanswerNo" column="fbanswerNo"/>
- 	</resultMap>
- 	
- 	<resultMap type="freeboardimageDTO" id="freeboardimageResult">
- 		<result property="imageNo" column="imageNo"/>
- 		<result property="" column=""/>
- 		<result property="" column=""/>
- 		<result property="" column=""/>
- 		<result property="" column=""/>
- 		<result property="" column=""/>
- 	</resultMap>
- 	
- 	
+ 	</resultMap>-->
+
+	<resultMap type="freeImageDTO" id="imgResult">
+		<result property="imageFileNo" column="imageFileNo"/>
+		<result property="imageFileName" column="imageFileName"/>
+		<result property="regDate" column="regDate"/>
+		<result property="freeNo" column="freeNo"/>
+	</resultMap>
+
+	<resultMap type="java.util.Map" id="fbResult">
+		<result property="freeNo" column="freeNo"/>  
+ 		<result property="freeTitle" column="freeTitle"/>
+ 		<result property="memberName" column="memberName"/> 		
+ 		<result property="freeWriteDate" column="freeWriteDate"/>
+ 		<result property="freeHit" column="freeHit"/>
+	</resultMap>
+
+
+	<select id="selectAll" resultMap="fbResult" parameterType="int">
+	
+		<![CDATA[
+ 			select f.freeNo, f.freeTitle, m.memberName, f.freeWriteDate, f.freeHit from  member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo order by f.freeNo desc limit #{count},10		
+ 		]]>
+	</select>
+	<select id="selectToFboard" resultType="int">
+		<![CDATA[
+ 			select count(*) from freeboard_tbl
+ 		]]>
+	</select>
+	
+	<select id="getNewFreeNo" resultType="int">
+		<![CDATA[
+ 			select max(freeNo)+1 from freeboard_tbl 		
+ 		]]>
+	</select>
+	
+	<select id="selectMem" resultType="memberDTO" parameterType="int">
+		select m.memberName from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
+	</select>
+	
+	<select id="selectFboard" resultType="freeDTO" parameterType="int">
+		<![CDATA[
+ 			select * from freeboard_tbl where freeNo = #{freeNo} 		
+ 		]]>
+	</select>
+	
+	<select id="selectImageFileList" resultMap="imgResult" parameterType="int">
+		<![CDATA[
+ 			select * from fboardimage_tbl where freeNo = #{freeNo} 		
+ 		]]>
+	</select>
+	
+	<insert id="insertNewFboard" parameterType="java.util.Map">
+		insert into freeboard_tbl (freeNo, freeTitle, freeContent, freeWriteDate, freeHit, imageFileName, memberNo)
+		values(#{freeNo},#{freeTitle},#{freeContent},sysdate(),0,#{imageFileName},#{memberNo})
+	</insert>
+
+	<insert id="insertNewImages" parameterType="java.util.Map">
+		insert into fboardimage_tbl values 
+		<foreach collection="imageFileList" item="item" separator=",">
+			(#{item.imageFileNo},#{item.imageFileName},sysdate(),#{freeNo})
+		</foreach>
+	</insert>
+	
+
+	
+	<!-- 이미지 여러개 글 수정 -->
+	<update id="updateFboard" parameterType="java.util.Map">
+ 			update freeboard_tbl set title=#{title}, content=#{content} where freeNo=#{freeNo}	
+	</update>
+	
+	<!-- 이미지 여러개 수정-->
+	<update id="updateImage" parameterType="java.util.Map">
+		<foreach collection="imageFileList" item="item" separator=";">
+			
+				update fboardimage_tbl set imageFileName=#{item.imageFileName} where imageFileNo=#{item.imageFileNo} and #{item.imageFileName} != ''
+           
+         </foreach>
+	</update>
+	
+	<delete id="deleteFboard" parameterType="int">
+		<![CDATA[
+			delete from freeboard_tbl where freeNo=#{freeNo}
+		]]>
+	</delete>
  
  </mapper>
