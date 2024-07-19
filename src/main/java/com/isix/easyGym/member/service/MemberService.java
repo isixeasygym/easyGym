@@ -8,8 +8,6 @@ import org.springframework.dao.DataAccessException;
 import com.isix.easyGym.member.dto.MemberDTO;
 
 public interface MemberService {
-	
-	public List listMembers(MemberDTO memberDTO) throws DataAccessException;
 
 	public void addMember(MemberDTO memberDTO) throws DataAccessException;
 	
