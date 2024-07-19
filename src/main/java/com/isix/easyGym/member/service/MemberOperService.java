@@ -17,4 +17,8 @@ public interface MemberOperService {
 	public MemberOperDTO login(MemberOperDTO memberDTO) throws DataAccessException;
 
 	public boolean checkId(String memberOperId) throws DataAccessException;
+<<<<<<< HEAD
 	}
+=======
+}
+>>>>>>> branch 'member' of https://github.com/isixeasygym/easyGym.git

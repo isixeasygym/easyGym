@@ -6,16 +6,10 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 public interface MypageService {
-	
-	//구매내역
-	
-	
-	//문의내역
-	
 
-	//신고내역
-	public List reportHistorys() throws DataAccessException;
-
+	//1-2)찜 목록
+	public Map detailDibsList(Map<String, Integer> pagingMap) throws DataAccessException;
+	
 	
 	
 }
