@@ -38,7 +38,7 @@ request.setCharacterEncoding("utf-8");
             <label for="finalPrice">최종 결제 금액:</label>
             <div id="finalPrice">${member.finalPrice}원</div>
         </div>
-        <button type="submit" id="goBack">확인</button>
+        <button type="submit" id="goBack" >확인</button>
     </form>
 </div>
 

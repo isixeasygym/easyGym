@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%
-    Object member = session.getAttribute("member");
     request.setCharacterEncoding("utf-8");
 %>
 <!DOCTYPE html>
@@ -17,14 +16,15 @@
 <body>
 <div class="bg-image"></div>
 
-<form id="membership_form" action="${contextPath}/payformTosspay.do" method="GET">
+<form id="payment_form" action="${contextPath}/payform/payformCredit.do" target="_blank" method="GET">
     <div class="container">
         <div class="receipt_info">
-            <span class="hidden">멤버 번호: <span id="memberNo">${payform[0].memberNo}</span></span>
-            <span class="hidden">헬스장 번호: <span id="wholeNo">${payform[1].detailNo}</span></span>
+            <span class="hidden">멤버 번호: <input id="memberNo" name="memberNo" value="${payform[0].memberNo}"></span>
+            <span class="hidden">헬스장 번호: <input id="detailNo" name="detailNo" value="${payform[1].detailNo}"></span>
         </div>
 
-        <h1><span id="wholeName">${payform[1].detailBusinessName}</span> 헬스장 구매 폼</h1>
+        <h1><span id="detailName">${payform[1].detailBusinessName}</span> 헬스장 구매 폼</h1>
+        <input type="hidden" name="detailNa" id="detailNa" value="${payform[1].detailBusinessName}">
 
         <h2>구매자 정보</h2>
         <div class="form_group">
@@ -50,22 +50,30 @@
 
         <div class="form_group">
             <label for="originalPrice">원래 금액:</label>
-            <span id="originalPrice">${payform[1].detailMonthlyTicket}원</span>
+            <div id="originalPrice"><span id="oriPrice"></span>원</div>
+            <input type="hidden" id="onePrice" value="${payform[1].detailMonthlyTicket}">
         </div>
 
         <div class="form_group">
             <label for="paymentMethod">결제방법:</label>
             <select id="paymentMethod" name="paymentMethod" required>
                 <option value="0">신용/체크카드</option>
+                <option value="1">계좌이체</option>
+                <option value="2">가상계좌</option>
+                <option value="3">휴대폰</option>
+                <option value="4">문화상품권</option>
+                <option value="5">도서문화상품권</option>
+                <option value="6">게임문화상품권</option>
+
             </select>
         </div>
 
         <div class="form_group">
             <label for="finalPrice">최종 결제 금액:</label>
             <div id="final"><span id="finalPrice"></span>원</div>
+            <input type="hidden" name="price" id="price">
         </div>
         <button type="submit" id="paymentButton">구매하기</button>
-
     </div>
 </form>
 

@@ -9,4 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface PayformController {
     public ModelAndView payformForm(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException;
-}
+    public ModelAndView payformCredit(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "detailNa") String detailNa, @RequestParam(value = "name") String name, @RequestParam(value = "phoneNumber") String phoneNumber, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "paymentMethod") int paymentMethod, @RequestParam(value = "price") int price, HttpServletRequest request, HttpServletResponse response) throws DataAccessException;
+    //public ModelAndView payformDone(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "price") int price, @RequestParam(value = "paymentMethod") int paymentMethod, HttpServletRequest request, HttpServletResponse response) throws DataAccessException;
+    }
