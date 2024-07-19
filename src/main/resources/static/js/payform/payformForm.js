@@ -38,7 +38,7 @@ window.onload = function() {
         let discountedPrice = price * (1 - discount / 100);
 
         originalPrice.textContent = price.toLocaleString() + '원';   //price 변수를 원래 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
-        finalPrice.textContent = discountedPrice.toLocaleString() + '원';    //finalPrice 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
+        finalPrice.textContent = discountedPrice.toLocaleString();    //finalPrice 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
         discountRate.textContent = discount + '%';  //할인율 %랑 같이 찍음
     }
 

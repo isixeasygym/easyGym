@@ -4,7 +4,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 %>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,11 +13,13 @@
     <!--<link rel="stylesheet" href="${contextPath}/css/mypage/mypageStyle.css">-->
     <!--<script src="${contextPath}/js/mypage/mypage.js"></script>-->
 </head>
+<link rel="stylesheet" href="${contextPath}/css/mypage/mypageMain.css">
+<script src="${contextPath}/js/mypage/mypageTicket.js"></script>
 <body>
 	<h2>이용권을 취소 하시겠습니까?</h2>
 	<form action="#">
-	    <input type="submit" value="취소하기">
-	    <input type="reset" value="취소">
+	    <input type="submit" value="이용권 취소">
+	    <input type="button" value="돌아가기" onclick="backToMypage(this.form)">
 	</form>
 </body>
 </html>

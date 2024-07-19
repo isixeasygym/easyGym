@@ -53,13 +53,18 @@ public class DetailServiceImpl implements DetailService{
 		detailDibsDTO=detailDAO.findDibs(paramMap);
 		return detailDibsDTO;
 	}
+
+
+
 	@Override
-	public void deleteDibs(Map paramMap) throws DataAccessException {
-		detailDAO.removeDibs(paramMap);
-	}
-	@Override
-	public void plusDibs(Map paramMap) throws DataAccessException {
-		detailDAO.insertDibs(paramMap);
+	public void writeReview(Map review) throws DataAccessException {
+		detailDAO.insertReview(review);
 	}
 
+
+
+	@Override
+	public void deleteReview(Map review) throws DataAccessException {
+		detailDAO.removeReview(review);
+	}
 }

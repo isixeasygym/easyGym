@@ -17,6 +17,9 @@ public interface FreeDAO {
 	
 	public List selectAll(@Param("count") int count) throws DataAccessException;
 	
+	// 조회수 카운트
+	public int hitCount(int freeNo) throws DataAccessException;
+	
 	public int selectToFboard() throws DataAccessException;
 	
 	public int getNewFreeNo() throws DataAccessException; // 글 번호 가져오기

@@ -26,7 +26,7 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	private MemberDTO memberDTO;
-	
+
 	@Override
 	@RequestMapping(value = "/member/memJoin.do")
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
@@ -35,22 +35,22 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("/member/memJoin");
 		return mav;
 	}
-
-	@GetMapping("/report/report.do") // 127.0.0.1:8090 => 이렇게만 매핑 보내기
-	public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/report/report");
-		return mav;
-	}
-
+	
 	@Override
 	@GetMapping("/member/joinSelect.do")
-	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView joinSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/joinSelect");
 		return mav;
-	} // memberForm으로 이동할 거라서 addObject는 필요없음
+	} 
 
+	@Override
+	@GetMapping("/member/loginSelect.do")
+	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/loginSelect");
+		return mav;
+	}	
 	@Override
 	@GetMapping("/member/modMemberForm.do")
 	public ModelAndView modMemberForm(@RequestParam("id") String id, HttpServletRequest request,
@@ -92,7 +92,7 @@ public class MemberControllerImpl implements MemberController {
 		mv.setViewName("/member/loginForm");
 		return mv;
 	}
-	
+
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
@@ -118,26 +118,20 @@ public class MemberControllerImpl implements MemberController {
 		return mv;
 	}
 
-	// 로그아웃
-	@Autowired
-	private LogoutController logoutController;
 
-	@Override
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return logoutController.logout(request, response);
-	}
-	
 	// 아이디 중복체크
-//	@RequestMapping(value="/member/checkId", produces="application/text;charset=utf8")
-//	@ResponseBody
-//	public String checkId(String memberId) {
-//		if(memberService.checkId(memberId)) {
-//			return "이미 사용중인 ID입니다.";
-//		}else {
-//			return "사용 가능한 ID입니다.";
-//		}
-//	}
-	
+	@Override
+	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
+	public ModelAndView checkId(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if (memberService.checkId(id)) {
+			mav.addObject("message", "이미 사용중인 ID입니다.");
+		} else {
+			mav.addObject("message", "사용 가능한 ID입니다.");
+		}
+		mav.setViewName("/member/checkIdResult");
+		return mav;
+	}
 
 
 }

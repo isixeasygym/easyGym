@@ -26,6 +26,7 @@
  		<result property="freeTitle" column="freeTitle"/>
  		<result property="memberName" column="memberName"/> 		
  		<result property="freeWriteDate" column="freeWriteDate"/>
+ 		<result property="imageFileName" column="imageFileName"/>
  		<result property="freeHit" column="freeHit"/>
 	</resultMap>
 
@@ -64,6 +65,13 @@
  		]]>
 	</select>
 	
+	<!-- 조회수 -->
+	<update id="hitCount" parameterType="int">
+		<![CDATA[
+			update freeboard_tbl set freeHit = freeHit + 1 where freeNo = #{freeNo}
+		]]>
+	</update>
+	
 	<insert id="insertNewFboard" parameterType="java.util.Map">
 		insert into freeboard_tbl (freeNo, freeTitle, freeContent, freeWriteDate, freeHit, imageFileName, memberNo)
 		values(#{freeNo},#{freeTitle},#{freeContent},sysdate(),0,#{imageFileName},#{memberNo})
@@ -80,7 +88,7 @@
 	
 	<!-- 이미지 여러개 글 수정 -->
 	<update id="updateFboard" parameterType="java.util.Map">
- 			update freeboard_tbl set title=#{title}, content=#{content} where freeNo=#{freeNo}	
+ 			update freeboard_tbl set freeTitle=#{freeTitle}, freeContent=#{freeContent} where freeNo=#{freeNo}	
 	</update>
 	
 	<!-- 이미지 여러개 수정-->

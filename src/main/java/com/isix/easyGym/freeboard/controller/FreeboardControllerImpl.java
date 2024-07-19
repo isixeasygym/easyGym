@@ -73,7 +73,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	public ModelAndView addFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
 	    String imageFileName = null;
 	    mulReq.setCharacterEncoding("utf-8");
-	    Map<String, Object> fbmap = new HashMap<>();
+	    Map<String, Object> fbmap = new HashMap<String, Object>();
 	    Enumeration enu = mulReq.getParameterNames();
 	    while (enu.hasMoreElements()) {
 	        String name = (String) enu.nextElement();
@@ -83,7 +83,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	    }
 
 	    List<String> flist = mulFileUpload(mulReq);
-	    List<FreeImageDTO> imageFileList = new ArrayList<>();
+	    List<FreeImageDTO> imageFileList = new ArrayList<FreeImageDTO>();
 	    if (flist != null && flist.size() != 0) {
 	        for (String fname : flist) {
 	            FreeImageDTO fbimageDTO = new FreeImageDTO();
@@ -100,13 +100,13 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	    fbmap.put("memberId", memberId);
 
 	    try {
-	        int fboardNo = freeboardservice.addFboard(fbmap);
+	        int freeNo = freeboardservice.addFboard(fbmap);
 	        if (imageFileList != null && imageFileList.size() != 0) {
 	            for (FreeImageDTO fbimageDTO : imageFileList) {
 	                imageFileName = fbimageDTO.getImageFileName();
 	                System.out.println(imageFileName + " 여기까지 옴!!!!!!!!!!!!");
 	                File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-	                File destDir = new File(ARTICLE_IMG_REPO + "\\" + fboardNo);
+	                File destDir = new File(ARTICLE_IMG_REPO + "\\" + freeNo);
 	                FileUtils.moveFileToDirectory(srcFile, destDir, true);
 	            }
 	        }
@@ -246,7 +246,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 //			}
 			e.printStackTrace();
 		}
-		ModelAndView mv = new ModelAndView("redirect:/board/listArticles.do");
+		ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
 		
 		return mv;
 	}

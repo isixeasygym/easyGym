@@ -19,7 +19,6 @@ public class MemberDTO {
 	private String memberGender;
 	private String memberMarketing;
 	
-	
 	public int getMemberNo() {
 		return memberNo;
 	}

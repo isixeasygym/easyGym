@@ -1,16 +1,11 @@
 package com.isix.easyGym.member.service;
 
-import java.time.DateTimeException;
-import java.util.List;
-
 import org.springframework.dao.DataAccessException;
 
 import com.isix.easyGym.member.dto.MemberDTO;
 
 public interface MemberService {
 	
-	public List listMembers(MemberDTO memberDTO) throws DataAccessException;
-
 	public void addMember(MemberDTO memberDTO) throws DataAccessException;
 	
 	public MemberDTO findMember(String id) throws DataAccessException;
@@ -21,6 +16,7 @@ public interface MemberService {
 	
 	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException;
 
-	public MemberDTO checkId(String memberId) throws DataAccessException;
+	public boolean checkId(String memberId) throws DataAccessException;
+	
 
 }

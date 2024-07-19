@@ -1,16 +1,18 @@
 package com.isix.easyGym.mypage.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.isix.easyGym.detail.dto.DetailDTO;
+import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.service.MypageService;
-import com.isix.easyGym.report.dto.ReportDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,12 +25,11 @@ public class MypageControllerImpl implements MypageController {
 	private MypageService mypageService;
 	
 	@Autowired
-	//private MemberDTO memberDTO;    //멤버
-	//private BuyDTO buyDTO;          //구매하기
-	//private ContactDTO contactDTO;  //문의하기
-	private ReportDTO reportDTO;    //신고하기
+	private MemberDTO memberDTO;  //멤버
+	private DetailDTO detailDTO;  //업체정보
+	private DetailDibsDTO detailDibsDTO;  //찜목록
 	
-	//내 정보
+	//1.내 정보 - 첫 페이지(이용중인 상품)
 	@RequestMapping(value = "/mypage/mypageMain.do")
 	public ModelAndView mypageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -36,28 +37,38 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	}
 	
-	//구매내역
-/*	public ModelAndView buyHistory(@RequestParam("buyNo") int buyNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-	}
-	
-	//문의내역
-	public ModelAndView contactHistory(@RequestParam("contactNo") int contactNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-	}
-*/
-	//신고내역
-	@RequestMapping(value = "/mypage/listArticles.do", method = RequestMethod.GET)
-	public ModelAndView reportHistorys(@RequestParam("reportNo") int reportNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName=getViewName(request);
-		List reportsList=mypageService.reportHistorys();
-		ModelAndView mav=new ModelAndView(viewName);
-		mav.addObject("reportsList",reportsList);
+	//1-1)이용중인 상품 - 이용권 취소하기
+	@RequestMapping(value = "/mypage/ticketCancel.do")
+	public ModelAndView ticketCancel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("/mypage/ticketCancel");
 		return mav;
-		
 	}
 	
+	//1-1)이용중인 상품 - 이용권 환불하기
+	@RequestMapping(value = "/mypage/ticketRefund.do")
+	public ModelAndView ticketRefund(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("/mypage/ticketRefund");
+		return mav;
+	}
 	
+	//1-2)찜 목록
+	@RequestMapping(value = "/dibs-list")
+	public ModelAndView detailDibsList(@RequestParam(value = "section", required = false) String _section, @RequestParam(value = "pageNum", required = false) String _pageNum, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int section=Integer.parseInt((_section == null)?"1":_section);  //1섹션
+		int pageNum=Integer.parseInt((_pageNum == null)?"1":_pageNum);  //1페이지
+		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		Map dibsMap=mypageService.detailDibsList(pagingMap);  //MypageService의 detailDibsList에서 글 목록을 받아와서 dibsList에 담기
+		dibsMap.put("section", section);
+		dibsMap.put("pageNum", pageNum);
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("/dibs-list");
+		mav.addObject("dibsMap", dibsMap);
+		return mav;
+	}
 	
 	
 	
