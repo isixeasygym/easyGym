@@ -55,8 +55,8 @@
         </div>
 
         <div class="form_group">
-            <label for="paymentMethod">결제방법:</label>
-            <select id="paymentMethod" name="paymentMethod" required>
+            <label for="payformPayment">결제방법:</label>
+            <select id="payformPayment" name="payformPayment" required>
                 <option value="0">신용/체크카드</option>
                 <option value="1">계좌이체</option>
                 <option value="2">가상계좌</option>

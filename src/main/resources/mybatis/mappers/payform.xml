@@ -59,26 +59,29 @@
 		SELECT * FROM detail_tbl WHERE detailNo = #{detailNo}
 	</select>
 
-	<insert id="selecteeeeeeeePayform" >
+	<select id="getNewPayformNo" resultType="int">
+		<![CDATA[
+ 			select max(payformNo)+1 from payform_tbl
+ 		]]>
+	</select>
+
+	<select id="viewPayform" parameterType="int" resultType="payformDTO">
 		SELECT
-		p.payformNo, p.memberNo, p.detailNo, p.payformSub, p.payformPrice,
-		p.payformDate, p.payformStatus, p.payformPayment, p.payformCancelDate,
-		m.memberName, m.memberPhone,
-		d.detailBusinessName, d.detailMonthlyTicket
+		*
 		FROM
 		payform_tbl p
 		JOIN member_tbl m ON p.memberNo = m.memberNo
 		JOIN detail_tbl d ON p.detailNo = d.detailNo
 		WHERE
 		p.memberNo = #{memberNo} AND p.detailNo = #{detailNo}
-	</insert>
+	</select>
 
-	<insert id="insertPayform" parameterType="com.isix.easyGym.payform.dto.PayformDTO">
+	<insert id="insertPayform" parameterType="java.util.Map">
 		INSERT INTO payform_tbl (
-		memberNo, detailNo, payformSub, payformPrice, payformDate,
+		payformNo, memberNo, detailNo, payformSub, payformPrice, payformDate,
 		payformStatus, payformPayment
 		) VALUES (
-		#{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, NOW(),
+		#{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
 		#{payformStatus}, #{payformPayment}
 		)
 	</insert>

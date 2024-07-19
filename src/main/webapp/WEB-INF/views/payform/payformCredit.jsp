@@ -26,9 +26,9 @@
     var tossPayments = TossPayments(clientKey);
     var memberNo = "${payformData.memberNo}";
     var detailNo = "${payformData.detailNo}";
-    let paymethod = "paymentMethod";
+    let paymethod = "payformPayment";
 
-    switch (parseInt(${payformData.paymentMethod})) {   //구독개월에 따라 원래가격 & 할인율 변경
+    switch (parseInt(${payformData.payformPayment})) {   //구독개월에 따라 원래가격 & 할인율 변경
         case 0:
             paymethod = "카드";
             break;

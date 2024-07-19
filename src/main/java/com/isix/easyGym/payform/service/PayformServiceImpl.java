@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isix.easyGym.payform.dao.PayformDAO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +36,20 @@ public class PayformServiceImpl implements PayformService {
 		return buyNo;
 	}
 
-    @
+    @Override
+    public int insertPayform(Map payformMap) throws DataAccessException {
+        int payformNo = payformDAO.getNewPayformNo();
+        payformMap.put("payformNo", payformNo);
+        payformDAO.insertPayform(payformMap);
+        return payformNo;
+    }
+
+    @Override
+    public Map selectPayform(int payformNo) throws DataAccessException {
+        Map payformMap = new HashMap();
+        PayformDTO payformDTO = payformDAO.viewPayform(payformNo);
+        payformMap.put("payformDTO", payformDTO);
+        return payformMap;
+    }
+
 }

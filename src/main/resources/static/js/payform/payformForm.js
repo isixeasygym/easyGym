@@ -1,6 +1,6 @@
 window.onload = function() {
     let subscriptionMonths = document.getElementById('subscriptionMonths');   //구독 개월수
-    let paymentMethod = document.getElementById('paymentMethod');
+    let payformPayment = document.getElementById('payformPayment');
     let originalPrice = document.getElementById('originalPrice');   //원래 가격
     let oriPrice = document.getElementById('oriPrice');   //원래 가격
     let finalPrice = document.getElementById('finalPrice');   //최종 결제금액
@@ -10,11 +10,11 @@ window.onload = function() {
     let paymentButton = document.getElementById('paymentButton');
 
     subscriptionMonths.addEventListener('change', update);    //구독 개월이 바뀔때 함수 호출
-    paymentMethod.addEventListener('change', update);
+    payformPayment.addEventListener('change', update);
 
     function update() {  //구독 개월 업데이트
         let months = parseInt(subscriptionMonths.value); //구독 개월수를 가져와서 int로 변환
-        let payment = parseInt(paymentMethod.value);
+        let payment = parseInt(payformPayment.value);
         let price = 0;
         let discount = 0;   //할인율
 
