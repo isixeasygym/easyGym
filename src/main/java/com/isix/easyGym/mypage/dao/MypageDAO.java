@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
+import com.isix.easyGym.detail.dto.DetailDibsDTO;
 
 @Mapper
 @Repository("mypageDAO")

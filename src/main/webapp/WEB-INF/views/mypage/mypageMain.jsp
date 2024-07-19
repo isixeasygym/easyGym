@@ -77,7 +77,7 @@
 								<td>${dibs.detailBusinessName}</td>
 								<td>${dibs.detailKoClassification}</td>
 								<td>${dibs.detailRoadAddress}</td>
-								<td><button>찜 취소</button></td>
+								<td><button onclick="location.href='${contextPath}/mypage/removeDibs.do?detailNo=${dibs.detailNo}'">찜 취소</button></td>
 							</tr>
 						</c:forEach>
 						<tr>
