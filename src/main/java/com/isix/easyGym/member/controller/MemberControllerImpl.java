@@ -38,6 +38,14 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("/member/memJoin");
 		return mav;
 	}
+	@Override
+	@RequestMapping(value = "/member/operJoin.do")
+	public ModelAndView addOperator(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/operJoin");
+		return mav;
+	}
 
 	@GetMapping("/report/report.do") // 127.0.0.1:8090 => 이렇게만 매핑 보내기
 	public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {

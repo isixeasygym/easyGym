@@ -8,9 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이지집 공식웹사이트</title>
 <!-- jQuery 로드 -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsVc/y3m5+g3ZbH1v4UQnA9Vs2K7ftwCk4vE9sIQ3Z" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap CSS 로드 -->
 <link rel="stylesheet" type="text/css"
 	href="/resources/bootstrap-5.3.3-dist/css/bootstrap.min.css">
@@ -45,7 +45,7 @@
         <c:when test="${sessionScope.isLogOn eq true and sessionScope.member ne null}">
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/mypage/mypageMain.do">마이페이지</a></li>
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/logout.do">로그아웃</a></li>
-            <li class="nav-item"><h1>환영합니다, <span>${sessionScope.member.member}님!</span></h1></li>
+            <li class="nav-item"><h1>환영합니다, <span>${sessionScope.member}님!</span></h1></li>
         </c:when>
         <c:otherwise>
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/loginForm.do">로그인</a></li>
