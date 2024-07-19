@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.member.dto.MemberOperDTO;
 import com.isix.easyGym.member.service.MemberOperService;
 import com.isix.easyGym.member.service.MemberService;
@@ -23,13 +22,12 @@ public class MemberOperControllerImpl implements MemberOperController {
 	@Autowired
 	private MemberOperDTO memberOperDTO;
 
-//	@Override
-//	@RequestMapping(value="/member/operJoin.do")
-//	public ModelAndView addOperator(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception{
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("/member/operJoin.do");
-//		return mav;
-//	}
-
+	@Override
+	@RequestMapping(value = "/member/operJoin.do")
+	public ModelAndView addOperator(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/operJoin");
+		return mav;
+	}
 }

@@ -8,20 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.isix.easyGym.member.dao.MemberDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
+import com.isix.easyGym.member.dto.MemberOperDTO;
 
 @Service("memberService") // 아래에 내용을 넣지 않더라도 기본적으로 service라는 것을 지정해줘야함
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	private MemberDAO memberDAO;
+	private MemberOperDAO memberOperDAO;
 
-	public void addMember(MemberDTO memberDTO) throws DataAccessException {
-		memberDAO.insertMember(memberDTO);
-	}
-
-	public MemberDTO findMember(String id) throws DataAccessException {
-		MemberDTO memberDTO = memberDAO.selectMemberById(id);
-		return memberDTO;
+	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException {
+		memberOperDAO.insertMember(memberOperDTO);
 	}
 
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
