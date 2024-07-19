@@ -11,10 +11,19 @@ import com.isix.easyGym.member.dto.MemberOperDTO;
 @Service("memberOperService")
 public class MemberOperServiceImpl implements MemberOperService {
 
-	@SuppressWarnings("SpringJavaInjectionPointAutowiringInspection")
-	@Autowired
-	private MemberOperDTO memberOperDTO;
-	private MemberOperDAO memberOperDAO;
-	
+   @SuppressWarnings("SpringJavaInjectionPointAutowiringInspection")
+   @Autowired
+   private MemberOperDTO memberOperDTO;
+   @Autowired
+   private MemberOperDAO memberOperDAO;
+   
+//   public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException{
+//      memberOperDAO.insertOperator(memberOperDTO);
+//   }
+//   public void updateOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
+//   
+//   public void delOperator(String id) throws DataAccessException;
+//   
+//   public MemberOperDTO login(MemberOperDTO member) throws DataAccessException;
 
 }
