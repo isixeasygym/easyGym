@@ -49,7 +49,7 @@
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
        <![CDATA[
-          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberId}, #{memberPwd}, #{memberPhone}, #{memberEmail},
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberNickname}, #{memberId}, #{memberPwd}, #{memberPhone}, #{memberEmail},
           #{memberAddr}, #{memberPost}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
        ]]>
     </insert>

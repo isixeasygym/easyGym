@@ -9,15 +9,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이용권 취소하기</title>
+    <title>정보수정완료</title>
     <!--<link rel="stylesheet" href="${contextPath}/css/mypage/mypageStyle.css">-->
     <!--<script src="${contextPath}/js/mypage/mypage.js"></script>-->
 </head>
 <body>
-	<h2>이용권을 취소 하시겠습니까?</h2>
-	<form action="#">
-	    <input type="submit" value="이용권 취소">
-	    <input type="reset" value="취소">
+	<h2>회원정보 수정이 완료되었습니다.</h2>
+	<form action="/main.do">
+	    <input type="submit" value="홈페이지로 넘어가기">
 	</form>
 </body>
 </html>
