@@ -46,7 +46,7 @@
         <c:when test="${sessionScope.isLogOn eq true and sessionScope.member ne null}">
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/mypage/mypageMain.do">마이페이지</a></li>
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/logout.do">로그아웃</a></li>
-            <li class="nav-item"><h1>환영합니다, <span>${sessionScope.member.member}님!</span></h1></li>
+            <li class="nav-item"><h1>환영합니다, <span>${sessionScope.member}님!</span></h1></li>
         </c:when>
         <c:otherwise>
             <li class="nav-item"><a class="btn btn-info btn-sm" href="/member/loginForm.do">로그인</a></li>
