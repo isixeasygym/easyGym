@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.isix.easyGym.member.dao.MemberDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
+import com.isix.easyGym.member.dto.MemberOperDTO;
 
 @Service("memberService") // 아래에 내용을 넣지 않더라도 기본적으로 service라는 것을 지정해줘야함
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	private MemberDAO memberDAO;
+	private MemberOperDAO memberOperDAO;
 
+<<<<<<< HEAD
 	@Autowired
 	private MemberDTO memberDTO;
 	
@@ -25,6 +27,10 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO findMember(String id) throws DataAccessException {
 		MemberDTO memberDTO = memberDAO.selectMemberById(id);
 		return memberDTO;
+=======
+	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException {
+		memberOperDAO.insertMember(memberOperDTO);
+>>>>>>> branch 'detail' of https://github.com/isixeasygym/easyGym.git
 	}
 
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
@@ -41,9 +47,9 @@ public class MemberServiceImpl implements MemberService {
 
 	public boolean checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
-
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List listMembers(MemberDTO memberDTO) throws DataAccessException {
 		// TODO Auto-generated method stub
@@ -65,3 +71,6 @@ public class MemberServiceImpl implements MemberService {
 	
 
 }
+=======
+}
+>>>>>>> branch 'detail' of https://github.com/isixeasygym/easyGym.git

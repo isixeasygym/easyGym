@@ -12,26 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freeboard</title>
     <link rel="stylesheet" href="/css/freeboard/style.css">
+	<script src="/js/freeboard/script.js"></script>
 </head>
-<body>
-    <header>
-        <div class="logo">
-            <h1>이지짐</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">위젯</a></li>
-                <li><a href="#">레이아웃과 섹션</a></li>
-                <li><a href="#" class="active">자유게시판</a></li>
-                <li><a href="#">리뷰게시판</a></li>
-                <li><a href="#">자료실 게시판</a></li>
-                <li><a href="#">마이페이지</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/views/layout/header.jsp"%>
     <main>
         <h2>자유게시판</h2>
-        <table>
+        <table border="1">
             <thead>
                 <tr>
                     <th>No</th>
@@ -55,7 +41,7 @@
 							<tr>
 								<td>${fboard.freeNo}</td>
 								<td><a href="/freeboard/viewfboard.do?freeNo=${fboard.freeNo}">${fboard.freeTitle}</a></td>
-								<td>memberName</td>
+								<td>${fboard.memberName}</td>
 								<td>${fboard.freeWriteDate}</td>
 								<td>${fboard.freeHit}</td>
 							<tr>
@@ -64,8 +50,37 @@
 				</c:choose>
             </tbody>
         </table>
-        <button class="write-button" onclick="openPostForm()">글쓰기</button>
+		<div align="center">
+		    <c:if test="${fbmap.tFreeboard > 10}">
+		        <c:if test="${fbmap.tFreeboard > 100}">
+		            <c:forEach var="num" begin="1" end="${fbmap.section > fbmap.tFreeboard / 100 ? (fbmap.tFreeboard % 100) / 10 + 1 : 10}">
+		                <c:if test="${fbmap.section > 1 && num == 1}">
+		                    <a href="/freeboard/fboardList.do?section=${fbmap.section - 1}&pageNum=${(fbmap.section - 1) * 10}">prev</a>
+		                </c:if>
+		                <c:if test="${num == (fbmap.pageNum % 10 == 0 ? 10 : fbmap.pageNum % 10)}">
+		                    <a class="target" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${(fbmap.section - 1) * 10 + num}">${(fbmap.section-1)*10+num}</a>
+		                </c:if>
+		                <c:if test="${num != (fbmap.pageNum % 10 == 0 ? 10 : fbmap.pageNum % 10)}">
+		                    <a class="noLine" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${(fbmap.section - 1) * 10 + num}">${(fbmap.section-1)*10+num}</a>
+		                </c:if>
+		                <c:if test="${num == 10}">
+		                    <a href="/freeboard/fboardList.do?section=${fbmap.section + 1}&pageNum=${fbmap.section * 10 + 1}">next</a>
+		                </c:if>
+		            </c:forEach>
+		        </c:if>
+		        <c:if test="${fbmap.tArticles <= 100}">
+		            <c:forEach var="num" begin="1" end="${fbmap.tArticles / 10 + 1}">
+		                <c:if test="${num == fbmap.pageNum}">
+		                    <a class="target" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
+		                </c:if>
+		                <c:if test="${num != amap.pageNum}">
+		                    <a class="noLine" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
+		                </c:if>
+		            </c:forEach>
+		        </c:if>
+		    </c:if>
+		</div>
+       <a href="javascript:fn_fboardForm(${sessionScope.isLogOn}, '/freeboard/fboardForm.do', '/member/loginForm.do');">글쓰기</a>
     </main>
-    <script src="/js/freeboard/script.js"></script>
-</body>
-</html>
+    
+<%@ include file="/WEB-INF/views/layout/footer.jsp"%>
