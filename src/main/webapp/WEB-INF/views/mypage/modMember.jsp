@@ -16,7 +16,7 @@
 <body>
 	<h2>회원정보 수정이 완료되었습니다.</h2>
 	<form action="/main.do">
-	    <input type="submit" value="홈페이지로 넘어가기">
+	    <input type="submit" value="홈페이지로 돌아가기">
 	</form>
 </body>
 </html>

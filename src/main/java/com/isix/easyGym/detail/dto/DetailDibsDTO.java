@@ -2,7 +2,7 @@ package com.isix.easyGym.detail.dto;
 
 import org.springframework.stereotype.Component;
 
-@Component("dibsDTO")
+@Component("detailDibsDTO")
 public class DetailDibsDTO {
 	private int dibsNo; // au 객체 선언해야 하는지
 	private int detailNo;
