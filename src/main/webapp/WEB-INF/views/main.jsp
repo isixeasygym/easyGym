@@ -111,7 +111,6 @@
 			<img src="/images/member/commerc4.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
-		
 	</div>
 	<button class="carousel-control-prev" type="button"
 		data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
