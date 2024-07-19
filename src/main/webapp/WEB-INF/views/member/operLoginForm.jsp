@@ -7,21 +7,23 @@
 	<div class="row justify-content-center">
 		<div class="col-md-6">
 			<div class="card p-4 border border-light">
-				<form class="text-center mb-3" action="/member/login.do" onsubmit="return check(this)" method="post">
-					<img class="mb-4" src="/images/member/user.png" alt="로그인" width="72" height="72">
+				<form class="text-center mb-3" action="/member/login.do"
+					onsubmit="return check(this)" method="post">
+					<img class="mb-4" src="/images/member/user.png" alt=""
+						width="72" height="72">
 					<h1 class="h3 mb-3 fw-normal">로그인</h1>
 					<div class="form-floating mb-3">
-						<input type="text" class="form-control" id="operatorId"
-							name="operatorId"> <label for="floatingInput">아이디입력</label>
+						<input type="text" class="form-control" id="memberId"
+							name="memberId"> <label for="floatingInput">아이디입력</label>
 					</div>
 					<div class="form-floating mb-3">
-						<input type="password" class="form-control" id="operatorPwd"
-							name="operatorPwd"> <label for="floatingPassword">비밀번호입력</label>
+						<input type="password" class="form-control" id="memberPwd"
+							name="memberPwd"> <label for="floatingPassword">비밀번호입력</label>
 					</div>
 					<div class="row justify-content-between mb-3">
 						<div class="col-md-6 text-start">
 							<small class="d-block mb-2"><a href="#">아이디 · 비밀번호 찾기</a></small>
-							<small class="d-block"><a href="joinSelect.do">회원가입</a></small>
+							<small class="d-block"><a href="joinSelect">회원가입</a></small>
 						</div>
 					</div>
 					<button class="btn btn-primary w-100 py-2" type="submit">로그인</button>

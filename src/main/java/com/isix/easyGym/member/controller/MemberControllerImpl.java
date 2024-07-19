@@ -38,22 +38,22 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("/member/memJoin");
 		return mav;
 	}
-
-	@GetMapping("/report/report.do") // 127.0.0.1:8090 => 이렇게만 매핑 보내기
-	public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/report/report");
-		return mav;
-	}
-
+	
 	@Override
 	@GetMapping("/member/joinSelect.do")
-	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView joinSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/joinSelect");
 		return mav;
-	} // memberForm으로 이동할 거라서 addObject는 필요없음
+	} 
 
+	@Override
+	@GetMapping("/member/loginSelect.do")
+	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/loginSelect");
+		return mav;
+	}	
 	@Override
 	@GetMapping("/member/modMemberForm.do")
 	public ModelAndView modMemberForm(@RequestParam("id") String id, HttpServletRequest request,
@@ -95,7 +95,7 @@ public class MemberControllerImpl implements MemberController {
 		mv.setViewName("/member/loginForm");
 		return mv;
 	}
-	
+
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
