@@ -37,11 +37,8 @@
 					<li><a class="dropdown-item" href="pilates">필라테스</a></li>
 					<li><a class="dropdown-item" href="boxing">복싱</a></li>
 				</ul></li>
-<<<<<<< HEAD
-=======
 			<li class="nav-item"><a class="nav-link" href="/freeboard/fboardList.do">Community</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">Gym</a></li>
->>>>>>> branch 'member' of https://github.com/isixeasygym/easyGym.git
 		</ul>
 		<div id="authButtons">
 	<ul class="nav">
