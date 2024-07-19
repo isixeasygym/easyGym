@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    $(".favorite-button").click(function() {
+    $(".favorite-button").click(function(event) {
 		//alert("안녕")ㅣ
+		
         var companyId = $(this).children('.companyId').val();
         var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
         console.log("companyId: " + companyId);
@@ -34,11 +35,23 @@ $(document).ready(function() {
                 alert(xhr+status+"오류가 발생했습니다."+error);
             }
         });
-    	
+		event.stopPropagation();
 	});
 });
-$(document).ready(function(){
-	$(".cotentRange").click(function(){
-		$('.goToDetail').submit();
-	});
-});
+function goToDetail(detailNo,memberNo){
+	let detailForm = document.createElement('form');
+	let inputData = document.createElement('input');
+	inputData.setAttribute('type', 'hidden');
+	inputData.setAttribute('name', 'detailNo');
+	inputData.setAttribute('value', detailNo);
+	let inputData2 = document.createElement('input');
+	inputData2.setAttribute('type', 'hidden');
+	inputData2.setAttribute('name', 'memberNo');
+	inputData.setAttribute('value', memberNo);
+	detailForm.appendChild(inputData);
+	detailForm.appendChild(inputData2);
+	document.body.appendChild(detailForm);
+	detailForm.setAttribute('action', '/detail/detail.do');
+	detailForm.setAttribute('method', 'get');
+	detailForm.submit();
+}

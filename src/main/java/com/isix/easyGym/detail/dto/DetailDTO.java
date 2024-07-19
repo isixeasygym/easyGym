@@ -23,13 +23,21 @@ public class DetailDTO {
 		private String detailFreeService;
 		private int detailMonthlyPrice;
 		private String detailKoClassification;
-		private int detailTest;
+		private String detailLatitude;
+		private String detailLongitude;
 		
-		public int getdetailTest() {
-			return detailTest;
+	
+		public String getDetailLatitude() {
+			return detailLatitude;
 		}
-		public void setdetailTest(int detailTest) {
-			this.detailTest = detailTest;
+		public void setDetailLatitude(String detailLatitude) {
+			this.detailLatitude = detailLatitude;
+		}
+		public String getDetailLongitude() {
+			return detailLongitude;
+		}
+		public void setDetailLongitude(String detailLongitude) {
+			this.detailLongitude = detailLongitude;
 		}
 		public int getdetailNo() {
 			return detailNo;

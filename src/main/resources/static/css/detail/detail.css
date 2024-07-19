@@ -303,13 +303,91 @@ body{
 .personReviewRange{
 	width: 778px;
 	margin:0 auto;
-	border-bottom: 2px solid #F6F6F6;
+	border: 2px solid #F6F6F6;
 	padding: 30px;
 }
 
-#button:hover{
+.reviewWriteRange{
+	width: 778px;
+	margin: 0 auto;
+}
+
+#textArea {
+	margin: 0 auto;
+	width: 900px;
+}
+
+#myTextarea {
+    width: 720px;
+    height: 130px;
+    resize: none; /* 빗금 없애기 */
+    border: 1px solid #ccc; /* 기본 border 색상 */
+    padding: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+#myTextarea:focus {
+    border: 1px solid #ccc; /* 클릭할 때 border 색상 */
+    outline: none; /* 클릭할 때 기본 outline 제거 */
+}
+
+#charCount {
+	position: relative;
+	left: 730px;
+	top: -145px;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.rating {
+    direction: rtl; /* 오른쪽에서 왼쪽으로 */
+    unicode-bidi: bidi-override;
+    display: block;
+    position: relative;
+	top: -5px;
+    left: -720px;
+}
+
+.rating input {
+    display: none; /* 라디오 버튼 숨기기 */
+}
+
+.rating label {
+    font-size: 2em;
+    color: #ccc;
     cursor: pointer;
 }
 
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked ~ label {
+    color: #f5b301; /* 선택한 별 색상 */
+}
 
+#fileRange{
+	position: relative;
+	top: -30px;
+}
 
+#fileInfo{
+	display: inline-block;
+}
+
+#writeButton{
+	position: relative;
+	left: 649px;
+	top: -72px;
+	padding :5px 15px;
+	background-color: #2478FF;
+	color: #fff;
+	border: 1px solid #2478FF;
+	border-radius: 8px;
+}
+
+#writeBorder{
+	width: 900px;
+	border-bottom: 2px solid #F6F6F6;
+	height: 225px;
+}

@@ -25,24 +25,34 @@ public class DetailServiceImpl implements DetailService{
 	
 	
 	@Override
-	public List selectPopular(Map selectThing) throws DataAccessException {
-		List selectList=detailDAO.findPopular(selectThing);
-		return selectList;
-	}
-
-
-
-	@Override
-	public List selectAll(String WholeClassification) throws DataAccessException {
-		List selectAllList=detailDAO.findAll(WholeClassification);
+	public List findAll(String detailClassification) throws DataAccessException {
+		List selectAllList=detailDAO.selectAll(detailClassification);
 		return selectAllList;
 	}
 	
-	
+
 	
 	@Override
-	public DetailDTO viewDetail(int wholeNo) throws DataAccessException {
-		detailDTO=detailDAO.selectBusiness(wholeNo);
+	public int popularThing(int detailNum) throws DataAccessException {
+		int popularRating = detailDAO.selectPopularRating(detailNum);
+		return popularRating;
+	}
+
+	@Override
+	public List findPopular(int popularRating) throws DataAccessException {
+		List PopularThing= detailDAO.selectPopular(popularRating);
+		return null;
+	}
+	
+	@Override
+	public int findDetailNo(String detailClassification) throws DataAccessException {
+		int detailNo = detailDAO.selectDetailNo(detailClassification);
+		return detailNo;
+	}
+	
+	@Override
+	public DetailDTO viewDetail(int detailNo) throws DataAccessException {
+		detailDTO=detailDAO.selectBusiness(detailNo);
 		return detailDTO;
 	}
 
@@ -54,7 +64,10 @@ public class DetailServiceImpl implements DetailService{
 		return detailDibsDTO;
 	}
 
-
+	@Override
+	public void noImgReview(Map noImgReviewMap) throws DataAccessException {
+		detailDAO.insertNoImgReview(noImgReviewMap);
+	}
 
 	@Override
 	public void writeReview(Map review) throws DataAccessException {
@@ -67,4 +80,21 @@ public class DetailServiceImpl implements DetailService{
 	public void deleteReview(Map review) throws DataAccessException {
 		detailDAO.removeReview(review);
 	}
+
+
+
+	@Override
+	public List findReviewNo(int detailNo) throws DataAccessException {
+		List reviewNo = detailDAO.selectReviewNo(detailNo);
+		return reviewNo;
+	}
+
+
+
+	@Override
+	public List findReview(int detailNo) throws DataAccessException {
+		List reivew = detailDAO.selectReview(detailNo);
+		return reivew;
+	}
+
 }

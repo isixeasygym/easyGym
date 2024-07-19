@@ -9,4 +9,6 @@ import java.util.Map;
 
 public interface PayformService {
     public List getPayformData(Map payformData) throws DataAccessException;
+    
+    public int buyCheck(int memberNo) throws DataAccessException;
 }

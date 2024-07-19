@@ -19,16 +19,14 @@
 <script src="${contextPath}/js/detail/list.js"></script>
 </head>
 <body>
-	
-	<div class="content" onclick="moveToDetail()">	
+	<div class="content" >	
 		<c:choose>
 			<c:when test="${!empty allList}">
 				<c:forEach var="allList" items="${allList}">	
-					<form class="goToDetail" action="${contextPath}/detail/detail.do" method="get">	
-						<input type="hidden" name="detailNo" value="${allList.detailNo}">
-						<div class="contentRange">
+					
+						<div class="contentRange" onclick="goToDetail(${allList.detailNo},${member.memberNo})">
 				           <div class="imgRange">
-				               <img class="img" src="${contextPath}/images/detail/${allList.detailClassification}/${allList.detailBusinessEng}/${allList.detailBusinessEng}1.PNG" alt="mrtFit">
+				               <img class="img" src="${contextPath}/images/detail/${allList.detailClassification}/${allList.detailBusinessEng}/${allList.detailBusinessEng}1.PNG" alt="">
 				           </div>
 				            <div class="buttonRange">
 					               <button class="favorite-button" >
@@ -56,7 +54,7 @@
 				           </div>
 				           <div class="contentBorder"></div>
 				       </div>		
-					</form>				    				
+					</form>		    				
 				</c:forEach>			   
 			</c:when>				
 		</c:choose>		

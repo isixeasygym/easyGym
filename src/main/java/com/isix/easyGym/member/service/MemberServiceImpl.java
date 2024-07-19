@@ -1,5 +1,7 @@
 package com.isix.easyGym.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 
+	@Autowired
+	private MemberDTO memberDTO;
+	
 	public void addMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.insertMember(memberDTO);
 	}
@@ -30,13 +35,31 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.delMember(id);
 	}
 
-	public MemberDTO login(MemberDTO member) throws DataAccessException {
-		return memberDAO.login(member);
+	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
+		return memberDAO.login(memberDTO);
 	}
 
 	public boolean checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
 
+	}
+
+	@Override
+	public List listMembers(MemberDTO memberDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
+		memberDTO=memberDAO.loginChecking(memberNo);
+		return memberDTO;
+	}
+
+	@Override
+	public int findmemberNo(int memberNo) throws DataAccessException {
+			int memberNum=memberDAO.selectMemberNo(memberNo);
+		return memberNum;
 	}
 
 	

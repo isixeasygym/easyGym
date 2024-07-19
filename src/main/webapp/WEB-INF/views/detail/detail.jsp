@@ -17,6 +17,15 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#myTextarea').on('input', function() {
+            var charCount = $(this).val().length;
+            $('#charCount').text(charCount + '/150');
+        });
+    });
+</script>
+</head>
 <body>
     <c:choose>
         <c:when test="${!empty details}">
@@ -45,7 +54,7 @@
 				<div class="buttonRange">
 	               <button class="favorite-button" >
 						<input  type="hidden" class="userId" value="${member.memberNo}">
-						<input  type="hidden" class="companyId" value="${allList.detailNo}">
+						<input  type="hidden" class="companyId" value="${details.detailNo}">
 	                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
 	               </button>
 	            </div>
@@ -106,43 +115,77 @@
 				</div>
                 <div id="reviewRange">
 					<a name="1"></a>
-					<div class="ReviewRange">
-						<div class="personReviewRange"> 
-		                    <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-		                    <p>(익명의 회원)</p>
-		                    <img src="${contextPath}/images/detail/detailpage/star.JPG">
-		                    <p>sysdate</p>
-							<div class="reviewDeleteRange">
-				               <button class="deleteButton">삭제
-									<input  type="hidden" class="userId" value="${member.memberNo}">
-									<input  type="hidden" class="companyId" value="${allList.detailNo}">
-				               </button>
-				            </div>
-		                    <p id="reviewComment">${detailReview.detailReviewComment}</p>
-						</div>
-					</div>	
-					<div class="ReviewRange">
-						<div class="personReviewRange"> 
-		                    <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-		                    <p>(익명의 회원)</p>
-		                    <img src="${contextPath}/images/detail/detailpage/star.JPG">
-		                    <p>sysdate</p>
-		                    <p class="reviewComment">${detailReview.detailReviewComment}123123</p>
-						</div>
-					</div>	
-                </div>
-				<div class="reviewWriteRange">
-	               <button class="writeButton">글쓰기
-						<input  type="hidden" class="userId" value="${member.memberNo}">
-						<input  type="hidden" class="companyId" value="${allList.detailNo}">
-	               </button>
-	            </div>
-                <div>
-                    <h5>위치</h5>
-                    <a name="2"></a>
-                    <h1>맵 API 마커 표시 예시</h1>
-                    <div id="map" style="width:100%;height:350px;"></div>
-                </div>
+					<div class="reviewWriteRange">
+						<div id="writeBorder">
+							<div class="rating">
+							    <input type="radio" id="star5" name="detailScope" value="5" /><label for="star5" title="5 stars">★</label>
+							    <input type="radio" id="star4" name="detailScope" value="4" /><label for="star4" title="4 stars">★</label>
+							    <input type="radio" id="star3" name="detailScope" value="3" /><label for="star3" title="3 stars">★</label>
+							    <input type="radio" id="star2" name="detailScope" value="2" /><label for="star2" title="2 stars">★</label>
+							    <input type="radio" id="star1" name="detailScope" value="1" /><label for="star1" title="1 star">★</label>
+							</div>
+							<div id="textArea">
+								<textarea id="myTextarea" maxlength="150"></textarea>
+								<div id="charCount">0/150</div>
+							</div>
+							<div id="fileRange">
+								<p id="fileInfo">이미지파일 첨부</p>
+								 <input type="file" id="reviewImageName" name="reviewImageName">
+			               	</div> 
+							<button id="writeButton" onclick="writeSubmit()">글쓰기
+								<input  type="hidden" class="reviewNo" value="${review.reviewNo}">
+							</button>
+						</div>	
+			        </div>
+					<div id="reviewContainer">
+				       <c:choose>
+				           <c:when test="${sessionScope.getReview == 1}">
+				               <c:forEach var="review" items="${review}">
+				                   <div class="ReviewRange">
+									<button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button> 
+				                       <div class="personReviewRange">
+				                           <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+				                           <p>(익명의 회원)</p>
+				                           <img src="${contextPath}/images/detail/detailpage/star.JPG">
+				                           <p>${review.reviewDate}</p>
+				                           <p class="reviewComment">${review.reviewComment}</p>
+				                       </div>
+				                   </div>
+				               </c:forEach>
+				           </c:when>
+				           <c:otherwise>
+				               <h2>리뷰가 없습니다</h2>
+				           </c:otherwise>
+				       </c:choose>
+				   	</div>
+	                <div>
+	                    <h5>위치</h5>
+	                    <a name="2"></a>
+	                    <h1>맵 API 마커 표시 예시</h1>
+						<div id="map" style="width:85%;height:350px;"></div>
+	
+						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
+						<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = { 
+						        center: new kakao.maps.LatLng(37.5001556, 126.9309597), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    };
+	
+						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+						// 마커가 표시될 위치입니다 
+						var markerPosition  = new kakao.maps.LatLng(37.5001556, 126.9309597); 
+	
+						// 마커를 생성합니다
+						var marker = new kakao.maps.Marker({
+						    position: markerPosition
+						});
+	
+						// 마커가 지도 위에 표시되도록 설정합니다
+						marker.setMap(map);
+						</script>
+	                </div>
                 <p id="produ">easyGym은 통신판매의 중개자이며, 통신판매의 당사자가 아닙니다. 따라서<br>
                    다짐은 상품의 구매, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.

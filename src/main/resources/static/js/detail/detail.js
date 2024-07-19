@@ -1,33 +1,84 @@
 //글 삭제
-$(document).ready(function() {
-    $(".deleteButton").click(function() {
-        var companyId = $(this).children('.companyId').val();
-        var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-        console.log("companyId: " + companyId);
-        console.log("userId: " + userId);
+function deleteReview(){ 
+		var reviewNo = $(this).children('.companyId').val();
+       var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
+       console.log("companyId: " + companyId);
+       console.log("userId: " + userId);
 		
         $.ajax({
-            type: "GET",
-            url: "/delete",
+            type: "POST",
+            url: "/delete.do",
 			async:false,
             data: { 
                 companyId: companyId, 
                 userId: userId 
             },
-			success: function(response) {
-                alert("글 삭제되었습니다..");
+			success: function(data)			{
+                if (data == "success") {
+                    alert("해당 글은 삭제되었습니다.");
+                } else if (data == "noLogin") {
+                    alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
+					window.location.href='/member/loginForm.do';
+                } else if(data == "noBuy") {
+					alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.")
+				}
             },
             error: function() {
-                alert("오류가 발생했습니다.");
+                alert("해당 글은 작성하신 글이 아닙니다.");
             }
         });
-    	
-	});
-});
+}
 //글 등록하기
+
+function writeSubmit() {
+            // 입력된 값들을 변수에 저장
+            var companyId = $('.companyId').val();
+            var userId = $('.userId').val();
+            var reviewComment = $('#myTextarea').val();
+            var reviewRating = $("input[name='detailScope']:checked").val();
+            var fileInput = $('#reviewImageName')[0].files[0];
+
+            // FormData 객체 생성
+            var formData = new FormData();
+            formData.append('companyId', companyId);
+            formData.append('userId', userId);
+            formData.append('reviewComment', reviewComment);
+            formData.append('reviewRating', reviewRating);
+            if (fileInput) {
+                formData.append('reviewImageName', fileInput);
+            }
+
+            // AJAX 요청
+            $.ajax({
+				async:false,
+                enctype: 'multipart/form-data',
+                cache: false,
+                url: '/writeReview.do', // 요청을 보낼 URL
+                type: 'POST', // HTTP 요청 메소드 (POST)
+                data: formData, // 전송할 데이터 (FormData 객체)
+                processData: false, // 데이터 처리 방식 설정 (FormData 사용 시 false)
+                contentType: false, // 컨텐츠 타입 설정 (FormData 사용 시 false)
+                success: function(response) {
+                    if (response == "success") {
+                        alert("작성하신 후기가 등록되었습니다.");
+                    } else if (response == "noBuy") {
+                        alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
+                    } else if (response == "noLogin") {
+                        alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
+                        window.location.href = '/member/loginForm.do';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.error("Status:", status);
+                    console.error("Response:", xhr.responseText);
+                }
+            });
+        }
+//찜 기능
 $(document).ready(function() {
-    $(".writeButton").click(function() {
-        var companyId = $(this).children('.companyId').val();
+    $(".favorite-button").click(function(event) {
+        var reviewNo = $(this).children('.reviewNo').val();
         var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
         console.log("companyId: " + companyId);
         console.log("userId: " + userId);
@@ -38,7 +89,7 @@ $(document).ready(function() {
             url: "/addFavorite",
 			async:false,
             data: { 
-                companyId: companyId, 
+                reviewNo: reviewNo, 
                 userId: userId 
             },
             success: function(data) {
@@ -60,10 +111,9 @@ $(document).ready(function() {
                 alert(xhr+status+"오류가 발생했습니다."+error);
             }
         });
-    	
+		event.stopPropagation();
 	});
 });
-
 $(function() {
            $('.slider_panel').append($('.slider_image').first().clone());  //마지막 5번째 사진 뒤에 1번째 사진을 복제해서 붙여둠
            $('.slider_panel').prepend($('.slider_image').eq(-2).clone());  //첫번째 사진 앞에 마지막 5번째 사진을 복제해서 붙여둠
@@ -134,80 +184,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-$(document).ready(function() {
-    $(".favorite-button").click(function() {
-		//alert("안녕")ㅣ
-        var companyId = $(this).children('.companyId').val();
-        var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-        console.log("companyId: " + companyId);
-        console.log("userId: " + userId);
-   
-		
-        $.ajax({
-            type: "GET",
-            url: "/addFavorite",
-			async:false,
-            data: { 
-                companyId: companyId, 
-                userId: userId 
-            },
-            success: function(data) {
-                if (data == "insert") {
-                    alert("찜 목록에 추가되었습니다.");
-                } else if (data == "delete") {
-                    alert("찜 목록에서 삭제되었습니다.");
-                } else if (data.startsWith("redirect:")) {
-                    // 리다이렉트 처리
-                    var redirectUrl = data.substring(9); // "redirect:" 이후의 문자열을 가져옴
-                    window.location.href = redirectUrl; // 리다이렉트 수행
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
-            },
-			
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert(xhr+status+"오류가 발생했습니다."+error);
-            }
-        });
-    	
-	});
-});$(document).ready(function() {
-    $(".favorite-button").click(function() {
-		//alert("안녕")ㅣ
-        var companyId = $('.companyId').val();
-        var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-        console.log("companyId: " + companyId);
-        console.log("userId: " + userId);
-   
-		
-        $.ajax({
-            type: "GET",
-            url: "/addFavorite",
-			async:false,
-            data: { 
-                companyId: companyId, 
-                userId: userId 
-            },
-            success: function(data) {
-                if (data == "insert") {
-                    alert("찜 목록에 추가되었습니다.");
-                } else if (data == "delete") {
-                    alert("찜 목록에서 삭제되었습니다.");
-                } else if (data.startsWith("redirect:")) {
-                    // 리다이렉트 처리
-                    var redirectUrl = data.substring(9); // "redirect:" 이후의 문자열을 가져옴
-                    window.location.href = redirectUrl; // 리다이렉트 수행
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
-            },
-			
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert(xhr+status+"오류가 발생했습니다."+error);
-            }
-        });
-    	
-	});
-});
+

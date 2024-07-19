@@ -32,8 +32,8 @@ public class PayformServiceImpl implements PayformService {
     }
 
 	@Override
-	public PayformDTO buyCheck(int memberNo) throws DataAccessException {
-		PayformDTO buyNo= payformDAO.checkingBuy(memberNo);
+	public int buyCheck(int memberNo) throws DataAccessException {
+		int buyNo= payformDAO.checkingBuy(memberNo);
 		return buyNo;
 	}
 }
