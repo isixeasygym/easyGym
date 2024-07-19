@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
-@Component("reviewDTO")
+@Component("detailReviewDTO")
 public class DetailReviewDTO {
 
 	private int reviewNo;
