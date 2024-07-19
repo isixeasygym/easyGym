@@ -4,7 +4,7 @@
 
 <div class="container my-5">
   <div class="p-5 text-center bg-body-tertiary rounded-3">
-    <img src="/images/catgym.png" alt="이미지 설명" class="mt-4 mb-3" style="color: var(--bs-indigo); width: 100px; height: 100px;">
+    <img src="/images/member/catgym.png" alt="이미지 설명" class="mt-4 mb-3" style="color: var(--bs-indigo); width: 100px; height: 100px;">
     <h1 class="text-body-emphasis">EASYGYM</h1>
     <p class="col-lg-8 mx-auto fs-5 text-muted">
       이지짐 회원가입 페이지에 오신 것을 환영합니다! 주변 헬스장을 검색하거나, 헬스장을 등록해보세요!
