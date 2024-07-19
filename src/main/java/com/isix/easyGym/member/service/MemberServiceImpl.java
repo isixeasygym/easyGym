@@ -35,5 +35,5 @@ public class MemberServiceImpl implements MemberService {
 	public boolean checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
 	}
-	
+
 }
