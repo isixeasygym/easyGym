@@ -74,15 +74,13 @@ public class MypageControllerImpl implements MypageController {
 		mav.addObject("dibsMap", dibsMap);
 		return mav;
 	} */
-	
 	@Override
 	@ResponseBody  //뷰에 다시 넘겨줌
 	@RequestMapping(value = "/dibsList.do", method = RequestMethod.POST)
 	public List<DetailDTO> detailDibsList(@RequestParam("memberNo") int memberNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 	    // 서비스 메서드 호출
-	/*    List<DetailDTO> dibsList = mypageService.detailDibsList();
-	    return dibsList; */
+    	//List<DetailDTO> dibsList = mypageService.detailDibsList();
+	    //return dibsList;
 		List<DetailDTO> dibsList = mypageService.detailDibsList(memberNo);
         model.addAttribute("dibsList", dibsList);
         return dibsList;

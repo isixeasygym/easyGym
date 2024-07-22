@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
+import com.isix.easyGym.detail.dto.DetailDibsDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 
 public interface MypageService {

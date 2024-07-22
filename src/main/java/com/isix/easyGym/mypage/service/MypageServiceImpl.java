@@ -37,7 +37,6 @@ public class MypageServiceImpl implements MypageService {
 		dibsMap.put("totDibs", totDibs);
 		return dibsMap;
 	} */
-	
 	@Override
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
