@@ -177,7 +177,7 @@
                     </div>
                     <div align="center" id="update-form" style="display:none;">
                         <h2>회원정보 수정</h2>
-						<form method="post" action="/mypage/updateMember.do">
+			<form method="post" action="/mypage/updateMember.do">
 	                        <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
 	                        <p>비밀번호 : <input type="password" value="${member.memberPwd}"></p>
 							<p>비밀번호 확인 : <input type="password" value="${member.memberPwd}"></p>
@@ -191,7 +191,7 @@
 	                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
 	                        <button id="update-btn"><a href="${contextPath}/mypage/mypageMain.do">수정하기</a></button>
 	                        <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
-						</form>
+			</form>
                         <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw.do">회원탈퇴</a></button>
                     </div>
                 </div>
