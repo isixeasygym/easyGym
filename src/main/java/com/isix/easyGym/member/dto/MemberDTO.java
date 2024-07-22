@@ -17,10 +17,8 @@ public class MemberDTO {
 	private Date memberCreatedAt;
 	private int memberState;
 	private String memberGender;
-	private String memberMarketing;
-	private String memberNickname;	
-	private String member;
-	private String memberBirthdate;
+	private String memberMarketing;	
+  
 	
 	public String getMemberBirthdate() {
 		return memberBirthdate;
@@ -105,12 +103,6 @@ public class MemberDTO {
 	}
 	public void setMemberMarketing(String memberMarketing) {
 		this.memberMarketing = memberMarketing;
-	}
-	public String getMemberNickname() {
-		return memberNickname;
-	}
-	public void setMemberNickname(String memberNickname) {
-		this.memberNickname = memberNickname;
 	}
 	
 }
