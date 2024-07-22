@@ -17,7 +17,6 @@
                 <label>&nbsp;</label>
                 <input type="button" value="중복확인" id="duplicateBtn" onclick="checkId(this.form)">
             </div>
-        </div>
         <div class="column">
             <div class="input-box">
                 <label>비밀번호</label>
@@ -40,28 +39,26 @@
             </div>
         </div>
         <div class="input-box">
-    <label>Email</label>
-    <div class="flex_container">
-        <div class="column">
-            <input type="text" placeholder="이메일을 입력해 주세요" name="memberEmail1" id="memberEmail1" tabindex="6" required />
-            <div class="select-box">
-                <select class="emailControl" name="memberEmail2" id="memberEmail2" required>
-                    <option value="">이메일 선택</option>
-                    <option value="@naver.com">@naver.com</option>
-                    <option value="@daum.net">@daum.net</option>
-                    <option value="@gmail.com">@gmail.com</option>
-                    <option value="@hanmail.com">@hanmail.com</option>
-                    <option value="@yahoo.co.kr">@yahoo.co.kr</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-<input type="hidden" name="memberEmail" id="memberEmail">
-<button type="submit" id="join" value="Join" class="btn btn-success btn-block" onclick="combineEmail()">이메일 입력완료</button>
-</div>
-            </div>
-        </div>
+    		<label>Email</label>
+    			<div class="flex_container">
+        			<div class="column">
+            			<input type="text" placeholder="이메일을 입력해 주세요" name="memberEmail1" id="memberEmail1" tabindex="6" required />
+            				<div class="select-box">
+                				<select class="emailControl" name="memberEmail2" id="memberEmail2" required>
+                    				<option value="">이메일 선택</option>
+                    				<option value="@naver.com">@naver.com</option>
+                    				<option value="@daum.net">@daum.net</option>
+                    				<option value="@gmail.com">@gmail.com</option>
+                    				<option value="@hanmail.com">@hanmail.com</option>
+                    				<option value="@yahoo.co.kr">@yahoo.co.kr</option>
+                				</select>
+            				</div>
+        			</div>
+    			</div>
+			</div>
+						<input type="hidden" name="memberEmail" id="memberEmail">
+						<button type="submit" id="join" value="Join" class="btn btn-success btn-block" onclick="combineEmail()">이메일 입력완료</button>
+		</div>
                    <!--  <input type="button" value="본인인증" class="btnPrimary" id="mailCheckBtn"> -->
                 
 <!--         <div class="input-box">
