@@ -89,8 +89,6 @@
 			<a class="icon-link" href="#"> 내 주변 운동시설 찾기</a>
 		</div>
 	</div>
-
-
 	<div class="product-device shadow-sm d-none d-md-block"></div>
 	<div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
 </div>
@@ -102,14 +100,17 @@
 				alt="광고이미지">
 		</div>
 		<div class="carousel-item">
-			<img src="/images/memebr/commerc2.png" class="d-block w-100"
+			<img src="/images/member/commerc2.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
 		<div class="carousel-item">
 			<img src="/images/member/commerc3.png" class="d-block w-100"
 				alt="광고이미지">
 		</div>
-		
+		<div class="carousel-item">
+			<img src="/images/member/commerc4.png" class="d-block w-100"
+				alt="광고이미지">
+		</div>
 	</div>
 	<button class="carousel-control-prev" type="button"
 		data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

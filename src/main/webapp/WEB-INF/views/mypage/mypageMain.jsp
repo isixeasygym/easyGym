@@ -5,16 +5,8 @@
     request.setCharacterEncoding("utf-8");
 %>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지</title>
     <link rel="stylesheet" href="${contextPath}/css/mypage/mypageMain.css">
     <script src="${contextPath}/js/mypage/mypageMain.js"></script>
-</head>
-<body>
     <div class="container">
         <div class="header">
             <img src="/images/1.png" alt="Profile Image">
@@ -35,21 +27,23 @@
                 <div id="using-products" class="section active">
                     <h2>이용중인 상품</h2>
                     <!-- 여기에 이용중인 상품 정보를 추가 -->
-					<div class="item">
-                        <div class="info">
-                            <p>헬스</p>  <!-- 프로그램명 불러오기 -->
-                            <p>이용권</p>
+					<c:forEach var="product" items="${dibsMap.detailList}">
+                        <div class="item">
+                            <div class="info">
+                                <p>${product.detailKoClassification}</p>  <!-- 프로그램명 불러오기 -->
+                                <p>이용권</p>
+                            </div>
+                            <div class="details">
+                                <p>업체명 : ${product.detailBusinessName}</p>  <!-- 업체명 불러오기 -->
+                                <p>프로그램명 : ${product.detailKoClassification}</p>  <!-- 프로그램명 불러오기 -->
+                                <p>이용기간 : ${product.detailDate}</p>  <!-- 이용기간 불러오기 -->
+                            </div>
+                            <div class="actions">
+                                <button onclick="location.href='${contextPath}/mypage/ticketCancel.do'">취소하기</button>
+                                <button onclick="location.href='${contextPath}/mypage/ticketRefund.do'">환불하기</button>
+                            </div>
                         </div>
-                        <div class="details">
-                            <p>업체명 : 스포애니</p>  <!-- 업체명 불러오기 -->
-                            <p>프로그램명 : 헬스</p>  <!-- 프로그램명 불러오기 -->
-                            <p>이용기간 : 2024.06.17 ~ 2024.08.26</p>  <!-- 이용기간 불러오기 -->
-                        </div>
-                        <div class="actions">
-                            <button onclick="location.href='${contextPath}/ticketCancel.do'">취소하기</button>  <!-- 미사용 7일 이내 취소 가능 활성화, 이후 비활성화 -->
-                            <button onclick="location.href='${contextPath}/ticketRefund.do'">환불하기</button>  <!-- 15일 이내 부분 환불 가능 활성화, 이후 비활성화 -->
-                        </div>
-                    </div>
+                    </c:forEach>
 					<div class="item">
                         <div class="info">
                             <p>요가</p>  <!-- 프로그램명 불러오기 -->
@@ -70,71 +64,60 @@
                     <h2>찜 목록</h2>
                     <!-- 여기에 찜 목록 정보를 추가 -->
 					<table>
-						<thead>
+						<tr>
+							<th>번호</th>
+							<th>업체명</th>
+							<th>프로그램명</th>
+							<th>지역</th>
+							<th>찜</th>
+						</tr>
+						<c:forEach var="dibs" items="${dibsMap.detailList}">
 							<tr>
-								<th>번호</th>
-								<th>업체사진</th>
-								<th>업체명</th>
-								<th>프로그램명</th>
-								<th>지역</th>
-								<th>찜</th>
+								<td>${dibs.detailNo}</td>
+								<td>${dibs.detailBusinessName}</td>
+								<td>${dibs.detailKoClassification}</td>
+								<td>${dibs.detailRoadAddress}</td>
+								<td><button onclick="location.href='${contextPath}/mypage/removeDibs.do?detailNo=${dibs.detailNo}'">찜 취소</button></td>
 							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>2</td>
-								<td><img src="/images/2.png" alt="health"></td>
-								<td>핏터짐</td>
-								<td>헬스</td>
-								<td>서울시 강남구</td>
-								<td><button>찜 취소</button></td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td><img src="/images/3.png" alt="boxing"></td>
-								<td>끽뽁싱</td>
-								<td>복싱</td>
-								<td>서울시 강북구</td>
-								<td><button>찜 취소</button></td>
-							</tr>
-						</tbody>
+						</c:forEach>
+						<tr>
+							<td>1</td>
+							<td>끽뽁싱</td>
+							<td>복싱</td>
+							<td>서울시 강북구</td>
+							<td><button>찜 취소</button></td>
+						</tr>
 					</table>
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>
                     <table>
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>업체명</th>
-                                <th>이용권</th>
-                                <th>금액</th>
-                                <th>구매일자</th>
-                                <th>상태</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- 구매내역 항목을 여기에 동적으로 추가 -->
-                            <tr>
-                                <td>2</td>
-                                <td>업체명2</td>
-                                <td>이용권2</td>
-                                <td>100,000원</td>
-                                <td>2024-07-01</td>
-                                <td>완료</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>업체명1</td>
-                                <td>이용권1</td>
-                                <td>200,000원</td>
-                                <td>2024-06-30</td>
-                                <td>취소</td>
-                            </tr>
-                            <!-- 더 많은 항목들... -->
-                        </tbody>
+                        <tr>
+                            <th>번호</th>
+                            <th>업체명</th>
+                            <th>이용권</th>
+                            <th>금액</th>
+                            <th>구매일자</th>
+                            <th>상태</th>
+                        </tr>
+                        <!-- 구매내역 항목을 여기에 동적으로 추가 -->
+                        <tr>
+                            <td>2</td>
+                            <td>업체명2</td>
+                            <td>이용권2</td>
+                            <td>100,000원</td>
+                            <td>2024-07-01</td>
+                            <td>완료</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>업체명1</td>
+                            <td>이용권1</td>
+                            <td>200,000원</td>
+                            <td>2024-06-30</td>
+                            <td>취소</td>
+                        </tr>
+                        <!-- 더 많은 항목들... -->
                     </table>
                 </div>
                 <div id="points" class="section">
@@ -142,52 +125,44 @@
                     <!-- 포인트 적립 및 사용 내역을 여기에 추가 -->
 					<div class="points-total">총 적립 포인트: +500</div>
 				    <table class="points-table">
-				        <thead>
-				            <tr>
-				                <th>날짜</th>
-				                <th>포인트</th>
-				                <th>내역</th>
-				            </tr>
-				        </thead>
-				        <tbody>
-				            <!-- 포인트 내역 항목을 여기에 동적으로 추가 -->
-				            <tr>
-				                <td>2024-07-01</td>
-				                <td class="negative">-500</td>
-				                <td>포인트사용</td>
-				            </tr>
-				            <tr>
-				                <td>2024-06-30</td>
-				                <td>+1000</td>
-				                <td>회원가입</td>
-				            </tr>
-				        </tbody>
+			            <tr>
+			                <th>날짜</th>
+			                <th>포인트</th>
+			                <th>내역</th>
+			            </tr>
+			            <!-- 포인트 내역 항목을 여기에 동적으로 추가 -->
+			            <tr>
+			                <td>2024-07-01</td>
+			                <td class="negative">-500</td>
+			                <td>포인트사용</td>
+			            </tr>
+			            <tr>
+			                <td>2024-06-30</td>
+			                <td>+1000</td>
+			                <td>회원가입</td>
+			            </tr>
 				    </table>
                 </div>
                 <div id="coupons" class="section">
                     <h2>My 쿠폰</h2>  <!-- 사용하거나 기간이 지나면 자동 삭제 -->
                     <!-- 쿠폰 적립 및 사용 내역을 여기에 추가 -->
 					<table class="coupons-table">
-				        <thead>
-				            <tr>
-				                <th>유효기간</th>
-				                <th>쿠폰</th>
-				                <th>내역</th>
-				            </tr>
-				        </thead>
-				        <tbody>
-				            <!-- 쿠폰 내역 항목을 여기에 동적으로 추가 -->
-				            <tr>
-				                <td>~ 2024-08-01</td>
-				                <td>10% 할인쿠폰</td>
-				                <td>10주년 이벤트</td>
-				            </tr>
-				            <tr>
-				                <td>~ 2024-06-30</td>
-				                <td>10,000원 할인쿠폰</td>
-				                <td>첫 결제 이벤트</td>
-				            </tr>
-				        </tbody>
+			            <tr>
+			                <th>유효기간</th>
+			                <th>쿠폰</th>
+			                <th>내역</th>
+			            </tr>
+			            <!-- 쿠폰 내역 항목을 여기에 동적으로 추가 -->
+			            <tr>
+			                <td>~ 2024-08-01</td>
+			                <td>10% 할인쿠폰</td>
+			                <td>10주년 이벤트</td>
+			            </tr>
+			            <tr>
+			                <td>~ 2024-06-30</td>
+			                <td>10,000원 할인쿠폰</td>
+			                <td>첫 결제 이벤트</td>
+			            </tr>
 				    </table>
                 </div>
                 <div id="update-info" class="section">
@@ -211,12 +186,11 @@
                         <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
                         <button id="update-btn"><a href="${contextPath}/mypage/modMember.do">수정하기</a></button>
                         <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
-                        <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw?id=${member.id}">회원탈퇴</a></button>
+                        <button id="withdraw-btn"><a href="/mypage/withdraw.do">회원탈퇴</a></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
-</body>
-</html>
+
