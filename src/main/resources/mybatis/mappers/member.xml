@@ -45,22 +45,29 @@
           SELECT * FROM member_tbl where memberId = #{memberId} and memberPwd = #{memberPwd}
        ]]>
     </select>
+    
+    <!-- 아이디 중복체크 -->
+    <select id="checkDuplicateId" parameterType="String" resultType="int">
+        SELECT COUNT(*) 
+        FROM member_tbl 
+        WHERE memberId = #{memberId}
+    </select>
 
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
        <![CDATA[
-          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberId}, #{memberPwd}, #{memberPhone}, #{memberEmail},
-          #{memberAddr}, #{memberPost}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberId}, #{memberPwd}, #{memberName}, #{memberEmail}, #{memberPhone},
+          #{memberPost}, #{memberAddr}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
        ]]>
     </insert>
     
-    <!-- 회원 추가 (HashMap 사용) -->
+<!--     회원 추가 (HashMap 사용)
     <insert id="insertMember2" parameterType="java.util.HashMap">
        <![CDATA[
           INSERT INTO member_tbl (memberPwd, memberName, memberEmail)
           VALUES (#{memberPwd}, #{memberName}, #{memberEmail})
        ]]>
-    </insert>
+    </insert> -->
     
     <!-- 회원 수정 -->
     <update id="updateMember" parameterType="memberDTO">

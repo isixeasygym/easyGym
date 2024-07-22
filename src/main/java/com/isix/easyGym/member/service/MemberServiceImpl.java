@@ -33,8 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO login(MemberDTO member) throws DataAccessException {
 		return memberDAO.login(member);
 	}
-
-	public boolean checkId(String memberId) throws DataAccessException {
+	// 중복체크
+	public int checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
 
 	}

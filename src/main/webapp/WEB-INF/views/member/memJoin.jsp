@@ -4,8 +4,9 @@
 <link rel="stylesheet" href="/css/member/join.css">
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
 
+</div>
 <div class="form-container">
-    <form name="join" id="form" class="form">
+    <form name="join" id="form" class="form" method="post" action="/member/memJoin.do">
         <div class="column">
             <div class="input-box">
                 <label>아이디</label>
@@ -13,11 +14,13 @@
                 <br>
                 <span id="check"></span>
             </div>
-            <div class="input-box">
+	        <div class="input-box">
                 <label>&nbsp;</label>
                 <input type="button" value="중복확인" id="duplicateBtn" onclick="checkId(this.form)">
-            </div>
         </div>
+       </div>
+       
+        
         <div class="column">
             <div class="input-box">
                 <label>비밀번호</label>
@@ -32,6 +35,7 @@
                 <span id="repwError"></span>
             </div>
         </div>
+        
         <div class="column">
             <div class="input-box">
                 <label>이름</label>
@@ -39,32 +43,30 @@
                 <br>
             </div>
         </div>
+        
         <div class="input-box">
-    <label>Email</label>
-    <div class="flex_container">
-        <div class="column">
-            <input type="text" placeholder="이메일을 입력해 주세요" name="memberEmail1" id="memberEmail1" tabindex="6" required />
-            <div class="select-box">
-                <select class="emailControl" name="memberEmail2" id="memberEmail2" required>
-                    <option value="">이메일 선택</option>
-                    <option value="@naver.com">@naver.com</option>
-                    <option value="@daum.net">@daum.net</option>
-                    <option value="@gmail.com">@gmail.com</option>
-                    <option value="@hanmail.com">@hanmail.com</option>
-                    <option value="@yahoo.co.kr">@yahoo.co.kr</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-<input type="hidden" name="memberEmail" id="memberEmail">
-<button type="submit" id="join" value="Join" class="btn btn-success btn-block" onclick="combineEmail()">이메일 입력완료</button>
-</div>
-            </div>
-        </div>
+    		<label>Email</label>
+    			<div class="flex_container">
+        			<div class="column">
+            			<input type="text" placeholder="이메일을 입력해 주세요" name="memberEmail1" id="memberEmail1" tabindex="6" required />
+            				<div class="select-box">
+                				<select class="emailControl" name="memberEmail2" id="memberEmail2" required>
+                    				<option value="">이메일 선택</option>
+                    				<option value="@naver.com">@naver.com</option>
+                    				<option value="@daum.net">@daum.net</option>
+                    				<option value="@gmail.com">@gmail.com</option>
+                    				<option value="@hanmail.com">@hanmail.com</option>
+                    				<option value="@yahoo.co.kr">@yahoo.co.kr</option>
+                				</select>
+            				</div>
+        				</div>
+    				</div>
+				</div>	
+			<input type="hidden" name="memberEmail" id="memberEmail">
+			<button type="submit" id="join" value="Join" class="btn btn-success btn-block" onclick="combineEmail()">이메일 입력완료</button>
                    <!--  <input type="button" value="본인인증" class="btnPrimary" id="mailCheckBtn"> -->
                 
-<!--         <div class="input-box">
+		<!--<div class="input-box">
             <div class="column">
                 <input type="text" placeholder="인증번호 6자리를 입력해 주세요." id="mailCheckInput" disabled="disabled" maxlength="6" size="30" required />
                 <input type="button" class="specialBtn" id="mailCheck" value="확인">
@@ -78,6 +80,7 @@
                 <input type="text" placeholder="전화번호를 입력해 주세요." name="memberPhone" tabindex="7" required />
             </div>
         </div>
+        
         <div class="column">
             <div class="input-box">
                 <label>주소</label>
@@ -90,6 +93,7 @@
                 <input type="text" id="sample6_extraAddress" placeholder="참고항목">
             </div>
         </div>
+        
         <div class="gender-box">
             <h3>성별</h3>
             <div class="gender-option">
@@ -113,7 +117,8 @@
                 </div>
             </div>
         </div>
-        <button type="submit" id="join" value="Join" class="btn btn-success btn-block" disabled="disabled" onclick="javascript:checkJoin()">가입하기</button>
+        
+        <button type="submit" id="join" value="Join" class="btn btn-success btn-block" onclick="javascript:checkJoin()">가입하기</button>
     </form>
 </div>
 		
@@ -178,5 +183,6 @@ function combineEmail() {
     console.log("완성된 이메일: " + fullEmail); // 결합된 이메일 확인
 }
 </script>
+
 
 <%-- <%@ include file="/WEB-INF/views/layout/footer.jsp"%> --%>

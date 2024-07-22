@@ -65,7 +65,7 @@ const idTag = document.getElementById('memberId');
          return;
       }
     
-      var url = "${pageContext.request.contextPath}/member/checkId";
+      var url = "/member/checkId";
       var param = "id=" + encodeURIComponent(f.memberId.value);
     
       sendRequest(url, param, resultFn, "POST");

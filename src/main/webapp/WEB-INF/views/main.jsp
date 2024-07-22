@@ -83,7 +83,7 @@
 text-align: center;
 }
 </style>
-
+</div>
 <div
 	class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
