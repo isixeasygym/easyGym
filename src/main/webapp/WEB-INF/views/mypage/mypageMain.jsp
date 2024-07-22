@@ -180,7 +180,6 @@
                             <input type="radio" name="sex">남자
                             <input type="radio" name="sex">여자
                         </p>
-                        <p>생년월일: <input type="date" value="${member.memberBirthdate}"></p>
                         <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
                         <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
                         <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>

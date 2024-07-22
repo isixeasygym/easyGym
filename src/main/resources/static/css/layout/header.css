@@ -30,10 +30,12 @@
 	font-size: 20px;
 	display: flex; /* flexbox 사용하여 가로로 정렬 */
 	align-items: center; /* 수직 중앙 정렬 */
+	flex-grow: 1; /* 버튼을 오른쪽 끝에 배치 */
 }
 
 .navbar-nav .nav-item {
 	margin-right: 1rem; /* 각 네브바 항목 사이에 간격 추가 */
+	margin-left: auto; /* 버튼들이 오른쪽으로 정렬되도록 함 */
 }
 
 /* 드롭다운 메뉴 스타일 */
@@ -48,27 +50,6 @@
 	font-size: 18px;
 }
 
-#searchForm {
-	display: flex;
-	align-items: center;
-	margin-right: 1rem; /* 검색 폼 오른쪽 간격 추가 */
-}
-
-#searchForm input[type="text"] {
-	border-radius: 5px 0 0 5px; /* 검색 필드 왼쪽만 둥글게 */
-	border: 1px solid #ddd; /* 테두리 색상 */
-	padding: 0.5rem; /* 내부 여백 */
-}
-
-#searchForm button {
-	border-radius: 0 5px 5px 0; /* 검색 버튼 오른쪽만 둥글게 */
-	border: 1px solid #ddd; /* 테두리 색상 */
-	padding: 0.5rem 1rem; /* 내부 여백 */
-	background-color: #fff; /* 버튼 배경색 */
-	color: #333; /* 버튼 텍스트 색상 */
-	cursor: pointer; /* 포인터 커서 */
-}
-
 #authButtons {
 	display: flex;
 	align-items: center;
@@ -77,3 +58,4 @@
 #authButtons .nav-item {
 	margin-left: 0.5rem; /* 인증 버튼 사이에 간격 추가 */
 }
+

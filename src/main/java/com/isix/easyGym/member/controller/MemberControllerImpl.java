@@ -26,15 +26,6 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	private MemberDTO memberDTO;
-
-	@Override
-	@RequestMapping(value = "/member/memJoin.do")
-	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/memJoin");
-		return mav;
-	}
 	
 	@Override
 	@GetMapping("/member/joinSelect.do")
@@ -42,7 +33,29 @@ public class MemberControllerImpl implements MemberController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/joinSelect");
 		return mav;
-	} 
+	}
+	
+	@Override
+	@RequestMapping(value = "/member/memJoin.do")
+	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String memberEmail1=request.getParameter("memberEmail1");
+		String memberEmail2=request.getParameter("memberEmail2");
+		String memberEmail = memberEmail1 + memberEmail2;
+		memberDTO.setMemberEmail(memberEmail);
+		memberService.addMember(memberDTO);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/member/loginForm");
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
+	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/joinCheck");
+		return mav;
+	}
 
 	@Override
 	@GetMapping("/member/loginSelect.do")
