@@ -26,6 +26,6 @@ public interface PayformDAO {
 
     public void deletePayform(int payformNo) throws DataAccessException;
 
-    public PayformDTO checkingBuy(int memberNo) throws DataAccessException;
+    public int checkingBuy(int memberNo) throws DataAccessException;
 
 }

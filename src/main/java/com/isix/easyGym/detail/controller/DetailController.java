@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
 	
-	public ModelAndView signUpForm(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
+	public ModelAndView signUpForm(@RequestParam("detailBusinessEng") String detailBusinessEng,
+			@RequestParam("operatorNo") int operatorNo,@RequestParam("detailClassification") String detailClassification, 
+			MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView selectAll(@RequestParam("detailClassification") String detailClassification,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;

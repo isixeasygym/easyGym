@@ -2,6 +2,9 @@ package com.isix.easyGym.detail.dto;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component("detailImageDTO")
 public class DetailImageDTO {
 	private int imageFileNo;
 	private String imageFileName;

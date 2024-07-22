@@ -29,6 +29,7 @@ import com.isix.easyGym.detail.dto.DetailReviewDTO;
 import com.isix.easyGym.detail.service.DetailServiceImpl;
 import com.isix.easyGym.member.dao.MemberDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
+import com.isix.easyGym.member.dto.MemberOperDTO;
 import com.isix.easyGym.member.service.MemberServiceImpl;
 import com.isix.easyGym.payform.dto.PayformDTO;
 import com.isix.easyGym.payform.service.PayformServiceImpl;
@@ -39,7 +40,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller("detailController")
 public class DetailControllerImpl implements DetailController{
 	
-	private static String ARTICLE_IMG_REPO= "C:\\Users\\USER\\Desktop\\isix\\easyGym\\src\\main\\resources\\static\\images\\detail\\reviewImage";
+	private static String ARTICLE_IMG_REPO= "C:\\Users\\USER\\Desktop\\isix\\easyGym\\src\\main\\resources\\static\\images\\detail";
 	
 	@Autowired
 	private DetailDTO detailDTO;
@@ -74,6 +75,9 @@ public class DetailControllerImpl implements DetailController{
 	@Autowired
 	private DetailImageDTO detailImageDTO;
 	
+	@Autowired
+	private MemberOperDTO memberOperDTO;
+	
 	@GetMapping("/detail/registration.do")  //127.0.0.1:8090 => 이렇게만 매핑 보내기
 	public ModelAndView registration(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -83,8 +87,10 @@ public class DetailControllerImpl implements DetailController{
 	
 	//사업자 폼 제출 및 이미지 여러개 추가
 		@Override
-		@RequestMapping(value="/board/addArticle.do", method = RequestMethod.POST)
-		public ModelAndView signUpForm(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+		@RequestMapping(value="/detail/signUpForm.do", method = RequestMethod.POST)
+		public ModelAndView signUpForm(@RequestParam("detailBusinessEng") String detailBusinessEng,
+				@RequestParam("operatorNo") int operatorNo,@RequestParam("detailClassification") String detailClassification, 
+				MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
 			String imageFileName=null;
 			multipartRequest.setCharacterEncoding("utf-8");
 			Map<String, Object> detailMap=new HashMap<String, Object>();
@@ -104,24 +110,24 @@ public class DetailControllerImpl implements DetailController{
 				detailMap.put("imageFileList", imageFileList);
 			}
 			HttpSession session=multipartRequest.getSession();  //session ~ Map.put(id) => 글쓰기할 때 세션을 통해 id로 접속한 사람의 id가 작성자 칸에 보이게 하기
-			MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
-			String OperatorNo=memberDTO.getOperatorNo();
-			articleMap.put("MemberId", MemberId);
+			//memberOperDTO=(MemberOperDTO)session.getAttribute("memberOper");
+			//int operatorNo=memberOperDTO.getOperatorNo(); 
+			detailMap.put("operatorNo", operatorNo);
 			try {
-				int articleNo=boardService.addArticle(articleMap);  //addArticle을 articleNo에 담아서 boardService에 가져가기???
+				detailService.addOperForm(detailMap);  //addArticle을 articleNo에 담아서 boardService에 가져가기???
 				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
-					for(ImageDTO imageDTO : imageFileList) {
-						imageFileName=imageDTO.getImageFileName();
+					for(DetailImageDTO detailImageDTO : imageFileList) {
+						imageFileName=detailImageDTO.getImageFileName();
 						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
-						File destDir=new File(ARTICLE_IMG_REPO + "\\" + articleNo);
+						File destDir=new File(ARTICLE_IMG_REPO + "\\" + detailClassification + "\\" + detailBusinessEng);
 						FileUtils.moveFileToDirectory(srcFile, destDir, true);
 					}
 				}
 			}catch (Exception e) {
 				//글쓰기 수행 중 오류
 				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
-					for(ImageDTO imageDTO : imageFileList) {
-						imageFileName=imageDTO.getImageFileName();
+					for(DetailImageDTO detailImageDTO : imageFileList) {
+						imageFileName=detailImageDTO.getImageFileName();
 						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
 						srcFile.delete();
 					}

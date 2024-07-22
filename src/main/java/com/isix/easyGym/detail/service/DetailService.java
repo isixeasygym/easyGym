@@ -28,4 +28,6 @@ public interface DetailService {
 	public void removeReview(int reviewNoww3) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
+	
+	public void addOperForm(Map detailMap) throws DataAccessException;
 }
