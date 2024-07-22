@@ -31,8 +31,8 @@ public class PayformServiceImpl implements PayformService {
     }
 
 	@Override
-	public int buyCheck(int memberNo) throws DataAccessException {
-		int buyNo= payformDAO.checkingBuy(memberNo);
+	public PayformDTO buyCheck(int memberNo) throws DataAccessException {
+		PayformDTO buyNo= payformDAO.checkingBuy(memberNo);
 		return buyNo;
 	}
 
@@ -45,11 +45,8 @@ public class PayformServiceImpl implements PayformService {
     }
 
     @Override
-    public Map selectPayform(int payformNo) throws DataAccessException {
-        Map payformMap = new HashMap();
-        PayformDTO payformRes = payformDAO.viewPayform(payformNo);
-        payformMap.put("payformDTO", payformRes);
-        return payformMap;
+    public PayformDTO selectPayform(int payformNo) throws DataAccessException {
+        return payformDAO.viewPayform(payformNo);
     }
 
 }

@@ -10,8 +10,8 @@ request.setCharacterEncoding("utf-8");
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 구매 완료</title>
-    <script src="${contextPath}/resources/static/JS/payform/payformDone.js"></script>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/static/CSS/payform/payformDone.css">
+    <script src="${contextPath}/JS/payform/payformDone.js"></script>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformDone.css">
 </head>
 <body>
 <div class="bg-image"></div>
@@ -35,9 +35,9 @@ request.setCharacterEncoding("utf-8");
             </div>
 
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice">${result.finalPrice}원</div>
+            <div id="finalPrice">${result.payformPrice}원</div>
         </div>
-        <button type="submit" id="goBack" >확인</button>
+        <button type="button" id="goBack" onclick="window.location.href = '${contextPath}/main.do'">확인</button>
     </form>
 </div>
 

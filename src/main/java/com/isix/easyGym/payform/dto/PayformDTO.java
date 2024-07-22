@@ -15,9 +15,13 @@ public class PayformDTO {
 	private Date payformDate;
 	private int payformStatus;
 	private int payformPayment;
+	private String memberName;
+	private String memberPhone;
+	private String detailBusinessName;
+
 	
 	public PayformDTO() {
-		
+
 	}
 
 	public int getPayformNo() {
@@ -83,7 +87,29 @@ public class PayformDTO {
 	public void setPayformPayment(int payformPayment) {
 		this.payformPayment = payformPayment;
 	}
-	
-	
 
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
+	}
+
+	public String getDetailBusinessName() {
+		return detailBusinessName;
+	}
+
+	public void setDetailBusinessName(String detailBusinessName) {
+		this.detailBusinessName = detailBusinessName;
+	}
 }

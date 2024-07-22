@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller("payformController")
 public class PayformControllerImpl implements PayformController {
 
@@ -74,9 +75,11 @@ public class PayformControllerImpl implements PayformController {
     @Override
     @RequestMapping("/payform/payformDone.do")
     public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
-        Map resultMap = payformService.selectPayform(payformNo);
+        System.out.println(payformNo);
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
-        mav.addObject("result", resultMap);
+        mav.addObject("result", payformDTO);
         return mav;
     }
+    //lombok 설치 후 @Slf4j를 모든 클래스에 선언
 }
