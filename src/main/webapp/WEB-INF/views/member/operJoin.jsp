@@ -9,7 +9,7 @@
 				<div class="card-body">
 					<form class="row g-3">
 						<div class="text-center mb-3">
-							<img src="../resources/image/fitness.png" class="img-fluid" alt="Fitness Image" style="width: 100px; height: auto;">
+							<img src="/images/member/fitness.png" class="img-fluid" alt="Fitness Image" style="width: 100px; height: auto;">
 						</div>
 						<div class="form-floating mb-3">
 							<input type="text" class="form-control" id="floatingName" placeholder="이름"> 

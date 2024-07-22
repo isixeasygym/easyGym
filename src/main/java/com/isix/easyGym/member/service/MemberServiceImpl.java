@@ -5,26 +5,22 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.isix.easyGym.member.dao.MemberDAO;
-import com.isix.easyGym.member.dao.MemberOperDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
 
 @Service("memberService") // 아래에 내용을 넣지 않더라도 기본적으로 service라는 것을 지정해줘야함
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	private MemberOperDAO memberOperDAO;
-
-	@Autowired
 	private MemberDAO memberDAO;
 
-	@Autowired
-	private MemberDTO memberDTO;
-	
 	public void addMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.insertMember(memberDTO);
 	}
 
-
+	public MemberDTO findMember(String id) throws DataAccessException {
+		MemberDTO memberDTO = memberDAO.selectMemberById(id);
+		return memberDTO;
+	}
 
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.updateMember(memberDTO);
@@ -34,40 +30,13 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.delMember(id);
 	}
 
-	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException {
-		return memberDAO.login(memberDTO);
+	public MemberDTO login(MemberDTO member) throws DataAccessException {
+		return memberDAO.login(member);
 	}
 
 	public boolean checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
+
 	}
-
-	@Override
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-		memberDTO=memberDAO.loginChecking(memberNo);
-		return memberDTO;
-	}
-
-	@Override
-	public int findmemberNo(int memberNo) throws DataAccessException {
-			int memberNum=memberDAO.selectMemberNo(memberNo);
-		return memberNum;
-	}
-
-	@Override
-	public void addOperator(MemberDTO memberDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public MemberDTO findMember(String id) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 
 }
