@@ -13,6 +13,8 @@ import com.isix.easyGym.detail.dto.DetailDibsDTO;
 @Repository("detailDAO")
 public interface DetailDAO {
 	 
+	public int getNewDetailNo() throws DataAccessException;
+	
 	public List selectAll(String detailClassification) throws DataAccessException;
 	
 	public List selectPopular(int popularRating) throws DataAccessException;
@@ -21,11 +23,11 @@ public interface DetailDAO {
 	
 	public int selectPopularRating(int detailNum) throws DataAccessException;
 	
+	public List selectReview(int detailNo) throws DataAccessException;
+	
 	public DetailDibsDTO findDibs(Map ParamMap) throws DataAccessException;
 	
 	public void insertDibs(Map paramMap) throws DataAccessException;
-	
-	public void removeDibs(Map paramMap) throws DataAccessException;
 	
 	public DetailDTO selectBusiness(int detailNo) throws DataAccessException; 
 	
@@ -33,7 +35,12 @@ public interface DetailDAO {
 	
 	public void insertNoImgReview(Map noImgReviewMap) throws DataAccessException;
 	
+	public void insertOperForm(Map detailMap) throws DataAccessException;
+	
+	public void insertNewImages(Map detailMap) throws DataAccessException;
+	
 	public void deleteReview(int reviewNo) throws DataAccessException;
 	
-	public List selectReview(int detailNo) throws DataAccessException;
+	public void removeDibs(Map paramMap) throws DataAccessException;
+	
 }

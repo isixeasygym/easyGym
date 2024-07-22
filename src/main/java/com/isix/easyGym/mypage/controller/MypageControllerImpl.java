@@ -104,7 +104,8 @@ public class MypageControllerImpl implements MypageController {
 	//3-1)비밀번호 체크
 	@RequestMapping(value = "/checkPassword.do", method = RequestMethod.POST)
 	public String checkPassword(@RequestParam("password") String password, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		return password;
+		/*MemberDTO member = (MemberDTO) session.getAttribute("member");
         if (member != null) {
             String storedPassword = member.getMemberPwd(); // 저장된 해시된 비밀번호
             if (PasswordUtil.checkPassword(password, storedPassword)) {
@@ -125,8 +126,8 @@ public class MypageControllerImpl implements MypageController {
 		mypageService.updateMember(memberDTO);  //업데이트 하기
 		ModelAndView mav=new ModelAndView("redirect:/mypage/mypageMain.do");
 		return mav;
+	}*/
 	}
-	
 	
 	
 	
@@ -172,6 +173,13 @@ public class MypageControllerImpl implements MypageController {
 
 	@Override
 	public String pointsAndCoupons(int memberNo, Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

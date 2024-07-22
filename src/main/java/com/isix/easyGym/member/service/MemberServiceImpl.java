@@ -39,4 +39,16 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
+	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int findmemberNo(int memberNo) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -41,10 +41,23 @@
  		<result property="buyNo" column="buyNo"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
+ 	
+ 	<resultMap type="detailImageDTO" id="detailImageResult">
+ 		<result property="imageFileNo" column="imageFileNo"/>
+ 		<result property="imageFileName" column="imageFileName"/>
+ 		<result property="regDate" column="regDate"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 	</resultMap>
 
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{detailNo}
+ 		]]>
+	</select>	
+ 		
+ 	<select id="getNewDetailNo" resultType="int" >
+		<![CDATA[
+ 			select IFNULL(Max(articleNo),0)+1 from detail_tbl 
  		]]>
 	</select>	
  		
@@ -112,6 +125,22 @@
  		<![CDATA[ 
  			insert into detailreview_tbl (reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values(#{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
+ 	</insert>
+ 	
+ 	<insert id="insertOperForm" parameterType="java.util.Map">
+ 		<![CDATA[
+ 			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBussinessName},
+ 			#{detailBusinessName},#{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
+ 			#{detailServiceProgram},#{detailClassification},#{detailFreeService},#{detailMonthlyPrice},
+ 			#{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
+ 		]]>
+ 	</insert>
+ 	
+ 	<insert id="insertNewImages" parameterType="java.util.Map">
+ 		insert into imagefile_tbl values
+ 		<foreach collection="imageFileList" item="item" separator=",">
+ 			(#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
+ 		</foreach>
  	</insert>
  	
  	<delete id="deleteReview" parameterType="int">

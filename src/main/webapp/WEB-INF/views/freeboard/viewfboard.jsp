@@ -40,7 +40,7 @@
 				            <td>
 				                <input type="hidden" name="originalFileName${status.count}" value="${imgList.imageFileName}">
 				                <input type="hidden" name="imageFileNo${status.count}" value="${imgList.imageFileNo}">
-				                <img id="preview${status.count}" src="<c:url value='/download.do'/>?noticeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
+				                <img id="preview${status.count}" src="<c:url value='/download.do'/>?freeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
 				            </td>
 				        </tr>
 				        <tr>
@@ -59,7 +59,7 @@
 			    </div>
 			    <div class="" id="div_button">
 			        <c:choose>
-			            <c:when test="${not empty fbmap and not empty sessionScope.member.memberId}">
+			            <c:when test="${fbmap != null && sessionScope != null && sessionScope.member != null && fbmap.fboard.memberNo == sessionScope.member.memberNo}">
 			                <input class="btn btn-outline-secondary" type="button"  value="수정하기" onclick="fn_enable(this.form)">
 			                <input class="btn btn-outline-secondary" type="button" id="deleteButton" value="삭제하기" onclick="fn_remove_fboard('/freeboard/removeFboard.do','${fbmap.fboard.freeNo}')">
 							<input class="btn btn-outline-secondary" type="button"  value="돌아가기" onclick="location.href='fboardList.do'" >

@@ -87,4 +87,16 @@ public class DetailServiceImpl implements DetailService{
 		return reivew;
 	}
 
+
+
+	@Override
+	public void addOperForm(Map detailMap) throws DataAccessException {
+		int detailNo=detailDAO.getNewDetailNo();
+		detailMap.put("detailNo", detailNo);
+		detailDAO.insertOperForm(detailMap);
+		if(detailMap.get("imageFileList")!=null) {
+			detailDAO.insertNewImages(detailMap);		}
+		
+	}
+
 }
