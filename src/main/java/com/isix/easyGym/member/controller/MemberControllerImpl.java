@@ -96,9 +96,9 @@ public class MemberControllerImpl implements MemberController {
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
+	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		memberDTO = memberService.login(member);
+		memberDTO = memberService.login(memberDTO);
 		ModelAndView mv = new ModelAndView();	
 		if (memberDTO != null) {
 			HttpSession session= request.getSession();
