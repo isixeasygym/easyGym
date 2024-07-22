@@ -57,8 +57,8 @@ public class PayformControllerImpl implements PayformController {
     }
 
     @Override
-    @RequestMapping("/payform/payformDone.do")
-    public ModelAndView payformDone(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "price") int price, @RequestParam(value = "payformPayment") int payformPayment, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+    @RequestMapping("/payform/payformProcess.do")
+    public ModelAndView payformProcess(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "price") int price, @RequestParam(value = "payformPayment") int payformPayment, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         Map payformMap = new HashMap(); //테이블에 있는 쿼리들을 불러올 맵을 생성
         payformMap.put("memberNo", memberNo);
         payformMap.put("detailNo", detailNo);
@@ -67,6 +67,14 @@ public class PayformControllerImpl implements PayformController {
         payformMap.put("payformPayment", payformPayment);
         int payformNo = payformService.insertPayform(payformMap);
 
+        ModelAndView mav = new ModelAndView("/payform/payformDone");
+        mav.addObject("payformNo", payformNo);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping("/payform/payformDone.do")
+    public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         Map resultMap = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
         mav.addObject("result", resultMap);

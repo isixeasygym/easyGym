@@ -47,8 +47,8 @@ public class PayformServiceImpl implements PayformService {
     @Override
     public Map selectPayform(int payformNo) throws DataAccessException {
         Map payformMap = new HashMap();
-        PayformDTO payformDTO = payformDAO.viewPayform(payformNo);
-        payformMap.put("payformDTO", payformDTO);
+        PayformDTO payformRes = payformDAO.viewPayform(payformNo);
+        payformMap.put("payformDTO", payformRes);
         return payformMap;
     }
 
