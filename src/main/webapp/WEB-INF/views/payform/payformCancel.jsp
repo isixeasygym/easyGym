@@ -20,10 +20,10 @@ request.setCharacterEncoding("utf-8");
         <span class="hidden">주문취소번호: <span id="cancelNo">${cancelInfo.cancelNo}</span></span>
         <span class="hidden">주문번호: <span id="payformNo">${cancelInfo.payformNo}</span></span>
         <span class="hidden">멤버 번호: <span id="memberNo">${cancelInfo.memberNo}</span></span>
-        <span class="hidden">헬스장 번호: <span id="wholeNo">${cancelInfo.wholeNo}</span></span>
+        <span class="hidden">헬스장 번호: <span id="detailNo">${cancelInfo.wholeNo}</span></span>
     </div>
 
-    <h1><span id="wholeName">${cancelInfo.wholeName}</span> 헬스장 구매 취소 폼</h1>
+    <h1><span id="detailName">${cancelInfo.detailName}</span> 헬스장 구매 취소 폼</h1>
 
     <h2>환불 정보</h2>
     <form id="payCheck_form">
