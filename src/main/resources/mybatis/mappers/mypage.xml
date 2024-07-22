@@ -17,6 +17,12 @@
         <result property="memberState" column="memberState"/>
         <result property="memberGender" column="memberGender"/>
         <result property="memberMarketing" column="memberMarketing"/>
+        <result property="memberPointDate" column="memberPointDate"/>
+        <result property="memberPoint" column="memberPoint"/>
+        <result property="memberPointDes" column="memberPointDes"/> 
+        <result property="memberExpirationDate" column="memberExpirationDate"/>
+        <result property="memberCoupon" column="memberCoupon"/>
+        <result property="memberCouponDes" column="memberCouponDes"/>       
     </resultMap>
  	
 	<resultMap type="detailDTO" id="detailResult">
@@ -45,24 +51,37 @@
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
  	
+ 	<!-- 찜 목록 쿼리문 -->
  	<select id="selectAllDetail" resultMap="detailResult" parameterType="int">
  		<![CDATA[
- 			select detailNo, detailBusinessName, detailKoClassification, detailRoadAddress from detail_tbl order by detailNo desc limit #{count}, 10
+ 			select d.detailNo, d.detailBusinessName, d.detailKoClassification, d.detailRoadAddress 
+ 			from detail_tbl d 
+ 			join detaildibs_tbl j on d.detailNo=j.detailNo 
+ 			where j.memberNo = #{memberNo}
  		]]>
  	</select>  <!-- 페이징 => int -->
  	
- 	<!-- 전체 글의 갯수를 가져오는 것 -->
- 	<select id="selectToDibs" resultType="int">
- 		<![CDATA[
- 			select count(*) from detail_tbl
- 		]]>
- 	</select>
- 	
- 	<!-- 기존 게시글 다음(+1)에 새로 게시글 작성 -->
- 	<select id="getNewArticleNo" resultType="int">
- 		<![CDATA[
- 			select max(articleNo)+1 from board_tbl
- 		]]>
- 	</select>
+ 	<!-- 포인트 쿼리문 -->
+ 	<select id="selectPointsByMemberNo" parameterType="int" resultType="memberDTO">
+	    <![CDATA[
+	        SELECT memberPointDate, memberPoint, memberPointDes
+	        FROM member_tbl
+	        WHERE member_no = #{memberNo}
+	    ]]>
+	</select>
+	
+	<!-- 회원정보 수정 쿼리문 -->
+	<update id="updateMember">
+		<![CDATA[
+	        UPDATE member_tbl
+	        SET
+	            memberPwd = #{memberPwd},
+	            memberName = #{memberName},
+	            memberGender = #{memberGender},
+	            memberPhone = #{memberPhone},
+	            memberEmail = #{memberEmail}
+	        WHERE memberNo = #{memberNo}
+		]]>
+    </update>
  	
  </mapper>
