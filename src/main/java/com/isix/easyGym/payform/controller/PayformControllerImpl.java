@@ -67,8 +67,7 @@ public class PayformControllerImpl implements PayformController {
         payformMap.put("payformPayment", payformPayment);
         int payformNo = payformService.insertPayform(payformMap);
 
-        ModelAndView mav = new ModelAndView("/payform/payformDone");
-        mav.addObject("payformNo", payformNo);
+        ModelAndView mav = new ModelAndView("redirect:/payform/payformDone.do?payformNo="+payformNo);
         return mav;
     }
 
