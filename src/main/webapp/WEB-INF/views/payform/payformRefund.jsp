@@ -10,14 +10,6 @@ request.setCharacterEncoding("utf-8");
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 환불 완료</title>
-    <script>
-        (function() {
-            if(parseInt('${payform.payformStatus}') === -1) {
-                alert("이미 환불이 완료된 결제건입니다.\n메인페이지로 돌아갑니다.");
-                window.location.replace("${contextPath}/main.do");
-            }
-        })();
-    </script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformRefund.css">
 </head>
 <body>

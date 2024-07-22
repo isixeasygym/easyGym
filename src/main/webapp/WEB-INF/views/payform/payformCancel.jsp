@@ -37,7 +37,7 @@
             const diffTime = Math.abs(d2 - d1);
 
             // 밀리초를 일 단위로 변환
-            diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))-1;
+            diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
 
             document.getElementById('cancelDay').value = diffDays;
 
@@ -48,25 +48,30 @@
             //사용자가 임의로 변수값 조작하지 못하도록 다시 한번 일수 계산함
             let refundDay = setCancelDay();
             let finalPr = localeStringToInt(document.getElementById('finalPr').textContent);
-            if (refundDay <= 7) {
-                var result = confirm("전액 환불이 가능합니다. 환불금액은 "+ finalPr +"원입니다.\n환불을 진행하시겠습니까?");
-                if (result){
-                    console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                    window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
-                }
-                else
-                    alert("환불 진행을 취소했습니다.");
-            } else if (refundDay <= 15) {
-                var result = confirm("부분적인 환불이 가능합니다. 환불금액은 "+ finalPr +"원입니다.\n환불을 진행하시겠습니까?");
-                if (result) {
-                    console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                    window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
-                } else
-                    alert("환불 진행을 취소했습니다.");
+
+            if (parseInt('${payform.payformStatus}') === -1) {
+                alert("이미 환불이 완료된 결제건입니다.\n메인페이지로 돌아갑니다.");
+                window.location.replace("${contextPath}/main.do");
             } else {
-                alert("환불 가능 기간이 경과하여 환불이 불가능합니다.");
-                console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                window.location.href = '${contextPath}/main.do';
+                if (refundDay <= 7) {
+                    var result = confirm("전액 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
+                    if (result) {
+                        console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
+                        window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
+                    } else
+                        alert("환불 진행을 취소했습니다.");
+                } else if (refundDay <= 15) {
+                    var result = confirm("부분적인 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
+                    if (result) {
+                        console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
+                        window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
+                    } else
+                        alert("환불 진행을 취소했습니다.");
+                } else {
+                    alert("환불 가능 기간이 경과하여 환불이 불가능합니다.");
+                    console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
+                    window.location.href = '${contextPath}/main.do';
+                }
             }
         }
     </script>
@@ -98,7 +103,8 @@
                 </div>
                 <div class="form_group">
                     <label for="bisName">헬스장 이름:</label>
-                    <input type="text" id="bisName" name="bisName" value="${payform.detailBusinessName}" readonly required>
+                    <input type="text" id="bisName" name="bisName" value="${payform.detailBusinessName}" readonly
+                           required>
                 </div>
                 <div class="form_group">
                     <p>구매일로부터<input type="text" id="cancelDay" name="cancelDay" width="10px" value="" readonly required>일

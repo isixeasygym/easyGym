@@ -11,12 +11,19 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 회원권 구매</title>
     <script src="${contextPath}/JS/payform/payformForm.js"></script>
+    <script>
+        function PaymentMockup() {
+            let fp = document.getElementById('finalPrice').textContent;
+            fp = fp.replace(/[^\d.-]/g, '');
+            window.open("${contextPath}/payform/payformCredit.do?memberNo=${payform[0].memberNo}&detailNo=${payform[1].detailNo}&detailNa=${payform[1].detailBusinessName}&name=${payform[0].memberName}&subscriptionMonths="+parseInt(document.getElementById('subscriptionMonths').value)+"&payformPayment="+parseInt(document.getElementById('payformPayment').value)+"&phoneNumber=${payform[0].memberPhone}&price=" + fp, "_blank");
+        }
+    </script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformForm.css">
 </head>
 <body>
 <div class="bg-image"></div>
-
-<form id="payment_form" action="${contextPath}/payform/payformCredit.do" target="_blank" method="GET">
+<button type="button" id="paymentProcess" onclick="PaymentMockup()">토스 결제 구현</button>
+<form id="payment_form" action="${contextPath}/payform/payformProcess.do" target="_blank" method="GET">
     <div class="container">
         <div class="receipt_info">
             <span class="hidden">멤버 번호: <input id="memberNo" name="memberNo" value="${payform[0].memberNo}"></span>
