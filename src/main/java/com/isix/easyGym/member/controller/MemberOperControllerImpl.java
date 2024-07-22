@@ -90,5 +90,4 @@ public class MemberOperControllerImpl implements MemberOperController {
 		return null;
 	}
 
-
 }

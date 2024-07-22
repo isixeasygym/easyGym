@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.payform.dao.PayformDAO;
 
 import java.util.ArrayList;
@@ -32,8 +31,25 @@ public class PayformServiceImpl implements PayformService {
     }
 
 	@Override
-	public PayformDTO buyCheck(int memberNo) throws DataAccessException {
-		PayformDTO buyNo= payformDAO.checkingBuy(memberNo);
+	public int buyCheck(int memberNo) throws DataAccessException {
+		int buyNo= payformDAO.checkingBuy(memberNo);
 		return buyNo;
 	}
+
+    @Override
+    public int insertPayform(Map payformMap) throws DataAccessException {
+        int payformNo = payformDAO.getNewPayformNo();
+        payformMap.put("payformNo", payformNo);
+        payformDAO.insertPayform(payformMap);
+        return payformNo;
+    }
+
+    @Override
+    public Map selectPayform(int payformNo) throws DataAccessException {
+        Map payformMap = new HashMap();
+        PayformDTO payformRes = payformDAO.viewPayform(payformNo);
+        payformMap.put("payformDTO", payformRes);
+        return payformMap;
+    }
+
 }

@@ -18,7 +18,20 @@ public class MemberDTO {
 	private int memberState;
 	private String memberGender;
 	private String memberMarketing;	
+  
 	
+	public String getMemberBirthdate() {
+		return memberBirthdate;
+	}
+	public void setMemberBirthdate(String memberBirthdate) {
+		this.memberBirthdate = memberBirthdate;
+	}
+	public String getMember() {
+		return member;
+	}
+	public void setMember(String member) {
+		this.member = member;
+	}
 	public int getMemberNo() {
 		return memberNo;
 	}
