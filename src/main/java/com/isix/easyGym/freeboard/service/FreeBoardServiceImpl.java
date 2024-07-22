@@ -76,4 +76,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		System.out.println(freeNo + "번호");
 		freeDAO.deleteFboard(freeNo);
 	}
+
+
+
 }
