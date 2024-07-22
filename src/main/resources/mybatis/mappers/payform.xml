@@ -38,7 +38,7 @@
 		<result property="detailBusinessName" column="detailBusinessName"/>
 		<result property="detailBusinessEng" column="detailBusinessEng"/>
 		<result property="detailDailyTicket" column="detailDailyTicket"/>
-		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
 		<result property="detailScope" column="detailScope"/>
 		<result property="detailComment" column="detailComment"/>
 		<result property="detailServiceProgram" column="detailServiceProgram"/>

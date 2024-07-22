@@ -58,7 +58,7 @@
         <div class="form_group">
             <label for="originalPrice">원래 금액:</label>
             <div id="originalPrice"><span id="oriPrice"></span>원</div>
-            <input type="hidden" id="onePrice" value="${payform[1].detailMonthlyTicket}">
+            <input type="hidden" id="onePrice" value="${payform[1].detailMonthlyPrice}">
         </div>
 
         <div class="form_group">
