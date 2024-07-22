@@ -18,7 +18,12 @@ public class MemberDTO {
 	private int memberState;
 	private String memberGender;
 	private String memberMarketing;
-	private String memberNickname;	
+	private Date memberPointDate;
+	private int memberPoint;
+	private String memberPointDes;
+	private Date memberExpirationDate;
+	private String memberCoupon;
+	private String memberCouponDes;
 	
 	public int getMemberNo() {
 		return memberNo;
@@ -92,11 +97,41 @@ public class MemberDTO {
 	public void setMemberMarketing(String memberMarketing) {
 		this.memberMarketing = memberMarketing;
 	}
-	public String getMemberNickname() {
-		return memberNickname;
+	public Date getMemberPointDate() {
+		return memberPointDate;
 	}
-	public void setMemberNickname(String memberNickname) {
-		this.memberNickname = memberNickname;
+	public void setMemberPointDate(Date memberPointDate) {
+		this.memberPointDate = memberPointDate;
+	}
+	public int getMemberPoint() {
+		return memberPoint;
+	}
+	public void setMemberPoint(int memberPoint) {
+		this.memberPoint = memberPoint;
+	}
+	public String getMemberPointDes() {
+		return memberPointDes;
+	}
+	public void setMemberPointDes(String memberPointDes) {
+		this.memberPointDes = memberPointDes;
+	}
+	public Date getMemberExpirationDate() {
+		return memberExpirationDate;
+	}
+	public void setMemberExpirationDate(Date memberExpirationDate) {
+		this.memberExpirationDate = memberExpirationDate;
+	}
+	public String getMemberCoupon() {
+		return memberCoupon;
+	}
+	public void setMemberCoupon(String memberCoupon) {
+		this.memberCoupon = memberCoupon;
+	}
+	public String getMemberCouponDes() {
+		return memberCouponDes;
+	}
+	public void setMemberCouponDes(String memberCouponDes) {
+		this.memberCouponDes = memberCouponDes;
 	}
 	
 }
