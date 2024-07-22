@@ -23,7 +23,7 @@
 <body>
 <div class="bg-image"></div>
 <button type="button" id="paymentProcess" onclick="PaymentMockup()">토스 결제 구현</button>
-<form id="payment_form" action="${contextPath}/payform/payformProcess.do" target="_blank" method="GET">
+<form id="payment_form" action="${contextPath}/payform/payformProcess.do" method="POST">
     <div class="container">
         <div class="receipt_info">
             <span class="hidden">멤버 번호: <input id="memberNo" name="memberNo" value="${payform[0].memberNo}"></span>

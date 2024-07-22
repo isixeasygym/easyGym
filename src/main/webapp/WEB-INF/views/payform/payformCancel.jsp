@@ -57,14 +57,14 @@
                     var result = confirm("전액 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
                         console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                        window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
+                        window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
                     } else
                         alert("환불 진행을 취소했습니다.");
                 } else if (refundDay <= 15) {
                     var result = confirm("부분적인 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
                         console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                        window.location.href = '${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr;
+                        window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
                     } else
                         alert("환불 진행을 취소했습니다.");
                 } else {
