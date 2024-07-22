@@ -27,9 +27,14 @@ public interface MemberController {
 
 	public ModelAndView delMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 	
+
+	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	// ID 중복 체크 메서드 추가
+
+	public ModelAndView joinCheck(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }
