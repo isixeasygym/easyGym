@@ -17,8 +17,11 @@ public interface MemberDAO {
 	
 	public void delMember(String id) throws DataAccessException;  //삭제하기 위해 id를 넘김
 
-	public MemberDTO login(MemberDTO member) throws DataAccessException;
+	public MemberDTO login(MemberDTO memberDTO) throws DataAccessException;
 	
 	public boolean checkId(String memberId) throws DataAccessException;
-
+	//detail dibs 관련 메서드이므로 지우지 말아 주세요.
+	public MemberDTO loginChecking(int memberNo) throws DataAccessException;
+	//detail 댓글 관련 메서드이므로 지우지 말아 주세요.
+	public int selectMemberNo(int memberNo) throws DataAccessException;
 }

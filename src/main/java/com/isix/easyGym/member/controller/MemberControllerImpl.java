@@ -1,7 +1,5 @@
 package com.isix.easyGym.member.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,22 +35,22 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("/member/memJoin");
 		return mav;
 	}
-
-	@GetMapping("/report/report.do") // 127.0.0.1:8090 => 이렇게만 매핑 보내기
-	public ModelAndView report(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/report/report");
-		return mav;
-	}
-
+	
 	@Override
 	@GetMapping("/member/joinSelect.do")
-	public ModelAndView memberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView joinSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/joinSelect");
 		return mav;
-	} // memberForm으로 이동할 거라서 addObject는 필요없음
+	} 
 
+	@Override
+	@GetMapping("/member/loginSelect.do")
+	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/loginSelect");
+		return mav;
+	}	
 	@Override
 	@GetMapping("/member/modMemberForm.do")
 	public ModelAndView modMemberForm(@RequestParam("id") String id, HttpServletRequest request,
@@ -95,13 +92,13 @@ public class MemberControllerImpl implements MemberController {
 		mv.setViewName("/member/loginForm");
 		return mv;
 	}
-	
+
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
+	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		memberDTO = memberService.login(member);
+		memberDTO = memberService.login(memberDTO);
 		ModelAndView mv = new ModelAndView();	
 		if (memberDTO != null) {
 			HttpSession session= request.getSession();

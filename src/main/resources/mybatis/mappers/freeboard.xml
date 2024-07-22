@@ -4,27 +4,36 @@
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.isix.easyGym.freeboard.dao.FreeDAO">  <!-- namespace는 mapper의 이름을 정의 -->
  
- 	<resultMap type="freeDTO" id="fbResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
- 		<result property="freeNo" column="freeNo"/>  <!--set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다.--> 
+ <!--	<resultMap type="freeDTO" id="fbResult">  typeAlias에 설정한 alias를 type으로 준다. 
+ 		<result property="freeNo" column="freeNo"/>  set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. 
  		<result property="freeTitle" column="freeTitle"/>
  		<result property="freeContent" column="freeContent"/>
  		<result property="freeWriteDate" column="freeWriteDate"/>
  		<result property="freeHit" column="freeHit"/>
  		<result property="rating" column="rating"/>
  		<result property="memberNo" column="memberNo"/>
- 	</resultMap>
+ 	</resultMap>-->
 
 	<resultMap type="freeImageDTO" id="imgResult">
 		<result property="imageFileNo" column="imageFileNo"/>
 		<result property="imageFileName" column="imageFileName"/>
-		<result property="regdate" column="regdate"/>
+		<result property="regDate" column="regDate"/>
 		<result property="freeNo" column="freeNo"/>
 	</resultMap>
+
+	<resultMap type="java.util.Map" id="fbResult">
+		<result property="freeNo" column="freeNo"/>  
+ 		<result property="freeTitle" column="freeTitle"/>
+ 		<result property="memberName" column="memberName"/> 		
+ 		<result property="freeWriteDate" column="freeWriteDate"/>
+ 		<result property="freeHit" column="freeHit"/>
+	</resultMap>
+
 
 	<select id="selectAll" resultMap="fbResult" parameterType="int">
 	
 		<![CDATA[
- 			select * from freeboard_tbl order by freeNo desc limit #{count},10		
+ 			select f.freeNo, f.freeTitle, m.memberName, f.freeWriteDate, f.freeHit from  member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo order by f.freeNo desc limit #{count},10		
  		]]>
 	</select>
 	<select id="selectToFboard" resultType="int">
@@ -39,9 +48,9 @@
  		]]>
 	</select>
 	
-	<insert id="insertNewFboard" parameterType="java.util.Map">
-		insert into board_tbl values(#{articleNo},#{title},#{content},#{imageFileName},sysdate(),#{id})
-	</insert>
+	<select id="selectMem" resultType="memberDTO" parameterType="int">
+		select m.memberName from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
+	</select>
 	
 	<select id="selectFboard" resultType="freeDTO" parameterType="int">
 		<![CDATA[
@@ -51,33 +60,23 @@
 	
 	<select id="selectImageFileList" resultMap="imgResult" parameterType="int">
 		<![CDATA[
- 			select * from imagefile_tbl where freeNo = #{freeNo} 		
+ 			select * from fboardimage_tbl where freeNo = #{freeNo} 		
  		]]>
 	</select>
 	
-	<!-- 오라클 , 여러개의 데이터베이스에서 한꺼번에 insert문 반복 수행
-	<insert id="insertNewImages" parameterType="java.util.Map">
-		<foreach collection="list" item="item" open="INSERT ALL" separator="" close="SELECT * FROM">
-			INTO imagefile_tbl(imageFileName, regDate, articleNo) VALUES (#{item.ImageFileName},sysdate(), #{item.articleNo})
-		</foreach> 
+	<insert id="insertNewFboard" parameterType="java.util.Map">
+		insert into freeboard_tbl (freeNo, freeTitle, freeContent, freeWriteDate, freeHit, imageFileName, memberNo)
+		values(#{freeNo},#{freeTitle},#{freeContent},sysdate(),0,#{imageFileName},#{memberNo})
 	</insert>
-	-->
-	<!-- articleNo의 item은 붙이지 않는다. fk이기 때문에?-->
+
 	<insert id="insertNewImages" parameterType="java.util.Map">
-		insert into imagefile_tbl values 
+		insert into fboardimage_tbl values 
 		<foreach collection="imageFileList" item="item" separator=",">
 			(#{item.imageFileNo},#{item.imageFileName},sysdate(),#{freeNo})
 		</foreach>
 	</insert>
 	
-	<!-- 이미지 한개 글 수정 -->
-	<!--<update id="updateArticle" parameterType="java.util.Map">
- 			update board_tbl set title=#{title}, content=#{content}
- 			<if test="imageFileName != '' and imageFileName != null"> 
- 				, imageFileName=#{imageFileName}
- 			</if>
- 			where articleNo=#{articleNo}	
-	</update> -->
+
 	
 	<!-- 이미지 여러개 글 수정 -->
 	<update id="updateFboard" parameterType="java.util.Map">
@@ -88,7 +87,7 @@
 	<update id="updateImage" parameterType="java.util.Map">
 		<foreach collection="imageFileList" item="item" separator=";">
 			
-				update imagefile_tbl set imageFileName=#{item.imageFileName} where imageFileNo=#{item.imageFileNo} and #{item.imageFileName} != ''
+				update fboardimage_tbl set imageFileName=#{item.imageFileName} where imageFileNo=#{item.imageFileNo} and #{item.imageFileName} != ''
            
          </foreach>
 	</update>
