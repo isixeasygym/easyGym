@@ -29,12 +29,12 @@
         <h2>구매자 정보</h2>
         <div class="form_group">
             <label for="name">이름:</label>
-            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요." value="${payform[0].memberName}" required>
+            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요." value="${payform[0].memberName}" readonly required>
         </div>
         <div class="form_group">
             <label for="phoneNumber">휴대폰 번호:</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="번호를 입력해주세요." value="${payform[0].memberPhone}"
-                   pattern="\d{3}-\d{3,4}-\d{4}" required>
+                   pattern="\d{3}-\d{3,4}-\d{4}" readonly required>
         </div>
 
         <h2>구독 정보</h2>

@@ -49,4 +49,10 @@ public class PayformServiceImpl implements PayformService {
         return payformDAO.viewPayform(payformNo);
     }
 
+    @Override
+    public int cancelPayform(int payformNo) throws DataAccessException {
+        return payformDAO.cancelPayform(payformNo);
+    }
+
+
 }

@@ -10,7 +10,6 @@ request.setCharacterEncoding("utf-8");
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 구매 완료</title>
-    <script src="${contextPath}/JS/payform/payformDone.js"></script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformDone.css">
 </head>
 <body>
@@ -22,22 +21,22 @@ request.setCharacterEncoding("utf-8");
             <div class="paymentInfo">
                 <div class="form_group">
                     <label for="payName">구매자:</label>
-                    <input type="text" id="payName" name="payName" value="${result.memberName}" readonly required>
+                    <input type="text" id="payName" name="payName" value="${payform.memberName}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="userTel">휴대전화:</label>
-                    <input type="text" id="userTel" name="userTel" value="${result.memberPhone}" readonly required>
+                    <input type="text" id="userTel" name="userTel" value="${payform.memberPhone}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="bisName">헬스장 이름:</label>
-                    <input type="text" id="bisName" name="bisName" value="${result.detailBusinessName}" readonly required>
+                    <input type="text" id="bisName" name="bisName" value="${payform.detailBusinessName}" readonly required>
                 </div>
             </div>
 
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice">${result.payformPrice}원</div>
+            <div id="finalPrice">${payform.payformPrice}원</div>
         </div>
-        <button type="button" id="goBack" onclick="window.location.href = '${contextPath}/main.do'">확인</button>
+        <button type="button" id="goBack" onclick="window.location.replace('${contextPath}/main.do')">확인</button>
     </form>
 </div>
 

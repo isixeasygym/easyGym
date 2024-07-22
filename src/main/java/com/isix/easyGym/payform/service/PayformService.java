@@ -16,4 +16,6 @@ public interface PayformService {
 
     public PayformDTO buyCheck(int memberNo) throws DataAccessException;
 
-}
+    public int cancelPayform(int payformNo) throws DataAccessException;
+
+    }

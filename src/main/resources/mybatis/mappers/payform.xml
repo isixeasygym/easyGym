@@ -82,14 +82,13 @@
 		payformStatus, payformPayment
 		) VALUES (
 		#{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
-		#{payformStatus}, #{payformPayment}
+		1, #{payformPayment}
 		)
 	</insert>
 
-	<delete id="deletePayform" parameterType="int">
-		DELETE FROM payform_tbl
-		WHERE payformNo = #{payformNo}
-	</delete>
+	<update id="cancelPayform" parameterType="int">
+		UPDATE payform_tbl SET payformStatus = -1 WHERE payformNo = #{payformNo} AND payformStatus = 1
+	</update>
 
 	<select id="checkingBuy" parameterType="int" resultType="int">
 		select buyNo from buy_tbl where memberNo = #{memberNo}

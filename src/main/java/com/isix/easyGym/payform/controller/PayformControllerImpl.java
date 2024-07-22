@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Controller("payformController")
 public class PayformControllerImpl implements PayformController {
 
@@ -53,7 +52,7 @@ public class PayformControllerImpl implements PayformController {
         payformData.put("payformPayment", payformPayment);
         payformData.put("price", price);
         ModelAndView mav = new ModelAndView("/payform/payformCredit");
-        mav.addObject("payformData", payformData);
+        mav.addObject("payform", payformData);
         return mav;
     }
 
@@ -68,18 +67,38 @@ public class PayformControllerImpl implements PayformController {
         payformMap.put("payformPayment", payformPayment);
         int payformNo = payformService.insertPayform(payformMap);
 
-        ModelAndView mav = new ModelAndView("redirect:/payform/payformDone.do?payformNo="+payformNo);
+        ModelAndView mav = new ModelAndView("redirect:/payform/payformDone.do?payformNo=" + payformNo);
         return mav;
     }
 
     @Override
     @RequestMapping("/payform/payformDone.do")
     public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
-        System.out.println(payformNo);
         PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
-        mav.addObject("result", payformDTO);
+        mav.addObject("payform", payformDTO);
         return mav;
     }
-    //lombok 설치 후 @Slf4j를 모든 클래스에 선언
+
+    //TODO 결제 취소 하는 기능, payformCancel로 payformNo 전달하는 코드 짜주면 됨
+    @Override
+    @RequestMapping("/payform/payformCancel.do")
+    public ModelAndView payformCancel(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
+        ModelAndView mav = new ModelAndView("/payform/payformCancel");
+        mav.addObject("payform", payformDTO);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping("/payform/payformRefund.do")
+    public ModelAndView payformRefund(@RequestParam(value = "payformNo") int payformNo, @RequestParam(value = "refundPrice") int refundPrice, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+        int CancelSuccess = payformService.cancelPayform(payformNo);
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
+        ModelAndView mav = new ModelAndView("/payform/payformRefund");
+        mav.addObject("payform", payformDTO);
+        mav.addObject("refundPrice", refundPrice);
+        return mav;
+    }
+
 }

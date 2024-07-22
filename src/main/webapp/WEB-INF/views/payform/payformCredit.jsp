@@ -22,13 +22,13 @@
 <body>
 
 <script>
-    var clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+    var clientKey = "test_ck_ORzdMaqN3wqOgAKgBmBPr5AkYXQG";
     var tossPayments = TossPayments(clientKey);
-    var memberNo = "${payformData.memberNo}";
-    var detailNo = "${payformData.detailNo}";
+    var memberNo = "${payform.memberNo}";
+    var detailNo = "${payform.detailNo}";
     let paymethod = "payformPayment";
 
-    switch (parseInt(${payformData.payformPayment})) {   //구독개월에 따라 원래가격 & 할인율 변경
+    switch (parseInt(${payform.payformPayment})) {   //구독개월에 따라 원래가격 & 할인율 변경
         case 0:
             paymethod = "카드";
             break;
@@ -54,10 +54,10 @@
 
     tossPayments
         .requestPayment(paymethod, {
-            amount: parseInt(${payformData.price}),
+            amount: parseInt(${payform.price}),
             orderId: '1zalVNB7BZPoePa0xSRnf',   //이 값은 실제 결제 할때 select count(payformNo) from payform_tbl, 목업에서는 이 값으로 고정해야함.
-            orderName: "${payformData.detailNa} 구매 폼", //헬스장 이름 들어가면서 구매 폼으로
-            customerName: "${payformData.name}",
+            orderName: "${payform.detailNa} 구매 폼", //헬스장 이름 들어가면서 구매 폼으로
+            customerName: "${payform.name}",
             successUrl: "https://docs.tosspayments.com/guides/payment/test-success",    //결제 성공 리다이렉트 페이지, 목업에서는 이 값으로 고정해야함.
             failUrl: "https://docs.tosspayments.com/guides/payment/test-fail",  //결제 실패 리다이렉트 페이지, 목업에서는 이 값으로 고정해야함.
         })
