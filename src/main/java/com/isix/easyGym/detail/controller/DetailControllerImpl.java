@@ -2,11 +2,13 @@ package com.isix.easyGym.detail.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailImageDTO;
 import com.isix.easyGym.detail.dto.DetailReviewDTO;
 import com.isix.easyGym.detail.service.DetailServiceImpl;
 import com.isix.easyGym.member.dao.MemberDAO;
@@ -68,7 +71,8 @@ public class DetailControllerImpl implements DetailController{
 	@Autowired
 	private DetailReviewDTO detailReviewDTO;
 	
-	
+	@Autowired
+	private DetailImageDTO detailImageDTO;
 	
 	@GetMapping("/detail/registration.do")  //127.0.0.1:8090 => 이렇게만 매핑 보내기
 	public ModelAndView registration(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -77,12 +81,55 @@ public class DetailControllerImpl implements DetailController{
 		return mav;
 	}
 	
-	@Override
-	public ModelAndView insertMyCompany(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//사업자 폼 제출 및 이미지 여러개 추가
+		@Override
+		@RequestMapping(value="/board/addArticle.do", method = RequestMethod.POST)
+		public ModelAndView signUpForm(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+			String imageFileName=null;
+			multipartRequest.setCharacterEncoding("utf-8");
+			Map<String, Object> detailMap=new HashMap<String, Object>();
+			Enumeration enu=multipartRequest.getParameterNames();
+			while(enu.hasMoreElements()) {
+				String name=(String)enu.nextElement();
+				String value=multipartRequest.getParameter(name);  //name = articleForm.html에서 title, content 등의 매개변수 이름
+				detailMap.put(name, value);
+			}
+			List<String> fileList=multiFileUpload(multipartRequest);  //여러 개의 이미지를 받을거라 리스트로 작성
+			List<DetailImageDTO> imageFileList=new ArrayList<DetailImageDTO>();
+			if(fileList != null && fileList.size() != 0) {
+				for(String fileName:fileList) {
+					detailImageDTO.setImageFileName(fileName);
+					imageFileList.add(detailImageDTO);
+				}
+				detailMap.put("imageFileList", imageFileList);
+			}
+			HttpSession session=multipartRequest.getSession();  //session ~ Map.put(id) => 글쓰기할 때 세션을 통해 id로 접속한 사람의 id가 작성자 칸에 보이게 하기
+			MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
+			String OperatorNo=memberDTO.getOperatorNo();
+			articleMap.put("MemberId", MemberId);
+			try {
+				int articleNo=boardService.addArticle(articleMap);  //addArticle을 articleNo에 담아서 boardService에 가져가기???
+				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
+					for(ImageDTO imageDTO : imageFileList) {
+						imageFileName=imageDTO.getImageFileName();
+						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
+						File destDir=new File(ARTICLE_IMG_REPO + "\\" + articleNo);
+						FileUtils.moveFileToDirectory(srcFile, destDir, true);
+					}
+				}
+			}catch (Exception e) {
+				//글쓰기 수행 중 오류
+				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
+					for(ImageDTO imageDTO : imageFileList) {
+						imageFileName=imageDTO.getImageFileName();
+						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
+						srcFile.delete();
+					}
+				}
+			}
+			ModelAndView mav=new ModelAndView("redirect:/board/listArticles.do");  //글 리스트 추가한걸 리스트목록에서 보여주기
+			return mav;
+		}
 	
 	@Override
 	@RequestMapping(value="/detail/detail.do", method = RequestMethod.GET)
@@ -255,6 +302,8 @@ public class DetailControllerImpl implements DetailController{
 		}
 		return status;
 	}
+	
+	
 	//한 개 이미지 파일 업로드(fileUpload)
 	private String fileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
 		String imageFileName=null;
@@ -277,8 +326,29 @@ public class DetailControllerImpl implements DetailController{
 		}
 		return imageFileName;
 	}
+	//여러개 이미지 파일 업로드(multiFileUpload) => MySQL - 여러개 이미지 파일 저장 테이블 생성
+		private List<String> multiFileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
+			List<String> fileList=new ArrayList<String>();  //List<제너럴타입>
+			Iterator<String> fileNames=multipartRequest.getFileNames();
+			while(fileNames.hasNext()) {  //fileNames가 존재하면 while문이 hasNext 다음으로 계속 돔
+				String fileName=fileNames.next();
+				MultipartFile mFile=multipartRequest.getFile(fileName);
+				String originalFileName=mFile.getOriginalFilename();  //첨부한 이미지 이름을 가져옴
+				fileList.add(originalFileName);  //fileList에 originalFileName 첨부한 이미지 이름을 추가하기
+				File file=new File(ARTICLE_IMG_REPO + "\\" + fileName);  //이미지 파일 저장하는 내 경로 (상단에 경로 있음)
+				if(mFile.getSize() != 0) {  //이미지 파일 사이즈가 0이 아닐 때 => 이미지가 첨부되어 있는 상태
+					if(! file.exists()) {  //파일이 존재하지 않는다면~
+						if(file.getParentFile().mkdir()) {  //mkdir = 폴더 생성
+							file.createNewFile();
+						}
+					}
+					mFile.transferTo(new File(ARTICLE_IMG_REPO + "\\temp\\" + originalFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
+				}
+			}
+			return fileList;
+		}
 
-
+	
 
 }
 

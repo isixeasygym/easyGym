@@ -41,6 +41,13 @@
  		<result property="buyNo" column="buyNo"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
+ 	
+ 	<resultMap type="detailImageDTO" id="detailImageResult">
+ 		<result property="imageFileNo" column="imageFileNo"/>
+ 		<result property="imageFileName" column="imageFileName"/>
+ 		<result property="regDate" column="regDate"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 	</resultMap>
 
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[
