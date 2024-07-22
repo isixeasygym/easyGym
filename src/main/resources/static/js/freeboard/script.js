@@ -1,111 +1,79 @@
-/*document.addEventListener("DOMContentLoaded", function() {
-    loadPosts();
-});
-
-function openPostForm() {
-    document.getElementById('postModal').style.display = "flex";
-}
-
-function closePostForm() {
-    document.getElementById('postModal').style.display = "none";
-}
-
-function openViewModal(post) {
-    document.getElementById('view-title').textContent = post.freeTitle;
-    document.getElementById('view-author').textContent = `글쓴이: ${post.memberNo}`;
-    document.getElementById('view-timestamp').textContent = `작성시간: ${post.freeCreatedAt}`;
-    document.getElementById('view-content').textContent = post.freeContent;
-    document.getElementById('viewModal').style.display = "flex";
-}
-
-function closeViewModal() {
-    document.getElementById('viewModal').style.display = "none";
-}
-
-async function addPost() {
-    const title = document.getElementById('post-title').value.trim();
-    const author = document.getElementById('post-author').value.trim();
-    const content = document.getElementById('post-content').value.trim();
-
-    if (title && author && content) {
-        const post = {
-            freeTitle: title,
-            freeContent: content,
-            memberNo: parseInt(author),
-            freeCreatedAt: new Date().toISOString(),
-            freeViewCount: 0,
-            freeFileName: '',
-            fbanswerNo: 0
-        };
-
-        try {
-            await fetch('/api/freeboard/articles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(post)
-            });
-            loadPosts();
-            closePostForm();
-        } catch (error) {
-            console.error('Error adding post:', error);
-        }
+function fn_fboardForm(isLogOn, freeboard, loginForm) {
+	
+    if (isLogOn == true) {
+        location.href = freeboard;
     } else {
-        alert('모든 필드를 입력하세요.');
+        alert("로그인 후 글쓰기가 가능합니다.");
+        location.href = loginForm + '?action=/member/loginForm.do';
     }
 }
-
-async function loadPosts() {
-    try {
-        const response = await fetch('/freeboard/articles');
-        const posts = await response.json();
-        const postList = document.getElementById('post-list');
-        postList.innerHTML = ''; // Clear the current list
-
-        posts.forEach((post, index) => appendPost(post, index));
-    } catch (error) {
-        console.error('Error loading posts:', error);
-    }
+function readImage(input, num){
+	if(input.files && input.files[0]){
+		let reader = new FileReader();
+		reader.onload = function(e){
+			$('#preview' + num).attr('src',e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}else {
+		$('#preview').attr('src','#'); // 이미지 선택 x -> src 속성에 # 값을 넣는다.
+	}
 }
 
-function appendPost(post, index) {
-    const postList = document.getElementById('post-list');
-    const row = document.createElement('tr');
-    row.setAttribute('data-id', post.freePostNo);
-    row.addEventListener('click', function() {
-        incrementViews(post.freePostNo);
-        openViewModal(post);
-    });
 
-    row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${post.freeTitle}</td>
-        <td>${post.memberNo}</td>
-        <td>${post.freeCreatedAt}</td>
-        <td id="views-${post.freePostNo}">${post.freeViewCount}</td>
-    `;
 
-    postList.insertBefore(row, postList.firstChild); // New posts appear at the top
-}
 
-async function incrementViews(postId) {
-    try {
-        const response = await fetch(`/api/freeboard/articles/${postId}`);
-        const post = await response.json();
-        post.freeViewCount += 1;
 
-        await fetch('/api/freeboard/articles', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(post)
-        });
 
-        document.getElementById(`views-${postId}`).textContent = post.freeViewCount;
-    } catch (error) {
-        console.error('Error incrementing views:', error);
-    }
-}
-*/
+//글 수정하기 위해 글 정보 활성화
+function fn_enable(obj) {
+		document.getElementById("div_button_modify").style.display = "block";
+		document.getElementById("div_button").style.display = "none";
+		document.getElementById("boardTitle").disabled = false;
+		document.getElementById("noticeContent").disabled = false;
+		 let imgName=document.querySelectorAll(".id_imgFile");
+		if (imgName != null) {
+			for(let i=0; i<imgName.length; i++){				
+	         	imgName[i].disabled=false;
+			}
+		}
+	}
+	   
+	// 글 수정 반영하기
+	function fn_modify_fboard(obj) {
+		obj.action = "/freeboard/modFboard.do";
+		obj.submit();
+	}
+
+	// 글 상세보기 전환(취소)
+	function toList(obj) {
+		obj.action = "/freeboard/viewfboard.do";
+		obj.submit();
+	}
+
+	// 리스트로 돌아가기
+	function backToList(obj) {
+		obj.action = "/freeboard/fboardList.do";
+		obj.submit();
+	}
+
+	// 삭제하기
+	function fn_remove_fboard(url, freeNo) {
+	   
+
+	    // 동적으로 폼 태그를 생성
+	    let del_form = document.createElement("form");
+	    del_form.setAttribute("action", url);
+	    del_form.setAttribute("method", "post");
+
+	    let freeNoInput = document.createElement("input"); // 동적으로 input 태그 생성
+	    freeNoInput.setAttribute("type", "hidden");
+	    freeNoInput.setAttribute("name", "freeNo");
+	    freeNoInput.setAttribute("value", freeNo);
+	    
+	    del_form.appendChild(freeNoInput);
+	    document.body.appendChild(del_form); // del_form을 추가해서 body안에 form태그가 두개가된다.
+
+	    // 폼 제출
+	    del_form.submit();
+	}
+

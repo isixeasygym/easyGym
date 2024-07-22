@@ -32,22 +32,6 @@
         <result property="operatorCreatedAt" column="operatorCreatedAt"/>
         <result property="operatorState" column="operatorState"/>
     </resultMap>
-
- 	
-	<resultMap type="memberDTO" id="memResult"> <!-- typeAlias에 설정한 alias를 type으로 준다. -->
-       <result property="memberNo" column="memberNo"/> <!-- set와 같은역할 resultType으로 memberDTO 또는 resultMap을 사용하여 setting을 바로 한다. -->
-       <result property="memberName" column="memberName"/>
-       <result property="memberId" column="memberId"/>
-       <result property="memberPwd" column="memberPwd"/>
-       <result property="memberPhone" column="memberPhone"/>
-       <result property="memberEmail" column="memberEmail"/>
-       <result property="memberAddr" column="memberAddr"/>
-       <result property="memberPost" column="memberPost"/>
-       <result property="memberCreatedAt" column="memberCreatedAt"/>
-       <result property="memberState" column="memberState"/>
-       <result property="memberGender" column="memberGender"/>
-       <result property="memberMarketing" column="memberMarketing"/>
-    </resultMap> 
     <!-- SQL 중복 제거 -->
     <sql id="selectAllMembers">
        <![CDATA[
@@ -93,7 +77,7 @@
           DELETE FROM member_tbl WHERE memberNo=#{memberNo}
        ]]>
     </delete>
-    
+    <!-- 아래로부터 detail관련된 것들-->
     <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
        <![CDATA[
           select * from member_tbl where memberNo = #{memberNo}
@@ -103,8 +87,10 @@
     <select id="checkId" parameterType="String" resultType="String">
 		select memberId from member_tbl where memberId=#{memberId}
 	</select>
-	
-    
+
+     <select id="selectMemberNo" parameterType="int" resultType="int">
+		select memberNo from member_tbl where memberNo=#{memberNo}
+	</select>
     
 </mapper>
 

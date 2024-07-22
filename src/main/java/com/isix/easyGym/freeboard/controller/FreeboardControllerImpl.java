@@ -22,9 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.isix.easyGym.freeboard.dto.FreeDTO;
 import com.isix.easyGym.freeboard.dto.FreeImageDTO;
 import com.isix.easyGym.freeboard.service.FreeBoardService;
+import com.isix.easyGym.member.dto.MemberDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller("FreeBoardController")
 public class FreeboardControllerImpl implements FreeBoardController {
@@ -47,6 +49,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 		Map fbmap = freeboardservice.listFboard(pagingMap); // 기존 list 와 page, section을 가져오기 위해 map을 사용  
 		fbmap.put("section", section);
 		fbmap.put("pageNum", pageNum);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/freeboard/fboardList");
 		mv.addObject("fbmap",fbmap);
@@ -55,95 +58,71 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	
 	
 	@Override
-	@GetMapping("/board/articleForm.do")
+	@GetMapping("/freeboard/fboardForm.do")
 	public ModelAndView fboardForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/board/articleForm_multi");
+		mv.setViewName("/freeboard/fboardForm");
 		return mv;
 	}
-	/* 글쓰기에 한개의 이미지 추가 
-	@Override
-	@PostMapping("/board/addArticle.do")
-	public ModelAndView addArticle(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
-		mulReq.setCharacterEncoding("utf-8");
-		Map<String, Object> amap = new HashMap<String,Object>();
-		Enumeration enu = mulReq.getParameterNames();
-		while(enu.hasMoreElements()) { // 매개변수가 있으면 
-			String name = (String)enu.nextElement(); // 요소들
-			String value = mulReq.getParameter(name); // 매개변수이름으로 가져온 value값
-			amap.put(name, value);
-		}
-		String imageFileName = fileUpload(mulReq);
-		String title = (String)amap.get("title");
-		String content = (String)amap.get("content");
-		articleDTO.setTitle(title);
-		articleDTO.setContent(content);
-		articleDTO.setImageFileName(imageFileName);
-		articleDTO.setId("chulsu"); // 임의의 아이디 사용 / session의 아이디를 사용
-		int articleNo = boardService.addArticle(articleDTO);
-		if(imageFileName != null && imageFileName.length() !=0) {
-			File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-			File destDir = new File(ARTICLE_IMG_REPO + "\\" + articleNo);
-			FileUtils.moveFileToDirectory(srcFile, destDir,true);
-		}
-		ModelAndView mv = new ModelAndView("redirect:/board/listArticles.do");
-		
-		return mv;
-	}*/
+	
 	// ----------------------------------------------------------------
 	
 	// 글쓰기에 여러 개의 이미지 추가 
 	
-	@PostMapping("/board/addArticle.do")
+	@PostMapping("/freeboard/addFreeboard.do")
 	public ModelAndView addFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
-		String imageFileName = null;
-		mulReq.setCharacterEncoding("utf-8");
-		Map<String, Object> amap = new HashMap<String,Object>();
-		Enumeration enu = mulReq.getParameterNames();
-		while(enu.hasMoreElements()) { // 매개변수가 있으면 
-			String name = (String)enu.nextElement(); // 요소들
-			String value = mulReq.getParameter(name); // 매개변수이름으로 가져온 value값
-			amap.put(name, value);
-		}
-		List<String> flist = mulFileUpload(mulReq);
-		List<FreeImageDTO> imageFileList = new ArrayList<FreeImageDTO>(); // 여러개의 이미지를 담을 리스트를 생성
-		if(flist != null && flist.size() !=0) {
-			for(String fname : flist) {
-				FreeImageDTO imageDTO = new FreeImageDTO(); // 리스트를 생성할때마다 인스턴스 객체 생성
-				imageDTO.setImageFileName(fname);
-				imageFileList.add(imageDTO);
-			}
-			amap.put("imageFileList", imageFileList);
-		}
-		/*
-		 * HttpSession session = mulReq.getSession(); MemberDTO memberDTO =
-		 * (MemberDTO)session.getAttribute("member"); String id = memberDTO.getId();
-		 * amap.put("id", id);
-		 */
-		try {
-			int articleNo = freeboardservice.addFboard(amap);
-			if(imageFileList != null && imageFileList.size() !=0) {
-				for(FreeImageDTO imageDTO : imageFileList) {
-					imageFileName = imageDTO.getImageFileName();
-					File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-					File destDir = new File(ARTICLE_IMG_REPO + "\\" + articleNo);
-					FileUtils.moveFileToDirectory(srcFile, destDir,true);
-				}
-			}
-		}catch (Exception e){
-			// 글 쓰기 수행중 오류
-			if(imageFileList != null && imageFileList.size() !=0) {
-				for(FreeImageDTO imageDTO : imageFileList) {
-					imageFileName = imageDTO.getImageFileName();
-					File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-					// 오류 발생시 temp폴더에 있는 이미지를 삭제
-					srcFile.delete();
-				}
-			}
-		}
-		ModelAndView mv = new ModelAndView("redirect:/board/listArticles.do");
-		
-		return mv;
+	    String imageFileName = null;
+	    mulReq.setCharacterEncoding("utf-8");
+	    Map<String, Object> fbmap = new HashMap<>();
+	    Enumeration enu = mulReq.getParameterNames();
+	    while (enu.hasMoreElements()) {
+	        String name = (String) enu.nextElement();
+	        String value = mulReq.getParameter(name);
+	        fbmap.put(name, value);
+	        System.out.println(fbmap.get(name));
+	    }
+
+	    List<String> flist = mulFileUpload(mulReq);
+	    List<FreeImageDTO> imageFileList = new ArrayList<>();
+	    if (flist != null && flist.size() != 0) {
+	        for (String fname : flist) {
+	            FreeImageDTO fbimageDTO = new FreeImageDTO();
+	            fbimageDTO.setImageFileName(fname);
+	            imageFileList.add(fbimageDTO);
+	            System.out.println(fbimageDTO.getImageFileName() + " 이미지 이름 가져옴");
+	        }
+	        fbmap.put("imageFileList", imageFileList);
+	    }
+
+	    HttpSession session = mulReq.getSession();
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    String memberId = memberDTO.getMemberId();
+	    fbmap.put("memberId", memberId);
+
+	    try {
+	        int fboardNo = freeboardservice.addFboard(fbmap);
+	        if (imageFileList != null && imageFileList.size() != 0) {
+	            for (FreeImageDTO fbimageDTO : imageFileList) {
+	                imageFileName = fbimageDTO.getImageFileName();
+	                System.out.println(imageFileName + " 여기까지 옴!!!!!!!!!!!!");
+	                File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
+	                File destDir = new File(ARTICLE_IMG_REPO + "\\" + fboardNo);
+	                FileUtils.moveFileToDirectory(srcFile, destDir, true);
+	            }
+	        }
+	    } catch (Exception e) {
+	        System.out.println("예외 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        if (imageFileList != null && imageFileList.size() != 0) {
+	            for (FreeImageDTO fbimageDTO : imageFileList) {
+	                imageFileName = fbimageDTO.getImageFileName();
+	                File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
+	                srcFile.delete();
+	            }
+	        }
+	    }
+	    ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
+	    return mv;
 	}
 	
 	
@@ -163,13 +142,13 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 //	}
 
 	// 여러개의 이미지 상세보기
-	@RequestMapping(value="/board/viewArticle.do")
+	@RequestMapping(value="/freeboard/viewfboard.do")
 	public ModelAndView viewFboard(@RequestParam("freeNo") int freeNo, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		//articleDTO = boardService.viewArticle(articleNo);
-		Map amap = freeboardservice.viewFboard(freeNo); // 두개의 테이블을 거쳐야 하기 때문에 map으로 변경
+		Map fbmap = freeboardservice.viewFboard(freeNo); // 두개의 테이블을 거쳐야 하기 때문에 map으로 변경
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/board/viewArticle_multi");
-		mv.addObject("amap",amap);
+		mv.setViewName("/freeboard/viewfboard");
+		mv.addObject("fbmap",fbmap);
 		return mv;
 	}
 	
@@ -211,7 +190,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	
 	// 여러개의 이미지 수정
 	
-	@RequestMapping(value="/board/modArticle.do")
+	@RequestMapping(value="/freeboard/modFboard.do")
 	public ModelAndView modFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
 		String imageFileName = null;
 		mulReq.setCharacterEncoding("utf-8");
@@ -229,10 +208,10 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 		if(flist != null && flist.size() !=0) {
 			for(String fname : flist) {
 				modNum ++;
-				FreeImageDTO imageDTO = new FreeImageDTO(); // 리스트를 생성할때마다 인스턴스 객체 생성
-				imageDTO.setImageFileName(fname);
-				imageDTO.setImageFileNo(Integer.parseInt((String)fbmap.get("imageFileNo" + modNum))); 
-				imageFileList.add(imageDTO);
+				FreeImageDTO fbimageDTO = new FreeImageDTO(); // 리스트를 생성할때마다 인스턴스 객체 생성
+				fbimageDTO.setImageFileName(fname);
+				fbimageDTO.setImageFileNo(Integer.parseInt((String)fbmap.get("imageFileNo" + modNum))); 
+				imageFileList.add(fbimageDTO);
 			}
 			fbmap.put("imageFileList", imageFileList);
 		}
@@ -275,14 +254,15 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	
 	
 	// 한개의 이미지 / 여러개 이미지 삭제 ( ON DELETE CASCADE 한다 )
-	@RequestMapping(value="/board/removeArticle.do")
+	@RequestMapping(value="/freeboard/removeFboard.do")
 	public ModelAndView removeFboard(@RequestParam("freeNo") int freeNo, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		System.out.println(freeNo + "번호");
 		freeboardservice.removeFboard(freeNo);
 		File imgDir = new File(ARTICLE_IMG_REPO + "\\" + freeNo);
 		if(imgDir.exists()) { // 폴더가 있으면
 			FileUtils.deleteDirectory(imgDir); // 폴더삭제 메소드
 		}
-		ModelAndView mv = new ModelAndView("redirect:/board/listArticles.do");
+		ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
 		return mv;
 	}
 
