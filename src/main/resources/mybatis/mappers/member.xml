@@ -45,6 +45,13 @@
           SELECT * FROM member_tbl where memberId = #{memberId} and memberPwd = #{memberPwd}
        ]]>
     </select>
+    
+    <!-- 아이디 중복체크 -->
+    <select id="checkDuplicateId" parameterType="String" resultType="int">
+        SELECT COUNT(*) 
+        FROM member_tbl 
+        WHERE memberId = #{memberId}
+    </select>
 
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
