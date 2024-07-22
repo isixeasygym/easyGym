@@ -25,9 +25,7 @@ public interface DetailService {
 	
 	public void writeReview(Map reviewMap) throws DataAccessException;
 	
-	public void deleteReview(Map review) throws DataAccessException;
-	
-	public List findReviewNo(int detailNo) throws DataAccessException;
+	public void removeReview(int reviewNoww3) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
 }

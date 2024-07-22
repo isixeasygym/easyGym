@@ -1,5 +1,6 @@
 package com.isix.easyGym.detail.controller;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -7,11 +8,15 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.isix.easyGym.member.dto.MemberDTO;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
 	
+	public ModelAndView insertMyCompany(@ModelAttribute("memberDTO") MemberDTO memberDTO , HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 	
 	public ModelAndView selectAll(@RequestParam("detailClassification") String detailClassification,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -27,7 +32,7 @@ public interface DetailController{
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	
-	public String deleteReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("userId") int memberNo,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception;

@@ -1,16 +1,20 @@
 //글 삭제
 function deleteReview(){ 
-		var reviewNo = $(this).children('.companyId').val();
-       var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
+	var companyId = $(this).children('.reviewNo').val();
+	var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
        console.log("companyId: " + companyId);
        console.log("userId: " + userId);
-		
+
+	   
+	   
         $.ajax({
+			async:false,
+			cache: false,
             type: "POST",
             url: "/delete.do",
 			async:false,
             data: { 
-                companyId: companyId, 
+                reviewNo: reviewNo, 
                 userId: userId 
             },
 			success: function(data)			{
@@ -29,6 +33,7 @@ function deleteReview(){
         });
 }
 //글 등록하기
+
 
 function writeSubmit() {
             // 입력된 값들을 변수에 저장

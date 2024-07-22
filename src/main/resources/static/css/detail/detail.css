@@ -391,3 +391,14 @@ body{
 	border-bottom: 2px solid #F6F6F6;
 	height: 225px;
 }
+
+#mapRange{
+	width: 900px;
+	text-align: center;
+	margin: 0 auto;
+}
+#map{
+	position: relative;
+	left: 50px;
+	margin: 0 auto;
+}

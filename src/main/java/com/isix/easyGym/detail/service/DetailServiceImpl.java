@@ -77,19 +77,9 @@ public class DetailServiceImpl implements DetailService{
 
 
 	@Override
-	public void deleteReview(Map review) throws DataAccessException {
-		detailDAO.removeReview(review);
+	public void removeReview(int reviewNo) throws DataAccessException {
+		detailDAO.deleteReview(reviewNo);
 	}
-
-
-
-	@Override
-	public List findReviewNo(int detailNo) throws DataAccessException {
-		List reviewNo = detailDAO.selectReviewNo(detailNo);
-		return reviewNo;
-	}
-
-
 
 	@Override
 	public List findReview(int detailNo) throws DataAccessException {

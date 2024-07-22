@@ -1,14 +1,12 @@
 package com.isix.easyGym.member.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.isix.easyGym.member.dao.MemberDAO;
+import com.isix.easyGym.member.dao.MemberOperDAO;
 import com.isix.easyGym.member.dto.MemberDTO;
-import com.isix.easyGym.member.dto.MemberOperDTO;
 
 @Service("memberService") // 아래에 내용을 넣지 않더라도 기본적으로 service라는 것을 지정해줘야함
 public class MemberServiceImpl implements MemberService {
@@ -16,7 +14,9 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberOperDAO memberOperDAO;
 
-<<<<<<< HEAD
+	@Autowired
+	private MemberDAO memberDAO;
+
 	@Autowired
 	private MemberDTO memberDTO;
 	
@@ -24,14 +24,7 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.insertMember(memberDTO);
 	}
 
-	public MemberDTO findMember(String id) throws DataAccessException {
-		MemberDTO memberDTO = memberDAO.selectMemberById(id);
-		return memberDTO;
-=======
-	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException {
-		memberOperDAO.insertMember(memberOperDTO);
->>>>>>> branch 'detail' of https://github.com/isixeasygym/easyGym.git
-	}
+
 
 	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
 		memberDAO.updateMember(memberDTO);
@@ -49,13 +42,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.checkId(memberId);
 	}
 
-<<<<<<< HEAD
-	@Override
-	public List listMembers(MemberDTO memberDTO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
 		memberDTO=memberDAO.loginChecking(memberNo);
@@ -68,9 +54,20 @@ public class MemberServiceImpl implements MemberService {
 		return memberNum;
 	}
 
+	@Override
+	public void addOperator(MemberDTO memberDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public MemberDTO findMember(String id) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }
-=======
-}
->>>>>>> branch 'detail' of https://github.com/isixeasygym/easyGym.git

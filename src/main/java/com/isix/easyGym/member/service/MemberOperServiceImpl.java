@@ -16,6 +16,26 @@ public class MemberOperServiceImpl implements MemberOperService {
 	private MemberOperDTO memberOperDTO;
 	@Autowired
 	private MemberOperDAO memberOperDAO;
+	@Override
+	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void delOperMember(String id) throws DataAccessException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public MemberOperDTO login(MemberOperDTO memberDTO) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean checkId(String memberOperId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 //	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException{
 //		memberOperDAO.insertOperator(memberOperDTO);

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.isix.easyGym.member.dto.MemberOperDTO;
 import com.isix.easyGym.member.service.MemberOperService;
@@ -23,11 +24,39 @@ public class MemberOperControllerImpl implements MemberOperController {
 	private MemberOperDTO memberOperDTO;
 
 	@Override
-	@RequestMapping(value = "/member/operJoin.do")
-	public ModelAndView addOperator(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+	public ModelAndView addOperator(MemberOperDTO memberOperDTO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/operJoin");
-		return mav;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public ModelAndView delOperator(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView loginForm(MemberOperDTO member, String action, String result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView login(MemberOperDTO member, RedirectAttributes rAttr, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView checkId(String memberId, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

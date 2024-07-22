@@ -33,9 +33,7 @@ public interface DetailDAO {
 	
 	public void insertNoImgReview(Map noImgReviewMap) throws DataAccessException;
 	
-	public void removeReview(Map review) throws DataAccessException;
-	
-	public List selectReviewNo(int detailNo) throws DataAccessException;
+	public void deleteReview(int reviewNo) throws DataAccessException;
 	
 	public List selectReview(int detailNo) throws DataAccessException;
 }

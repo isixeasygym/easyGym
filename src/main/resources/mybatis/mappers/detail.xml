@@ -15,7 +15,6 @@
  		<result property="detailScope" column="detailScope"/>
  		<result property="detailComment" column="detailComment"/>
  		<result property="detailServiceProgram" column="detailServiceProgram"/>
- 		<result property="reviewNo" column="reviewNo"/>
  		<result property="detailStatus" column="detailStatus"/>
  		<result property="detailClassification" column="detailClassification"/>
  		<result property="detailFreeService" column="detailFreeService"/>
@@ -23,6 +22,7 @@
  		<result property="detailKoClassification" column="detailKoClassification"/>
  		<result property="detailLatitude" column="detailLatitude"/>
  		<result property="detailLongitude" column="detailLongitude"/>
+ 		<result property="operatorNo" column="operatorNo"/>
  	</resultMap>
  	
  	<resultMap type="detailDibsDTO" id="detailDibsResult">
@@ -85,13 +85,14 @@
 	</select>
  
  		<!--<![CDATA[
- 			SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
-			UNION ALL SELECT 0 WHERE NOT EXISTS ( SELECT 1 FROM detailreview_tbl WHERE detailNo = #{detailNo})
+ 			select reviewNo from detailreview_tbl where detailNo=#{detailNo}
  		]]>-->		
  
  	<select id="selectReviewNo" parameterType="int" resultType="int">
  		<![CDATA[
- 			select reviewNo from detailreview_tbl where detailNo=#{detailNo}
+ 			SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
+			UNION ALL SELECT 0 WHERE NOT EXISTS ( SELECT 1 FROM detailreview_tbl WHERE detailNo = #{detailNo})
+ 			
  		]]>
  	</select>
  	
@@ -113,9 +114,9 @@
  		]]>
  	</insert>
  	
- 	<delete id="removeReview" parameterType="java.util.Map">
+ 	<delete id="deleteReview" parameterType="int">
  		<![CDATA[
- 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo} and buyNo = #{buyNo}
+ 			delete from detaildibs_tbl where reviewNo = #{reviewNo}
  		]]>
  	</delete>
  	

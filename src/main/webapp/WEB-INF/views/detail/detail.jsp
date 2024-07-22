@@ -128,12 +128,11 @@
 								<textarea id="myTextarea" maxlength="150"></textarea>
 								<div id="charCount">0/150</div>
 							</div>
-							<div id="fileRange">
+							<!--<div id="fileRange">
 								<p id="fileInfo">이미지파일 첨부</p>
 								 <input type="file" id="reviewImageName" name="reviewImageName">
-			               	</div> 
+			               	</div>--> 
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
-								<input  type="hidden" class="reviewNo" value="${review.reviewNo}">
 							</button>
 						</div>	
 			        </div>
@@ -143,6 +142,7 @@
 				               <c:forEach var="review" items="${review}">
 				                   <div class="ReviewRange">
 									<button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button> 
+								
 				                       <div class="personReviewRange">
 				                           <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
 				                           <p>(익명의 회원)</p>
@@ -158,12 +158,11 @@
 				           </c:otherwise>
 				       </c:choose>
 				   	</div>
-	                <div>
+	                <div id="mapRange">
 	                    <h5>위치</h5>
 	                    <a name="2"></a>
-	                    <h1>맵 API 마커 표시 예시</h1>
 						<div id="map" style="width:85%;height:350px;"></div>
-	
+					</div>
 						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
 						<script>
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -185,7 +184,7 @@
 						// 마커가 지도 위에 표시되도록 설정합니다
 						marker.setMap(map);
 						</script>
-	                </div>
+	                
                 <p id="produ">easyGym은 통신판매의 중개자이며, 통신판매의 당사자가 아닙니다. 따라서<br>
                    다짐은 상품의 구매, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.

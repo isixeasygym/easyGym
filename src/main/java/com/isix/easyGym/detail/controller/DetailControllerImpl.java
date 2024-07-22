@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 @Controller("detailController")
 public class DetailControllerImpl implements DetailController{
+	
 	private static String ARTICLE_IMG_REPO= "C:\\Users\\USER\\Desktop\\isix\\easyGym\\src\\main\\resources\\static\\images\\detail\\reviewImage";
+	
 	@Autowired
 	private DetailDTO detailDTO;
 	
@@ -67,12 +68,20 @@ public class DetailControllerImpl implements DetailController{
 	@Autowired
 	private DetailReviewDTO detailReviewDTO;
 	
-	@Override
-	@GetMapping("/test.do")
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+	
+	@GetMapping("/detail/registration.do")  //127.0.0.1:8090 => 이렇게만 매핑 보내기
+	public ModelAndView registration(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/detail/test");
+		mav.setViewName("/detail/registration");
 		return mav;
+	}
+	
+	@Override
+	public ModelAndView insertMyCompany(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
@@ -86,19 +95,13 @@ public class DetailControllerImpl implements DetailController{
 		detailDTO=detailService.viewDetail(detailNo);
 		System.out.print(detailNo);
 		ModelAndView mav=new ModelAndView();
-		List reviewNo = new ArrayList<>();
-		reviewNo = detailService.findReviewNo(detailNo); 
-		System.out.print(reviewNo);
-		if(reviewNo != null ) {
-			List<DetailReviewDTO> review = detailService.findReview(detailNo);
-			if(review != null) {
-				session.setAttribute("getReview", 1);
-				mav.addObject("review", review);
-				
-			}else {
-				session.setAttribute("getReview", 0);
-				
-			}
+		List review = new ArrayList<>();
+		review = detailService.findReview(detailNo); 
+		if(review != null ) {
+			session.setAttribute("getReview", 1);
+			mav.addObject("review", review);
+		}else {
+			session.setAttribute("getReview", 0);
 		}
 		mav.addObject("details", detailDTO);
 		mav.setViewName("/detail/detail");
@@ -107,7 +110,7 @@ public class DetailControllerImpl implements DetailController{
 	
     
 	@Override
-	@RequestMapping("/detail/showAll.do")
+	@RequestMapping(value="/detail/showAll.do", method=RequestMethod.GET)
 	public ModelAndView selectAll(
 			@RequestParam("detailClassification") String detailClassification,
 			HttpServletRequest request,
@@ -174,21 +177,18 @@ public class DetailControllerImpl implements DetailController{
 	}
 
 	@Override
+	@ResponseBody
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String deleteReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") int memberNo,
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("userId") int memberNo,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
 		String success=null;
-		int memberNum=memberService.findmemberNo(Integer.parseInt(memberNo));
+		int memberNum=memberService.findmemberNo(memberNo);
 		if(memberNum != 0) {
 			int buyNo=payformService.buyCheck(memberNum);
 			if(buyNo !=0 ) {
-				Map<String, String> selectedDelete = new HashMap<String, String>(); 
-				selectedDelete.put("detailNo", detailNo);
-				selectedDelete.put("detailNo", String.valueOf(memberNum));
-				selectedDelete.put("buyNo", String.valueOf(buyNo));
-				detailService.deleteReview(selectedDelete);
+				detailService.removeReview(reviewNo);
 				success="success";
 			}else {
 				success="noBuy";
@@ -198,6 +198,7 @@ public class DetailControllerImpl implements DetailController{
 		}
 		return success;
 	}
+	
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
@@ -216,27 +217,27 @@ public class DetailControllerImpl implements DetailController{
 			int buyNo=payformService.buyCheck(memberNum);
 			if(buyNo != 0) {
 				MultipartRequest.setCharacterEncoding("utf-8");
-				Map<String,Object> reviewImageMap = new HashMap<>();
-				System.out.print(reviewImageName);
-				reviewImageMap.put("reviewImageName", reviewImageName);
-				String reviewImg=fileUpload(reviewImageMap);
-				System.out.print(reviewImageName);
-				if(reviewImageName != null ) {
+				//Map<String,Object> reviewImageMap = new HashMap<>();
+				//System.out.print(reviewImageName);
+				//reviewImageMap.put("reviewImageName", reviewImageName);
+				//System.out.print(reviewImageName);
+				/*if(reviewImageName != null ) {
 					
-					Map<String,String> reviewMap=new HashMap<String,String>();
+					?Map<String,String> reviewMap=new HashMap<String,String>();
 					reviewMap.put("reviewComment", reviewComment);
 					reviewMap.put("reviewImgName", reviewImageName);
 					reviewMap.put("reviewRating", reviewRating);
 					reviewMap.put("memberNo", memberNo);
 					reviewMap.put("buyNo", String.valueOf(buyNo));
 					reviewMap.put("detailNo", detailNo);
+					String reviewImg=fileUpload(reviewImageMap);
 					detailService.writeReview(reviewMap);
 					File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + reviewImg); 
 					File destDir=new File(ARTICLE_IMG_REPO + "\\" + reviewImg + "\\" + memberNum);
 					
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 					status="success";
-				}else {
+				}else {*/
 					Map<String,String> noImgReviewMap=new HashMap<String,String>();
 					noImgReviewMap.put("reviewComment", reviewComment);
 					noImgReviewMap.put("reviewRating", reviewRating);
@@ -245,7 +246,7 @@ public class DetailControllerImpl implements DetailController{
 					noImgReviewMap.put("detailNo", detailNo);
 					detailService.noImgReview(noImgReviewMap);
 					status="success";
-				}
+				
 			}else {
 				status="noBuy";
 			}
@@ -276,6 +277,9 @@ public class DetailControllerImpl implements DetailController{
 		}
 		return imageFileName;
 	}
+
+
+
 }
 
 

@@ -38,18 +38,13 @@ $(document).ready(function() {
 		event.stopPropagation();
 	});
 });
-function goToDetail(detailNo,memberNo){
+function goToDetail(detailNo){
 	let detailForm = document.createElement('form');
 	let inputData = document.createElement('input');
 	inputData.setAttribute('type', 'hidden');
 	inputData.setAttribute('name', 'detailNo');
 	inputData.setAttribute('value', detailNo);
-	let inputData2 = document.createElement('input');
-	inputData2.setAttribute('type', 'hidden');
-	inputData2.setAttribute('name', 'memberNo');
-	inputData.setAttribute('value', memberNo);
 	detailForm.appendChild(inputData);
-	detailForm.appendChild(inputData2);
 	document.body.appendChild(detailForm);
 	detailForm.setAttribute('action', '/detail/detail.do');
 	detailForm.setAttribute('method', 'get');
