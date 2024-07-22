@@ -77,7 +77,7 @@
           DELETE FROM member_tbl WHERE memberNo=#{memberNo}
        ]]>
     </delete>
-    
+    <!-- 아래로부터 detail관련된 것들-->
     <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
        <![CDATA[
           select * from member_tbl where memberNo = #{memberNo}
@@ -87,8 +87,10 @@
     <select id="checkId" parameterType="String" resultType="String">
 		select memberId from member_tbl where memberId=#{memberId}
 	</select>
-	
-    
+
+     <select id="selectMemberNo" parameterType="int" resultType="int">
+		select memberNo from member_tbl where memberNo=#{memberNo}
+	</select>
     
 </mapper>
 
