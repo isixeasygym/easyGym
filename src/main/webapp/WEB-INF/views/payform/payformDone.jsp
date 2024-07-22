@@ -1,4 +1,3 @@
-<jsp:useBean id="member" scope="request" type="com.isix.easyGym.member.dto.MemberDTO"/>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -23,22 +22,22 @@ request.setCharacterEncoding("utf-8");
             <div class="paymentInfo">
                 <div class="form_group">
                     <label for="payName">구매자:</label>
-                    <input type="text" id="payName" name="payName" value="${member.memberName}" readonly required>
+                    <input type="text" id="payName" name="payName" value="${result.memberName}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="userTel">휴대전화:</label>
-                    <input type="text" id="userTel" name="userTel" value="${member.memberPhone}" readonly required>
+                    <input type="text" id="userTel" name="userTel" value="${result.memberPhone}" readonly required>
                 </div>
                 <div class="form_group">
                     <label for="bisName">헬스장 이름:</label>
-                    <input type="text" id="bisName" name="bisName" value="${member.detailBusinessName}" readonly required>
+                    <input type="text" id="bisName" name="bisName" value="${result.detailBusinessName}" readonly required>
                 </div>
             </div>
 
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice">${member.finalPrice}원</div>
+            <div id="finalPrice">${result.finalPrice}원</div>
         </div>
-        <button type="submit" id="goBack">확인</button>
+        <button type="submit" id="goBack" >확인</button>
     </form>
 </div>
 

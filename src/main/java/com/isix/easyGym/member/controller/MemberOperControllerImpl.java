@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.member.dto.MemberOperDTO;
 import com.isix.easyGym.member.service.MemberOperService;
 
@@ -24,9 +23,16 @@ public class MemberOperControllerImpl implements MemberOperController {
 	
 	@Autowired
 	private MemberOperDTO memberOperDTO;
-
 	
-	
+	// 사업자 회원가입 페이지
+	@RequestMapping(value = "/member/operJoinForm.do")
+	public ModelAndView operJoinPage(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/operJoinForm");
+		return mav;
+	}
+	// 사업자 회원가입 기능
 	@Override
 	@RequestMapping(value = "/member/operJoin.do")
 	public ModelAndView addOperator(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request,
@@ -35,15 +41,19 @@ public class MemberOperControllerImpl implements MemberOperController {
 		mav.setViewName("/member/operJoin");
 		return mav;
 	}
-
-	@Override
-	public ModelAndView delOperator(String id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	@Override	// 사업자 로그인
+	// 사업자 로그인 페이지
+	@Override
+	@RequestMapping(value = "/member/operLoginForm.do")
+	public ModelAndView operLoginForm(MemberOperDTO operator, String action, String result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/operLoginForm");
+		return mav;
+	}
+
+	// 사업자 로그인 기능 
+	@Override
 	@RequestMapping(value = "/member/operLogin.do", method = RequestMethod.POST)
 	public ModelAndView operLogin(@ModelAttribute("operator") MemberOperDTO operator, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -66,13 +76,18 @@ public class MemberOperControllerImpl implements MemberOperController {
 		}
 		return mv;
 	}
-
-	@Override
-	public ModelAndView operLoginForm(MemberOperDTO operator, String action, String result, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/operLoginForm");
-		return mav;
-	}
+	// 사업자 삭제 기능
 	
+	public ModelAndView delOperator(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ModelAndView operJoinForm(MemberOperDTO memberOperDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
