@@ -11,6 +11,7 @@ public class FreeImageDTO {
 	private String imageFileName;
 	private Date regDate;
 	private int freeNo;
+	private int fbanswerNo;
 
 	public FreeImageDTO() {
 
@@ -47,6 +48,15 @@ public class FreeImageDTO {
 	public void setFreeNo(int freeNo) {
 		this.freeNo = freeNo;
 	}
+
+	public int getFbanswerNo() {
+		return fbanswerNo;
+	}
+
+	public void setFbanswerNo(int fbanswerNo) {
+		this.fbanswerNo = fbanswerNo;
+	}
+	
 	
 	
 }

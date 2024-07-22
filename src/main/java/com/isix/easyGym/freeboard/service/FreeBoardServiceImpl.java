@@ -28,7 +28,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		List<FreeDTO> fblist  = freeDAO.selectAll(count);
 		int tFreeboard = freeDAO.selectToFboard(); // 토탈 게시글
 		fbmap.put("fblist", fblist); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
-		fbmap.put("tFreeboard", 324);
+		fbmap.put("tFreeboard", 324); // 페이징 임시 처리
 		//fbmap.put("tFreeboard", tFreeboard);
 		return fbmap;
 	}

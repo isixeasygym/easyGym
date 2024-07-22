@@ -69,5 +69,57 @@
 	        </div>
 	    </div>
 	</form>
+	<div>
+	    <button id="showCommentForm">댓글 입력하기</button>
+	</div>
+	
+	<div class="comment-form" id="commentForm" style="display: none;">
+	     <form method="post" action="/freeboard/addAnswer.do" enctype="multipart/form-data">
+			<label for="writer" class="writer">작성자</label>
+			<input type="text" class="writerName" name="memberId" id="writer" value="${sessionScope.member.memberName}" readonly>
+			<input type="hidden" name="freeNo" value="${fbmap.fboard.freeNo}"> 
+			<input type="hidden" name="memberNo" value="${sessionScope.member.memberNo}"> 
+	        <label for="comment"></label><br>
+	        <textarea id="comment" name="fbanswerContent" rows="4" cols="50"></textarea><br>
+	        <button type="submit">댓글 등록</button>
+	    </form>
+		<c:choose>
+				<c:when test="${empty amap.fbanswerNo}">
+					등록된 리뷰가 없습니다.
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="answer" items="${amap}">
+						<div>
+							 <input type="text" class="form-control" name="memberId" id="boardWriter" value="${fbmap.mDTO.memberName}" readonly>
+							 <input type="text" class="form-control" name="memberId" id="boardWriter" value="${amap.fbanswerContent}" readonly>
+							 
+							 <button class="delBtn" onclick="del(${amap.fbanswerNo})">삭제</button>					
+						</div>
+					</c:forEach>	
+				</c:otherwise>
+			</c:choose>
+	</div>
+	
+	<script>
+	    document.getElementById('showCommentForm').addEventListener('click', function() {
+	        var commentForm = document.getElementById('commentForm');
+	        if (commentForm.style.display === 'none') {
+	            commentForm.style.display = 'block';
+	        } else {
+	            commentForm.style.display = 'none';
+	        }
+	    });
+		
+		let count = 1;
+		function fn_addFile2(){
+			$('#dock_file').append('<input type="file" name="imgFile' + count + '"><br>')
+			count++;
+		}
+		
+		function del(){
+			
+		}
+
+	</script>
 </div>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

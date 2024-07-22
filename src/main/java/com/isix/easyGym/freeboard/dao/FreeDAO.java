@@ -43,4 +43,19 @@ public interface FreeDAO {
 	public void updateImage(Map fbmap) throws DataAccessException;
 	
 	public void deleteFboard(int freeNo) throws DataAccessException;
+	
+	// 댓글
+	public List selectAnswer() throws DataAccessException;
+
+	public int getAnswerNo() throws DataAccessException; 
+	
+	public void insertNewAnswer(Map amap) throws DataAccessException;
+	
+	public void insertAnswerImages(Map amap) throws DataAccessException;
+
+	public void updateAnswer(Map amap) throws DataAccessException;
+	
+	public void updateAnswerImage(Map amap) throws DataAccessException;
+	
+	public void deleteAnswer(int fbanswerNo) throws DataAccessException;
 }

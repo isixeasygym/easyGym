@@ -17,5 +17,6 @@
     	<typeAlias type="com.isix.easyGym.payform.dto.PayformDTO" alias="payformDTO"/> <!-- 결제-->
     	<typeAlias type="com.isix.easyGym.report.dto.ReportDTO" alias="reportDTO"/>  <!-- 신고게시판 -->
     	<typeAlias type="com.isix.easyGym.notice.dto.NoticeImageDTO" alias="noticeImageDTO"/> <!-- 공지사항-->
+    	<typeAlias type="com.isix.easyGym.freeboard.dto.AnswerDTO" alias="answerDTO"/> <!-- 댓글-->
 	</typeAliases>
 </configuration>
