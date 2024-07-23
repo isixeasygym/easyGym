@@ -126,6 +126,8 @@ const idTag = document.getElementById('memberId');
       }
    });
    
+
+   
    // 이메일 
   /** mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기

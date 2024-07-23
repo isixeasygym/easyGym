@@ -54,9 +54,9 @@
 				class="nav-link dropdown-toggle" href="#" id="navbarDropdownProgram"
 				role="button" data-bs-toggle="dropdown" aria-expanded="false">시설찾기</a>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="health">헬스</a></li>
+					<li><a class="dropdown-item" href="detail/showAll.do?detailClassification=health">헬스</a></li>
 					<li><a class="dropdown-item" href="pilates">필라테스</a></li>
-					<li><a class="dropdown-item" href="boxing">복싱</a></li>
+					<li><a class="dropdown-item" href="detail/showAll.do?detailClassification=boxing&detailStatus=popular">복싱</a></li>
 				</ul></li>
 		</ul>
 		<div id="authButtons">
