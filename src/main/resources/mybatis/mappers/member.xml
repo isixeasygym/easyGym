@@ -1,37 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.member.dao.MemberDAO">  <!-- namespace는 mapper의 이름을 정의 -->
- 
- 	<resultMap type="memberDTO" id="memberResult">
- 		<result property="memberNo" column="memberNo"/>
- 		<result property="memberName" column="memberName"/>
- 		<result property="memberId" column="memberId"/>
- 		<result property="memberPwd" column="memberPwd"/>
- 		<result property="memberPhone" column="memberPhone"/>
- 		<result property="memberEmail" column="memberEmail"/>
- 		<result property="memberAddr" column="memberAddr"/>
- 		<result property="memberPost" column="memberPost"/>
- 		<result property="memberCreatedAt" column="memberCreatedAt"/>
- 		<result property="memberState" column="memberState"/>
- 		<result property="memberGender" column="memberGender"/>
- 		<result property="memberMarketing" column="memberMarketing"/>
- 	</resultMap>
- 	
- 	<resultMap type="memberoperDTO" id="memberoperResult">
- 		<result property="operatorNo" column="operatorNo"/>
- 		<result property="operatorName" column="operatorName"/>
- 		<result property="operatorId" column="operatorId"/>
- 		<result property="operatorPwd" column="operatorPwd"/>
- 		<result property="operatorPhone" column="operatorPhone"/>
- 		<result property="operatorEmail" column="operatorEmail"/>
- 		<result property="operatorResNo" column="operatorResNo"/>
- 		<result property="operatorImgName" column="operatorImgName"/>
- 		<result property="operatorCreatedAt" column="operatorCreatedAt"/>
- 		<result property="operatorState" column="operatorState"/>
- 	</resultMap>
- 	
- 	
- 
- </mapper>
+<mapper namespace="com.isix.easyGym.member.dao.MemberDAO">
+
+    <resultMap type="memberDTO" id="memberResult">
+        <result property="memberNo" column="memberNo"/>
+        <result property="memberName" column="memberName"/>
+        <result property="memberId" column="memberId"/>
+        <result property="memberPwd" column="memberPwd"/>
+        <result property="memberPhone" column="memberPhone"/>
+        <result property="memberEmail" column="memberEmail"/>
+        <result property="memberAddr" column="memberAddr"/>
+        <result property="memberPost" column="memberPost"/>
+        <result property="memberCreatedAt" column="memberCreatedAt"/>
+        <result property="memberState" column="memberState"/>
+        <result property="memberGender" column="memberGender"/>
+        <result property="memberMarketing" column="memberMarketing"/>
+    </resultMap>
+
+    <resultMap type="memberoperDTO" id="memberoperResult">
+        <result property="operatorNo" column="operatorNo"/>
+        <result property="operatorName" column="operatorName"/>
+        <result property="operatorId" column="operatorId"/>
+        <result property="operatorPwd" column="operatorPwd"/>
+        <result property="operatorPhone" column="operatorPhone"/>
+        <result property="operatorEmail" column="operatorEmail"/>
+        <result property="operatorResNo" column="operatorResNo"/>
+        <result property="operatorImgName" column="operatorImgName"/>
+        <result property="operatorCreatedAt" column="operatorCreatedAt"/>
+        <result property="operatorState" column="operatorState"/>
+    </resultMap>
+    <!-- SQL 중복 제거 -->
+    <sql id="selectAllMembers">
+       <![CDATA[
+          SELECT * FROM member_tbl 
+       ]]>
+    </sql>
+    
+    <!-- 로그인-->
+    <select id = "login" parameterType="memberDTO" resultType = "memberDTO">    
+		<![CDATA[
+          SELECT * FROM member_tbl where memberId = #{memberId} and memberPwd = #{memberPwd}
+       ]]>
+    </select>
+    
+    <!-- 아이디 중복체크 -->
+    <select id="checkDuplicateId" parameterType="String" resultType="int">
+        SELECT COUNT(*) 
+        FROM member_tbl 
+        WHERE memberId = #{memberId}
+    </select>
+
+    <!-- 회원 추가 -->
+    <insert id="insertMember" parameterType="memberDTO">
+       <![CDATA[
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberId}, #{memberPwd}, #{memberName}, #{memberEmail}, #{memberPhone},
+          #{memberPost}, #{memberAddr}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
+       ]]>
+    </insert>
+    
+<!--     회원 추가 (HashMap 사용)
+    <insert id="insertMember2" parameterType="java.util.HashMap">
+       <![CDATA[
+          INSERT INTO member_tbl (memberPwd, memberName, memberEmail)
+          VALUES (#{memberPwd}, #{memberName}, #{memberEmail})
+       ]]>
+    </insert> -->
+    
+    <!-- 회원 수정 -->
+    <update id="updateMember" parameterType="memberDTO">
+       <![CDATA[
+          UPDATE member_tbl SET memberPwd=#{memberPwd}, memberPhone=#{memberPhone}, memberEmail=#{memberEmail},
+          memberAddr=#{memberAddr}, memberPost=#{memberPost}, memberState=#{memberState}, memberGender=#{memberGender},
+          ≠memberMarketing=#{memberMarketing} WHERE memberNo=#{memberNo}
+       ]]>
+    </update>
+    
+    <!-- 회원 삭제 -->
+    <delete id="deleteMember" parameterType="String">    
+       <![CDATA[
+          DELETE FROM member_tbl WHERE memberNo=#{memberNo}
+       ]]>
+    </delete>
+    <!-- 아래로부터 detail관련된 것들-->
+    <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
+       <![CDATA[
+          select * from member_tbl where memberNo = #{memberNo}
+       ]]>
+    </select>
+    
+    <select id="checkId" parameterType="String" resultType="String">
+		select memberId from member_tbl where memberId=#{memberId}
+	</select>
+
+     <select id="selectMemberNo" parameterType="int" resultType="int">
+		select memberNo from member_tbl where memberNo=#{memberNo}
+	</select>
+    
+</mapper>
+

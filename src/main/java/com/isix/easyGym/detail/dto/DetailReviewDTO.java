@@ -4,59 +4,69 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
-@Component("detailreviewDTO")
+@Component("detailReviewDTO")
 public class DetailReviewDTO {
-	
+
 	private int reviewNo;
-	private String reviewContent;
+	private String reviewComment;
 	private String reviewImgName;
 	private Date reviewDate;
+	private int reviewRating;
 	private int memberNo;
+	private int buyNo;
+	private int detailNo;
 	
-	public DetailReviewDTO() {
-		
-	}
-
-	public int getReviewNo() {
-		return reviewNo;
-	}
-
-	public void setReviewNo(int reviewNo) {
-		this.reviewNo = reviewNo;
-	}
-
-	public String getReviewContent() {
-		return reviewContent;
-	}
-
-	public void setReviewContent(String reviewContent) {
-		this.reviewContent = reviewContent;
-	}
-
-	public String getReviewImgName() {
-		return reviewImgName;
-	}
-
-	public void setReviewImgName(String reviewImgName) {
-		this.reviewImgName = reviewImgName;
-	}
-
+	
 	public Date getReviewDate() {
 		return reviewDate;
 	}
-
 	public void setReviewDate(Date reviewDate) {
 		this.reviewDate = reviewDate;
 	}
 
+	
+	
+	public int getReviewNo() {
+		return reviewNo;
+	}
+	public void setReviewNo(int reviewNo) {
+		this.reviewNo = reviewNo;
+	}
+	public String getReviewComment() {
+		return reviewComment;
+	}
+	public void setReviewComment(String reviewComment) {
+		this.reviewComment = reviewComment;
+	}
+	public String getReviewImgName() {
+		return reviewImgName;
+	}
+	public void setReviewImgName(String reviewImgName) {
+		this.reviewImgName = reviewImgName;
+	}
+	public int getReviewRating() {
+		return reviewRating;
+	}
+	public void setReviewRating(int reviewRating) {
+		this.reviewRating = reviewRating;
+	}
 	public int getMemberNo() {
 		return memberNo;
 	}
-
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
-	
-	
+	public int getBuyNo() {
+		return buyNo;
+	}
+	public void setBuyNo(int buyNo) {
+		this.buyNo = buyNo;
+	}
+	public int getDetailNo() {
+		return detailNo;
+	}
+	public void setDetailNo(int detailNo) {
+		this.detailNo = detailNo;
+	}
 
 }

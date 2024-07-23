@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	implementation 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
@@ -36,6 +37,10 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'com.google.code.gson:gson:2.11.0'
+	implementation 'javax.servlet:javax.servlet-api:3.1.0' // 원하는 버전으로 수정 가능
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
 }
 
 tasks.named('test') {
