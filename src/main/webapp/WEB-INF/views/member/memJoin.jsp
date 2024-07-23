@@ -13,10 +13,10 @@
 					autocomplete="off" id="memberId" tabindex="1"
 					placeholder="아이디를 입력해주세요." required /> <br> <span id="check"></span>
 			</div>
-			<div class="input-box">
+<!-- 			<div class="input-box">
 				<label>&nbsp;</label> <input type="button" value="중복확인"
 					id="duplicateBtn" onclick="checkId(this.form)">
-			</div>
+			</div> -->
 		</div>
 
 
@@ -84,9 +84,9 @@
 		<div class="column">
 			<div class="input-box">
 				<label>주소</label> <input type="text" id="sample6_postcode"
-					name="memberPost" placeholder="우편번호"> <input type="button"
+					name="memberAddr" placeholder="우편번호"> <input type="button"
 					onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
-				<input type="text" id="sample6_address" name="memberAddr"
+				<input type="text" id="sample6_address" name="memberPost"
 					placeholder="주소"> <br> <input type="text"
 					id="sample6_detailAddress" placeholder="상세주소"> <input
 					type="text" id="sample6_extraAddress" placeholder="참고항목">
