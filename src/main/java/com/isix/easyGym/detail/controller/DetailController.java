@@ -40,7 +40,7 @@ public interface DetailController{
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	
-	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("userId") int memberNo,
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception;

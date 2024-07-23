@@ -139,26 +139,26 @@
 						</div>	
 			        </div>
 					<div id="reviewContainer">
-				       <c:choose>
-				           <c:when test="${sessionScope.getReview == 1}">
-				               <c:forEach var="review" items="${review}">
-				                   <div class="ReviewRange">
-									<button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button> 
-				                       <div class="personReviewRange">
-				                           <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-				                           <p class="anonymous">(익명의 회원)</p>
-				                           <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
-				                           <p class="reviewDate">${review.reviewDate}</p>
-				                           <p class="reviewComment">${review.reviewComment}</p>
-				                       </div>
-				                   </div>
-				               </c:forEach>
-				           </c:when>
-				           <c:otherwise>
-				               <h2>리뷰가 없습니다</h2>
-				           </c:otherwise>
-				       </c:choose>
-				   	</div>
+					    <c:choose>
+					        <c:when test="${sessionScope.getReview == 1}">
+					            <c:forEach var="review" items="${review}">
+					                <div class="ReviewRange" data-review-no="${review.reviewNo}">
+					                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+					                    <div class="personReviewRange">
+					                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+					                        <p class="anonymous">(익명의 회원)</p>
+					                        <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
+					                        <p class="reviewDate">${review.reviewDate}</p>
+					                        <p class="reviewComment">${review.reviewComment}</p>
+					                    </div>
+					                </div>
+					            </c:forEach>
+					        </c:when>
+					        <c:otherwise>
+					            <h2>리뷰가 없습니다</h2>
+					        </c:otherwise>
+					    </c:choose>
+					</div>
 	                <div id="mapRange">
 	                    <h5>위치</h5>
 	                    <a name="2"></a>

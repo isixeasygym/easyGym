@@ -10,7 +10,7 @@ public interface MemberOperService {
 	
 	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
 			
-	public void delOperator(String id) throws DataAccessException;
+	public void delOperator(String operatorId) throws DataAccessException;
 	
 	public void updateOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
 	

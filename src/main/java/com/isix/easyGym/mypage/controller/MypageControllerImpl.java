@@ -77,15 +77,33 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	} */
 	@Override
-	@ResponseBody  //JSON 형태로 뷰에 다시 넘겨줌
+	@ResponseBody  // = setAttribute 역할. JSON 등 여러 형태로 뷰에 다시 넘겨줌
 	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
 	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    // 서비스 메서드 호출
 		HttpSession session= request.getSession(false);
 		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
     	List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
 	    return dibsList;
 	}
+	//1-2)찜 취소
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/removeDibs.do", method = RequestMethod.POST)
+	public void removeDibs(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String detailNoStr = request.getParameter("detailNo");
+	    System.out.println("Received detailNo: " + detailNoStr); // 디버깅용 로그
+
+	    if (detailNoStr == null || detailNoStr.isEmpty()) {
+	        System.out.println("Invalid detailNo: " + detailNoStr); // 디버깅용 로그
+	        throw new IllegalArgumentException("Invalid detail number.");
+	    }
+	    int detailNo = Integer.parseInt(detailNoStr);
+	    HttpSession session = request.getSession(false);
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    System.out.println("Member No: " + memberDTO.getMemberNo() + ", Detail No: " + detailNo); // 디버깅용 로그
+	    mypageService.removeDibs(memberDTO.getMemberNo(), detailNo);
+	}
+
 	
 	//2.포인트&쿠폰
 	@RequestMapping(value = "/pointsAndCoupons.do", method = RequestMethod.GET)

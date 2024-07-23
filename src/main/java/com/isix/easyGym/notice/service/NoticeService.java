@@ -28,4 +28,7 @@ public interface NoticeService {
 	// 공지사항 삭제
 	public void removeNotice(int noticeNo) throws DataAccessException;
 
+	// 공지사항 페이지 리스트
+	public Map noticePageList(Map<String,Integer> pagingMap) throws DataAccessException;
+	
 }

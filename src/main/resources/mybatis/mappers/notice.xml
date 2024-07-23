@@ -98,5 +98,20 @@
  			delete from notice_tbl where noticeNo=#{noticeNo}
  		]]>
  	</delete>
+ 	
+ 	
+ 	<!-- 공지사항 페이지 -->
+ 	<select id="selectNoticeAll" resultMap="noResult" parameterType="int">
+	
+		<![CDATA[
+ 			select * from notice_tbl order by noticeCategory desc , noticeNo desc limit #{count},10		
+ 		]]>
+	</select>
+	<select id="selectNoticeCount" resultType="int">
+		<![CDATA[
+ 			select count(*) from notice_tbl
+ 		]]>
+	</select>
+ 	
  </mapper>
  

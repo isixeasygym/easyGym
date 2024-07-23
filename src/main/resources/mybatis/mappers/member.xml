@@ -46,12 +46,6 @@
        ]]>
     </select>
     
-    <!-- 아이디 중복체크 -->
-    <select id="checkDuplicateId" parameterType="String" resultType="int">
-        SELECT COUNT(*) 
-        FROM member_tbl 
-        WHERE memberId = #{memberId}
-    </select>
 
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
@@ -98,6 +92,23 @@
      <select id="selectMemberNo" parameterType="int" resultType="int">
 		select memberNo from member_tbl where memberNo=#{memberNo}
 	</select>
+	
+	<!--  ******************** 사업자 ******************** -->
+	
+	<!-- 사업자 추가 -->
+	<insert id="insertOperator" parameterType="memberOperDTO">
+       <![CDATA[
+          INSERT INTO operators_tbl VALUES (#{operatorName}, #{operatorId}, #{operatorPwd}, #{memberName}, #{operatorEmail}, #{operatorPhone},
+          #{operatorResNo}, #{operatorImgName}, sysdate())
+       ]]>
+    </insert>
+	<!-- 사업자 로그인 -->
+	    <select id = "operLogin" parameterType="memberDTO" resultType = "memberDTO">    
+		<![CDATA[
+          SELECT * FROM operators_tbl where operatorId = #{operatorId} and operatorPwd = #{operatorPwd}
+       ]]>
+    </select>
+	<!-- 사업자 삭제 --> 
     
 </mapper>
 
