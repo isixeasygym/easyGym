@@ -53,13 +53,17 @@ body {
     background-color: #0041c2;
 }
 
+.main-container {
+    position: relative;
+    margin-top: 100px;
+}
+
 .content {
-    position: absolute;
-    width: 730px;
-    top: 100px;
-    left: 30%;
-    transform: translate(-50%, 0%);
+    width: 50%;
     background-color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    float: left;
 }
 
 .contentRange {
@@ -220,9 +224,11 @@ input {
     z-index: 30;
 }
 
-#mapRange{
-	position: absolute;
-    top: 50%;
-    left: 100%;
-    transform: translate(-50%, 50%);
+.map_wrap {
+    width: 50%;
+    padding: 20px;
+    position: fixed;
+    top: 100px;
+    right: 0;
+    bottom: 0;
 }
