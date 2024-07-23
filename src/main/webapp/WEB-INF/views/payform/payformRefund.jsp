@@ -15,7 +15,7 @@ request.setCharacterEncoding("utf-8");
 <body>
 <div class="bg-image"></div>
 <div class="container">
-    <h1>환불 완료되었습니다!</h1>
+    <h1>환불이 완료되었습니다!</h1>
     <form id="payCheck_form">
         <div class="form_group">
             <div class="paymentInfo">
@@ -34,7 +34,13 @@ request.setCharacterEncoding("utf-8");
             </div>
 
             <label for="finalPr">환불 금액:</label>
-            <div id="finalPr">${refundPrice}원</div>
+            <div id="finalPr"><span id="fp">${refundPrice}</span>원</div>
+            <script>
+                let fpElement = document.getElementById('fp');
+                let finalPrice = fpElement.innerText;
+                let fp = parseInt(finalPrice);
+                fpElement.innerText = fp.toLocaleString();
+            </script>
         </div>
         <button type="button" id="goBack" onclick="window.location.href='${contextPath}/main.do'">확인</button>
     </form>

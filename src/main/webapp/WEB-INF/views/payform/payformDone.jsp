@@ -34,7 +34,13 @@ request.setCharacterEncoding("utf-8");
             </div>
 
             <label for="finalPrice">최종 결제 금액:</label>
-            <div id="finalPrice">${payform.payformPrice}원</div>
+            <div id="finalPrice"><span id="fp">${payform.payformPrice}</span>원</div>
+            <script>
+                let fpElement = document.getElementById('fp');
+                let finalPrice = fpElement.innerText;
+                let fp = parseInt(finalPrice);
+                fpElement.innerText = fp.toLocaleString();
+            </script>
         </div>
         <button type="button" id="goBack" onclick="window.location.replace('${contextPath}/main.do')">확인</button>
     </form>
