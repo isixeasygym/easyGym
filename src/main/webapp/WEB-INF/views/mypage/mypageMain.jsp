@@ -76,24 +76,7 @@
                 <div id="dibs-list" class="section">
                     <h2>찜 목록</h2>
                     <!-- 여기에 찜 목록 정보를 추가 -->
-					<table>
-						<tr>
-							<th>번호</th>
-							<th>업체명</th>
-							<th>프로그램명</th>
-							<th>지역</th>
-							<th>찜 취소하기</th>
-						</tr>
-						<c:forEach var="dibs" items="${dibsList}">
-							<tr>
-								<td>${dibs.detailNo}</td>
-								<td>${dibs.detailBusinessName}</td>
-								<td>${dibs.detailKoClassification}</td>
-								<td>${dibs.detailRoadAddress}</td>
-								<td><button onclick="location.href='${contextPath}/mypage/removeDibs.do?detailNo=${dibs.detailNo}'">찜 취소</button></td>
-							</tr>
-						</c:forEach>
-					</table>
+					
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>

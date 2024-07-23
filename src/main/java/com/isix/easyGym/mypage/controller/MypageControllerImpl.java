@@ -81,7 +81,9 @@ public class MypageControllerImpl implements MypageController {
 	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
 	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    // 서비스 메서드 호출
-    	List<DetailDTO> dibsList = mypageService.detailDibsList();
+		HttpSession session= request.getSession(false);
+		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
+    	List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
 	    return dibsList;
 	}
 	

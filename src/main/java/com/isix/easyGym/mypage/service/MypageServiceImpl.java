@@ -2,6 +2,7 @@ package com.isix.easyGym.mypage.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class MypageServiceImpl implements MypageService {
 		return dibsMap;
 	} */
 	@Override
-	public List<DetailDTO> detailDibsList() throws DataAccessException {
-		return mypageDAO.selectAllDetail();
+	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
+		return mypageDAO.selectAllDetail(memberNo);
 	}
 	
 	//2-1)포인트
