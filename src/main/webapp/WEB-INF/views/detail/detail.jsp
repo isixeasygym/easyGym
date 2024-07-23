@@ -4,8 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="mem" value="${member}" scope="session"/>
 <%
-	Object member=session.getAttribute("member");
+	
 	request.setCharacterEncoding("utf-8");
 %>
 
@@ -13,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${details.detailBusinessName}</title>
+<title>${details.detailBusinessName}</title> 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
@@ -39,21 +40,21 @@
                     </div>
                     <!-- 좌우 컨트롤 버튼 패널 -->
                     <div class="left_right_control_panel">
-                        <img class="left_control" src="${contextPath}/images/detail/detailpage/SImage_Left.gif" alt="">
-                        <img class="right_control" src="${contextPath}/images/detail/detailpage/SImage_Right.gif" alt="">
+                        <img class="left_control" src="${contextPath}/images/detail/detailpage/arrow_pre.png" alt="">
+                        <img class="right_control" src="${contextPath}/images/detail/detailpage/arrow_next.png" alt="">
                     </div>
                 </div>
                 <div id="firstInfo">
-                    <h2>종로 스포짐</h2>
-                    <img id="pointer" src="/works/image/pointer.png" alt=""><h4 id="address">${details.detailRoadAddress}</h4><a href="#2"> ></a><br>
-                    <img id="fiveStar" src="/works/image/html/sStar.JPG">
-                    <p id="grade">4.8</p>
-                    <a href="#1"><p id="gradeLink">후기 ></p></a><br>
-                    <img id="dailyTicket" src="/works/image/html/dailyTicket.PNG"><br><br>
+                    <h3 id="companyName">${details.detailBusinessName}</h3>
+                    <img id="pointer" src="${contextPath}/images/detail/detailpage/address.PNG" alt=""><h4 id="address">${details.detailRoadAddress}</h4><a id ="toAddress" href="#2"> ></a><br>
+                    <img id="fiveStar" src="${contextPath}/images/detail/detailpage/sStar.JPG">
+                    <!--<p id="grade">4.8</p>-->
+                    <p id="gradeLink">후기<a id="toReview"href="#1"> ></a></p><br>
+                    <img id="dailyTicket" src="${contextPath}/images/detail/detailpage/dailyTicket.PNG"><br><br>
                 </div>
 				<div class="buttonRange">
 	               <button class="favorite-button" >
-						<input  type="hidden" class="userId" value="${member.memberNo}">
+						<input  type="hidden" class="userId" value="${mem.memberNo}">
 						<input  type="hidden" class="companyId" value="${details.detailNo}">
 	                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
 	               </button>
@@ -61,18 +62,18 @@
                 <div id="memberTicketRange">
                     <h4 id="memberTicket">회원권</h4>
                     <div class="memberTicketBox">
-                        <h2>${details.detailKoClassification} 회원권</h2>
-                        <p class="common fieldPrice">현장가</p>
-                        <h2 class="ticketPrice">${details.detailMonthlyTicket}<p class="month">/월</p></h2>
+                        <h3 class="ticket">이지짐 회원권</h3>
+                        <h4 id="fieldMonthlyPrice">이지짐회원가</h4>
+                        <h3 class="ticketPrice">${details.detailMonthlyTicket}<p class="month">/월</p></h3>
                     </div>
                 </div>
                 <div id="dailyAndInfoRange">
                     <h4 id="dailyTicketRange">일일권</h4>
                     <div class="memberTicketBox">
-                        <h2>헬스</h2>
-                        <p class="common dailyLimit"></p>
-                        <p class="common fieldPrice">현장가</p>
-                        <h2 class="ticketPrice">${details.detailDailyTicket}</h2>
+                        <h3 class="ticket">${details.detailKoClassification}</h3>
+                        <p  id="dailyLimit">1회 입장 제한</p>
+                        <h4 id="fieldDailyPrice">이지짐회원가</h4>
+                        <h3 class="ticketPrice">${details.detailDailyTicket}</h3>
                     </div>
                     <div id="dailyInfoBox">
                         <h5 id="dailyInfo">일일권 제공 및 안내 사항</h5>
@@ -105,7 +106,7 @@
                     <h5>사진</h5>
 					<div id="imageBox">
 	                    <c:forEach var="i" begin="1" end="10">
-	                        <img src="${contextPath}/images/detail/${details.detailClassification}/${details.detailBusinessEng}/${details.detailBusinessEng}${i}.PNG" height="165" width="165"/>
+	                        <img src="${contextPath}/images/detail/${details.detailClassification}/${details.detailBusinessEng}/${details.detailBusinessEng}${i}.PNG" height="130" width="130"/>
 	                    </c:forEach>
 					</div>	
                 </div>
@@ -128,10 +129,10 @@
 								<textarea id="myTextarea" maxlength="150"></textarea>
 								<div id="charCount">0/150</div>
 							</div>
-							<!--<div id="fileRange">
+							<div id="fileRange">
 								<p id="fileInfo">이미지파일 첨부</p>
 								 <input type="file" id="reviewImageName" name="reviewImageName">
-			               	</div>--> 
+			               	</div>
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
 							</button>
 						</div>	
@@ -186,16 +187,16 @@
 						</script>
 	                
                 <p id="produ">easyGym은 통신판매의 중개자이며, 통신판매의 당사자가 아닙니다. 따라서<br>
-                   다짐은 상품의 구매, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
+                   이지짐은 상품의 구매, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.
                 </p>
-                <footer>
-					<form action="${contextPath}/payform/payform.do" method="get">
-						<input  type="hidden" name="memberNo" value="${member.memberNo}">
-						<input type="hidden" name="detailNo" value="${allList.detailNo}">
-						<button type="submit" id="ticketChoice">회원권 선택</button>
-					</form>	
-                <footer>
+				<div id="fixedContainer">
+			        <form action="${contextPath}/payform/payformForm.do" method="get">
+			            <input type="hidden" name="memberNo" value="${mem.memberNo}">
+			            <input type="hidden" name="detailNo" value="${details.detailNo}">
+			            <button type="submit" id="ticketChoice">회원권 선택</button>
+			        </form>
+			    </div>
             </div>
         </c:when>    
     </c:choose>            

@@ -9,10 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 @Mapper
 @Repository("detailDAO")
 public interface DetailDAO {
-	 
+	
+	
+	
+	public List selectQuery(Map searchMap) throws DataAccessException;
+	
 	public int getNewDetailNo() throws DataAccessException;
 	
 	public List selectAll(String detailClassification) throws DataAccessException;
@@ -23,7 +28,7 @@ public interface DetailDAO {
 	
 	public int selectPopularRating(int detailNum) throws DataAccessException;
 	
-	public List selectReview(int detailNo) throws DataAccessException;
+	public List<DetailReviewDTO> selectReview(int detailNo) throws DataAccessException;
 	
 	public DetailDibsDTO findDibs(Map ParamMap) throws DataAccessException;
 	

@@ -9,6 +9,7 @@
       <mapper resource="mybatis/mappers/detail.xml"/>
       <mapper resource="mybatis/mappers/freeboard.xml"/>
       <mapper resource="mybatis/mappers/member.xml"/>
+      <mapper resource="mybatis/mappers/freeboard.xml"/>
       <mapper resource="mybatis/mappers/notice.xml"/>
       <mapper resource="mybatis/mappers/payform.xml"/>
       <mapper resource="mybatis/mappers/report.xml"/>
