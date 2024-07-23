@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -41,4 +42,15 @@ public interface NoticeDAO {
 	
 	// 삭제
 	public void delNotice(int noticeNo) throws DataAccessException;
+	
+	// 공지사항 페이지
+	
+	// 공지사항 리스트
+	
+	public List selectNoticeAll(@Param("count") int count) throws DataAccessException;
+	
+	// 공지사항 갯수 카운트
+	
+	public int selectNoticeCount() throws DataAccessException;
+	
 }
