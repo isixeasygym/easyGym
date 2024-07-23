@@ -61,12 +61,13 @@
  		]]>
  	</select>
 
- <!--   <delete id="deleteDibs">
-    	<![CDATA[
-	        DELETE FROM detail_dibs 
-	        WHERE detailNo = #{detailNo}
-        ]]>
-    </delete> -->
+   <delete id="deleteDibs" parameterType="map">
+   		<![CDATA[
+		    DELETE FROM detaildibs_tbl 
+		    WHERE memberNo = #{memberNo} AND detailNo = #{detailNo}
+	    ]]>
+	</delete>
+
  	
  	<!-- 포인트 쿼리문 
  	<select id="selectPointsByMemberNo" parameterType="int" resultType="memberDTO">
