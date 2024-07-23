@@ -54,14 +54,14 @@
                 window.location.replace("${contextPath}/main.do");
             } else {
                 if (refundDay <= 7) {
-                    var result = confirm("전액 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
+                    var result = confirm("전액 환불이 가능합니다. 환불금액은 " + finalPr.toLocaleString() + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
                         console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
                         window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
                     } else
                         alert("환불 진행을 취소했습니다.");
                 } else if (refundDay <= 15) {
-                    var result = confirm("부분적인 환불이 가능합니다. 환불금액은 " + finalPr + "원입니다.\n환불을 진행하시겠습니까?");
+                    var result = confirm("부분적인 환불이 가능합니다. 환불금액은 " + finalPr.toLocaleString() + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
                         console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
                         window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
@@ -117,6 +117,12 @@
 
             <label for="finalPr">환불 금액:</label>
             <div id="finalPrice"><span id="finalPr">${payform.payformPrice}</span>원</div>
+            <script>
+                let fpElement = document.getElementById('finalPr');
+                let finalPrice = fpElement.innerText;
+                let fp = parseInt(finalPrice);
+                fpElement.innerText = fp.toLocaleString();
+            </script>
         </div>
         <button type="button" id="cancelButton" onclick="CheckRefund(${payform.payformDate})">확인</button>
     </form>
