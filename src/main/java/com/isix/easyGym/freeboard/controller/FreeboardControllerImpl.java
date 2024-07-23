@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.isix.easyGym.freeboard.dao.FreeDAO;
 import com.isix.easyGym.freeboard.dto.FreeDTO;
 import com.isix.easyGym.freeboard.dto.FreeImageDTO;
+import com.isix.easyGym.freeboard.service.AnswerService;
 import com.isix.easyGym.freeboard.service.FreeBoardService;
 import com.isix.easyGym.member.dto.MemberDTO;
 
@@ -34,6 +36,10 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	
 	@Autowired
 	private FreeBoardService freeboardservice;
+	private AnswerService answerService;
+	
+	@Autowired
+	private FreeDAO freeDAO;
 	
 	@Autowired
 	private FreeDTO freeDTO;
@@ -73,7 +79,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	public ModelAndView addFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
 	    String imageFileName = null;
 	    mulReq.setCharacterEncoding("utf-8");
-	    Map<String, Object> fbmap = new HashMap<>();
+	    Map<String, Object> fbmap = new HashMap<String, Object>();
 	    Enumeration enu = mulReq.getParameterNames();
 	    while (enu.hasMoreElements()) {
 	        String name = (String) enu.nextElement();
@@ -83,7 +89,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	    }
 
 	    List<String> flist = mulFileUpload(mulReq);
-	    List<FreeImageDTO> imageFileList = new ArrayList<>();
+	    List<FreeImageDTO> imageFileList = new ArrayList<FreeImageDTO>();
 	    if (flist != null && flist.size() != 0) {
 	        for (String fname : flist) {
 	            FreeImageDTO fbimageDTO = new FreeImageDTO();
@@ -100,13 +106,13 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	    fbmap.put("memberId", memberId);
 
 	    try {
-	        int fboardNo = freeboardservice.addFboard(fbmap);
+	        int freeNo = freeboardservice.addFboard(fbmap);
 	        if (imageFileList != null && imageFileList.size() != 0) {
 	            for (FreeImageDTO fbimageDTO : imageFileList) {
 	                imageFileName = fbimageDTO.getImageFileName();
 	                System.out.println(imageFileName + " 여기까지 옴!!!!!!!!!!!!");
 	                File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-	                File destDir = new File(ARTICLE_IMG_REPO + "\\" + fboardNo);
+	                File destDir = new File(ARTICLE_IMG_REPO + "\\" + freeNo);
 	                FileUtils.moveFileToDirectory(srcFile, destDir, true);
 	            }
 	        }
@@ -146,7 +152,16 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	public ModelAndView viewFboard(@RequestParam("freeNo") int freeNo, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		//articleDTO = boardService.viewArticle(articleNo);
 		Map fbmap = freeboardservice.viewFboard(freeNo); // 두개의 테이블을 거쳐야 하기 때문에 map으로 변경
+		List answer = new ArrayList<>();
+		HttpSession session= req.getSession();
 		ModelAndView mv = new ModelAndView();
+		answer = freeDAO.selectAnswer(freeNo); 
+	      if(answer != null ) {
+	         session.setAttribute("getAnswer", 1);
+	         mv.addObject("answer", answer);
+	      }else {
+	         session.setAttribute("getAnswer", 0);
+	      }
 		mv.setViewName("/freeboard/viewfboard");
 		mv.addObject("fbmap",fbmap);
 		return mv;
@@ -246,7 +261,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 //			}
 			e.printStackTrace();
 		}
-		ModelAndView mv = new ModelAndView("redirect:/board/listArticles.do");
+		ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
 		
 		return mv;
 	}

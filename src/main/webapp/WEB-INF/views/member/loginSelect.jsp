@@ -13,7 +13,7 @@
       <a href="/member/loginForm.do" class="btn btn-primary btn-lg px-4 rounded-pill" role="button">
         일반회원로그인
       </a>
-      <a href = "/member/operLogin.do" class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
+      <a href = "/member/operLoginForm.do" class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
         사업자회원로그인
       </a>
     </div>

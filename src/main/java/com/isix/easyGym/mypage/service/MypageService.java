@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
