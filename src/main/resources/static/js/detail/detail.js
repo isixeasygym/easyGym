@@ -136,42 +136,7 @@ function writeSubmit() {
     });
 }
 //찜 기능
-$(document).ready(function() {
-    $(".favorite-button").click(function(event) {
-        var companyId = $(this).children('.companyId').val();
-        var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
 
-        $.ajax({
-            type: "GET",
-            url: "/addFavorite",
-            async: false,
-            data: { 
-                companyId: companyId, 
-                userId: userId 
-            },
-            success: function(data) {
-                if (data == "insert") {
-                    alert("찜 목록에 추가되었습니다.");
-                    $(event.currentTarget).find('.dibs').attr('src', '${contextPath}/images/detail/detailpage/pickDibs.png');
-                } else if (data == "delete") {
-                    alert("찜 목록에서 삭제되었습니다.");
-                    $(event.currentTarget).find('.dibs').attr('src', '${contextPath}/images/detail/detailpage/dibs.png');
-                } else if (data.startsWith("redirect:")) {
-                    // 리다이렉트 처리
-                    var redirectUrl = data.substring(9); // "redirect:" 이후의 문자열을 가져옴
-                    window.location.href = redirectUrl; // 리다이렉트 수행
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert(xhr + status + "오류가 발생했습니다." + error);
-            }
-        });
-        event.stopPropagation();
-    });
-});
 //이미지 슬라이드
 $(function() {
             $('.slider_panel').append($('.slider_image').first().clone());  //마지막 5번째 사진 뒤에 1번째 사진을 복제해서 붙여둠
@@ -244,5 +209,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
         adjustHeight(textarea);
     });
 });
-
-

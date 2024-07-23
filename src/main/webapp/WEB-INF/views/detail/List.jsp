@@ -21,6 +21,70 @@
     function goBack() {
         window.history.back();
     }
+	$(document).ready(function() {
+	    // AJAX 요청 중복 방지
+	    $(".favorite-button").each(function() {
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/getFavoriteStatus",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                updateFavoriteButton(button, data);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	            }
+	        });
+	    });
+
+	    $(".favorite-button").click(function(event) {
+	        var button = this;
+
+	        if ($(button).data('requestInProgress')) return; // 요청이 진행 중이면 무시
+
+	        $(button).data('requestInProgress', true); // 요청 진행 중으로 설정
+	        $(button).addClass('loading'); // 로딩 상태 CSS 적용
+
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/addFavorite",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                if (data == "insert" || data == "delete") {
+	                    alert(data == "insert" ? "찜 목록에 추가되었습니다." : "찜 목록에서 삭제되었습니다.");
+	                    updateFavoriteButton(button, data);
+	                } else if (data.startsWith("redirect:")) {
+	                    window.location.href = data.substring(9);
+	                } else {
+	                    alert("알 수 없는 오류가 발생했습니다.");
+	                }
+	                $(button).data('requestInProgress', false); // 요청 완료로 설정
+	                $(button).removeClass('loading'); // 로딩 상태 CSS 해제
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert(xhr + status + "오류가 발생했습니다." + error);
+	                $(button).data('requestInProgress', false); // 요청 완료로 설정
+	                $(button).removeClass('loading'); // 로딩 상태 CSS 해제
+	            }
+	        });
+
+	        event.stopPropagation();
+	    });
+
+	    function updateFavoriteButton(button, status) {
+	        var newSrc = (status == "insert") ? '${contextPath}/images/detail/detailpage/pickDibs.png' : '${contextPath}/images/detail/detailpage/dibs.png';
+	        $(button).find('.dibs').attr('src', newSrc);
+	    }
+	});
+	
 </script>
 </head>
 <body>
@@ -28,7 +92,7 @@
         <button type="button" class="back-button" onclick="goBack()">&lt;</button>
         <form action="/detail/search.do" method="get" class="search-form">
             <input type="text" name="query" placeholder="검색어를 입력하세요..." class="search-input">
-			<input type="hidden" name="detailClassfication" value="health">
+			<input type="hidden" name="detailClassification" value="health">
             <button type="submit" class="search-button">검색</button>
         </form>
     </div>
@@ -70,33 +134,6 @@
                 </c:forEach>              
             </c:when>                
         </c:choose>        
-    </div>        
-	<div id="mapRange">
-        <h5>위치</h5>
-        <a name="2"></a>
-		<div id="map" style="width:600px;height:600px;"></div>
-	</div>
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
-		<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		    mapOption = { 
-		        center: new kakao.maps.LatLng(37.5001556, 126.9309597)								, // 지도의 중심좌표
-				draggable: false, 
-		        level: 3 // 지도의 확대 레벨
-		    };
-
-		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-		// 마커가 표시될 위치입니다 
-		var markerPosition  = new kakao.maps.LatLng(37.5001556, 126.9309597); 
-
-		// 마커를 생성합니다
-		var marker = new kakao.maps.Marker({
-		    position: markerPosition
-		});
-
-		// 마커가 지도 위에 표시되도록 설정합니다
-		marker.setMap(map);
-		</script>
+    </div>       
 </body>
 </html>

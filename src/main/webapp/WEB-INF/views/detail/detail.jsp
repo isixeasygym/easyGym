@@ -25,6 +25,68 @@
             $('#charCount').text(charCount + '/150');
         });
     });
+
+	$(document).ready(function() {
+	    // AJAX 요청 중복 방지
+	    var requestInProgress = false;
+
+	    function updateFavoriteButton(button, status) {
+	        var newSrc = (status == "insert") ? '${contextPath}/images/detail/detailpage/pickDibs.png' : '${contextPath}/images/detail/detailpage/dibs.png';
+	        $(button).find('.dibs').attr('src', newSrc);
+	    }
+
+	    $(".favorite-button").each(function() {
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/getFavoriteStatus",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                updateFavoriteButton(button, data);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	            }
+	        });
+	    });
+
+	    $(".favorite-button").click(function(event) {
+	        if (requestInProgress) return; // 이미 요청이 진행 중이면 무시
+
+	        requestInProgress = true;
+
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/addFavorite",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                if (data == "insert" || data == "delete") {
+	                    alert(data == "insert" ? "찜 목록에 추가되었습니다." : "찜 목록에서 삭제되었습니다.");
+	                    updateFavoriteButton(button, data);
+	                } else if (data.startsWith("redirect:")) {
+	                    window.location.href = data.substring(9);
+	                } else {
+	                    alert("알 수 없는 오류가 발생했습니다.");
+	                }
+	                requestInProgress = false;
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert(xhr + status + "오류가 발생했습니다." + error);
+	                requestInProgress = false;
+	            }
+	        });
+
+	        event.stopPropagation();
+	    });
+	});
 </script>
 </head>
 <body>

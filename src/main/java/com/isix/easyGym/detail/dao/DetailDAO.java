@@ -16,7 +16,7 @@ public interface DetailDAO {
 	
 	
 	
-	public List selectQuery(Map searchMap) throws DataAccessException;
+	public List<DetailDTO> selectQuery(Map searchMap) throws DataAccessException;
 	
 	public int getNewDetailNo() throws DataAccessException;
 
@@ -32,7 +32,7 @@ public interface DetailDAO {
 	
 	public List<DetailReviewDTO> selectReview(int detailNo) throws DataAccessException;
 	
-	public DetailDibsDTO findDibs(Map ParamMap) throws DataAccessException;
+	public DetailDibsDTO selectDibs(Map ParamMap) throws DataAccessException;
 	
 	public void insertDibs(Map paramMap) throws DataAccessException;
 	
@@ -46,8 +46,6 @@ public interface DetailDAO {
 	public void insertOperForm(Map detailMap) throws DataAccessException;
 	//업체 이미지 리스트
 	public void insertNewImages(Map detailMap) throws DataAccessException;
-	
-	
 	
 	public void deleteReview(int reviewNo) throws DataAccessException;
 	

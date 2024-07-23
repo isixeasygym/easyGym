@@ -98,7 +98,7 @@ public class DetailControllerImpl implements DetailController{
 		searchMap.put("detailClassification", detailClassification);
 		selectedThing = detailService.findThing(searchMap);
 		mav.addObject("allList", selectedThing);
-		mav.setViewName("/detail/detail");
+		mav.setViewName("/detail/List");
 		return mav;
 	}
 	
@@ -223,30 +223,22 @@ public class DetailControllerImpl implements DetailController{
 		return mav;
 	}
 
-
-	@Override
-	@ResponseBody
 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
+	@ResponseBody
 	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String memberNo,
 	                   @RequestParam(value = "action", required = false) String action,
 	                   RedirectAttributes rAttr, HttpServletRequest request,
 	                   HttpServletResponse response) throws Exception {
-		String status;
-	    //System.out.print(userId);
-	    // 사용자 로그인 체크
+	    String status;
 	    MemberDTO result = memberService.loginCheck(Integer.parseInt(memberNo));
-	    HttpSession session = request.getSession(); // 로그인 정보 세션에 저장
 	    
-	    // 로그인 체크
-	    if (!result.equals("true")) {
+	    if (result == null || !result.equals("true")) {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("detailNo", companyId);
 	        paramMap.put("memberNo", memberNo);
+
+	        DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
 	        
-	        // 찜 상태 확인
-	        detailDibsDTO = detailService.findDibs(paramMap);
-	        
-	        // 찜 상태에 따라 insert 또는 delete 수행
 	        if (detailDibsDTO == null) {
 	            detailDAO.insertDibs(paramMap);
 	            status = "insert";
@@ -255,13 +247,27 @@ public class DetailControllerImpl implements DetailController{
 	            status = "delete";
 	        }
 	    } else {
-	        // 로그인 폼으로 리다이렉트
 	        return "redirect:/member/loginForm.do";
 	    }
-	    System.out.print(status);
+
 	    return status;
 	}
 
+	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
+	@ResponseBody
+	public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("detailNo", detailNo);
+	    paramMap.put("memberNo", memberNo);
+
+	    DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
+	    if (detailDibsDTO != null) {
+	        return "insert"; // 찜 되어 있는 상태
+	    } else {
+	        return "delete"; // 찜 되어 있지 않은 상태
+	    }
+	}
+	
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
@@ -286,18 +292,16 @@ public class DetailControllerImpl implements DetailController{
 	}
 	
 	@Override
-	@RequestMapping(value="/getReviews.do", method = RequestMethod.GET)
-	public ResponseEntity<List<DetailReviewDTO>> getReviews(int detailNo, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		try {
-			List<DetailReviewDTO> reviews = detailService.findReview(detailNo);
-	        return new ResponseEntity<>(reviews, HttpStatus.OK);
-		} catch (Exception e) {
-			 e.printStackTrace();
-	         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
+	@ResponseBody
+	@RequestMapping(value = "/getReviews.do", method = RequestMethod.GET)
+	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+	    return reviews;
 	}
+	
+	
+	
 	
 	@Override
 	@ResponseBody

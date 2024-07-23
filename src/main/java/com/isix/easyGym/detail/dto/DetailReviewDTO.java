@@ -15,8 +15,8 @@ public class DetailReviewDTO {
 	private int memberNo;
 	private int buyNo;
 	private int detailNo;
-	
-	
+
+
 	public Date getReviewDate() {
 		return reviewDate;
 	}
