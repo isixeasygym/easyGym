@@ -473,12 +473,13 @@ body{
 #writeButton{
 	position: relative;
 	left: 580px;
-	top: -72px;
+	top: -300px;
 	padding :5px 15px;
 	background-color: #2478FF;
 	color: #fff;
 	border: 1px solid #2478FF;
 	border-radius: 8px;
+	z-index: 30;
 }
 .deleteButton{
 	position: relative;

@@ -19,6 +19,8 @@ public interface DetailDAO {
 	public List selectQuery(Map searchMap) throws DataAccessException;
 	
 	public int getNewDetailNo() throws DataAccessException;
+
+	public int getNewReviewNo() throws DataAccessException;
 	
 	public List selectAll(String detailClassification) throws DataAccessException;
 	
@@ -36,13 +38,16 @@ public interface DetailDAO {
 	
 	public DetailDTO selectBusiness(int detailNo) throws DataAccessException; 
 	
-	public void insertReview(Map reviewMap) throws DataAccessException;
+	public void insertReviewAndImage(Map reviewImageMap) throws DataAccessException;
 	
+	//리뷰 이미지 없이 테이블 삽입
 	public void insertNoImgReview(Map noImgReviewMap) throws DataAccessException;
-	
+	//업체 테이블 등록
 	public void insertOperForm(Map detailMap) throws DataAccessException;
-	
+	//업체 이미지 리스트
 	public void insertNewImages(Map detailMap) throws DataAccessException;
+	
+	
 	
 	public void deleteReview(int reviewNo) throws DataAccessException;
 	

@@ -49,17 +49,18 @@ function deleteReview(){
 function writeSubmit() {
     // 입력된 값들을 변수에 저장
     var companyId = $('.companyId').val();
-    var userId = $('.userId').val();
+    var memberNo = $('.userId').val();
     var reviewComment = $('#myTextarea').val();
     var reviewRating = $("input[name='detailScope']:checked").val();
     var fileInput = $('#reviewImageName')[0].files[0];
-
+	var detailBusinessEng = $('#detailBusinessEng').val();
     // FormData 객체 생성
     var formData = new FormData();
     formData.append('companyId', companyId);
-    formData.append('userId', userId);
+    formData.append('memberNo', memberNo);
     formData.append('reviewComment', reviewComment);
     formData.append('reviewRating', reviewRating);
+	formData.append('detailBusinessEng',detailBusinessEng);
     if (fileInput) {
         formData.append('reviewImageName', fileInput);
     }
@@ -75,7 +76,7 @@ function writeSubmit() {
         processData: false, // 데이터 처리 방식 설정 (FormData 사용 시 false)
         contentType: false, // 컨텐츠 타입 설정 (FormData 사용 시 false)
         success: function(response) {
-            if (response == "success") {
+            if (response === "success") {
                 alert("작성하신 후기가 등록되었습니다.");
                 
                 // 리뷰 목록을 새로고침
@@ -112,9 +113,9 @@ function writeSubmit() {
                         console.error("Response:", xhr.responseText);
                     }
                 });
-            } else if (response == "noBuy") {
+            } else if (response === "noBuy") {
                 alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
-            } else if (response == "noLogin") {
+            } else if (response === "noLogin") {
                 alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
                 window.location.href = '/member/loginForm.do';
             }

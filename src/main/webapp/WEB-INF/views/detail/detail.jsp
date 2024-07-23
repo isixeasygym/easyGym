@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<c:set var="mem" value="${member}" scope="session"/>
+<c:set var="member" value="${member}" scope="session"/>
 <%
 	
 	request.setCharacterEncoding("utf-8");
@@ -54,7 +54,7 @@
                 </div>
 				<div class="buttonRange">
 	               <button class="favorite-button" >
-						<input  type="hidden" class="userId" value="${mem.memberNo}">
+						<input  type="hidden" class="userId" value="${member.memberNo}">
 						<input  type="hidden" class="companyId" value="${details.detailNo}">
 	                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
 	               </button>
@@ -135,6 +135,7 @@
 			               	</div>
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
 							</button>
+							<input type="hidden" id="detailBusinessEng" value="${details.detailBusinessEng}">
 						</div>	
 			        </div>
 					<div id="reviewContainer">
@@ -165,12 +166,12 @@
 					</div>
 						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
 						<script>
-						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-						    mapOption = { 
-						        center: new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude})								, // 지도의 중심좌표
-								draggable: false, 
-						        level: 3 // 지도의 확대 레벨
-						    };
+							var mapContainer = document.getElementById('map'),
+							    mapOption = { 
+							        center: new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}),
+							        draggable: false, 
+							        level: 3
+							    };
 	
 						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	

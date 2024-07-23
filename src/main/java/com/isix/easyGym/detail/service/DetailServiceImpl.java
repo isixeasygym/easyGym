@@ -75,10 +75,7 @@ public class DetailServiceImpl implements DetailService{
 		detailDAO.insertNoImgReview(noImgReviewMap);
 	}
 
-	@Override
-	public void writeReview(Map review) throws DataAccessException {
-		detailDAO.insertReview(review);
-	}
+	
 
 
 
@@ -103,6 +100,14 @@ public class DetailServiceImpl implements DetailService{
 		if(detailMap.get("imageFileList")!=null) {
 			detailDAO.insertNewImages(detailMap);		}
 		
+	}
+
+	@Override
+	public int addreview(Map reviewImageMap) throws DataAccessException {
+		int reviewNo=detailDAO.getNewReviewNo();
+		reviewImageMap.put("reviewNo", reviewNo);
+		detailDAO.insertReviewAndImage(reviewImageMap);
+		return reviewNo;
 	}
 
 	

@@ -47,7 +47,7 @@ public interface DetailController{
 	
 
 	
-	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
+	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("memberNo") String memberNo,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "reviewComment", required = false) String reviewComment,
             @RequestParam(value = "reviewRating", required = false) String reviewRating,
