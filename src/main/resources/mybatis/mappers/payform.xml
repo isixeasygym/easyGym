@@ -38,7 +38,7 @@
 		<result property="detailBusinessName" column="detailBusinessName"/>
 		<result property="detailBusinessEng" column="detailBusinessEng"/>
 		<result property="detailDailyTicket" column="detailDailyTicket"/>
-		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
 		<result property="detailScope" column="detailScope"/>
 		<result property="detailComment" column="detailComment"/>
 		<result property="detailServiceProgram" column="detailServiceProgram"/>
@@ -73,7 +73,7 @@
 		JOIN member_tbl m ON p.memberNo = m.memberNo
 		JOIN detail_tbl d ON p.detailNo = d.detailNo
 		WHERE
-		p.memberNo = #{memberNo} AND p.detailNo = #{detailNo}
+		p.payformNo = #{payformNo}
 	</select>
 
 	<insert id="insertPayform" parameterType="java.util.Map">
@@ -82,14 +82,13 @@
 		payformStatus, payformPayment
 		) VALUES (
 		#{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
-		#{payformStatus}, #{payformPayment}
+		1, #{payformPayment}
 		)
 	</insert>
 
-	<delete id="deletePayform" parameterType="int">
-		DELETE FROM payform_tbl
-		WHERE payformNo = #{payformNo}
-	</delete>
+	<update id="cancelPayform" parameterType="int">
+		UPDATE payform_tbl SET payformStatus = -1 WHERE payformNo = #{payformNo} AND payformStatus = 1
+	</update>
 
 	<select id="checkingBuy" parameterType="int" resultType="int">
     	SELECT IFNULL((SELECT buyNo FROM buy_tbl WHERE memberNo = #{memberNo}), 0)
