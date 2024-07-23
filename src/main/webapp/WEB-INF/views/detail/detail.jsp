@@ -91,7 +91,7 @@
                     </textarea>
                 </div>
                 <div id="convenienceFacility">
-                    <h4>편의시설</h4>
+                    <h4 id="facilityInfo">편의시설</h4>
                     <div id="FacilityRange">
                         <img class="FacilityImage" src="${contextPath}/images/detail/conImage/analysis.PNG" alt="">
                         <img class="FacilityImage" src="${contextPath}/images/detail/conImage/wifi.PNG" alt="">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div id="imageRange">
-                    <h5>사진</h5>
+                    <h4 id="imageInfo">사진</h4>
 					<div id="imageBox">
 	                    <c:forEach var="i" begin="1" end="10">
 	                        <img src="${contextPath}/images/detail/${details.detailClassification}/${details.detailBusinessEng}/${details.detailBusinessEng}${i}.PNG" height="130" width="130"/>
@@ -143,10 +143,9 @@
 				               <c:forEach var="review" items="${review}">
 				                   <div class="ReviewRange">
 									<button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button> 
-								
 				                       <div class="personReviewRange">
 				                           <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-				                           <p>(익명의 회원)</p>
+				                           <p class="anonymous">(익명의 회원)</p>
 				                           <img src="${contextPath}/images/detail/detailpage/star.JPG">
 				                           <p>${review.reviewDate}</p>
 				                           <p class="reviewComment">${review.reviewComment}</p>
