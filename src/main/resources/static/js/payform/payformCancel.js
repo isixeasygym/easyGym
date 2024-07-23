@@ -13,5 +13,5 @@ window.onload = function() {
         document.getElementById('cancelAble').textContent = '불가능';
         finalPrice = 0;
     }
-    finalPr.textContent = finalPrice.toLocaleString();    //finalPr 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음
+    finalPr.textContent = finalPrice.toLocaleString();    //finalPr 변수를 할인 가격 값으로 지정, toLocaleString으로 3자리마다 콤마 찍음.
 }
