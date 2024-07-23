@@ -1,22 +1,15 @@
 package com.isix.easyGym.mypage.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
-import com.isix.easyGym.detail.dto.DetailDibsDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.dao.MypageDAO;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
@@ -37,11 +30,17 @@ public class MypageServiceImpl implements MypageService {
 		dibsMap.put("totDibs", totDibs);
 		return dibsMap;
 	} */
-	
 	@Override
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
+	//1-2)찜 취소
+	@Override
+	public void removeDibs(int memberNo, int detailNo) throws DataAccessException {
+		System.out.println("Removing dibs for Member No: " + memberNo + ", Detail No: " + detailNo); // 디버깅용 로그
+	    mypageDAO.deleteDibs(memberNo, detailNo);
+	}
+	
 	
 	//2-1)포인트
 	@Override

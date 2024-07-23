@@ -124,24 +124,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function fn_dibsList(memberNo) {
-    console.log("fn_dibsList() 호출됨"); // 호출 여부 확인을 위한 로그
+//1-2)찜 목록
+function fn_dibsList() {
+   
     $.ajax({
         type: "POST", // 데이터 가져오기
         async: false,  // 비동기식
         url: "/mypage/mypageMain.do", // 서버 측 URL과 맞춰야 함
-        dataType: "json", // 서버에서 JSON 형식으로 데이터 반환을 기대
+        //dataType: "json", // 서버에서 JSON 형식으로 데이터 반환을 기대
 		success: function(data) {
 			var tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>프로그램명</th><th>지역</th><th>찜</th></tr>';
-            if (data && data.dibsList && data.dibsList.length > 0) {
-                
-                data.dibsList.forEach(function(dibs) {
+            //if (data != null) {
+			if (data && data.length > 0) {
+				console.log(data); // 호출 여부 확인을 위한 로그
+                $.each(data, function(index, dibs) {
+					
                     tableHtml += '<tr>' +
-                        '<td>' + dibs.detailNo + '</td>' +
+                        '<td>' + (parseInt(index)+1) + '</td>' +
                         '<td>' + dibs.detailBusinessName + '</td>' +
                         '<td>' + dibs.detailKoClassification + '</td>' +
                         '<td>' + dibs.detailRoadAddress + '</td>' +
-                        '<td><button onclick="location.href=\'/mypage/removeDibs.do?detailNo=' + dibs.detailNo + '\'">찜 취소</button></td>' +
+                        //'<td><button onclick="location.href=\'/mypage/removeDibs.do?detailNo=' + dibs.detailNo + '\'">찜 취소</button></td>' +
+						'<td><button class="remove-dibs-btn" data-detail-no="${dibs.detailNo}">찜 취소</button></td>' +
                         '</tr>';
 				});
             } else {
@@ -155,6 +159,41 @@ function fn_dibsList(memberNo) {
             console.error("에러 발생: ", textStatus, errorThrown);
             alert("에러가 발생했습니다: " + textStatus + " " + errorThrown);
         }
+   });
+}	
+
+//1-2)찜 취소
+$(document).ready(function() {
+    $(document).on('click', '.remove-dibs-btn', function() {
+        var detailNo = $(this).data('detail-no');
+		console.log('Detail No:', detailNo); // 디버깅용 로그
+        fn_removeDibs(detailNo);
+    });
+});
+function fn_removeDibs(detailNo) {
+	if (!detailNo) {
+        alert("찜 번호가 올바르지 않습니다.");
+		console.log("Invalid detailNo:", detailNo); // 디버깅용 로그
+        return;
+    }
+    $.ajax({
+        type: "POST",
+		async: false,
+        url: "/mypage/removeDibs.do",
+        success: function() {
+            alert("찜이 취소되었습니다.");
+			console.log("찜 취소 성공:", detailNo); // 디버깅용 로그
+            fn_dibsList(); // 찜 목록 새로고침
+        },
+        error: function(data, textStatus, errorThrown) {
+            console.error("에러 발생: ", textStatus, errorThrown);
+			console.log("Error response data:", data); // 디버깅용 로그
+            alert("에러가 발생했습니다: " + textStatus + " " + errorThrown);
+        }
+    });
+}
+		
+		
 		
 /*	$.ajax({
         url: '${contextPath}/mypage/dibsList.do',
@@ -168,5 +207,4 @@ function fn_dibsList(memberNo) {
             console.error(error);
         } */
 				
-    });
-}
+ 

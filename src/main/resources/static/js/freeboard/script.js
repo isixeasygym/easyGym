@@ -28,8 +28,8 @@ function readImage(input, num){
 function fn_enable(obj) {
 		document.getElementById("div_button_modify").style.display = "block";
 		document.getElementById("div_button").style.display = "none";
-		document.getElementById("boardTitle").disabled = false;
-		document.getElementById("noticeContent").disabled = false;
+		document.getElementById("freeTitle").disabled = false;
+		document.getElementById("freeContent").disabled = false;
 		 let imgName=document.querySelectorAll(".id_imgFile");
 		if (imgName != null) {
 			for(let i=0; i<imgName.length; i++){				

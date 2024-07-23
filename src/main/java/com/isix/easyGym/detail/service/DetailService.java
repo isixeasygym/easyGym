@@ -9,6 +9,10 @@ import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
 
 public interface DetailService {
+	
+	
+	public List findThing(Map searchMap) throws DataAccessException;
+	
 	public List findAll(String detailClassification) throws DataAccessException;
 	
 	public int popularThing(int detailNum) throws DataAccessException;
@@ -23,9 +27,11 @@ public interface DetailService {
 	
 	public void noImgReview(Map noImgReviewMap) throws DataAccessException;
 	
-	public void writeReview(Map reviewMap) throws DataAccessException;
-	
 	public void removeReview(int reviewNoww3) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
+	
+	public void addOperForm(Map detailMap) throws DataAccessException;
+	
+	public int addreview(Map reviewImageMap) throws DataAccessException;
 }

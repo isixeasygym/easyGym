@@ -1,11 +1,13 @@
 package com.isix.easyGym.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,19 +76,34 @@ public class MypageControllerImpl implements MypageController {
 		mav.addObject("dibsMap", dibsMap);
 		return mav;
 	} */
-	
 	@Override
-	@ResponseBody  //뷰에 다시 넘겨줌
-	@RequestMapping(value = "/dibsList.do", method = RequestMethod.POST)
-	public List<DetailDTO> detailDibsList(@RequestParam("memberNo") int memberNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-	    // 서비스 메서드 호출
-	/*    List<DetailDTO> dibsList = mypageService.detailDibsList();
-	    return dibsList; */
-		List<DetailDTO> dibsList = mypageService.detailDibsList(memberNo);
-        model.addAttribute("dibsList", dibsList);
-        return dibsList;
+	@ResponseBody  // = setAttribute 역할. JSON 등 여러 형태로 뷰에 다시 넘겨줌
+	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
+	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session= request.getSession(false);
+		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
+    	List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
+	    return dibsList;
 	}
+	//1-2)찜 취소
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/removeDibs.do", method = RequestMethod.POST)
+	public void removeDibs(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String detailNoStr = request.getParameter("detailNo");
+	    System.out.println("Received detailNo: " + detailNoStr); // 디버깅용 로그
+
+	    if (detailNoStr == null || detailNoStr.isEmpty()) {
+	        System.out.println("Invalid detailNo: " + detailNoStr); // 디버깅용 로그
+	        throw new IllegalArgumentException("Invalid detail number.");
+	    }
+	    int detailNo = Integer.parseInt(detailNoStr);
+	    HttpSession session = request.getSession(false);
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    System.out.println("Member No: " + memberDTO.getMemberNo() + ", Detail No: " + detailNo); // 디버깅용 로그
+	    mypageService.removeDibs(memberDTO.getMemberNo(), detailNo);
+	}
+
 	
 	//2.포인트&쿠폰
 	@RequestMapping(value = "/pointsAndCoupons.do", method = RequestMethod.GET)
@@ -106,7 +123,8 @@ public class MypageControllerImpl implements MypageController {
 	//3-1)비밀번호 체크
 	@RequestMapping(value = "/checkPassword.do", method = RequestMethod.POST)
 	public String checkPassword(@RequestParam("password") String password, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		return password;
+		/*MemberDTO member = (MemberDTO) session.getAttribute("member");
         if (member != null) {
             String storedPassword = member.getMemberPwd(); // 저장된 해시된 비밀번호
             if (PasswordUtil.checkPassword(password, storedPassword)) {
@@ -127,8 +145,8 @@ public class MypageControllerImpl implements MypageController {
 		mypageService.updateMember(memberDTO);  //업데이트 하기
 		ModelAndView mav=new ModelAndView("redirect:/mypage/mypageMain.do");
 		return mav;
+	}*/
 	}
-	
 	
 	
 	
@@ -174,6 +192,13 @@ public class MypageControllerImpl implements MypageController {
 
 	@Override
 	public String pointsAndCoupons(int memberNo, Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;

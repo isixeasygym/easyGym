@@ -47,7 +47,7 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 		<a class="navbar-brand" href="/main.do">EasyGym</a>
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			<li class="nav-item active"><a class="nav-link" href="">공지사항</a></li>
+			<li class="nav-item active"><a class="nav-link" href="${contextPath }/notice/noticeList.do">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="${contextPath }/freeboard/fboardList.do">커뮤니티</a></li>
 			<li class="nav-item dropdown"><a
@@ -71,7 +71,7 @@
 						<li class="nav-item">
 							<h1 class="welcome-message">
 								환영합니다, <span>${sessionScope.member.memberName}님!</span>
-							</h1>
+							</h1></li>
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item"><a class="btn btn-info btn-sm"
@@ -83,7 +83,7 @@
 			</ul>
 		</div>
 	</nav>
-	<div>
+	<div id="mainContainer">
 	<!-- 부트스트랩 JS 로드 -->
 	<script
 		src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

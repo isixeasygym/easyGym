@@ -19,6 +19,7 @@
 		<result property="imageFileName" column="imageFileName"/>
 		<result property="regDate" column="regDate"/>
 		<result property="freeNo" column="freeNo"/>
+		<result property="fbanswerNo" column="fbanswerNo"/>
 	</resultMap>
 
 	<resultMap type="java.util.Map" id="fbResult">
@@ -26,9 +27,18 @@
  		<result property="freeTitle" column="freeTitle"/>
  		<result property="memberName" column="memberName"/> 		
  		<result property="freeWriteDate" column="freeWriteDate"/>
+ 		<result property="imageFileName" column="imageFileName"/>
  		<result property="freeHit" column="freeHit"/>
 	</resultMap>
 
+	<resultMap type="answerDTO" id="answerDTO">
+		<result property="fbanswerNo" column="fbanswerNo"/> 
+		<result property="memberNo" column="memberNo"/> 
+		<result property="freeNo" column="freeNo"/> 
+		<result property="fbanswerContent" column="fbanswerContent"/> 
+		<result property="fbanswerWriteDate" column="fbanswerWriteDate"/> 
+		<result property="imageFileName" column="imageFileName"/> 
+	</resultMap>
 
 	<select id="selectAll" resultMap="fbResult" parameterType="int">
 	
@@ -49,7 +59,7 @@
 	</select>
 	
 	<select id="selectMem" resultType="memberDTO" parameterType="int">
-		select m.memberName from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
+		select m.* from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
 	</select>
 	
 	<select id="selectFboard" resultType="freeDTO" parameterType="int">
@@ -64,6 +74,13 @@
  		]]>
 	</select>
 	
+	<!-- 조회수 -->
+	<update id="hitCount" parameterType="int">
+		<![CDATA[
+			update freeboard_tbl set freeHit = freeHit + 1 where freeNo = #{freeNo}
+		]]>
+	</update>
+	
 	<insert id="insertNewFboard" parameterType="java.util.Map">
 		insert into freeboard_tbl (freeNo, freeTitle, freeContent, freeWriteDate, freeHit, imageFileName, memberNo)
 		values(#{freeNo},#{freeTitle},#{freeContent},sysdate(),0,#{imageFileName},#{memberNo})
@@ -72,7 +89,7 @@
 	<insert id="insertNewImages" parameterType="java.util.Map">
 		insert into fboardimage_tbl values 
 		<foreach collection="imageFileList" item="item" separator=",">
-			(#{item.imageFileNo},#{item.imageFileName},sysdate(),#{freeNo})
+			(#{item.imageFileNo},#{item.imageFileName},sysdate(),#{freeNo},#{fbanswerNo})
 		</foreach>
 	</insert>
 	
@@ -80,7 +97,7 @@
 	
 	<!-- 이미지 여러개 글 수정 -->
 	<update id="updateFboard" parameterType="java.util.Map">
- 			update freeboard_tbl set title=#{title}, content=#{content} where freeNo=#{freeNo}	
+ 			update freeboard_tbl set freeTitle=#{freeTitle}, freeContent=#{freeContent} where freeNo=#{freeNo}	
 	</update>
 	
 	<!-- 이미지 여러개 수정-->
@@ -98,4 +115,74 @@
 		]]>
 	</delete>
  
+ 	<!-- 댓글 -->
+ 	
+ <!--	<select id="selectAnswer" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+	    <![CDATA[
+	        SELECT * FROM fbanswer_tbl
+	    ]]>
+	</select>
+ 	
+ 	 <select id="getAnswerNo" resultType="int">
+        SELECT MAX(fbanswerNo) + 1
+        FROM fbanswer_tbl
+    </select>
+	
+ 
+ 	<insert id="insertNewAnswer" parameterType="java.util.Map">
+		insert into fbanswer_tbl (fbanswerNo, memberNo, freeNo, fbanswerContent, fbanswerWriteDate, imageFileName)
+		values(#{fbanswerNo},#{memberNo},#{freeNo},#{fbanswerContent},sysdate(),#{imageFileName})
+	</insert>
+ 
+ 	<insert id="insertAnswerImages" parameterType="java.util.Map">
+		insert into fboardimage_tbl values 
+		<foreach collection="imageFileList" item="item" separator=",">
+			(#{item.imageFileNo},#{item.imageFileName},sysdate(),#{freeNo},#{fbanswerNo})
+		</foreach>
+	</insert>
+	
+
+	
+	<delete id="deleteAnswer" parameterType="int">
+		<![CDATA[
+			delete from freeboard_tbl where freeNo=#{freeNo}
+		]]>
+	</delete>-->
+ 
+ 	<select id="selectAnswer" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+        <![CDATA[
+            SELECT * FROM fbanswer_tbl WHERE freeNo = #{freeNo}
+        ]]>
+    </select>
+
+    <select id="getAnswerNo" resultType="int">
+        <![CDATA[
+            SELECT COALESCE(MAX(fbanswerNo), 0) + 1 FROM fbanswer_tbl
+        ]]>
+    </select>
+
+    <insert id="insertNewAnswer" parameterType="java.util.Map">
+        <![CDATA[
+            INSERT INTO fbanswer_tbl (fbanswerNo, memberNo, freeNo, fbanswerContent, fbanswerWriteDate)
+            VALUES (#{fbanswerNo}, #{memberNo}, #{freeNo}, #{fbanswerContent}, sysdate())
+        ]]>
+    </insert>
+
+    <delete id="deleteAnswer" parameterType="int">
+        <![CDATA[
+            DELETE FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+        ]]>
+    </delete>
+    
+    <select id="selectAnswerByNo" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+        <![CDATA[
+            SELECT * FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+        ]]>
+    </select>
+    
+    <select id="getAnswerById" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+	    <![CDATA[
+	        SELECT * FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+	    ]]>
+	</select>
  </mapper>

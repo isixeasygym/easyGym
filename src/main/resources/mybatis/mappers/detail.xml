@@ -41,10 +41,37 @@
  		<result property="buyNo" column="buyNo"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
+ 	
+ 	<resultMap type="detailImageDTO" id="detailImageResult">
+ 		<result property="imageFileNo" column="imageFileNo"/>
+ 		<result property="imageFileName" column="imageFileName"/>
+ 		<result property="regDate" column="regDate"/>
+ 		<result property="detailNo" column="detailNo"/>
+ 	</resultMap>
+
+	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
+	    <![CDATA[
+	        SELECT * FROM detail_tbl
+	        WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+	        AND detailClassification = #{detailClassification}
+	    ]]>
+	</select>
 
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{detailNo}
+ 		]]>
+	</select>	
+ 		
+ 	<select id="getNewDetailNo" resultType="int" >
+		<![CDATA[
+ 			select IFNULL(Max(detailNo),0)+1 from detail_tbl 
+ 		]]>
+	</select>	 
+ 		
+ 	<select id="getNewReviewNo" resultType="int" >
+		<![CDATA[
+ 			select IFNULL(Max(reviewNo),0)+1 from detailreview_tbl 
  		]]>
 	</select>	
  		
@@ -102,9 +129,9 @@
  		]]>
  	</insert>
  	
- 	<insert id="insertReview" parameterType="java.util.Map">
+ 	<insert id="insertReviewAndImage" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into detailreview_tbl (reviewComment,reviewImgName, reviewDate,reviewRating,memberNo, buyNo, detailNo) values(#{reviewComment},#{reviewImgName},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
  	
@@ -114,9 +141,25 @@
  		]]>
  	</insert>
  	
+ 	<insert id="insertOperForm" parameterType="java.util.Map">
+ 		<![CDATA[
+ 			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBusinessName},
+ 			#{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
+ 			#{detailServiceProgram},#{detailClassification},#{detailFreeService},#{detailMonthlyPrice},
+ 			#{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
+ 		]]>
+ 	</insert>
+ 	
+ 	<insert id="insertNewImages" parameterType="java.util.Map">
+ 		insert into detailimage_tbl values
+ 		<foreach collection="imageFileList" item="item" separator=",">
+ 			(#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
+ 		</foreach>
+ 	</insert>
+ 	
  	<delete id="deleteReview" parameterType="int">
  		<![CDATA[
- 			delete from detaildibs_tbl where reviewNo = #{reviewNo}
+ 			delete from detailreview_tbl where reviewNo = #{reviewNo} 
  		]]>
  	</delete>
  	

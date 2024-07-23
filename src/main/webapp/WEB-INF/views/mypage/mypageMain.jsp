@@ -33,7 +33,7 @@
         <div class="content">
             <div class="sidebar">
                 <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
-                <button class="sidebar-btn" data-target="dibs-list" onclick="fn_dibsList(${sessionScope.member.memberNo});">찜 목록</button>
+                <button class="sidebar-btn" data-target="dibs-list" onclick="fn_dibsList();">찜 목록</button>
                 <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
             </div>
             <div class="main-content">
@@ -75,25 +75,7 @@
                 </div>
                 <div id="dibs-list" class="section">
                     <h2>찜 목록</h2>
-                    <!-- 여기에 찜 목록 정보를 추가 -->
-					<table>
-						<tr>
-							<th>번호</th>
-							<th>업체명</th>
-							<th>프로그램명</th>
-							<th>지역</th>
-							<th>찜 취소하기</th>
-						</tr>
-						<c:forEach var="dibs" items="${dibsList}">
-							<tr>
-								<td>${dibs.detailNo}</td>
-								<td>${dibs.detailBusinessName}</td>
-								<td>${dibs.detailKoClassification}</td>
-								<td>${dibs.detailRoadAddress}</td>
-								<td><button onclick="location.href='${contextPath}/mypage/removeDibs.do?detailNo=${dibs.detailNo}'">찜 취소</button></td>
-							</tr>
-						</c:forEach>
-					</table>
+                    <!-- mypageMain.js 파일에 finction 및 테이블 구조 만들어져 있음 -->
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>
@@ -189,7 +171,7 @@
 	                        <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
 	                        <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
 	                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
-	                        <button id="update-btn"><a href="${contextPath}/mypage/mypageMain.do">수정하기</a></button>
+	                        <button id="update-btn"><a href="${contextPath}/mypage/modMember.do">수정하기</a></button>
 	                        <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
 						</form>
                         <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw.do">회원탈퇴</a></button>

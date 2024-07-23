@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.isix.easyGym.freeboard.dto.FreeDTO;
 import com.isix.easyGym.notice.dao.NoticeDAO;
 import com.isix.easyGym.notice.dto.NoticeDTO;
 import com.isix.easyGym.notice.dto.NoticeImageDTO;
@@ -53,7 +54,7 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public Map viewNotice(int noticeNo) throws DataAccessException{
 		Map noticeMap=new HashMap<>();
-		//noticeDAO.hitCount(noticeNo); // 공지사항 증가@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		noticeDAO.hitCount(noticeNo); 
 		NoticeDTO noticeDTO=noticeDAO.selectNotice(noticeNo);
 		List<NoticeImageDTO> imageFileList = noticeDAO.selectImageFileList(noticeNo);
 		noticeMap.put("notice", noticeDTO);
@@ -74,5 +75,18 @@ public class NoticeServiceImpl implements NoticeService{
 		noticeDAO.delNotice(noticeNo);
 	}
 
-
+	@Override
+	public Map noticePageList(Map<String, Integer> pagingMap) throws DataAccessException {
+		Map noMap = new HashMap<>();
+		int section = pagingMap.get("section");
+		int pageNum = pagingMap.get("pageNum");
+		int count = (section-1)*100+(pageNum-1)*10;
+		List<NoticeDTO> nolist  = noticeDAO.selectNoticeAll(count);
+		int noBoard = noticeDAO.selectNoticeCount(); // 토탈 게시글
+		noMap.put("nolist", nolist); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
+		noMap.put("noBoard", 324); // 페이징 임시 처리
+		//fbmap.put("noBoard", noBoard);
+		return noMap;
+	}
+	
 }
