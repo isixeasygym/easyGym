@@ -10,38 +10,46 @@ $(window).on('scroll', function() {
       });
 
 //글 삭제
-function deleteReview(){ 
-	var companyId = $(this).children('.reviewNo').val();
-	var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-       console.log("reviewNo: " + reviewNo);
-       console.log("userId: " + userId);
+function deleteComment(reviewNo) {
+    var memberNo = $('.userId').val(); // 회원 번호를 가져옵니다.
 
-	   
-	   
-        $.ajax({
-			async:false,
-			cache: false,
-            type: "POST",
-            url: "/delete.do",
-			async:false,
-            data: { 
-                reviewNo: reviewNo, 
-                userId: userId 
-            },
-			success: function(data)			{
-                if (data == "success") {
-                    alert("해당 글은 삭제되었습니다.");
-                } else if (data == "noLogin") {
-                    alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-					window.location.href='/member/loginForm.do';
-                } else if(data == "noBuy") {
-					alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.")
-				}
-            },
-            error: function() {
-                alert("해당 글은 작성하신 글이 아닙니다.");
+    console.log("reviewNo: " + reviewNo);
+    console.log("memberNo: " + memberNo);
+
+    $.ajax({
+        type: "POST",
+        url: "/delete.do",
+        data: { 
+            reviewNo: reviewNo, 
+            memberNo: memberNo 
+        },
+        success: function(data) {
+            if (data === "success") {
+                alert("해당 글은 삭제되었습니다.");
+                // 삭제된 리뷰를 화면에서 제거합니다.
+                $('.ReviewRange').each(function() {
+                    var currentReviewNo = $(this).data('review-no');
+                    if (currentReviewNo == reviewNo) {
+                        $(this).remove(); // 해당 리뷰 요소를 제거합니다.
+                    }
+                });
+
+                // 만약 모든 리뷰가 삭제된 경우
+                if ($('#reviewContainer').children().length === 0) {
+                    $('#reviewContainer').html('<h2>리뷰가 없습니다</h2>');
+                }
+            } else if (data === "noLogin") {
+                alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
+                window.location.href = '/member/loginForm.do';
+            } else if (data === "noBuy") {
+                alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
             }
-        });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+            alert("삭제 중 오류가 발생했습니다.");
+        }
+    });
 }
 //글 등록하기
 
