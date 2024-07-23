@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,6 +86,21 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/registration");
 		return mav;
 	}
+	@Override
+	@GetMapping("/detail/search.do")
+	public ModelAndView searchData(@RequestParam("query") String query, 
+			@RequestParam("detailClassification") String detailClassification,
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ModelAndView mav=new ModelAndView();
+		List<DetailDTO> selectedThing = new ArrayList<>();
+		Map<String, String> searchMap= new HashMap<String, String>();
+		searchMap.put("query", query);
+		searchMap.put("detailClassification", detailClassification);
+		selectedThing = detailService.findThing(searchMap);
+		mav.addObject("allList", selectedThing);
+		mav.setViewName("/detail/detail");
+		return mav;
+	}
 	
 	//사업자 폼 제출 및 이미지 여러개 추가
 		@Override
@@ -118,7 +135,7 @@ public class DetailControllerImpl implements DetailController{
 				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
 					for(DetailImageDTO detailImageDTO : imageFileList) {
 						imageFileName=detailImageDTO.getImageFileName();
-						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
+						File srcFile=new File(ARTICLE_IMG_REPO +"\\reviewImage\\"+"temp\\" + imageFileName);  //File = 객체
 						File destDir=new File(ARTICLE_IMG_REPO + "\\" + detailClassification + "\\" + detailBusinessEng);
 						FileUtils.moveFileToDirectory(srcFile, destDir, true);
 					}
@@ -128,7 +145,7 @@ public class DetailControllerImpl implements DetailController{
 				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
 					for(DetailImageDTO detailImageDTO : imageFileList) {
 						imageFileName=detailImageDTO.getImageFileName();
-						File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);  //File = 객체
+						File srcFile=new File(ARTICLE_IMG_REPO +"\\reviewImage\\"+"temp\\" + imageFileName);  //File = 객체
 						srcFile.delete();
 					}
 				}
@@ -253,6 +270,20 @@ public class DetailControllerImpl implements DetailController{
 	}
 	
 	@Override
+	@RequestMapping(value="/getReviews.do", method = RequestMethod.GET)
+	public ResponseEntity<List<DetailReviewDTO>> getReviews(int detailNo, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			List<DetailReviewDTO> reviews = detailService.findReview(detailNo);
+	        return new ResponseEntity<>(reviews, HttpStatus.OK);
+		} catch (Exception e) {
+			 e.printStackTrace();
+	         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	@Override
 	@ResponseBody
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
@@ -262,8 +293,6 @@ public class DetailControllerImpl implements DetailController{
             @RequestParam(value = "reviewImageName", required= false) MultipartFile reviewImageName,
             MultipartHttpServletRequest MultipartRequest,
             HttpServletResponse response) throws Exception{
-		System.out.print(reviewImageName);
-		System.out.print(reviewComment);
 		String status= null;
 		int memberNum=memberService.findmemberNo(Integer.parseInt(memberNo));
 		if(memberNum != 0) {
@@ -353,8 +382,7 @@ public class DetailControllerImpl implements DetailController{
 			}
 			return fileList;
 		}
-
-	
+		
 
 }
 

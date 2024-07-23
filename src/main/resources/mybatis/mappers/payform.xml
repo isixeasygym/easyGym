@@ -92,7 +92,7 @@
 	</delete>
 
 	<select id="checkingBuy" parameterType="int" resultType="int">
-		select buyNo from buy_tbl where memberNo = #{memberNo}
+    	SELECT IFNULL((SELECT buyNo FROM buy_tbl WHERE memberNo = #{memberNo}), 0)
 	</select>
 	
 	

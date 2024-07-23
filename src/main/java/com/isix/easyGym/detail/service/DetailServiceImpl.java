@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 @Service("detailServicle")
 public class DetailServiceImpl implements DetailService{
@@ -23,6 +24,11 @@ public class DetailServiceImpl implements DetailService{
 	@Autowired
 	private DetailDibsDTO detailDibsDTO;
 	
+	@Override
+	public List findThing(Map searchMap) throws DataAccessException {
+		List searchedThing = detailDAO.selectQuery(searchMap);
+		return searchedThing;
+	}
 	
 	@Override
 	public List findAll(String detailClassification) throws DataAccessException {
@@ -82,8 +88,8 @@ public class DetailServiceImpl implements DetailService{
 	}
 
 	@Override
-	public List findReview(int detailNo) throws DataAccessException {
-		List reivew = detailDAO.selectReview(detailNo);
+	public List<DetailReviewDTO> findReview(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reivew = detailDAO.selectReview(detailNo);
 		return reivew;
 	}
 
@@ -98,5 +104,7 @@ public class DetailServiceImpl implements DetailService{
 			detailDAO.insertNewImages(detailMap);		}
 		
 	}
+
+	
 
 }

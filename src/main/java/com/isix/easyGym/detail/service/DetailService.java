@@ -9,6 +9,10 @@ import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
 
 public interface DetailService {
+	
+	
+	public List findThing(Map searchMap) throws DataAccessException;
+	
 	public List findAll(String detailClassification) throws DataAccessException;
 	
 	public int popularThing(int detailNum) throws DataAccessException;
