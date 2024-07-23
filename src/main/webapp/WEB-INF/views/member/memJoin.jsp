@@ -13,10 +13,10 @@
 					autocomplete="off" id="memberId" tabindex="1"
 					placeholder="아이디를 입력해주세요." required /> <br> <span id="check"></span>
 			</div>
-<!-- 			<div class="input-box">
+ 			<div class="input-box">
 				<label>&nbsp;</label> <input type="button" value="중복확인"
 					id="duplicateBtn" onclick="checkId(this.form)">
-			</div> -->
+			</div>
 		</div>
 
 

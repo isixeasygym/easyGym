@@ -29,7 +29,7 @@ public class MemberOperServiceImpl implements MemberOperService {
 	}
 
 	public boolean checkId(String operatorId) throws DataAccessException {
-		return memberOperDAO.checkId(operatorId);
+		return memberOperDAO.checkOpId(operatorId);
 
 	}
 

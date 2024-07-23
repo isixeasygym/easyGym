@@ -13,7 +13,7 @@
       <a href="/member/memJoin.do" class="btn btn-primary btn-lg px-4 rounded-pill" role="button">
         일반회원가입
       </a>
-      <a href = "/member/operJoin.do" class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
+      <a href = "/member/operJoinForm.do" class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
         사업자회원가입
       </a>
     </div>

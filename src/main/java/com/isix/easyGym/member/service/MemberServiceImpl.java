@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.login(member);
 	}
 	// 중복체크
-	public int checkId(String memberId) throws DataAccessException {
+	public String checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
 
 	}
