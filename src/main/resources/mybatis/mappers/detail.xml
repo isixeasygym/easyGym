@@ -65,7 +65,7 @@
  		
  	<select id="getNewDetailNo" resultType="int" >
 		<![CDATA[
- 			select IFNULL(Max(articleNo),0)+1 from detail_tbl 
+ 			select IFNULL(Max(detailNo),0)+1 from detail_tbl 
  		]]>
 	</select>	
  		
@@ -137,15 +137,15 @@
  	
  	<insert id="insertOperForm" parameterType="java.util.Map">
  		<![CDATA[
- 			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBussinessName},
- 			#{detailBusinessName},#{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
+ 			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBusinessName},
+ 			#{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
  			#{detailServiceProgram},#{detailClassification},#{detailFreeService},#{detailMonthlyPrice},
  			#{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
  		]]>
  	</insert>
  	
  	<insert id="insertNewImages" parameterType="java.util.Map">
- 		insert into imagefile_tbl values
+ 		insert into detailimage_tbl values
  		<foreach collection="imageFileList" item="item" separator=",">
  			(#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
  		</foreach>

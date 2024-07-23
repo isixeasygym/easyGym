@@ -13,7 +13,7 @@ $(window).on('scroll', function() {
 function deleteReview(){ 
 	var companyId = $(this).children('.reviewNo').val();
 	var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-       console.log("companyId: " + companyId);
+       console.log("reviewNo: " + reviewNo);
        console.log("userId: " + userId);
 
 	   
@@ -129,18 +129,13 @@ function writeSubmit() {
 //찜 기능
 $(document).ready(function() {
     $(".favorite-button").click(function(event) {
-		//alert("안녕")ㅣ
-		
         var companyId = $(this).children('.companyId').val();
         var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-        console.log("companyId: " + companyId);
-        console.log("userId: " + userId);
-   
-		
+
         $.ajax({
             type: "GET",
             url: "/addFavorite",
-			async:false,
+            async: false,
             data: { 
                 companyId: companyId, 
                 userId: userId 
@@ -148,8 +143,10 @@ $(document).ready(function() {
             success: function(data) {
                 if (data == "insert") {
                     alert("찜 목록에 추가되었습니다.");
+                    $(event.currentTarget).find('.dibs').attr('src', '${contextPath}/images/detail/detailpage/pickDibs.png');
                 } else if (data == "delete") {
                     alert("찜 목록에서 삭제되었습니다.");
+                    $(event.currentTarget).find('.dibs').attr('src', '${contextPath}/images/detail/detailpage/dibs.png');
                 } else if (data.startsWith("redirect:")) {
                     // 리다이렉트 처리
                     var redirectUrl = data.substring(9); // "redirect:" 이후의 문자열을 가져옴
@@ -158,14 +155,13 @@ $(document).ready(function() {
                     alert("알 수 없는 오류가 발생했습니다.");
                 }
             },
-			
             error: function(xhr, status, error) {
                 console.error("Error: " + error);
-                alert(xhr+status+"오류가 발생했습니다."+error);
+                alert(xhr + status + "오류가 발생했습니다." + error);
             }
         });
-		event.stopPropagation();
-	});
+        event.stopPropagation();
+    });
 });
 //이미지 슬라이드
 $(function() {
