@@ -60,15 +60,16 @@
 
 .left_control {
     position: absolute;
-    top: 200px;
+    top: 170px;
+	height: 60px;
     left: 5px;
     cursor: pointer;
     z-index: 10px;
 }
 .right_control {
    position: absolute;
-   height: ;
-   top: 200px;
+   height: 60px;
+   top: 170px;
    right: 5px;
    cursor: pointer;
    z-index: 10px;
@@ -368,29 +369,29 @@ body{
 }
 
 #fixedContainer {
-           position: -webkit-sticky; /* Safari 지원 */
-           position: sticky; /* 최신 브라우저 지원 */
-           bottom: 0;
-           left: 0;
-           width: 100%;
-           background-color: white;
-           border-top: 1px solid #ccc;
-           padding: 10px;
-           box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-           z-index: 1000;
-           text-align: center;
-       }
+       position: -webkit-sticky; /* Safari 지원 */
+       position: sticky; /* 최신 브라우저 지원 */
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       background-color: white;
+       border-top: 1px solid #ccc;
+       padding: 10px;
+       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+       z-index: 1000;
+       text-align: center;
+   }
 
-       #ticketChoice {
-           color: #fff;
-           padding: 15px;
-           background-color: #2478FF;
-           font-size: 1.2em;
-           border: 1px solid #2478FF;
-           border-radius: 20px;
-           width: 650px;
-           margin: 0 auto;
-       }
+   #ticketChoice {
+       color: #fff;
+       padding: 15px;
+       background-color: #2478FF;
+       font-size: 1.2em;
+       border: 1px solid #2478FF;
+       border-radius: 20px;
+       width: 650px;
+       margin: 0 auto;
+   }
 #ReviewRange{
 	width: 700px;
 }
@@ -482,9 +483,21 @@ body{
 .deleteButton{
 	position: relative;
 	z-index: 30px;
-	top: 30px;
-	left: 600px;
+	top: 40px;
+	left: 580px;
+	background: none;
+	border: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	outline: none;
+	font-size: 0.8em;
 }
+
+.ReviewRange{
+	height: 265px;
+}
+
 .reviewImage{
 	position: relative;
 	top: -25px;
@@ -498,10 +511,23 @@ body{
 	left: -20px;
 	display: inline-block;
 }
+.reviewDate{
+	position: relative;
+	top: -40px;
+	left: -116px;
+	display: inline-block;
+}
+.reviewComment{
+	position: relative;
+	border: 1px solid #ccc;;
+	top: -50px;
+	height: 130px;
+}
 .personReviewRange{
 	width: 578px;
+	height: 180px;
 	margin:0 auto;
-	border: 2px solid #F6F6F6;
+	border-bottom: 1px solid #F6F6F6;
 	padding: 30px;
 }
 #writeBorder{

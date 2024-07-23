@@ -71,5 +71,32 @@
             </c:when>                
         </c:choose>        
     </div>        
+	<div id="mapRange">
+        <h5>위치</h5>
+        <a name="2"></a>
+		<div id="map" style="width:30%;height:350px;"></div>
+	</div>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
+		<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = { 
+		        center: new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude})								, // 지도의 중심좌표
+				draggable: false, 
+		        level: 3 // 지도의 확대 레벨
+		    };
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}); 
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+		</script>
 </body>
 </html>
