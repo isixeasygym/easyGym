@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -102,58 +103,74 @@ public class DetailControllerImpl implements DetailController{
 		return mav;
 	}
 	
-	//사업자 폼 제출 및 이미지 여러개 추가
-		@Override
-		@RequestMapping(value="/detail/signUpForm.do", method = RequestMethod.POST)
-		public ModelAndView signUpForm(@RequestParam("detailBusinessEng") String detailBusinessEng,
-				@RequestParam("operatorNo") int operatorNo,@RequestParam("detailClassification") String detailClassification, 
-				MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
-			String imageFileName=null;
-			multipartRequest.setCharacterEncoding("utf-8");
-			Map<String, Object> detailMap=new HashMap<String, Object>();
-			Enumeration enu=multipartRequest.getParameterNames();
-			while(enu.hasMoreElements()) {
-				String name=(String)enu.nextElement();
-				String value=multipartRequest.getParameter(name);  //name = articleForm.html에서 title, content 등의 매개변수 이름
-				detailMap.put(name, value);
-			}
-			List<String> fileList=multiFileUpload(multipartRequest);  //여러 개의 이미지를 받을거라 리스트로 작성
-			List<DetailImageDTO> imageFileList=new ArrayList<DetailImageDTO>();
-			if(fileList != null && fileList.size() != 0) {
-				for(String fileName:fileList) {
-					detailImageDTO.setImageFileName(fileName);
-					imageFileList.add(detailImageDTO);
-				}
-				detailMap.put("imageFileList", imageFileList);
-			}
-			HttpSession session=multipartRequest.getSession();  //session ~ Map.put(id) => 글쓰기할 때 세션을 통해 id로 접속한 사람의 id가 작성자 칸에 보이게 하기
-			//memberOperDTO=(MemberOperDTO)session.getAttribute("memberOper");
-			//int operatorNo=memberOperDTO.getOperatorNo(); 
-			detailMap.put("operatorNo", operatorNo);
-			try {
-				detailService.addOperForm(detailMap);  //addArticle을 articleNo에 담아서 boardService에 가져가기???
-				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
-					for(DetailImageDTO detailImageDTO : imageFileList) {
-						imageFileName=detailImageDTO.getImageFileName();
-						File srcFile=new File(ARTICLE_IMG_REPO +"\\reviewImage\\"+"temp\\" + imageFileName);  //File = 객체
-						File destDir=new File(ARTICLE_IMG_REPO + "\\" + detailClassification + "\\" + detailBusinessEng);
-						FileUtils.moveFileToDirectory(srcFile, destDir, true);
-					}
-				}
-			}catch (Exception e) {
-				//글쓰기 수행 중 오류
-				if(imageFileList != null && imageFileList.size() != 0) {  //이미지를 첨부했다면 ~
-					for(DetailImageDTO detailImageDTO : imageFileList) {
-						imageFileName=detailImageDTO.getImageFileName();
-						File srcFile=new File(ARTICLE_IMG_REPO +"\\reviewImage\\"+"temp\\" + imageFileName);  //File = 객체
-						srcFile.delete();
-					}
-				}
-			}
-			ModelAndView mav=new ModelAndView("redirect:/board/listArticles.do");  //글 리스트 추가한걸 리스트목록에서 보여주기
-			return mav;
-		}
+	@RequestMapping(value = "/detail/signUpForm.do", method = RequestMethod.POST)
+	public ModelAndView signUpForm(
+	        @RequestParam("detailBusinessEng") String detailBusinessEng,
+	        @RequestParam("operatorNo") int operatorNo,
+	        @RequestParam("detailClassification") String detailClassification,
+	        MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+
+	    String imageFileName = null;
+	    multipartRequest.setCharacterEncoding("utf-8");
+	    Map<String, Object> detailMap = new HashMap<>();
+	    Enumeration<String> enu = multipartRequest.getParameterNames();
+
+	    while (enu.hasMoreElements()) {
+	        String name = enu.nextElement();
+	        String value = multipartRequest.getParameter(name);
+	        detailMap.put(name, value);
+	    }
+
+	    List<String> fileList = multiFileUpload(multipartRequest);
+	    List<DetailImageDTO> imageFileList = new ArrayList<>();
+
+	    if (fileList != null && !fileList.isEmpty()) {
+	        for (String fileName : fileList) {
+	            DetailImageDTO detailImageDTO = new DetailImageDTO();
+	            detailImageDTO.setImageFileName(fileName);
+	            imageFileList.add(detailImageDTO);
+	        }
+	        detailMap.put("imageFileList", imageFileList);
+	    }
+
+	    HttpSession session = multipartRequest.getSession();
+	    detailMap.put("operatorNo", operatorNo);
+
+	    try {
+	        detailService.addOperForm(detailMap);
+	        if (imageFileList != null && !imageFileList.isEmpty()) {
+	            for (DetailImageDTO detailImageDTO : imageFileList) {
+	                imageFileName = detailImageDTO.getImageFileName();
+	                File srcFile = new File(ARTICLE_IMG_REPO + File.separator + detailClassification + File.separator + "temp" + File.separator + imageFileName);
+	                File destDir = new File(ARTICLE_IMG_REPO + File.separator + detailClassification + File.separator + detailBusinessEng);
+
+	                if (!destDir.exists()) {
+	                    destDir.mkdirs(); // Ensure destination directory exists
+	                }
+	                
+	                File destFile = new File(destDir, imageFileName);
+	                FileUtils.moveFile(srcFile, destFile); // Move the file
+	            }
+	        }
+	    } catch (Exception e) {
+	        if (imageFileList != null && !imageFileList.isEmpty()) {
+	            for (DetailImageDTO detailImageDTO : imageFileList) {
+	                imageFileName = detailImageDTO.getImageFileName();
+	                File srcFile = new File(ARTICLE_IMG_REPO + File.separator + detailClassification + File.separator + "temp" + File.separator + imageFileName);
+	                if (srcFile.exists()) {
+	                    srcFile.delete(); // Delete the file if it exists
+	                }
+	            }
+	        }
+	        e.printStackTrace(); // Consider proper logging
+	    }
+
+	    ModelAndView mav = new ModelAndView();
+	    mav.setViewName("/main");
+	    return mav;
+	}
 	
+		
 	@Override
 	@RequestMapping(value="/detail/detail.do", method = RequestMethod.GET)
 	public ModelAndView detailForm(
@@ -361,28 +378,27 @@ public class DetailControllerImpl implements DetailController{
 		}
 		return imageFileName;
 	}
-	//여러개 이미지 파일 업로드(multiFileUpload) => MySQL - 여러개 이미지 파일 저장 테이블 생성
-		private List<String> multiFileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
-			List<String> fileList=new ArrayList<String>();  //List<제너럴타입>
-			Iterator<String> fileNames=multipartRequest.getFileNames();
-			while(fileNames.hasNext()) {  //fileNames가 존재하면 while문이 hasNext 다음으로 계속 돔
-				String fileName=fileNames.next();
-				MultipartFile mFile=multipartRequest.getFile(fileName);
-				String originalFileName=mFile.getOriginalFilename();  //첨부한 이미지 이름을 가져옴
-				fileList.add(originalFileName);  //fileList에 originalFileName 첨부한 이미지 이름을 추가하기
-				File file=new File(ARTICLE_IMG_REPO + "\\" + fileName);  //이미지 파일 저장하는 내 경로 (상단에 경로 있음)
-				if(mFile.getSize() != 0) {  //이미지 파일 사이즈가 0이 아닐 때 => 이미지가 첨부되어 있는 상태
-					if(! file.exists()) {  //파일이 존재하지 않는다면~
-						if(file.getParentFile().mkdir()) {  //mkdir = 폴더 생성
-							file.createNewFile();
-						}
-					}
-					mFile.transferTo(new File(ARTICLE_IMG_REPO + "\\temp\\" + originalFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
-				}
-			}
-			return fileList;
-		}
-		
+	private List<String> multiFileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
+	    List<String> fileList = new ArrayList<>();
+	    Iterator<String> fileNames = multipartRequest.getFileNames();
+
+	    while (fileNames.hasNext()) {
+	        String fileName = fileNames.next();
+	        MultipartFile mFile = multipartRequest.getFile(fileName);
+	        String detailClassification = multipartRequest.getParameter("detailClassification");
+	        String originalFileName = mFile.getOriginalFilename();
+	        
+	        if (originalFileName != null && mFile.getSize() != 0) {
+	            fileList.add(originalFileName);
+	            File file = new File(ARTICLE_IMG_REPO + File.separator + detailClassification + File.separator + "temp" + File.separator + originalFileName);
+	            if (!file.getParentFile().exists()) {
+	                file.getParentFile().mkdirs(); // Ensure directory exists
+	            }
+	            mFile.transferTo(file); // Transfer file
+	        }
+	    }
+	    return fileList;
+	}
 
 }
 
