@@ -35,18 +35,30 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@Override
+	// 회원가입 페이지
 	@RequestMapping(value = "/member/memJoin.do")
-	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String memberEmail1=request.getParameter("memberEmail1");
-		String memberEmail2=request.getParameter("memberEmail2");
-		String memberEmail = memberEmail1 + memberEmail2;
-		memberDTO.setMemberEmail(memberEmail);
-		memberService.addMember(memberDTO);
+    public ModelAndView showJoinForm() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/member/memJoin"); 
+        return mav;
+    }
+	
+	// 회원가입 기능
+	@PostMapping(value = "/member/memJoin.do")
+	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/member/loginForm");
+		memberService.addMember(memberDTO);
+		mav.setViewName("redirect:/afterMemJoin.do");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/member/afterMemJoin.do")
+    public ModelAndView afterMemJoin() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/member/afterMemJoin"); 
+        return mav;
+    }
 	
 	@Override
 	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
@@ -57,7 +69,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 
-	@Override
+	@Override 
 	@GetMapping("/member/loginSelect.do")
 	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -109,9 +121,9 @@ public class MemberControllerImpl implements MemberController {
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes rAttr,
+	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		memberDTO = memberService.login(memberDTO);
+		memberDTO = memberService.login(member);
 		ModelAndView mv = new ModelAndView();	
 		if (memberDTO != null) {
 			HttpSession session= request.getSession();
@@ -135,9 +147,9 @@ public class MemberControllerImpl implements MemberController {
 	// 아이디 중복체크
 	@Override
 	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
-	public ModelAndView checkId(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		if (memberService.checkId(id)) {
+		if (memberService.checkId(memberId) != null) {
 			mav.addObject("message", "이미 사용중인 ID입니다.");
 		} else {
 			mav.addObject("message", "사용 가능한 ID입니다.");

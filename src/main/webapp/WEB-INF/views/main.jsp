@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <style>
 .bg-image {
 	background-image: url('/images/member/gym2.png'); /* 배경 이미지 경로 */
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	color: white; /* 텍스트 색상을 배경과 대조되도록 설정 */
+	color: white; 
 	height: 500px; /* 배경 이미지의 높이 설정 */
 	display: flex;
 	align-items: center;
@@ -82,8 +82,23 @@
 .row{
 text-align: center;
 }
-</style>
 
+#chatbot_frame {
+        position: absolute;
+        margin-top: -50vh;  /* vh : 버티칼 */
+        left: -300px;
+        display: none;
+    }
+
+    .chatbot {
+        position: absolute;
+        border: 1px solid blue;
+        z-index: 9999;  /* 항상 맨 앞으로 오게 => 9999 최고 숫자 부여 */
+        margin-top: -50px;
+        margin-left: 80%;
+    }
+
+</style>
 <div
 	class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
@@ -118,7 +133,6 @@ text-align: center;
     <p><a class="btn btn-secondary" href="http://demo047.megaweb1.kr/">바로가기 &raquo;</a></p>
   </div><!-- /.col-lg-4 -->
 </div><!-- /.row -->
-
 </div>
 
 <div id="carouselExampleAutoplaying"
@@ -310,4 +324,12 @@ text-align: center;
         </div>
         
     </div>
+<!-- 챗봇 -->
+      <div class="chatbot">
+           <iframe id="chatbot_frame" width="350" height="430" allow="microphone;"
+           src="https://console.dialogflow.com/api-client/demo/embedded/835aec7e-894b-4357-b90d-e6fabbadfb94"></iframe>
+           <a href="#" onclick="fn_chatbot()"> ☞ 챗봇에게 물어보기</a>  <!-- 챗봇 함수 만들기 -->
+       </div>
+    
+<script src="/js/member/chatbot.js"></script>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

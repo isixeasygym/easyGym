@@ -1,22 +1,15 @@
 package com.isix.easyGym.mypage.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
-import com.isix.easyGym.detail.dto.DetailDibsDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.dao.MypageDAO;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
