@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public interface AnswerController {
 
@@ -32,6 +33,6 @@ public interface AnswerController {
               @RequestParam(value="memberNo", required = false) Integer memberNo,
               @RequestParam(value="fbanswerContent", required = false) String fbanswerContent) throws Exception ;
 
-    public Map<String, Object> removeAnswerAjax(@RequestParam("fbanswerNo") int fbanswerNo) throws Exception;
+    public Map<String, Object> removeAnswerAjax(@RequestParam("fbanswerNo") int fbanswerNo, HttpSession session) throws Exception;
 	
 }

@@ -116,7 +116,7 @@
 	            <c:otherwise>
 	                <c:forEach var="answer" items="${amap.alist}">
 	                    <div>
-	                        <input type="text" class="form-control" name="memberNo" value="${fbmap.mDTO.memberName}" readonly>
+	                        <input type="text" class="form-control" name="memberNo" value="${sessionScope.member.memberNo}" readonly>
 	                        <input type="text" class="form-control" name="fbanswerContent" value="${answer.fbanswerContent}" readonly>
 	                        <input type="text" class="form-control" name="fbanswerWriteDate" value="${answer.fbanswerWriteDate}" readonly>
 	                        <button class="delBtn" onclick="del(${answer.fbanswerNo})">삭제</button>
@@ -130,7 +130,7 @@
 		
 	    <div class="comment-form" id="commentForm" style="display: none;">
 	        <form id="commentFormForm" enctype="multipart/form-data">
-	            <input type="hidden" id="memberNo" name="memberNo" value="${fbmap.mDTO.memberNo}">
+	            <input type="hidden" id="memberNo" name="memberNo" value="${sessionScope.member.memberNo}">
 	            <input type="hidden" id="freeNo" name="freeNo" value="${fbmap.fboard.freeNo}">
 	            <textarea id="fbanswerContent" name="fbanswerContent" rows="4" cols="50"></textarea>
 	            <button type="button" id="submitCommentBtn">댓글 등록</button>
@@ -169,6 +169,7 @@
 
 		    function loadComments() {
 		        var freeNo = $('#freeNo').val();
+		        var memberNo = $('#memberNo').val();
 		        
 		        $.ajax({
 		            type: 'GET',
