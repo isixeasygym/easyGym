@@ -33,7 +33,7 @@
         <div class="content">
             <div class="sidebar">
                 <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
-                <button class="sidebar-btn" data-target="dibs-list" onclick="fn_dibsList(${sessionScope.member.memberNo});">찜 목록</button>
+                <button class="sidebar-btn" data-target="dibs-list" onclick="fn_dibsList();">찜 목록</button>
                 <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
             </div>
             <div class="main-content">
@@ -76,24 +76,7 @@
                 <div id="dibs-list" class="section">
                     <h2>찜 목록</h2>
                     <!-- 여기에 찜 목록 정보를 추가 -->
-					<table>
-						<tr>
-							<th>번호</th>
-							<th>업체명</th>
-							<th>프로그램명</th>
-							<th>지역</th>
-							<th>찜 취소하기</th>
-						</tr>
-						<c:forEach var="dibs" items="${dibsList}">
-							<tr>
-								<td>${dibs.detailNo}</td>
-								<td>${dibs.detailBusinessName}</td>
-								<td>${dibs.detailKoClassification}</td>
-								<td>${dibs.detailRoadAddress}</td>
-								<td><button onclick="location.href='${contextPath}/mypage/removeDibs.do?detailNo=${dibs.detailNo}'">찜 취소</button></td>
-							</tr>
-						</c:forEach>
-					</table>
+					
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>
@@ -177,7 +160,6 @@
                     </div>
                     <div align="center" id="update-form" style="display:none;">
                         <h2>회원정보 수정</h2>
-<<<<<<< HEAD
 						<form method="post" action="/mypage/updateMember.do">
 	                        <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
 	                        <p>비밀번호 : <input type="password" value="${member.memberPwd}"></p>
@@ -190,25 +172,10 @@
 	                        <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
 	                        <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
 	                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
-	                        <button id="update-btn"><a href="${contextPath}/mypage/mypageMain.do">수정하기</a></button>
+	                        <button id="update-btn"><a href="${contextPath}/mypage/modMember.do">수정하기</a></button>
 	                        <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
 						</form>
                         <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw.do">회원탈퇴</a></button>
-=======
-                        <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
-                        <p>비밀번호 : <button id="update-pwd">비밀번호 변경하기</button></p>
-                        <p>이름: <input type="text" value="${member.memberName}"></p>
-                        <p>성별: 
-                            <input type="radio" name="sex">남자
-                            <input type="radio" name="sex">여자
-                        </p>
-                        <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
-                        <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
-                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
-                        <button id="update-btn"><a href="${contextPath}/mypage/modMember.do">수정하기</a></button>
-                        <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
-                        <button id="withdraw-btn"><a href="/mypage/withdraw.do">회원탈퇴</a></button>
->>>>>>> branch 'freeboard' of https://github.com/isixeasygym/easyGym.git
                     </div>
                 </div>
             </div>
