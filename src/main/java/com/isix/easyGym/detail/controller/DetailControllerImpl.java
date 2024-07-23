@@ -193,22 +193,21 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/detail");
 		return mav;
 	}
-
-
-    @Override
-    @RequestMapping(value = "/detail/showAll.do", method = RequestMethod.GET)
-    public ModelAndView selectAll(
-            @RequestParam("detailClassification") String detailClassification,
-            HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        List selectAllList = new ArrayList<>();
-        selectAllList = detailService.findAll(detailClassification);
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("allList", selectAllList);
-        mav.addObject("listCount", selectAllList.size());
-        mav.setViewName("/detail/List");
-        return mav;
-    }
+	
+    
+	@Override
+	@RequestMapping(value="/detail/showAll.do", method=RequestMethod.GET)
+	public ModelAndView selectAll(
+			@RequestParam("detailClassification") String detailClassification,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+			List selectAllList = new ArrayList<>();
+			selectAllList = detailService.findAll(detailClassification);
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("allList", selectAllList);
+			mav.setViewName("/detail/List");
+		return mav;
+	}
 	
 	@Override
 	public ModelAndView selectPopular(@RequestParam("detailClassification") String detailClassification,
@@ -266,7 +265,7 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("userId") int memberNo,
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
@@ -303,66 +302,93 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
-	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo,
-            @RequestParam(value = "action", required = false) String action,
-            @RequestParam(value = "reviewComment", required = false) String reviewComment,
-            @RequestParam(value = "reviewRating", required = false) String reviewRating,
-            @RequestParam(value = "reviewImageName", required= false) MultipartFile reviewImageName,
-            MultipartHttpServletRequest MultipartRequest,
-            HttpServletResponse response) throws Exception{
-		String status= null;
-		int memberNum=memberService.findmemberNo(Integer.parseInt(memberNo));
-		if(memberNum != 0) {
-			int buyNo=payformService.buyCheck(memberNum);
-			if(buyNo != 0) {
-				MultipartRequest.setCharacterEncoding("utf-8");
-				//Map<String,Object> reviewImageMap = new HashMap<>();
-				//System.out.print(reviewImageName);
-				//reviewImageMap.put("reviewImageName", reviewImageName);
-				//System.out.print(reviewImageName);
-				/*if(reviewImageName != null ) {
-					
-					?Map<String,String> reviewMap=new HashMap<String,String>();
-					reviewMap.put("reviewComment", reviewComment);
-					reviewMap.put("reviewImgName", reviewImageName);
-					reviewMap.put("reviewRating", reviewRating);
-					reviewMap.put("memberNo", memberNo);
-					reviewMap.put("buyNo", String.valueOf(buyNo));
-					reviewMap.put("detailNo", detailNo);
-					String reviewImg=fileUpload(reviewImageMap);
-					detailService.writeReview(reviewMap);
-					File srcFile=new File(ARTICLE_IMG_REPO + "\\temp\\" + reviewImg); 
-					File destDir=new File(ARTICLE_IMG_REPO + "\\" + reviewImg + "\\" + memberNum);
-					
-					FileUtils.moveFileToDirectory(srcFile, destDir, true);
-					status="success";
-				}else {*/
-					Map<String,String> noImgReviewMap=new HashMap<String,String>();
-					noImgReviewMap.put("reviewComment", reviewComment);
-					noImgReviewMap.put("reviewRating", reviewRating);
-					noImgReviewMap.put("memberNo", memberNo);
-					noImgReviewMap.put("buyNo", String.valueOf(buyNo));// int타입이라서 string string 못하는데 변수 타입인데 string object안되나요?
-					noImgReviewMap.put("detailNo", detailNo);
-					detailService.noImgReview(noImgReviewMap);
-					status="success";
-				
-			}else {
-				status="noBuy";
-			}
-		}else {
-			status="noLogin";
-		}
-		return status;
+	public String writeReview(
+	        @RequestParam("companyId") String detailNo, 
+	        @RequestParam("memberNo") String memberNo,
+	        @RequestParam(value = "action", required = false) String action,
+	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
+	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
+	        @RequestParam(value = "reviewImageName", required = false) MultipartFile reviewImageName,
+	        MultipartHttpServletRequest multipartRequest,
+	        HttpServletResponse response) throws Exception {
+
+	    String status = null;
+	    String detailBusinessEng = multipartRequest.getParameter("detailBusinessEng");
+	    try {
+	     
+	        int memberNum = memberService.findmemberNo(Integer.parseInt(memberNo));
+
+	        if (memberNum != 0) {
+	            int buyNo = payformService.buyCheck(memberNum);
+
+	            if (buyNo != 0) {
+	                multipartRequest.setCharacterEncoding("utf-8");
+
+	                String imageFileName = fileUpload(multipartRequest); // Check if image file is uploaded
+
+	                if (imageFileName != null && !imageFileName.isEmpty()) {
+	                    // Handle image upload
+	                    Map<String, Object> reviewImageMap = new HashMap<>();
+	                    Enumeration<String> enu = multipartRequest.getParameterNames();
+
+	                    while (enu.hasMoreElements()) {
+	                        String name = enu.nextElement();
+	                        String value = multipartRequest.getParameter(name);
+	                        reviewImageMap.put(name, value);
+	                    }
+
+	                    reviewImageMap.put("reviewImageName", imageFileName);
+	                    reviewImageMap.put("buyNo", buyNo);
+	                    reviewImageMap.put("detailNo", detailNo);
+	                    HttpSession session = multipartRequest.getSession();
+	                    reviewImageMap.put("memberNo", memberNo);
+
+	                    int reviewNo = detailService.addreview(reviewImageMap);
+
+	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
+	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailBusinessEng + File.separator + memberNo);
+	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
+	                    
+	                    if (!destDir.exists()) {
+	                        destDir.mkdirs(); // Ensure destination directory exists
+	                    }
+
+	                    File destFile = new File(destDir, imageFileName);
+	                    FileUtils.moveFile(srcFile, destFile); // Move the file
+
+	                    status = "success";
+	                } else {
+	                    // Handle no image case
+	                    Map<String, String> noImgReviewMap = new HashMap<>();
+	                    noImgReviewMap.put("reviewComment", reviewComment);
+	                    noImgReviewMap.put("reviewRating", reviewRating);
+	                    noImgReviewMap.put("memberNo", memberNo);
+	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
+	                    noImgReviewMap.put("detailNo", detailNo);
+
+	                    detailService.noImgReview(noImgReviewMap);
+	                    status = "success";
+	                }
+	            } else {
+	                status = "noBuy";
+	            }
+	        } else {
+	            status = "noLogin";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Consider using proper logging
+	        status = "error";
+	    }
+
+	    return status;
 	}
-	
 	
 	//한 개 이미지 파일 업로드(fileUpload)
 	private String fileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
 		String imageFileName=null;
-		System.out.print("1123123");
 		Iterator<String> fileNames=multipartRequest.getFileNames();
 		while(fileNames.hasNext()) {  //fileNames가 존재하면 while문이 hasNext 다음으로 계속 돔
-			
+			String detailBusinessEng = multipartRequest.getParameter("detailBusinessEng");
 			String fileName=fileNames.next();
 			MultipartFile mFile=multipartRequest.getFile(fileName);
 			imageFileName=mFile.getOriginalFilename();
@@ -373,7 +399,7 @@ public class DetailControllerImpl implements DetailController{
 						file.createNewFile();
 					}
 				}
-				mFile.transferTo(new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
+				mFile.transferTo(new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
 			}
 		}
 		return imageFileName;
@@ -401,6 +427,3 @@ public class DetailControllerImpl implements DetailController{
 	}
 
 }
-
-
-
