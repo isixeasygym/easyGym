@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.isix.easyGym.freeboard.dto.AnswerDTO;
 import com.isix.easyGym.freeboard.dto.FreeDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 
@@ -44,18 +45,14 @@ public interface FreeDAO {
 	
 	public void deleteFboard(int freeNo) throws DataAccessException;
 	
-	// 댓글
-	public List selectAnswer() throws DataAccessException;
-
-	public int getAnswerNo() throws DataAccessException; 
 	
-	public void insertNewAnswer(Map amap) throws DataAccessException;
+	List<AnswerDTO> selectAnswer(int freeNo) throws DataAccessException;
 	
-	public void insertAnswerImages(Map amap) throws DataAccessException;
-
-	public void updateAnswer(Map amap) throws DataAccessException;
-	
-	public void updateAnswerImage(Map amap) throws DataAccessException;
-	
-	public void deleteAnswer(int fbanswerNo) throws DataAccessException;
+    int getAnswerNo() throws DataAccessException;
+    
+    void insertNewAnswer(Map<String, Object> amap) throws DataAccessException;
+    
+    void deleteAnswer(int fbanswerNo) throws DataAccessException;
+    
+    AnswerDTO selectAnswerByNo(int fbanswerNo) throws DataAccessException;
 }

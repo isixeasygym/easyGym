@@ -31,7 +31,7 @@
  		<result property="freeHit" column="freeHit"/>
 	</resultMap>
 
-	<resultMap id="anResult" type="answerDTO">
+	<resultMap type="answerDTO" id="answerDTO">
 		<result property="fbanswerNo" column="fbanswerNo"/> 
 		<result property="memberNo" column="memberNo"/> 
 		<result property="freeNo" column="freeNo"/> 
@@ -59,7 +59,7 @@
 	</select>
 	
 	<select id="selectMem" resultType="memberDTO" parameterType="int">
-		select m.memberName from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
+		select m.* from member_tbl m join freeboard_tbl f on m.memberNo = f.memberNo where  freeNo = #{freeNo} 	
 	</select>
 	
 	<select id="selectFboard" resultType="freeDTO" parameterType="int">
@@ -117,11 +117,10 @@
  
  	<!-- 댓글 -->
  	
- 	<select id="selectAnswer" resultType="answerDTO" parameterType="int">
-	
-		<![CDATA[
- 			select * from fbanswer_tbl where freeNo = #{freeNo} 		
- 		]]>
+ <!--	<select id="selectAnswer" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+	    <![CDATA[
+	        SELECT * FROM fbanswer_tbl
+	    ]]>
 	</select>
  	
  	 <select id="getAnswerNo" resultType="int">
@@ -129,11 +128,6 @@
         FROM fbanswer_tbl
     </select>
 	
-	<!--<select id="getFreeNo" resultType="int">
-		<![CDATA[
- 			select f.freeNo from freeboard_tbl f join fbanswer_tbl a on a.freeNo = f.freeNo where  freeNo = #{freeNo}	
- 		]]>
-	</select>-->
  
  	<insert id="insertNewAnswer" parameterType="java.util.Map">
 		insert into fbanswer_tbl (fbanswerNo, memberNo, freeNo, fbanswerContent, fbanswerWriteDate, imageFileName)
@@ -147,22 +141,42 @@
 		</foreach>
 	</insert>
 	
-	<update id="updateAnswer" parameterType="java.util.Map">
- 			update freeboard_tbl set freeTitle=#{freeTitle}, freeContent=#{freeContent} where freeNo=#{freeNo}	
-	</update>
-	
-	<update id="updateAnswerImage" parameterType="java.util.Map">
-		<foreach collection="imageFileList" item="item" separator=";">
-			
-				update fboardimage_tbl set imageFileName=#{item.imageFileName} where imageFileNo=#{item.imageFileNo} and #{item.imageFileName} != '' and fbanswerNo = #{fbanswerNo}
-           
-         </foreach>
-	</update>
+
 	
 	<delete id="deleteAnswer" parameterType="int">
 		<![CDATA[
 			delete from freeboard_tbl where freeNo=#{freeNo}
 		]]>
-	</delete>
+	</delete>-->
  
+ 	<select id="selectAnswer" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+        <![CDATA[
+            SELECT * FROM fbanswer_tbl WHERE freeNo = #{freeNo}
+        ]]>
+    </select>
+
+    <select id="getAnswerNo" resultType="int">
+        <![CDATA[
+            SELECT COALESCE(MAX(fbanswerNo), 0) + 1 FROM fbanswer_tbl
+        ]]>
+    </select>
+
+    <insert id="insertNewAnswer" parameterType="java.util.Map">
+        <![CDATA[
+            INSERT INTO fbanswer_tbl (fbanswerNo, memberNo, freeNo, fbanswerContent, fbanswerWriteDate)
+            VALUES (#{fbanswerNo}, #{memberNo}, #{freeNo}, #{fbanswerContent}, sysdate())
+        ]]>
+    </insert>
+
+    <delete id="deleteAnswer" parameterType="int">
+        <![CDATA[
+            DELETE FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+        ]]>
+    </delete>
+    
+    <select id="selectAnswerByNo" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+        <![CDATA[
+            SELECT * FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+        ]]>
+    </select>
  </mapper>

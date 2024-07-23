@@ -216,6 +216,14 @@ text-align: center;
 				<input type=hidden name="detailClassification" value="health">
 				<button type="submit">헬스 전체 더 보기</button>
 			</form>
+			<form action="${contextPath}/detail/showAll.do" method="get">
+				<input type=hidden name="detailClassification" value="pilates">
+				<button type="submit">필라테스 전체 더 보기</button>
+			</form>
+			<form action="${contextPath}/detail/showAll.do" method="get">
+				<input type=hidden name="detailClassification" value="boxing">
+				<button type="submit">복싱 전체 더 보기</button>
+			</form>
         </div>
 		
         <h2>요가/필라테스 인기순위</h2>

@@ -49,6 +49,14 @@
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
 
+	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
+	    <![CDATA[
+	        SELECT * FROM detail_tbl
+	        WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+	        AND detailClassification = #{detailClassification}
+	    ]]>
+	</select>
+
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{detailNo}
