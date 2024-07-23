@@ -55,4 +55,6 @@ public interface FreeDAO {
     void deleteAnswer(int fbanswerNo) throws DataAccessException;
     
     AnswerDTO selectAnswerByNo(int fbanswerNo) throws DataAccessException;
+    
+    AnswerDTO getAnswerById(int fbanswerNo) throws DataAccessException;
 }
