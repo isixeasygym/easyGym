@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
@@ -13,7 +14,7 @@ public interface MypageService {
 
 	//1-2)찜 목록
 	//public Map detailDibsList(Map<String, Integer> pagingMap) throws DataAccessException;
-	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException;
+	public List<DetailDTO> detailDibsList() throws DataAccessException;
 	
 	//2-1)포인트
 	public List<MemberDTO> getPointsByMemberNo(int memberNo) throws DataAccessException;

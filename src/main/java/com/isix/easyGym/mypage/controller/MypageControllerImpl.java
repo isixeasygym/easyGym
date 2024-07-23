@@ -1,11 +1,13 @@
 package com.isix.easyGym.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,15 +77,12 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	} */
 	@Override
-	@ResponseBody  //뷰에 다시 넘겨줌
-	@RequestMapping(value = "/dibsList.do", method = RequestMethod.POST)
-	public List<DetailDTO> detailDibsList(@RequestParam("memberNo") int memberNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@ResponseBody  //JSON 형태로 뷰에 다시 넘겨줌
+	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
+	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    // 서비스 메서드 호출
-    	//List<DetailDTO> dibsList = mypageService.detailDibsList();
-	    //return dibsList;
-		List<DetailDTO> dibsList = mypageService.detailDibsList(memberNo);
-        model.addAttribute("dibsList", dibsList);
-        return dibsList;
+    	List<DetailDTO> dibsList = mypageService.detailDibsList();
+	    return dibsList;
 	}
 	
 	//2.포인트&쿠폰

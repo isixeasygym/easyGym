@@ -124,12 +124,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function fn_dibsList(memberNo) {
+function fn_dibsList() {
     console.log("fn_dibsList() 호출됨"); // 호출 여부 확인을 위한 로그
     $.ajax({
         type: "POST", // 데이터 가져오기
         async: false,  // 비동기식
-        url: "/mypage/mypageMain.do", // 서버 측 URL과 맞춰야 함
+        url: "/mypage/dibs.do", // 서버 측 URL과 맞춰야 함
         dataType: "json", // 서버에서 JSON 형식으로 데이터 반환을 기대
 		success: function(data) {
 			var tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>프로그램명</th><th>지역</th><th>찜</th></tr>';
@@ -155,6 +155,9 @@ function fn_dibsList(memberNo) {
             console.error("에러 발생: ", textStatus, errorThrown);
             alert("에러가 발생했습니다: " + textStatus + " " + errorThrown);
         }
+		
+		
+		
 		
 /*	$.ajax({
         url: '${contextPath}/mypage/dibsList.do',

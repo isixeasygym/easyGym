@@ -300,6 +300,5 @@ text-align: center;
 					<button type="submit">복싱 인기 더 보기</button>
 			</form>
         </div>
-        
     </div>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

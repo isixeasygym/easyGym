@@ -85,5 +85,4 @@
 	</nav>
 	<div>
 	<!-- 부트스트랩 JS 로드 -->
-	<script
-		src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
