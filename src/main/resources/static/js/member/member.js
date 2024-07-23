@@ -65,8 +65,8 @@ const idTag = document.getElementById('memberId');
          return;
       }
     
-      var url = "${pageContext.request.contextPath}/uuser/checkId";
-      var param = "id=" + encodeURIComponent(f.uuserId.value);
+      var url = "/member/checkId";
+      var param = "id=" + encodeURIComponent(f.memberId.value);
     
       sendRequest(url, param, resultFn, "POST");
    } 
@@ -76,7 +76,7 @@ const idTag = document.getElementById('memberId');
          var data = xhr.responseText;
          const join = document.getElementById("join");
          const check = document.getElementById('check');
-         const id = document.getElementById('uuserId');
+         const id = document.getElementById('memberId');
     
          check.innerText = '';
     
@@ -127,12 +127,12 @@ const idTag = document.getElementById('memberId');
    });
    
    // 이메일 
-   mailCheckBtn.addEventListener("click", ()=>{
+  /** mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기
       console.log("완성된 이메일" + memberEmail); // 이메일 확인
       $.ajax({
          type : 'post',
-         url : '<c:url value="/uuser/mailCheck?email="/>' + email,
+         url : '<c:url value="/member/mailCheck?email="/>' + email,
          success : function(data){
             console.log("data : " + data);
             code = data;

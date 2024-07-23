@@ -45,14 +45,6 @@ public interface FreeDAO {
 	
 	public void deleteFboard(int freeNo) throws DataAccessException;
 	
-	// 댓글
-//	public AnswerDTO selectAnswer(int freeNo) throws DataAccessException;
-//
-//	public int getAnswerNo() throws DataAccessException; 
-//	
-//	public void insertNewAnswer(Map<String, Object> amap) throws DataAccessException;
-//		
-//	public void deleteAnswer(int fbanswerNo) throws DataAccessException;
 	
 	List<AnswerDTO> selectAnswer(int freeNo) throws DataAccessException;
 	

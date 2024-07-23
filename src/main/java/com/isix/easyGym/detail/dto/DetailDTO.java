@@ -17,19 +17,32 @@ public class DetailDTO {
 		private Double detailScope;
 		private String detailComment;
 		private String detailServiceProgram;
-		private int reviewNo;
 		private String detailStatus;
 		private String detailClassification;
 		private String detailFreeService;
 		private int detailMonthlyPrice;
 		private String detailKoClassification;
-		private int detailTest;
-		
-		public int getdetailTest() {
-			return detailTest;
+		private String detailLatitude;
+		private String detailLongitude;
+		private String operatorNo; 
+	
+		public String getOperatorNo() {
+			return operatorNo;
 		}
-		public void setdetailTest(int detailTest) {
-			this.detailTest = detailTest;
+		public void setOperatorNo(String operatorNo) {
+			this.operatorNo = operatorNo;
+		}
+		public String getDetailLatitude() {
+			return detailLatitude;
+		}
+		public void setDetailLatitude(String detailLatitude) {
+			this.detailLatitude = detailLatitude;
+		}
+		public String getDetailLongitude() {
+			return detailLongitude;
+		}
+		public void setDetailLongitude(String detailLongitude) {
+			this.detailLongitude = detailLongitude;
 		}
 		public int getdetailNo() {
 			return detailNo;
@@ -90,12 +103,6 @@ public class DetailDTO {
 		}
 		public void setdetailServiceProgram(String detailServiceProgram) {
 			this.detailServiceProgram = detailServiceProgram;
-		}
-		public int getReviewNo() {
-			return reviewNo;
-		}
-		public void setReviewNo(int reviewNo) {
-			this.reviewNo = reviewNo;
 		}
 		public String getdetailStatus() {
 			return detailStatus;

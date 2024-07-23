@@ -17,7 +17,7 @@ public class MemberDTO {
 	private Date memberCreatedAt;
 	private int memberState;
 	private String memberGender;
-	private String memberMarketing;
+	private String memberMarketing;	
 	
 	public int getMemberNo() {
 		return memberNo;

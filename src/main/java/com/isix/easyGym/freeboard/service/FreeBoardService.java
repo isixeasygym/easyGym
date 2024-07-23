@@ -23,8 +23,4 @@ public interface FreeBoardService {
 	public void modFboard(Map map) throws DataAccessException;
 	
 	public void removeFboard(int freeNo) throws DataAccessException;
-	
-	// 조회수 카운트
-	public void readCount(int freeNo) throws DataAccessException;
 }
-

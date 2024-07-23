@@ -38,7 +38,7 @@
 		<result property="detailBusinessName" column="detailBusinessName"/>
 		<result property="detailBusinessEng" column="detailBusinessEng"/>
 		<result property="detailDailyTicket" column="detailDailyTicket"/>
-		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
 		<result property="detailScope" column="detailScope"/>
 		<result property="detailComment" column="detailComment"/>
 		<result property="detailServiceProgram" column="detailServiceProgram"/>
@@ -59,37 +59,39 @@
 		SELECT * FROM detail_tbl WHERE detailNo = #{detailNo}
 	</select>
 
-	<insert id="selecteeeeeeeePayform" >
+	<select id="getNewPayformNo" resultType="int">
+		<![CDATA[
+ 			select max(payformNo)+1 from payform_tbl
+ 		]]>
+	</select>
+
+	<select id="viewPayform" parameterType="int" resultType="payformDTO">
 		SELECT
-		p.payformNo, p.memberNo, p.detailNo, p.payformSub, p.payformPrice,
-		p.payformDate, p.payformStatus, p.payformPayment, p.payformCancelDate,
-		m.memberName, m.memberPhone,
-		d.detailBusinessName, d.detailMonthlyTicket
+		*
 		FROM
 		payform_tbl p
 		JOIN member_tbl m ON p.memberNo = m.memberNo
 		JOIN detail_tbl d ON p.detailNo = d.detailNo
 		WHERE
-		p.memberNo = #{memberNo} AND p.detailNo = #{detailNo}
-	</insert>
+		p.payformNo = #{payformNo}
+	</select>
 
-	<insert id="insertPayform" parameterType="com.isix.easyGym.payform.dto.PayformDTO">
+	<insert id="insertPayform" parameterType="java.util.Map">
 		INSERT INTO payform_tbl (
-		memberNo, detailNo, payformSub, payformPrice, payformDate,
+		payformNo, memberNo, detailNo, payformSub, payformPrice, payformDate,
 		payformStatus, payformPayment
 		) VALUES (
-		#{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, NOW(),
-		#{payformStatus}, #{payformPayment}
+		#{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
+		1, #{payformPayment}
 		)
 	</insert>
 
-	<delete id="deletePayform" parameterType="int">
-		DELETE FROM payform_tbl
-		WHERE payformNo = #{payformNo}
-	</delete>
+	<update id="cancelPayform" parameterType="int">
+		UPDATE payform_tbl SET payformStatus = -1 WHERE payformNo = #{payformNo} AND payformStatus = 1
+	</update>
 
-	<select id="checkingBuy" parameterType="int" resultType="payformDTO">
-		select * from buy_tbl where memberNo = #{memberNo}
+	<select id="checkingBuy" parameterType="int" resultType="int">
+    	SELECT IFNULL((SELECT buyNo FROM buy_tbl WHERE memberNo = #{memberNo}), 0)
 	</select>
 	
 	

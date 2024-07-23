@@ -84,13 +84,9 @@ select {
 }
 
 #paymentButton {
-    background-image: url("../../images/payform/logo-toss-pay.png");
-    background-size: 150px;
-    background-repeat: no-repeat;
-    background-position: center;
     display: block;
     width: 100%;
-    padding: 25px;
+    padding: 15px;
     background-color: #5cc253;
     color: #ffffff;
     border: none;

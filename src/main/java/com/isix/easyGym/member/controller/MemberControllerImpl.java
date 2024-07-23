@@ -26,15 +26,6 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	private MemberDTO memberDTO;
-
-	@Override
-	@RequestMapping(value = "/member/memJoin.do")
-	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/memJoin");
-		return mav;
-	}
 	
 	@Override
 	@GetMapping("/member/joinSelect.do")
@@ -42,9 +33,43 @@ public class MemberControllerImpl implements MemberController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/joinSelect");
 		return mav;
-	} 
-
+	}
+	
+	// 회원가입 페이지
+	@RequestMapping(value = "/member/memJoin.do")
+    public ModelAndView showJoinForm() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/member/memJoin"); 
+        return mav;
+    }
+	
+	// 회원가입 기능
+	@PostMapping(value = "/member/memJoin.do")
+	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		memberService.addMember(memberDTO);
+		mav.setViewName("redirect:/afterMemJoin.do");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/member/afterMemJoin.do")
+    public ModelAndView afterMemJoin() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/member/afterMemJoin"); 
+        return mav;
+    }
+	
 	@Override
+	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
+	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/joinCheck");
+		return mav;
+	}
+
+	@Override 
 	@GetMapping("/member/loginSelect.do")
 	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
