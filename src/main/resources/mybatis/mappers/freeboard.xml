@@ -179,4 +179,10 @@
             SELECT * FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
         ]]>
     </select>
+    
+    <select id="getAnswerById" parameterType="int" resultType="com.isix.easyGym.freeboard.dto.AnswerDTO">
+	    <![CDATA[
+	        SELECT * FROM fbanswer_tbl WHERE fbanswerNo = #{fbanswerNo}
+	    ]]>
+	</select>
  </mapper>

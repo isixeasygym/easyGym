@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.isix.easyGym.freeboard.dao.FreeDAO;
 import com.isix.easyGym.freeboard.dto.AnswerDTO;
 import com.isix.easyGym.freeboard.service.AnswerService;
+import com.isix.easyGym.member.dto.MemberDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller("AnswerController")
 public class AnswerControllerImpl implements AnswerController{
@@ -23,6 +27,9 @@ public class AnswerControllerImpl implements AnswerController{
 	
 	@Autowired
 	private AnswerDTO answerDTO;
+	
+	@Autowired
+	private FreeDAO freeDAO;
 	
 //	// 댓글 리스트
 //	@RequestMapping(value= "/freeboard/answerList.do", method =  RequestMethod.GET)
@@ -176,18 +183,46 @@ public class AnswerControllerImpl implements AnswerController{
     }
 
     // 댓글 삭제
-    @PostMapping("/freeboard/removeAnswerAjax.do")
+    @RequestMapping(value = "/freeboard/removeAnswerAjax.do", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> removeAnswerAjax(@RequestParam("fbanswerNo") int fbanswerNo) throws Exception {
+    public Map<String, Object> removeAnswerAjax(@RequestParam("fbanswerNo") int fbanswerNo, HttpSession session) {
         Map<String, Object> result = new HashMap<>();
-        try {
-            answerService.removeAnswer(fbanswerNo);
-            result.put("status", "success");
-            result.put("message", "댓글이 삭제되었습니다.");
-        } catch (Exception e) {
-            result.put("status", "error");
-            result.put("message", e.getMessage());
+        
+        // 현재 로그인한 사용자 정보 가져오기
+        MemberDTO currentUser = (MemberDTO) session.getAttribute("member");
+        
+        if (currentUser == null) {
+            result.put("status", "fail");
+            result.put("message", "로그인이 필요합니다.");
+            return result;
         }
+        
+        try {
+            // 댓글 작성자 정보 가져오기
+            AnswerDTO answer = freeDAO.getAnswerById(fbanswerNo);
+            
+            if (answer == null) {
+                result.put("status", "fail");
+                result.put("message", "존재하지 않는 댓글입니다.");
+                return result;
+            }
+            
+            // 댓글 작성자와 현재 사용자 비교
+            if (answer.getMemberNo() != currentUser.getMemberNo()) {
+                result.put("status", "fail");
+                result.put("message", "본인 댓글만 삭제할 수 있습니다.");
+                return result;
+            }
+            
+            // 댓글 삭제
+            freeDAO.deleteAnswer(fbanswerNo);
+            
+            result.put("status", "success");
+        } catch (Exception e) {
+            result.put("status", "fail");
+            result.put("message", "댓글 삭제 중 오류 발생: " + e.getMessage());
+        }
+        
         return result;
     }
 
