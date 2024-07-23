@@ -67,6 +67,7 @@
 }
 .right_control {
    position: absolute;
+   height: ;
    top: 200px;
    right: 5px;
    cursor: pointer;
@@ -95,18 +96,19 @@ body{
 }
 #companyName{
 	position: relative;
-	left: 10px;
+	left: 20px;
 }
 
 #pointer{
 	position: relative;
 	top: -10px;
+	left: 13px;
     display: inline-block;
 }
 #fiveStar{
 	position: relative;
-	left: 10px;
-	top: -30px;
+	left: 20px;
+	top: -34px;
     display: inline-block;
 	font-size: 1.2em;
 }
@@ -114,11 +116,13 @@ body{
 #address{
 	position: relative;
 	top: -15px;
+	left: 13px;
     display: inline-block;
 }
 #toAddress{
 	position: relative;
-	top: -15px;
+	top: -14px;
+	left: 10px;
 	font-size: 1.3em;
 }
 #grade{
@@ -126,21 +130,21 @@ body{
 }
 #gradeLink{
 	position: relative;
-	left: 10px;
-	top: -33px;
+	left: 20px;
+	top: -36px;
     display: inline-block;
 }
 #toReview{
 	position: relative;
-	top: 1px;
+	left: -3px;
 	font-size: 1.3em;
 }
 
 
 #dailyTicket{
 	position: relative;
-	left: 10px;
-	top: -30px;
+	left: 20px;
+	top: -40px;
 }
 .buttonRange{
     position: relative;
@@ -167,9 +171,14 @@ body{
 #memberTicketRange{
 	position: relative;
 	top: -30px;
-    height: 230px;
+    height: 220px;
     border-bottom: 2px solid #F6F6F6;
     width: 700px;
+}
+
+#memberTicket{
+	position: relative;
+	left: 20px;
 }
 
 #fieldMonthlyPrice{
@@ -203,7 +212,6 @@ body{
 }
 .month {
 	position: relative;
-	top:-10px;
     display: inline-block;
 	font-size: 0.7em;
 }
@@ -217,8 +225,14 @@ body{
 }
 
 #dailyAndInfoRange{
+	position: relative;
+	top: -25px;
     height: 370px;
     border-bottom: 2px solid #F6F6F6;
+}
+#dailyTicketRange{
+	position: relative;
+	left: 20px;
 }
 
 #dailyInfoBox{
@@ -230,6 +244,8 @@ body{
 }
 
 #commentRange{
+	position: relative;
+	top: -25px;
     padding: 40px 0;
     border-bottom: 2px solid #F6F6F6;
 	text-align: center;
@@ -245,7 +261,7 @@ body{
 
 .auto-resize-textarea {
     min-height: 100px; /* 최소 높이 설정 */
-    padding: 10px 0 0 0; /* 내부 여백 설정 */
+    padding: 10px 0 5px 5px; /* 내부 여백 설정 */
     font-size: 14px; /* 폰트 크기 설정 */
     line-height: 1.5; /* 줄 간격 설정 */
     border: 1px solid #f6f6f6; /* 테두리 설정 */
@@ -267,6 +283,8 @@ body{
 }
 
 #operatingRange{
+	position: relative;
+	top: -25px;
 	text-align: center;
     padding: 40px 0;
     border-bottom: 2px solid #F6F6F6;
@@ -281,8 +299,15 @@ body{
 }
 
 #convenienceFacility{
+	position: relative;
+	top: -20px;
     border-bottom: 2px solid #F6F6F6;
     height: 180px;
+}
+
+#facilityInfo{
+	position: relative;
+	left: 20px;	
 }
 
 #FacilityRange{
@@ -293,14 +318,21 @@ body{
 
 .FacilityImage{
     display: inline-block;
-    width: 70px;
-    height: 110px;
+    width: 50px;
+    height: 90px;
     padding-left: 17px;
 }
 
+#imageInfo{
+	position: relative;
+	left: 20px;
+}
+
 #imageRange{
+	position: relative;
+	top: -20px;
 	width: 700px;
-	height:400px;
+	height:340px;
 	border-bottom: 2px solid #F6F6F6;
 }
 
@@ -311,19 +343,10 @@ body{
 }
 
 #reviewImageRange{
+	height: 120px;
 	border-bottom: 2px solid #F6F6F6;
 }
 
-#reviewImage{	
-	padding: 15px 15px;
-}
-
-#produ{
-    color: #757575;
-    font-size: 0.8em;
-    position: relative;
-    left: 30px;
-}
 #reviewRange{
 	border-bottom: 2px solid #F6F6F6;
 }
@@ -333,6 +356,9 @@ body{
 	height: 60px;
 	display: block;
 }
+
+
+
 
 #ticketChoiceRange {
     text-align: center;
@@ -365,16 +391,11 @@ body{
            width: 650px;
            margin: 0 auto;
        }
-.ReviewRange{
+#ReviewRange{
 	width: 700px;
 }
 
-.personReviewRange{
-	width: 578px;
-	margin:0 auto;
-	border: 2px solid #F6F6F6;
-	padding: 30px;
-}
+
 
 .reviewWriteRange{
 	width: 678px;
@@ -387,7 +408,9 @@ body{
 }
 
 #myTextarea {
-    width: 520px;
+	position: relative;
+	left: 20px;
+    width: 600px;
     height: 130px;
     resize: none; /* 빗금 없애기 */
     border: 1px solid #ccc; /* 기본 border 색상 */
@@ -416,7 +439,7 @@ body{
     display: block;
     position: relative;
 	top: -5px;
-    left: -720px;
+    left: -500px;
 }
 
 .rating input {
@@ -438,15 +461,17 @@ body{
 #fileRange{
 	position: relative;
 	top: -30px;
+	left: 20px;
 }
 
 #fileInfo{
 	display: inline-block;
+	position: relative;
 }
 
 #writeButton{
 	position: relative;
-	left: 649px;
+	left: 580px;
 	top: -72px;
 	padding :5px 15px;
 	background-color: #2478FF;
@@ -454,11 +479,42 @@ body{
 	border: 1px solid #2478FF;
 	border-radius: 8px;
 }
-
+.deleteButton{
+	position: relative;
+	z-index: 30px;
+	top: 30px;
+	left: 600px;
+}
+.reviewImage{
+	position: relative;
+	top: -25px;
+	left: -20px;
+	
+	display: inline-block;
+}
+.anonymous{
+	position: relative;
+	top: -60px;
+	left: -20px;
+	display: inline-block;
+}
+.personReviewRange{
+	width: 578px;
+	margin:0 auto;
+	border: 2px solid #F6F6F6;
+	padding: 30px;
+}
 #writeBorder{
 	width: 700px;
 	border-bottom: 2px solid #F6F6F6;
 	height: 225px;
+}
+
+#produ{
+    color: #757575;
+    font-size: 0.8em;
+    position: relative;
+    left: 30px;
 }
 
 #mapRange{
