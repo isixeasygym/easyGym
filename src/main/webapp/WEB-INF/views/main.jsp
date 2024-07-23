@@ -8,7 +8,7 @@
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	color: white; /* 텍스트 색상을 배경과 대조되도록 설정 */
+	color: white; 
 	height: 500px; /* 배경 이미지의 높이 설정 */
 	display: flex;
 	align-items: center;
@@ -99,7 +99,6 @@ text-align: center;
     }
 
 </style>
-</div>
 <div
 	class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
