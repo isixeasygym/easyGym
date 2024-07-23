@@ -34,6 +34,13 @@ public class MypageServiceImpl implements MypageService {
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
+	//1-2)찜 취소
+	@Override
+	public void removeDibs(int memberNo, int detailNo) throws DataAccessException {
+		System.out.println("Removing dibs for Member No: " + memberNo + ", Detail No: " + detailNo); // 디버깅용 로그
+	    mypageDAO.deleteDibs(memberNo, detailNo);
+	}
+	
 	
 	//2-1)포인트
 	@Override

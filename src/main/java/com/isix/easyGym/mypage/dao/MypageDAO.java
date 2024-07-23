@@ -22,6 +22,9 @@ public interface MypageDAO {
 	public int getNewDibsNo() throws DataAccessException; */
 	//public List<DetailDibsDTO> selectAllDetail(int memberNo) throws DataAccessException;
 	public List<DetailDTO> selectAllDetail(@Param("memberNo") int memberNo) throws DataAccessException;
+	//1-2)찜 취소
+	public void deleteDibs(@Param("memberNo") int memberNo, @Param("detailNo") int detailNo) throws DataAccessException;
+
 	
 	//2-1)포인트
 	public List<MemberDTO> selectPointsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
