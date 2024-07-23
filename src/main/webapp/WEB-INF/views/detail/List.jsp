@@ -26,8 +26,9 @@
 <body>
     <div class="search-container">
         <button type="button" class="back-button" onclick="goBack()">&lt;</button>
-        <form action="${contextPath}/search" method="get" class="search-form">
+        <form action="/detail/search.do" method="get" class="search-form">
             <input type="text" name="query" placeholder="검색어를 입력하세요..." class="search-input">
+			<input type="hidden" name="detailClassfication" value="health">
             <button type="submit" class="search-button">검색</button>
         </form>
     </div>
@@ -35,7 +36,6 @@
         <c:choose>
             <c:when test="${!empty allList}">
                 <c:forEach var="allList" items="${allList}">   
-                    
                         <div class="contentRange" onclick="goToDetail(${allList.detailNo})">
                            <div class="imgRange">
                                <img class="img" src="${contextPath}/images/detail/${allList.detailClassification}/${allList.detailBusinessEng}/${allList.detailBusinessEng}1.PNG" alt="">

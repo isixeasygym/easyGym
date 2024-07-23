@@ -1,15 +1,28 @@
 package com.isix.easyGym.detail.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
+	
+	
+	public ResponseEntity<List<DetailReviewDTO>> getReviews(@RequestParam("companyId") int detailNo,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	public ModelAndView searchData(@RequestParam("query") String query, 
+			@RequestParam("detailClassification") String detailClassification,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView signUpForm(@RequestParam("detailBusinessEng") String detailBusinessEng,
 			@RequestParam("operatorNo") int operatorNo,@RequestParam("detailClassification") String detailClassification, 
