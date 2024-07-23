@@ -313,7 +313,7 @@ public class DetailControllerImpl implements DetailController{
 	        HttpServletResponse response) throws Exception {
 
 	    String status = null;
-	    
+	    String detailBusinessEng = multipartRequest.getParameter("detailBusinessEng");
 	    try {
 	     
 	        int memberNum = memberService.findmemberNo(Integer.parseInt(memberNo));
@@ -339,15 +339,16 @@ public class DetailControllerImpl implements DetailController{
 
 	                    reviewImageMap.put("reviewImageName", imageFileName);
 	                    reviewImageMap.put("buyNo", buyNo);
-
+	                    reviewImageMap.put("detailNo", detailNo);
 	                    HttpSession session = multipartRequest.getSession();
 	                    reviewImageMap.put("memberNo", memberNo);
 
 	                    int reviewNo = detailService.addreview(reviewImageMap);
 
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
-	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + imageFileName + File.separator + memberNo);
-
+	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailBusinessEng + File.separator + memberNo);
+	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
+	                    
 	                    if (!destDir.exists()) {
 	                        destDir.mkdirs(); // Ensure destination directory exists
 	                    }
@@ -398,7 +399,7 @@ public class DetailControllerImpl implements DetailController{
 						file.createNewFile();
 					}
 				}
-				mFile.transferTo(new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + File.separator + detailBusinessEng + File.separator + "temp" + File.separator + imageFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
+				mFile.transferTo(new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName));  //transferTo => 파일 전송 / new File => 익명으로 파일 객체 생성 / temp에 임시 저장
 			}
 		}
 		return imageFileName;

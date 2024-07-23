@@ -131,7 +131,7 @@
  	
  	<insert id="insertReviewAndImage" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into detailreivew_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
  	
