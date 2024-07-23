@@ -67,6 +67,12 @@
 		<![CDATA[
  			select IFNULL(Max(detailNo),0)+1 from detail_tbl 
  		]]>
+	</select>	 
+ 		
+ 	<select id="getNewReviewNo" resultType="int" >
+		<![CDATA[
+ 			select IFNULL(Max(reviewNo),0)+1 from detailreview_tbl 
+ 		]]>
 	</select>	
  		
  	<select id="selectAll" parameterType="String" resultType="detailDTO" >
@@ -123,9 +129,9 @@
  		]]>
  	</insert>
  	
- 	<insert id="insertReview" parameterType="java.util.Map">
+ 	<insert id="insertReviewAndImage" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into detailreview_tbl (reviewComment,reviewImgName, reviewDate,reviewRating,memberNo, buyNo, detailNo) values(#{reviewComment},#{reviewImgName},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreivew_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
  	

@@ -27,11 +27,11 @@ public interface DetailService {
 	
 	public void noImgReview(Map noImgReviewMap) throws DataAccessException;
 	
-	public void writeReview(Map reviewMap) throws DataAccessException;
-	
 	public void removeReview(int reviewNoww3) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
 	
 	public void addOperForm(Map detailMap) throws DataAccessException;
+	
+	public int addreview(Map reviewImageMap) throws DataAccessException;
 }
