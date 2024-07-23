@@ -13,7 +13,7 @@ $(window).on('scroll', function() {
 function deleteReview(){ 
 	var companyId = $(this).children('.reviewNo').val();
 	var userId = $('.userId').val(); // 형제 input 필드의 값 가져오기
-       console.log("companyId: " + companyId);
+       console.log("reviewNo: " + reviewNo);
        console.log("userId: " + userId);
 
 	   

@@ -57,7 +57,7 @@ body {
     position: absolute;
     width: 730px;
     top: 100px;
-    left: 50%;
+    left: 20%;
     transform: translate(-50%, 0%);
     background-color: #fff;
 }
@@ -218,4 +218,11 @@ body {
 
 input {
     z-index: 30;
+}
+
+#mapRange{
+	position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-50%, 50%);
 }
