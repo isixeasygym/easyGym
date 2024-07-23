@@ -1,7 +1,8 @@
 window.onload = function() {
     let finalPr = document.getElementById('finalPr');   //최종 결제금액
-
-    let finalPrice = finalPr.textContent;
+    console.log(finalPr);
+    let finalPrice = parseInt(finalPr.textContent.replace(',', ''), 10);
+    console.log(finalPrice);
     if(diffDays <= 7) {
         document.getElementById('cancelAble').textContent = '가능';
 
