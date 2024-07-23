@@ -149,7 +149,7 @@ public class MemberControllerImpl implements MemberController {
 	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
 	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		if (memberService.checkId(memberId) != null) {
+		if (memberService.checkId(memberId)!= null) {
 			mav.addObject("message", "이미 사용중인 ID입니다.");
 		} else {
 			mav.addObject("message", "사용 가능한 ID입니다.");

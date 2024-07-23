@@ -19,6 +19,6 @@ public interface MemberOperDAO {
 
 	public MemberOperDTO login(MemberOperDTO operator) throws DataAccessException;
 	
-	public boolean checkId(String operatorId) throws DataAccessException;
+	public boolean checkOpId(String operatorId) throws DataAccessException;
 
 }
