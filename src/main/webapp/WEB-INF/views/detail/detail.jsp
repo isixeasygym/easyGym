@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
 <script>
+	
     $(document).ready(function() {
         $('#myTextarea').on('input', function() {
             var charCount = $(this).val().length;
@@ -177,8 +178,9 @@
 						<c:choose>
 						       <c:when test="${!empty reviewImage}">
 			                       <c:forEach var="reviewImage" items="${reviewImage}">
-			                           <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>
-			                       </c:forEach> 
+										
+			                        	   <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
+								   </c:forEach> 
 							</c:when>
 						</c:choose>		   
 					</div>

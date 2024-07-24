@@ -10,8 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -278,7 +276,7 @@ public class DetailControllerImpl implements DetailController{
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
 		String success=null;
-		int memberNum=memberService.findmemberNo(memberNo);
+		int memberNum=memberService.findMemberNo(memberNo);
 		if(memberNum != 0) {
 			int buyNo=payformService.buyCheck(memberNum);
 			if(buyNo !=0 ) {
@@ -310,19 +308,16 @@ public class DetailControllerImpl implements DetailController{
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(
 	        @RequestParam("companyId") String detailNo, 
-	        @RequestParam("memberNo") String memberNo,
+	        @RequestParam(value="memberNo", required= false) int memberNo,
 	        @RequestParam(value = "action", required = false) String action,
 	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
 	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
 	        @RequestParam(value = "reviewImageName", required = false) MultipartFile reviewImageName,
 	        MultipartHttpServletRequest multipartRequest,
 	        HttpServletResponse response) throws Exception {
-
+	    
 	    String status = null;
-	    String detailBusinessEng = multipartRequest.getParameter("detailBusinessEng");
-	    try {
-	     
-	        int memberNum = memberService.findmemberNo(Integer.parseInt(memberNo));
+	        int memberNum = memberService.findMemberNo(memberNo);
 
 	        if (memberNum != 0) {
 	            int buyNo = payformService.buyCheck(memberNum);
@@ -346,29 +341,34 @@ public class DetailControllerImpl implements DetailController{
 	                    reviewImageMap.put("reviewImageName", imageFileName);
 	                    reviewImageMap.put("buyNo", buyNo);
 	                    reviewImageMap.put("detailNo", detailNo);
-	                    HttpSession session = multipartRequest.getSession();
 	                    reviewImageMap.put("memberNo", memberNo);
 
+	                    // Check if there's already an existing review image
+	                    File existingImageFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo + File.separator + imageFileName);
+	                    if (existingImageFile.exists()) {
+	                        existingImageFile.delete(); // Delete the old image
+	                    }
+
+	                    // Save new review
 	                    int reviewNo = detailService.addreview(reviewImageMap);
 
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
-	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo );
-	                 
-	                    
+	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo);
 	                    if (!destDir.exists()) {
 	                        destDir.mkdirs(); // Ensure destination directory exists
 	                    }
 
 	                    File destFile = new File(destDir, imageFileName);
+	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
 	                    FileUtils.moveFile(srcFile, destFile); // Move the file
 
 	                    status = "success";
 	                } else {
 	                    // Handle no image case
-	                    Map<String, String> noImgReviewMap = new HashMap<>();
+	                    Map<String,String> noImgReviewMap = new HashMap<>();
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
-	                    noImgReviewMap.put("memberNo", memberNo);
+	                    noImgReviewMap.put("memberNo",String.valueOf(memberNo));
 	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
@@ -381,10 +381,6 @@ public class DetailControllerImpl implements DetailController{
 	        } else {
 	            status = "noLogin";
 	        }
-	    } catch (Exception e) {
-	        e.printStackTrace(); // Consider using proper logging
-	        status = "error";
-	    }
 
 	    return status;
 	}
@@ -433,6 +429,3 @@ public class DetailControllerImpl implements DetailController{
 	}
 
 }
-
-
-

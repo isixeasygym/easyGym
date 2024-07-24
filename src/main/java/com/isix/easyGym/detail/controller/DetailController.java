@@ -44,7 +44,7 @@ public interface DetailController{
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception;
 	
-	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("memberNo") String memberNo,
+	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam(value="memberNo", required= false) int memberNo,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "reviewComment", required = false) String reviewComment,
             @RequestParam(value = "reviewRating", required = false) String reviewRating,

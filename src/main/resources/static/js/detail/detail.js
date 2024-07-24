@@ -53,88 +53,71 @@ function deleteComment(reviewNo) {
 }
 //글 등록하기
 
+$.ajax({
+    async: false,
+    enctype: 'multipart/form-data',
+    cache: false,
+    url: '/writeReview.do', // 요청을 보낼 URL
+    type: 'POST', // HTTP 요청 메소드 (POST)
+    data: formData, // 전송할 데이터 (FormData 객체)
+    processData: false, // 데이터 처리 방식 설정 (FormData 사용 시 false)
+    contentType: false, // 컨텐츠 타입 설정 (FormData 사용 시 false)
+    success: function(response) {
+        console.log("Server response:", response); // 응답 값 로그 출력
 
-function writeSubmit() {
-    // 입력된 값들을 변수에 저장
-    var companyId = $('.companyId').val();
-    var memberNo = $('.userId').val();
-    var reviewComment = $('#myTextarea').val();
-    var reviewRating = $("input[name='detailScope']:checked").val();
-    var fileInput = $('#reviewImageName')[0].files[0];
-	var detailBusinessEng = $('#detailBusinessEng').val();
-    // FormData 객체 생성
-    var formData = new FormData();
-    formData.append('companyId', companyId);
-    formData.append('memberNo', memberNo);
-    formData.append('reviewComment', reviewComment);
-    formData.append('reviewRating', reviewRating);
-	formData.append('detailBusinessEng',detailBusinessEng);
-    if (fileInput) {
-        formData.append('reviewImageName', fileInput);
-    }
+        if (response === "success") {
+            alert("작성하신 후기가 등록되었습니다.");
 
-    // AJAX 요청
-    $.ajax({
-        async: false,
-        enctype: 'multipart/form-data',
-        cache: false,
-        url: '/writeReview.do', // 요청을 보낼 URL
-        type: 'POST', // HTTP 요청 메소드 (POST)
-        data: formData, // 전송할 데이터 (FormData 객체)
-        processData: false, // 데이터 처리 방식 설정 (FormData 사용 시 false)
-        contentType: false, // 컨텐츠 타입 설정 (FormData 사용 시 false)
-        success: function(response) {
-            if (response === "success") {
-                alert("작성하신 후기가 등록되었습니다.");
-                
-                // 리뷰 목록을 새로고침
-                $.ajax({
-                    url: '/getReviews.do', // 리뷰 목록을 가져오는 URL
-                    type: 'GET', // HTTP 요청 메소드 (GET)
-                    success: function(reviews) {
-                        var reviewContainer = $('#reviewContainer');
-                        reviewContainer.empty(); // 기존 리뷰 목록을 비웁니다
+            // 리뷰 목록을 새로고침
+            $.ajax({
+                url: '/getReviews.do', // 리뷰 목록을 가져오는 URL
+                type: 'GET', // HTTP 요청 메소드 (GET)
+                success: function(reviews) {
+                    var reviewContainer = $('#reviewContainer');
+                    reviewContainer.empty(); // 기존 리뷰 목록을 비웁니다
 
-                        if (reviews.length > 0) {
-                            reviews.forEach(function(review) {
-                                var reviewHtml = `
-                                    <div class="ReviewRange">
-                                        <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button>
-                                        <div class="personReviewRange">
-                                            <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-                                            <p>(익명의 회원)</p>
-                                            <img src="${contextPath}/images/detail/detailpage/star.JPG">
-                                            <p>${review.reviewDate}</p>
-                                            <p class="reviewComment">${review.reviewComment}</p>
-                                        </div>
+                    if (reviews.length > 0) {
+                        reviews.forEach(function(review) {
+                            var reviewHtml = `
+                                <div class="ReviewRange">
+                                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button>
+                                    <div class="personReviewRange">
+                                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+                                        <p>(익명의 회원)</p>
+                                        <img src="${contextPath}/images/detail/detailpage/star.JPG">
+                                        <p>${review.reviewDate}</p>
+                                        <p class="reviewComment">${review.reviewComment}</p>
                                     </div>
-                                `;
-                                reviewContainer.append(reviewHtml);
-                            });
-                        } else {
-                            reviewContainer.html('<h2>리뷰가 없습니다</h2>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error:", error);
-                        console.error("Status:", status);
-                        console.error("Response:", xhr.responseText);
+                                </div>
+                            `;
+                            reviewContainer.append(reviewHtml);
+                        });
+                    } else {
+                        reviewContainer.html('<h2>리뷰가 없습니다</h2>');
                     }
-                });
-            } else if (response === "noBuy") {
-                alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
-            } else if (response === "noLogin") {
-                alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-                window.location.href = '/member/loginForm.do';
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", error);
-            console.error("Status:", status);
-            console.error("Response:", xhr.responseText);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.error("Status:", status);
+                    console.error("Response:", xhr.responseText);
+                }
+            });
+        } else if (response === "noBuy") {
+            alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
+        } else if (response === "noLogin") {
+            alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
+            window.location.href = '/member/loginForm.do'; // 로그인 페이지로 리디렉션
+        } else {
+            alert("알 수 없는 오류가 발생했습니다.");
         }
-    });
-}
+    },
+    error: function(xhr, status, error) {
+        console.error("Error:", error);
+        console.error("Status:", status);
+        console.error("Response:", xhr.responseText);
+    }
+});
+
 //찜 기능
 
 //이미지 슬라이드

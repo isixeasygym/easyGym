@@ -122,6 +122,24 @@ public class DetailServiceImpl implements DetailService{
 		return reviewImage;
 	}
 
+	@Override
+	public List<DetailDTO> findPopularHealth() throws DataAccessException {
+		List<DetailDTO> healthList = detailDAO.selectPopularHealth();
+		return healthList;
+	}
+
+	@Override
+	public List<DetailDTO> findPopularBoxing() throws DataAccessException {
+		List<DetailDTO> boxingList = detailDAO.selectPopularBoxing();
+		return boxingList;
+	}
+
+	@Override
+	public List<DetailDTO> findPopularPilates() throws DataAccessException {
+		List<DetailDTO> pilatesList = detailDAO.selectPopularPilates();
+		return pilatesList;
+	}
+
 	
 
 }

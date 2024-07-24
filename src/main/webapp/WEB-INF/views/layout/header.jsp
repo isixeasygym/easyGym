@@ -47,19 +47,17 @@
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 		<a class="navbar-brand" href="/main.do">EasyGym</a>
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			<li class="nav-item active"><a class="nav-link" href="">공지사항</a></li>
+			<li class="nav-item active"><a class="nav-link" href="${contextPath }/notice/noticeList.do">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="${contextPath }/freeboard/fboardList.do">커뮤니티</a></li>
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="navbarDropdownProgram"
 				role="button" data-bs-toggle="dropdown" aria-expanded="false">시설찾기</a>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="health">헬스</a></li>
+					<li><a class="dropdown-item" href="detail/showAll.do?detailClassification=health">헬스</a></li>
 					<li><a class="dropdown-item" href="pilates">필라테스</a></li>
-					<li><a class="dropdown-item" href="boxing">복싱</a></li>
+					<li><a class="dropdown-item" href="detail/showAll.do?detailClassification=boxing&detailStatus=popular">복싱</a></li>
 				</ul></li>
-			<li class="nav-item"><a class="nav-link" href="/freeboard/fboardList.do">Community</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">Gym</a></li>
 		</ul>
 		<div id="authButtons">
 			<ul class="nav">
@@ -73,7 +71,7 @@
 						<li class="nav-item">
 							<h1 class="welcome-message">
 								환영합니다, <span>${sessionScope.member.memberName}님!</span>
-							</h1>
+							</h1></li>
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item"><a class="btn btn-info btn-sm"
@@ -85,6 +83,7 @@
 			</ul>
 		</div>
 	</nav>
+	<div id="mainContainer">
 	<!-- 부트스트랩 JS 로드 -->
 	<script
 		src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

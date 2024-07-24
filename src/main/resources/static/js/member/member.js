@@ -65,7 +65,7 @@ const idTag = document.getElementById('memberId');
          return;
       }
     
-      var url = "${pageContext.request.contextPath}/member/checkId";
+      var url = "/member/checkId";
       var param = "id=" + encodeURIComponent(f.memberId.value);
     
       sendRequest(url, param, resultFn, "POST");
@@ -125,6 +125,8 @@ const idTag = document.getElementById('memberId');
          repwError.style.cssText = "color: blue; font-size: 10px;";
       }
    });
+   
+
    
    // 이메일 
   /** mailCheckBtn.addEventListener("click", ()=>{

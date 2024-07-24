@@ -10,12 +10,13 @@
     	<typeAlias type="com.isix.easyGym.detail.dto.DetailDibsDTO" alias="detaildibsDTO"/>  <!-- 상세페이지 찜 -->
     	<typeAlias type="com.isix.easyGym.detail.dto.DetailReviewDTO" alias="detailreviewDTO"/>  <!-- 상세페이지 리뷰 -->
     	<typeAlias type="com.isix.easyGym.freeboard.dto.FreeDTO" alias="freeDTO"/> <!-- 자유게시판-->
-    	<typeAlias type="com.isix.easyGym.freeboard.dto.FreeboardImageDTO" alias="freeboardimageDTO"/> <!-- 자유게시판 이미지-->
+    	<typeAlias type="com.isix.easyGym.freeboard.dto.FreeImageDTO" alias="freeImageDTO"/> <!-- 자유게시판 이미지-->
     	<typeAlias type="com.isix.easyGym.member.dto.MemberDTO" alias="memberDTO"/>  <!-- 일반회원 -->
     	<typeAlias type="com.isix.easyGym.member.dto.MemberOperDTO" alias="memberoperDTO"/>  <!-- 사업자회원 -->
     	<typeAlias type="com.isix.easyGym.notice.dto.NoticeDTO" alias="noticeDTO"/> <!-- 공지사항-->
     	<typeAlias type="com.isix.easyGym.payform.dto.PayformDTO" alias="payformDTO"/> <!-- 결제-->
     	<typeAlias type="com.isix.easyGym.report.dto.ReportDTO" alias="reportDTO"/>  <!-- 신고게시판 -->
     	<typeAlias type="com.isix.easyGym.notice.dto.NoticeImageDTO" alias="noticeImageDTO"/> <!-- 공지사항-->
+    	<typeAlias type="com.isix.easyGym.freeboard.dto.AnswerDTO" alias="answerDTO"/> <!-- 댓글-->
 	</typeAliases>
 </configuration>

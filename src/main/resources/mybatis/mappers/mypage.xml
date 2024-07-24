@@ -59,18 +59,25 @@
  			join detaildibs_tbl j on d.detailNo=j.detailNo 
  			where j.memberNo = #{memberNo}
  		]]>
- 	</select>  <!-- 페이징 => int -->
+ 	</select>
+
+ <!--   <delete id="deleteDibs">
+    	<![CDATA[
+	        DELETE FROM detail_dibs 
+	        WHERE detailNo = #{detailNo}
+        ]]>
+    </delete> -->
  	
- 	<!-- 포인트 쿼리문 -->
+ 	<!-- 포인트 쿼리문 
  	<select id="selectPointsByMemberNo" parameterType="int" resultType="memberDTO">
 	    <![CDATA[
 	        SELECT memberPointDate, memberPoint, memberPointDes
 	        FROM member_tbl
 	        WHERE member_no = #{memberNo}
 	    ]]>
-	</select>
+	</select> -->
 	
-	<!-- 회원정보 수정 쿼리문 -->
+	<!-- 회원정보 수정 쿼리문 
 	<update id="updateMember">
 		<![CDATA[
 	        UPDATE member_tbl
@@ -82,6 +89,6 @@
 	            memberEmail = #{memberEmail}
 	        WHERE memberNo = #{memberNo}
 		]]>
-    </update>
+    </update> -->
  	
  </mapper>

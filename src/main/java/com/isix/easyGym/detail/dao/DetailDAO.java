@@ -14,6 +14,13 @@ import com.isix.easyGym.detail.dto.DetailReviewDTO;
 @Repository("detailDAO")
 public interface DetailDAO {
 	
+	
+	public List<DetailDTO> selectPopularHealth() throws DataAccessException;
+	
+	public List<DetailDTO> selectPopularBoxing() throws DataAccessException;
+	
+	public List<DetailDTO> selectPopularPilates() throws DataAccessException;
+	
 	public List<DetailReviewDTO> selectReviewImage(int detailNo) throws DataAccessException;
 	
 	public List<DetailDTO> selectQuery(Map searchMap) throws DataAccessException;
