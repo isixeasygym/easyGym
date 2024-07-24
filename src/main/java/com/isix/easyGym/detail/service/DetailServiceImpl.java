@@ -25,8 +25,8 @@ public class DetailServiceImpl implements DetailService{
 	private DetailDibsDTO detailDibsDTO;
 	
 	@Override
-	public List findThing(Map searchMap) throws DataAccessException {
-		List searchedThing = detailDAO.selectQuery(searchMap);
+	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException {
+		List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
 		return searchedThing;
 	}
 	
@@ -66,7 +66,7 @@ public class DetailServiceImpl implements DetailService{
 
 	@Override
 	public DetailDibsDTO findDibs(Map paramMap) throws DataAccessException {
-		detailDibsDTO=detailDAO.findDibs(paramMap);
+		detailDibsDTO=detailDAO.selectDibs(paramMap);
 		return detailDibsDTO;
 	}
 
@@ -108,6 +108,18 @@ public class DetailServiceImpl implements DetailService{
 		reviewImageMap.put("reviewNo", reviewNo);
 		detailDAO.insertReviewAndImage(reviewImageMap);
 		return reviewNo;
+	}
+
+	@Override
+	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reviews = detailDAO.selectReview(detailNo); 
+		return reviews;
+	}
+
+	@Override
+	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reviewImage=detailDAO.selectReviewImage(detailNo);
+		return reviewImage;
 	}
 
 	

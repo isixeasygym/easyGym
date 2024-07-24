@@ -49,12 +49,24 @@
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
 
+	<select id="selectReviewImage" parameterType="int" resultMap="detailReviewResult">
+	    <![CDATA[
+		  SELECT reviewImgName, detailNo, memberNo
+FROM detailreview_tbl
+WHERE detailNo = #{detailNo}
+  AND reviewImgName IS NOT NULL
+  AND reviewImgName != ''
+ORDER BY reviewDate DESC
+LIMIT 6;
+		]]>
+	</select>
+
 	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
 	    <![CDATA[
-	        SELECT * FROM detail_tbl
-	        WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
-	        AND detailClassification = #{detailClassification}
-	    ]]>
+		    SELECT * FROM detail_tbl
+		    WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+		    AND detailClassification = #{detailClassification}
+		]]>
 	</select>
 
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
@@ -105,7 +117,7 @@
  		]]>
 	</select>
  	
- 	<select id="findDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
+ 	<select id="selectDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
 		<![CDATA[
  			select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
  		]]>

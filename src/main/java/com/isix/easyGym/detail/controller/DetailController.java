@@ -2,7 +2,6 @@ package com.isix.easyGym.detail.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -17,8 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface DetailController{
 	
 	
-	public ResponseEntity<List<DetailReviewDTO>> getReviews(@RequestParam("companyId") int detailNo,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
+            HttpServletResponse response) throws Exception;
 	
 	public ModelAndView searchData(@RequestParam("query") String query, 
 			@RequestParam("detailClassification") String detailClassification,
@@ -44,8 +43,6 @@ public interface DetailController{
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception;
-	
-
 	
 	public String writeReview(@RequestParam("companyId") String detailNo, @RequestParam("memberNo") String memberNo,
             @RequestParam(value = "action", required = false) String action,

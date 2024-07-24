@@ -18,13 +18,86 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="${contextPath}/js/detail/list.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+<link rel="stylesheet" href="${contextPath}/css/detail/list.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="${contextPath}/js/detail/list.js"></script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+	$(document).ready(function() {
+	    // AJAX 요청 중복 방지
+	    $(".favorite-button").each(function() {
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/getFavoriteStatus",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                updateFavoriteButton(button, data);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	            }
+	        });
+	    });
+
+	    $(".favorite-button").click(function(event) {
+	        var button = this;
+
+	        if ($(button).data('requestInProgress')) return; // 요청이 진행 중이면 무시
+
+	        $(button).data('requestInProgress', true); // 요청 진행 중으로 설정
+	        $(button).addClass('loading'); // 로딩 상태 CSS 적용
+
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
+
+	        $.ajax({
+	            type: "GET",
+	            url: "/addFavorite",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                if (data == "insert" || data == "delete") {
+	                    alert(data == "insert" ? "찜 목록에 추가되었습니다." : "찜 목록에서 삭제되었습니다.");
+	                    updateFavoriteButton(button, data);
+	                } else if (data.startsWith("redirect:")) {
+	                    window.location.href = data.substring(9);
+	                } else {
+	                    alert("알 수 없는 오류가 발생했습니다.");
+	                }
+	                $(button).data('requestInProgress', false); // 요청 완료로 설정
+	                $(button).removeClass('loading'); // 로딩 상태 CSS 해제
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert(xhr + status + "오류가 발생했습니다." + error);
+	                $(button).data('requestInProgress', false); // 요청 완료로 설정
+	                $(button).removeClass('loading'); // 로딩 상태 CSS 해제
+	            }
+	        });
+
+	        event.stopPropagation();
+	    });
+
+	    function updateFavoriteButton(button, status) {
+	        var newSrc = (status == "insert") ? '${contextPath}/images/detail/detailpage/pickDibs.png' : '${contextPath}/images/detail/detailpage/dibs.png';
+	        $(button).find('.dibs').attr('src', newSrc);
+	    }
+	});
+
+</script>
 </head>
 <body>
 <div class="search-container">
@@ -36,7 +109,6 @@
     </form>
 </div>
 <div class="main-container">
-    <div class="left-space"></div>
     <div class="content">
         <c:choose>
             <c:when test="${!empty allList}">

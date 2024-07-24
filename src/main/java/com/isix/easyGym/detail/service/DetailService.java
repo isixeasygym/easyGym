@@ -7,11 +7,15 @@ import org.springframework.dao.DataAccessException;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 public interface DetailService {
 	
+	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException;
 	
-	public List findThing(Map searchMap) throws DataAccessException;
+	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException;
+	
+	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException;
 	
 	public List findAll(String detailClassification) throws DataAccessException;
 	
