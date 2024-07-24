@@ -50,8 +50,8 @@
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
        <![CDATA[
-          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberId}, #{memberPwd}, #{memberName}, #{memberEmail}, #{memberPhone},
-          #{memberPost}, #{memberAddr}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberId}, #{memberPwd},#{memberPhone},  #{memberEmail}, #{memberAddr},
+          #{memberPost}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
        ]]>
     </insert>
     
