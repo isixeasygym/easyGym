@@ -174,6 +174,13 @@
                 </div>
 				<div id="reviewImageRange">
 					<div id="reviewImage">
+						<c:choose>
+						       <c:when test="${!empty reviewImage}">
+			                       <c:forEach var="reviewImage" items="${reviewImage}">
+			                           <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>
+			                       </c:forEach> 
+							</c:when>
+						</c:choose>		   
 					</div>
 				</div>
                 <div id="reviewRange">
@@ -255,7 +262,7 @@
                 </p>
 				<div id="fixedContainer">
 			        <form action="${contextPath}/payform/payformForm.do" method="get">
-			            <input type="hidden" name="memberNo" value="${mem.memberNo}">
+			            <input type="hidden" name="memberNo" value="${member.memberNo}">
 			            <input type="hidden" name="detailNo" value="${details.detailNo}">
 			            <button type="submit" id="ticketChoice">회원권 선택</button>
 			        </form>

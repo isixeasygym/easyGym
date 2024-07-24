@@ -179,12 +179,13 @@ public class DetailControllerImpl implements DetailController{
 			HttpServletResponse response) throws Exception{
 		HttpSession session= request.getSession();
 		detailDTO=detailService.viewDetail(detailNo);
-		System.out.print(detailNo);
 		ModelAndView mav=new ModelAndView();
-		List review = new ArrayList<>();
+		List<DetailReviewDTO> review = new ArrayList<>();
 		review = detailService.findReview(detailNo); 
+		
 		if(review != null ) {
 			session.setAttribute("getReview", 1);
+			
 			mav.addObject("review", review);
 		}else {
 			session.setAttribute("getReview", 0);
@@ -350,8 +351,8 @@ public class DetailControllerImpl implements DetailController{
 	                    int reviewNo = detailService.addreview(reviewImageMap);
 
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
-	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailBusinessEng + File.separator + memberNo);
-	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
+	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo );
+	                 
 	                    
 	                    if (!destDir.exists()) {
 	                        destDir.mkdirs(); // Ensure destination directory exists

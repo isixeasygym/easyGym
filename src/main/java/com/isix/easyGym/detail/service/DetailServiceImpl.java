@@ -116,6 +116,12 @@ public class DetailServiceImpl implements DetailService{
 		return reviews;
 	}
 
+	@Override
+	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reviewImage=detailDAO.selectReviewImage(detailNo);
+		return reviewImage;
+	}
+
 	
 
 }
