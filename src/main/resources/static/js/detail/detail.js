@@ -52,8 +52,6 @@ function deleteComment(reviewNo) {
     });
 }
 //글 등록하기
-
-
 function writeSubmit() {
     // 입력된 값들을 변수에 저장
     var companyId = $('.companyId').val();
@@ -61,14 +59,12 @@ function writeSubmit() {
     var reviewComment = $('#myTextarea').val();
     var reviewRating = $("input[name='detailScope']:checked").val();
     var fileInput = $('#reviewImageName')[0].files[0];
-	var detailBusinessEng = $('#detailBusinessEng').val();
     // FormData 객체 생성
     var formData = new FormData();
     formData.append('companyId', companyId);
     formData.append('memberNo', memberNo);
     formData.append('reviewComment', reviewComment);
     formData.append('reviewRating', reviewRating);
-	formData.append('detailBusinessEng',detailBusinessEng);
     if (fileInput) {
         formData.append('reviewImageName', fileInput);
     }
@@ -135,6 +131,7 @@ function writeSubmit() {
         }
     });
 }
+
 //찜 기능
 
 //이미지 슬라이드
