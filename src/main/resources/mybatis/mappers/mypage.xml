@@ -51,7 +51,7 @@
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
  	
- 	<!-- 찜 목록 쿼리문 -->
+ 	<!-- 찜 목록 불러오기 쿼리문 -->
  	<select id="selectAllDetail" resultMap="detailResult" parameterType="int">
  		<![CDATA[
  			select d.detailNo, d.detailBusinessName, d.detailKoClassification, d.detailRoadAddress 
@@ -60,8 +60,9 @@
  			where j.memberNo = #{memberNo}
  		]]>
  	</select>
-
-   <delete id="deleteDibs" parameterType="map">
+	
+	<!-- 찜 목록 취소 쿼리문 -->
+    <delete id="deleteDibs" parameterType="map">
    		<![CDATA[
 		    DELETE FROM detaildibs_tbl 
 		    WHERE memberNo = #{memberNo} AND detailNo = #{detailNo}
@@ -78,16 +79,23 @@
 	    ]]>
 	</select> -->
 	
-	<!-- 회원정보 수정 쿼리문 
-	<update id="updateMember">
+	<!-- 비밀번호 체크 -->
+	<select id="getPasswordByMemberNo" parameterType="int" resultType="string">
+		<![CDATA[
+        	SELECT memberPwd FROM member_tbl WHERE memberNo = #{memberNo}
+    	]]>
+    </select>
+	
+	<!-- 회원정보 수정 쿼리문
+	<update id="memberUpdate" parameterType="memberDTO">
 		<![CDATA[
 	        UPDATE member_tbl
 	        SET
 	            memberPwd = #{memberPwd},
-	            memberName = #{memberName},
-	            memberGender = #{memberGender},
 	            memberPhone = #{memberPhone},
-	            memberEmail = #{memberEmail}
+	            memberEmail = #{memberEmail},
+	            memberAddr = #{memberAddr},
+	            memberPost = #{memberPost}
 	        WHERE memberNo = #{memberNo}
 		]]>
     </update> -->
