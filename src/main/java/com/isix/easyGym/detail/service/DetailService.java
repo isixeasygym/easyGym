@@ -38,4 +38,10 @@ public interface DetailService {
 	public void addOperForm(Map detailMap) throws DataAccessException;
 	
 	public int addreview(Map reviewImageMap) throws DataAccessException;
+	
+	public List<DetailDTO> findPopularHealth() throws DataAccessException;
+
+	public List<DetailDTO> findPopularBoxing() throws DataAccessException;
+	
+	public List<DetailDTO> findPopularPilates() throws DataAccessException;
 }

@@ -19,74 +19,93 @@
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
 <script>
+	
     $(document).ready(function() {
         $('#myTextarea').on('input', function() {
             var charCount = $(this).val().length;
             $('#charCount').text(charCount + '/150');
         });
     });
+	
+$(document).ready(function() {
+    var requestInProgress = false;
 
-	$(document).ready(function() {
-	    // AJAX 요청 중복 방지
-	    var requestInProgress = false;
+    function updateFavoriteButton(button, status) {
+        var newSrc = (status === "insert")
+            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
+            : '${contextPath}/images/detail/detailpage/dibs.png';
+        $(button).find('.dibs').attr('src', newSrc);
+    }
 
-	    function updateFavoriteButton(button, status) {
-	        var newSrc = (status == "insert") ? '${contextPath}/images/detail/detailpage/pickDibs.png' : '${contextPath}/images/detail/detailpage/dibs.png';
-	        $(button).find('.dibs').attr('src', newSrc);
-	    }
+    $(".favorite-button").each(function() {
+        var button = this;
+        var companyId = $(button).find('.companyId').val();
+        var userId = $(button).find('.userId').val();
 
-	    $(".favorite-button").each(function() {
-	        var button = this;
-	        var companyId = $(button).find('.companyId').val();
-	        var userId = $(button).find('.userId').val();
+        $.ajax({
+            type: "GET",
+            url: "${contextPath}/addFavorite",
+            data: { companyId: companyId, userId: userId },
+            success: function(data) {
+                if (data === "insert" || data === "delete") {
+                    updateFavoriteButton(button, data);
+                } else if (data === "nologin") {
+                    alert("회원 정보가 없습니다.");
+                    window.location.href = '${contextPath}/member/loginForm.do';
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+            }
+        });
+    });
 
-	        $.ajax({
-	            type: "GET",
-	            url: "/getFavoriteStatus",
-	            data: { companyId: companyId, userId: userId },
-	            success: function(data) {
-	                updateFavoriteButton(button, data);
-	            },
-	            error: function(xhr, status, error) {
-	                console.error("Error: " + error);
-	            }
-	        });
-	    });
+    $(".favorite-button").click(function(event) {
+        if (requestInProgress) return;
 
-	    $(".favorite-button").click(function(event) {
-	        if (requestInProgress) return; // 이미 요청이 진행 중이면 무시
+        requestInProgress = true;
 
-	        requestInProgress = true;
+        var button = this;
+        var companyId = $(button).find('.companyId').val();
+        var userId = $(button).find('.userId').val();
 
-	        var button = this;
-	        var companyId = $(button).find('.companyId').val();
-	        var userId = $(button).find('.userId').val();
+        if (!userId || !companyId) {
+            alert("필수 정보가 누락되었습니다.");
+            requestInProgress = false;
+            return;
+        }
 
-	        $.ajax({
-	            type: "GET",
-	            url: "/addFavorite",
-	            data: { companyId: companyId, userId: userId },
-	            success: function(data) {
-	                if (data == "insert" || data == "delete") {
-	                    alert(data == "insert" ? "찜 목록에 추가되었습니다." : "찜 목록에서 삭제되었습니다.");
-	                    updateFavoriteButton(button, data);
-	                } else if (data.startsWith("redirect:")) {
-	                    window.location.href = data.substring(9);
-	                } else {
-	                    alert("알 수 없는 오류가 발생했습니다.");
-	                }
-	                requestInProgress = false;
-	            },
-	            error: function(xhr, status, error) {
-	                console.error("Error: " + error);
-	                alert(xhr + status + "오류가 발생했습니다." + error);
-	                requestInProgress = false;
-	            }
-	        });
+        $.ajax({
+            type: "GET",
+            url: "${contextPath}/addFavorite",
+            data: { companyId: companyId, userId: userId },
+            success: function(data) {
+                if (data === "insert" || data === "delete") {
+                    alert(data === "insert" 
+                        ? "찜 목록에 추가되었습니다." 
+                        : "찜 목록에서 삭제되었습니다.");
+                    updateFavoriteButton(button, data);
+                } else if (data === "nologin") {
+                    alert("회원 정보가 없습니다.");
+                    window.location.href = '${contextPath}/member/loginForm.do';
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
+                requestInProgress = false;
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                requestInProgress = false;
+            }
+        });
 
-	        event.stopPropagation();
-	    });
-	});
+        event.stopPropagation();
+    });
+});
 </script>
 </head>
 <body>
@@ -177,8 +196,8 @@
 						<c:choose>
 						       <c:when test="${!empty reviewImage}">
 			                       <c:forEach var="reviewImage" items="${reviewImage}">
-			                           <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>
-			                       </c:forEach> 
+			                        	   <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
+								   </c:forEach> 
 							</c:when>
 						</c:choose>		   
 					</div>
@@ -204,7 +223,6 @@
 			               	</div>
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
 							</button>
-							<input type="hidden" id="detailBusinessEng" value="${details.detailBusinessEng}">
 						</div>	
 			        </div>
 					<div id="reviewContainer">
@@ -269,6 +287,6 @@
 			    </div>
             </div>
         </c:when>    
-    </c:choose>            `
+    </c:choose>            
 </body>
 </html>

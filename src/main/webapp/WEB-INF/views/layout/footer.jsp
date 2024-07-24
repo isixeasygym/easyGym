@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
       </div>
 
-  <div class="footer fixed-bottom">
+  <div class="footer ">
           <ul class="nav justify-content-center border-bottom pb-3 mb-3 ">
                     <li class="nav-item"><a href="/main.do" class="nav-link px-2 text-body-secondary">Home</a></li>
                     <li class="nav-item"><a href="/main.do" class="nav-link px-2 text-body-secondary">Features</a></li>

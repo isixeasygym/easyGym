@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title>업체 리스트</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/admin/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -99,64 +99,67 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <main>
+                <main> <!-- ------------------------------------main---------------------------------------------- -->
                     <div class="container-fluid px-4">
-						<h1 class="mt-4">탈퇴 회원</h1>
-	                        <ol class="breadcrumb mb-4">
-	                            <li class="breadcrumb-item"><a href="/admin/index.do">메인으로</a></li>
-	                            <li class="breadcrumb-item active">Tables</li>
-	                        </ol>
-	                        <div class="card mb-4">
-	                            <div class="card-body">
-	                                탈퇴한 회원 목록 리스트
-	                                
-	                            </div>
-	                        </div>
+                        <h1 class="mt-4">사업자</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/admin/memberList.do">메인으로</a></li>
+                            <li class="breadcrumb-item active">Tables</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                등록된 업체 목록 리스트
+                                
+                            </div>
+                        </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                탈퇴 회원 목록
+                                업체 목록
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
-									<thead>
+                                    <thead>
                                         <tr>
-                                            <th>회원 번호</th>
-                                            <th>회원 이름</th>
-                                            <th>회원 아이디</th>
-                                            <th>전화번호</th>
-                                            <th>회원 이메일</th>
-                                            <th>회원 주소</th>
+                                            <th>업체 번호</th>
+                                            <th>업체 이름</th>
+                                            <th>일일 회원권</th>
+                                            <th>업체 위치</th>
+                                            <th>업체 평점</th>
+                                            <th>메인 운동</th>
+                                            <th>운영시간</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-											<th>회원 번호</th>
-                                            <th>회원 이름</th>
-                                            <th>회원 아이디</th>
-                                            <th>전화번호</th>
-                                            <th>회원 이메일</th>
-                                            <th>회원 주소</th>
+											<th>업체 번호</th>
+                                            <th>업체 이름</th>
+                                            <th>일일 회원권</th>
+                                            <th>업체 위치</th>
+                                            <th>업체 평점</th>
+                                            <th>메인 운동</th>
+                                            <th>운영시간</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
 										<c:choose>
-											<c:when test="${mlist == null }">
+											<c:when test="${clist == null }">
 												<tr>
 													<td colspan="7">
-														<p align="center">가입한 회원이 없습니다.</p>
+														<p align="center">등록한 업체가 없습니다.</p>
 													</td>
 												<tr>
 											</c:when>
-											<c:when test="${mlist != null }">
-												<c:forEach var="mem" items="${mlist}">
+											<c:when test="${clist != null }">
+												<c:forEach var="com" items="${clist}">
 			                                        <tr>
-			                                            <td>${mem.memberNo}</td>
-			                                            <td>${mem.memberName}</td>
-			                                            <td>${mem.memberId}</td>
-			                                            <td>${mem.memberPhone}</td>
-			                                            <td>${mem.memberEmail}</td>
-			                                            <td>${mem.memberAddr}</td>
+			                                            <td>${com.detailNo}</td>
+			                                            <td>${com.detailBusinessName}</td>
+			                                            <td>${com.detailDailyTicket}</td>
+			                                            <td>${com.detailRoadAddress}</td>
+			                                            <td>${com.detailScope}</td>
+			                                            <td>${com.detailKoClassification}</td>
+			                                            <td>${com.detailServiceProgram}</td>
 			                                        </tr>  
 												</c:forEach>	
 											</c:when> 

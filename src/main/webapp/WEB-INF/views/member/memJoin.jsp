@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <link rel="stylesheet" href="/css/member/join.css">
 
 </div>
@@ -24,7 +23,7 @@
 			<div class="input-box">
 				<label>비밀번호</label> <input type="password"
 					placeholder="비밀번호를 입력해주세요." required name="memberPwd"
-					id="memberPWd" tabindex="2" /> <br> <span id="pwError"></span>
+					id="memberPwd" tabindex="2" /> <br> <span id="pwError"></span>
 			</div>
 			<div class="input-box">
 				<label>비밀번호 확인</label> <input type="password"
@@ -120,6 +119,8 @@
 			</div>
 		</div>
 
+		
+		<input type="hidden" name="memberState" value="1">
 		<button type="submit" id="join" value="Join"
 			class="btn btn-success btn-block" onclick="javascript:checkJoin()">가입하기</button>
 	</form>
@@ -189,4 +190,3 @@ function combineEmail() {
 </script>
 
 
-<%@ include file="/WEB-INF/views/layout/footer.jsp"%>

@@ -10,8 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -224,36 +222,39 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/List");
 		return mav;
 	}
+		@Override
+	 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
+	    @ResponseBody
+	    public String dibs(@RequestParam("companyId") String companyId,
+	                       @RequestParam("userId") int memberNo,
+	                       @RequestParam(value = "action", required = false) String action,
+	                       HttpServletRequest request,
+	                       HttpServletResponse response) throws Exception {
+	        String status;
+	        int result = memberService.loginCheck(memberNo);
+	        HttpSession session = request.getSession();
 
-	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
-	@ResponseBody
-	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String memberNo,
-	                   @RequestParam(value = "action", required = false) String action,
-	                   RedirectAttributes rAttr, HttpServletRequest request,
-	                   HttpServletResponse response) throws Exception {
-	    String status;
-	    MemberDTO result = memberService.loginCheck(Integer.parseInt(memberNo));
-	    
-	    if (result == null || !result.equals("true")) {
-	        Map<String, Object> paramMap = new HashMap<>();
-	        paramMap.put("detailNo", companyId);
-	        paramMap.put("memberNo", memberNo);
+	        if (result != 0) { // Check if user is logged in
+	            Map<String, Object> paramMap = new HashMap<>();
+	            paramMap.put("detailNo", companyId);
+	            paramMap.put("memberNo", memberNo);
 
-	        DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
-	        
-	        if (detailDibsDTO == null) {
-	            detailDAO.insertDibs(paramMap);
-	            status = "insert";
+	            DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
+
+	            if (detailDibsDTO == null) {
+	                detailDAO.insertDibs(paramMap);
+	                status = "insert";
+	            } else {
+	                detailDAO.removeDibs(paramMap);
+	                status = "delete";
+	            }
 	        } else {
-	            detailDAO.removeDibs(paramMap);
-	            status = "delete";
+	            status = "nologin"; // Indicate that the user is not logged in
 	        }
-	    } else {
-	        return "redirect:/member/loginForm.do";
-	    }
 
-	    return status;
-	}
+	        return status;
+	    }
+	
 
 	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
 	@ResponseBody
@@ -278,7 +279,7 @@ public class DetailControllerImpl implements DetailController{
             RedirectAttributes rAttr, HttpServletRequest request,
             HttpServletResponse response) throws Exception{
 		String success=null;
-		int memberNum=memberService.findmemberNo(memberNo);
+		int memberNum=memberService.findMemberNo(memberNo);
 		if(memberNum != 0) {
 			int buyNo=payformService.buyCheck(memberNum);
 			if(buyNo !=0 ) {
@@ -310,19 +311,18 @@ public class DetailControllerImpl implements DetailController{
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(
 	        @RequestParam("companyId") String detailNo, 
-	        @RequestParam("memberNo") String memberNo,
+	        @RequestParam(value="memberNo", required= false) int memberNo,
 	        @RequestParam(value = "action", required = false) String action,
 	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
 	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
 	        @RequestParam(value = "reviewImageName", required = false) MultipartFile reviewImageName,
 	        MultipartHttpServletRequest multipartRequest,
 	        HttpServletResponse response) throws Exception {
-
+	    
 	    String status = null;
-	    String detailBusinessEng = multipartRequest.getParameter("detailBusinessEng");
+	    
 	    try {
-	     
-	        int memberNum = memberService.findmemberNo(Integer.parseInt(memberNo));
+	        int memberNum = memberService.findMemberNo(memberNo);
 
 	        if (memberNum != 0) {
 	            int buyNo = payformService.buyCheck(memberNum);
@@ -331,7 +331,7 @@ public class DetailControllerImpl implements DetailController{
 	                multipartRequest.setCharacterEncoding("utf-8");
 
 	                String imageFileName = fileUpload(multipartRequest); // Check if image file is uploaded
-
+	                HttpSession session=multipartRequest.getSession();
 	                if (imageFileName != null && !imageFileName.isEmpty()) {
 	                    // Handle image upload
 	                    Map<String, Object> reviewImageMap = new HashMap<>();
@@ -346,29 +346,34 @@ public class DetailControllerImpl implements DetailController{
 	                    reviewImageMap.put("reviewImageName", imageFileName);
 	                    reviewImageMap.put("buyNo", buyNo);
 	                    reviewImageMap.put("detailNo", detailNo);
-	                    HttpSession session = multipartRequest.getSession();
 	                    reviewImageMap.put("memberNo", memberNo);
 
+	                    // Check if there's already an existing review image
+	                    File existingImageFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo + File.separator + imageFileName);
+	                    if (existingImageFile.exists()) {
+	                        existingImageFile.delete(); // Delete the old image
+	                    }
+
+	                    // Save new review
 	                    int reviewNo = detailService.addreview(reviewImageMap);
 
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
-	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo );
-	                 
-	                    
+	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo);
 	                    if (!destDir.exists()) {
 	                        destDir.mkdirs(); // Ensure destination directory exists
 	                    }
 
 	                    File destFile = new File(destDir, imageFileName);
+	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
 	                    FileUtils.moveFile(srcFile, destFile); // Move the file
 
 	                    status = "success";
 	                } else {
 	                    // Handle no image case
-	                    Map<String, String> noImgReviewMap = new HashMap<>();
+	                    Map<String,String> noImgReviewMap = new HashMap<>();
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
-	                    noImgReviewMap.put("memberNo", memberNo);
+	                    noImgReviewMap.put("memberNo",String.valueOf(memberNo));
 	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
@@ -388,6 +393,7 @@ public class DetailControllerImpl implements DetailController{
 
 	    return status;
 	}
+	
 	
 	//한 개 이미지 파일 업로드(fileUpload)
 	private String fileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
@@ -431,5 +437,7 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
+
+
 
 }
