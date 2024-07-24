@@ -182,10 +182,11 @@ public class DetailControllerImpl implements DetailController{
 		ModelAndView mav=new ModelAndView();
 		List<DetailReviewDTO> review = new ArrayList<>();
 		review = detailService.findReview(detailNo); 
-		
+		List<DetailReviewDTO> reviewImage = new ArrayList<>();
+		reviewImage = detailService.findReviewImage(detailNo);
 		if(review != null ) {
 			session.setAttribute("getReview", 1);
-			
+			mav.addObject("reviewImage",reviewImage);
 			mav.addObject("review", review);
 		}else {
 			session.setAttribute("getReview", 0);

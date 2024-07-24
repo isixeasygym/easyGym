@@ -51,12 +51,13 @@
 
 	<select id="selectReviewImage" parameterType="int" resultMap="detailReviewResult">
 	    <![CDATA[
-		   SELECT limit 6 reviewImgName, detailNo, memberNo
+		  SELECT reviewImgName, detailNo, memberNo
 FROM detailreview_tbl
 WHERE detailNo = #{detailNo}
   AND reviewImgName IS NOT NULL
   AND reviewImgName != ''
 ORDER BY reviewDate DESC
+LIMIT 6;
 		]]>
 	</select>
 
