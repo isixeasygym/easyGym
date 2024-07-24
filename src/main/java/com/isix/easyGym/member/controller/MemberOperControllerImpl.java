@@ -44,8 +44,9 @@ public class MemberOperControllerImpl implements MemberOperController {
 	}
 	
 	// 사업자 회원가입 완료 페이지
-	@RequestMapping(value="/member/afterEntJoin.do")
-	public ModelAndView afterEntJoin() {
+	@Override
+	public ModelAndView afterEntJoin(MemberOperDTO memberOperDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/member/afterEntJoin");
 		return mav;
@@ -109,11 +110,6 @@ public class MemberOperControllerImpl implements MemberOperController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public ModelAndView afterEntJoin(MemberOperDTO memberOperDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
