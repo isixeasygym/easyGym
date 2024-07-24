@@ -103,8 +103,8 @@
 <div class="search-container">
     <button type="button" class="back-button" onclick="goBack()">&lt;</button>
     <form action="/detail/search.do" method="get" class="search-form">
-        <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
-        <input type="hidden" name="detailClassfication" value="health">
+        <input type="text" name="query" placeholder="검색어를 입력하세요..." class="search-input">
+        <input type="hidden" name="detailClassification" value="health">
         <button type="submit" class="search-button">검색</button>
     </form>
 </div>
