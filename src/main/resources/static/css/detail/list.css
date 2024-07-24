@@ -57,7 +57,7 @@ body {
     position: absolute;
     width: 730px;
     top: 100px;
-    left: 50%;
+    left: 40%;
     transform: translate(-50%, 0%);
     background-color: #fff;
 }
@@ -218,4 +218,18 @@ body {
 
 input {
     z-index: 30;
+}
+
+#mapRange {
+    position: fixed; /* Change to fixed positioning to ensure it stays in place */
+    top: 50%; /* Center vertically */
+    right: 0; /* Align to the right edge */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    width: 600; /* Adjust width as needed */
+    height: 600px; /* Adjust height as needed */
+    background-color: #fff; /* Optional: Set background color for better visibility */
+    border: 1px solid #ddd; /* Optional: Add border for visibility */
+    border-radius: 10px; /* Optional: Rounded corners */
+    padding: 10px; /* Optional: Add padding if needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a better look */
 }

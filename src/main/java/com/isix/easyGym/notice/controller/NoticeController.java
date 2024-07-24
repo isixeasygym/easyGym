@@ -26,4 +26,9 @@ public interface NoticeController {
 	
 	public ModelAndView removeNotice(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//게시글 삭제
+	
+	public ModelAndView noticePageList(@RequestParam("section") String section, @RequestParam("pageNum") String pageNum, HttpServletRequest req, HttpServletResponse res) throws Exception;
+	
+	// 공지사항 페이지 상세
+	public ModelAndView viewNoticePage(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

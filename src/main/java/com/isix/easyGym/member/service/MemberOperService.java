@@ -5,9 +5,9 @@ import org.springframework.dao.DataAccessException;
 import com.isix.easyGym.member.dto.MemberOperDTO;
 
 public interface MemberOperService {
-
 	
-
+	
+	
 	public void addOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
 			
 	public void delOperator(String operatorId) throws DataAccessException;

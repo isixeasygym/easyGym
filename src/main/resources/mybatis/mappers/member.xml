@@ -50,8 +50,8 @@
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
        <![CDATA[
-          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberId}, #{memberPwd}, #{memberName}, #{memberEmail}, #{memberPhone},
-          #{memberPost}, #{memberAddr}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberId}, #{memberPwd},#{memberPhone},  #{memberEmail}, #{memberAddr},
+          #{memberPost}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
        ]]>
     </insert>
     
@@ -79,9 +79,10 @@
        ]]>
     </delete>
     <!-- 아래로부터 detail관련된 것들-->
-    <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
+    <select id = "loginChecking" parameterType="int" resultType = "int">
        <![CDATA[
-          select * from member_tbl where memberNo = #{memberNo}
+          SELECT IFNULL((SELECT memberNo FROM member_tbl 
+    	  WHERE memberNo = #{memberNo}), 0) AS result;
        ]]>
     </select>
     

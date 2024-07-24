@@ -40,15 +40,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public int loginCheck(int memberNo) throws DataAccessException {
+		int result = memberDAO.loginChecking(memberNo);
+		return result;
 	}
 
 	@Override
-	public int findmemberNo(int memberNo) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int findMemberNo(int memberNo) throws DataAccessException {
+		int memberNum=memberDAO.selectMemberNo(memberNo);
+		return memberNum;
 	}
 
 }

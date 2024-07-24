@@ -2,18 +2,18 @@
 
 #animation_canvas {
     position: relative;  /* 고정시킬 자식이 있어서 부모는 relative를 줌 */
-    width: 900px;  /* 이미지 하나 정도 보이는 크기 */
+    width: 700px;  /* 이미지 하나 정도 보이는 크기 */
     overflow: hidden;  /* 내 영역을 벗어나면 안보이게 하기 (일단 어떻게 만들어지는지 보기 위해 주석처리하고 마지막에 풀 예정 => 하게 되면 하나 외의 사진들이 그 자리에는 있지만 안보이게 됨.) */
 }
 
 .slider_panel {
-    width: 10800px;  /* 원래는 사진 1장당 600px * 5장 = 3000px. 근데 앞뒤로 사진을 한장씩 더 붙여서 px을 늘리면서 양옆으로 사진을 보냄 */
+    width: 8400px;  /* 원래는 사진 1장당 600px * 5장 = 3000px. 근데 앞뒤로 사진을 한장씩 더 붙여서 px을 늘리면서 양옆으로 사진을 보냄 */
     position: relative;
 }
 
 .slider_image {  /* 슬라이더 보이는 이미지 */
-    width: 900px;  /* 부모 크기와 똑같이 줌 */
-    height: 600px;
+    width: 700px;  /* 부모 크기와 똑같이 줌 */
+    height: 400px;
     float: left;  /* 아래 내려오던 사진도 전부 옆으로 보냄 */
 }
 
@@ -25,7 +25,7 @@
 
 .slider_text {
     position: absolute;  /* 설명글을 절대적 위치로 둬서 설명글끼리 겹치게 함 */
-    width: 300px;  /* 설명이 많다면 더 키워줘라 */
+    width: 200px;  /* 설명이 많다면 더 키워줘라 */
     height: 200px;
     color: yellow;
 }
@@ -60,14 +60,16 @@
 
 .left_control {
     position: absolute;
-    top: 300px;
+    top: 170px;
+	height: 60px;
     left: 5px;
     cursor: pointer;
     z-index: 10px;
 }
 .right_control {
    position: absolute;
-   top: 300px;
+   height: 60px;
+   top: 170px;
    right: 5px;
    cursor: pointer;
    z-index: 10px;
@@ -84,36 +86,71 @@ body{
 
 #detailRange{
     position: absolute;
-    width: 900px;
+    width: 700px;
     top: 0px;
     left: 50%;
     transform: translate(-50%, 0%);
     background-color: #fff;
 }
-
+#firstInfo{
+	height: 170px;
+}
+#companyName{
+	position: relative;
+	left: 20px;
+}
 
 #pointer{
+	position: relative;
+	top: -10px;
+	left: 13px;
     display: inline-block;
 }
 #fiveStar{
+	position: relative;
+	left: 20px;
+	top: -34px;
     display: inline-block;
+	font-size: 1.2em;
 }
 
 #address{
+	position: relative;
+	top: -15px;
+	left: 13px;
     display: inline-block;
 }
-
+#toAddress{
+	position: relative;
+	top: -14px;
+	left: 10px;
+	font-size: 1.3em;
+}
 #grade{
    display: inline-block;
 }
 #gradeLink{
+	position: relative;
+	left: 20px;
+	top: -36px;
     display: inline-block;
 }
+#toReview{
+	position: relative;
+	left: -3px;
+	font-size: 1.3em;
+}
 
+
+#dailyTicket{
+	position: relative;
+	left: 20px;
+	top: -40px;
+}
 .buttonRange{
     position: relative;
 	z-index: 30;
-    left: 675px;
+    left: 640px;
     top: -170px;
 }
 
@@ -133,53 +170,90 @@ body{
 }
 
 #memberTicketRange{
-    height: 230px;
+	position: relative;
+	top: -30px;
+    height: 220px;
     border-bottom: 2px solid #F6F6F6;
-    width: 900px;
+    width: 700px;
 }
 
-.common {
-    display: inline-block;
+#memberTicket{
+	position: relative;
+	left: 20px;
 }
+
+#fieldMonthlyPrice{
+	position: relative;
+	left: 20px;
+	display: inline-block;
+}
+
+#fieldDailyPrice{
+	position: relative;
+	left: 20px;
+	display: inline-block;
+}
+
+#dailyLimit{
+	position: relative;
+	left: 20px;
+	font-size: 0.8em;
+}
+.ticket{
+	position: relative;
+	left: 20px;
+}
+
+
 
 .ticketPrice{
     position: relative;
     display: inline-block;
-    left: 300px;
+    left: 380px;
 }
 .month {
+	position: relative;
     display: inline-block;
+	font-size: 0.7em;
 }
 
 .memberTicketBox {
     margin: 0 auto;
     border: 1px solid #F6F6F6;
     border-radius:  20px;
-    width: 820px;
+    width: 620px;
     box-shadow: 5px 5px 4px #EAEAEA;
 }
 
 #dailyAndInfoRange{
+	position: relative;
+	top: -25px;
     height: 370px;
     border-bottom: 2px solid #F6F6F6;
+}
+#dailyTicketRange{
+	position: relative;
+	left: 20px;
 }
 
 #dailyInfoBox{
     margin: 0 auto;
-    width: 820px;
+    width: 620px;
     height: 120px;
     border-radius:  20px;
     background-color:  #F6F6F6;
 }
 
 #commentRange{
+	position: relative;
+	top: -25px;
     padding: 40px 0;
     border-bottom: 2px solid #F6F6F6;
 	text-align: center;
 }
 
 #commentBox {
-    width: 778px;
+    width: 578px;
     border-radius:  20px;
     background-color:  #F6F6F6;
     margin: 0 auto;
@@ -188,7 +262,7 @@ body{
 
 .auto-resize-textarea {
     min-height: 100px; /* 최소 높이 설정 */
-    padding: 10px 0 0 0; /* 내부 여백 설정 */
+    padding: 10px 0 5px 5px; /* 내부 여백 설정 */
     font-size: 14px; /* 폰트 크기 설정 */
     line-height: 1.5; /* 줄 간격 설정 */
     border: 1px solid #f6f6f6; /* 테두리 설정 */
@@ -200,7 +274,7 @@ body{
     color: #333; /* 텍스트 색상 설정 */
     cursor: default; /* 기본 커서 스타일로 설정 */
     border-radius: 20px; /* 테두리 둥글게 설정 */
-    width: 820px; /* 너비 설정 */
+    width: 620px; /* 너비 설정 */
     transition: height 0.2s; /* 높이 변화 시 애니메이션 */
 }
 
@@ -210,13 +284,15 @@ body{
 }
 
 #operatingRange{
+	position: relative;
+	top: -25px;
 	text-align: center;
     padding: 40px 0;
     border-bottom: 2px solid #F6F6F6;
 }
 
 #operatingBox{
-    width: 778px;
+    width: 578px;
     border-radius:  20px;
     background-color:  #F6F6F6;
     margin: 0 auto;
@@ -224,49 +300,54 @@ body{
 }
 
 #convenienceFacility{
+	position: relative;
+	top: -20px;
     border-bottom: 2px solid #F6F6F6;
     height: 180px;
 }
 
+#facilityInfo{
+	position: relative;
+	left: 20px;	
+}
+
 #FacilityRange{
     position: relative;
-    width: 850px;
+    width: 650px;
     left: 20px;
 }
 
 .FacilityImage{
     display: inline-block;
-    width: 70px;
-    height: 110px;
+    width: 50px;
+    height: 90px;
     padding-left: 17px;
 }
 
+#imageInfo{
+	position: relative;
+	left: 20px;
+}
+
 #imageRange{
-	width: 900px;
-	height:400px;
+	position: relative;
+	top: -20px;
+	width: 700px;
+	height:340px;
 	border-bottom: 2px solid #F6F6F6;
 }
 
 #imageBox{
 	text-align: center;
-	width: 900px;
+	width: 700px;
 	margin:0 auto;	
 }
 
 #reviewImageRange{
+	height: 120px;
 	border-bottom: 2px solid #F6F6F6;
 }
 
-#reviewImage{	
-	padding: 15px 15px;
-}
-
-#produ{
-    color: #757575;
-    font-size: 0.8em;
-    position: relative;
-    left: 30px;
-}
 #reviewRange{
 	border-bottom: 2px solid #F6F6F6;
 }
@@ -277,6 +358,9 @@ body{
 	display: block;
 }
 
+
+
+
 #ticketChoiceRange {
     text-align: center;
     height: 90px;
@@ -284,41 +368,50 @@ body{
     bottom: 0; left: 0;
 }
 
-#ticketChoice{
-    color: #fff;
-    padding: 15px;
-    background-color: #2478FF;
-    font-size: 1.2em;
-    border: 1px solid #2478FF;
-    border-radius: 20px;
-    font-style: #ccc;
-    width: 850px;
-    margin: 0 auto;
+#fixedContainer {
+       position: -webkit-sticky; /* Safari 지원 */
+       position: sticky; /* 최신 브라우저 지원 */
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       background-color: white;
+       border-top: 1px solid #ccc;
+       padding: 10px;
+       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+       z-index: 1000;
+       text-align: center;
+   }
+
+   #ticketChoice {
+       color: #fff;
+       padding: 15px;
+       background-color: #2478FF;
+       font-size: 1.2em;
+       border: 1px solid #2478FF;
+       border-radius: 20px;
+       width: 650px;
+       margin: 0 auto;
+   }
+#ReviewRange{
+	width: 700px;
 }
 
-.ReviewRange{
-	width: 900px;
-}
 
-.personReviewRange{
-	width: 778px;
-	margin:0 auto;
-	border: 2px solid #F6F6F6;
-	padding: 30px;
-}
 
 .reviewWriteRange{
-	width: 778px;
+	width: 678px;
 	margin: 0 auto;
 }
 
 #textArea {
 	margin: 0 auto;
-	width: 900px;
+	width: 700px;
 }
 
 #myTextarea {
-    width: 720px;
+	position: relative;
+	left: 20px;
+    width: 600px;
     height: 130px;
     resize: none; /* 빗금 없애기 */
     border: 1px solid #ccc; /* 기본 border 색상 */
@@ -334,7 +427,7 @@ body{
 
 #charCount {
 	position: relative;
-	left: 730px;
+	left: 630px;
 	top: -145px;
     font-size: 0.9em;
     color: #666;
@@ -347,7 +440,7 @@ body{
     display: block;
     position: relative;
 	top: -5px;
-    left: -720px;
+    left: -500px;
 }
 
 .rating input {
@@ -369,36 +462,94 @@ body{
 #fileRange{
 	position: relative;
 	top: -30px;
+	left: 20px;
 }
 
 #fileInfo{
 	display: inline-block;
+	position: relative;
 }
 
 #writeButton{
 	position: relative;
-	left: 649px;
-	top: -72px;
+	left: 580px;
+	top:-70px;
 	padding :5px 15px;
 	background-color: #2478FF;
 	color: #fff;
 	border: 1px solid #2478FF;
 	border-radius: 8px;
+	z-index: 30;
+}
+.deleteButton{
+	position: relative;
+	z-index: 30px;
+	top: 40px;
+	left: 580px;
+	background: none;
+	border: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	outline: none;
+	font-size: 0.8em;
 }
 
+.ReviewRange{
+	height: 265px;
+}
+
+.reviewImage{
+	position: relative;
+	top: -25px;
+	left: -20px;
+	
+	display: inline-block;
+}
+.anonymous{
+	position: relative;
+	top: -60px;
+	left: -20px;
+	display: inline-block;
+}
+.reviewDate{
+	position: relative;
+	top: -40px;
+	left: -116px;
+	display: inline-block;
+}
+.reviewComment{
+	position: relative;
+	border: 1px solid #ccc;;
+	top: -50px;
+	height: 130px;
+}
+.personReviewRange{
+	width: 578px;
+	height: 180px;
+	margin:0 auto;
+	border-bottom: 1px solid #F6F6F6;
+	padding: 30px;
+}
 #writeBorder{
-	width: 900px;
+	width: 700px;
 	border-bottom: 2px solid #F6F6F6;
 	height: 225px;
 }
 
+#produ{
+    color: #757575;
+    font-size: 0.8em;
+    position: relative;
+    left: 30px;
+}
+
 #mapRange{
-	width: 900px;
+	width: 700px;
 	text-align: center;
 	margin: 0 auto;
 }
 #map{
 	position: relative;
-	left: 50px;
 	margin: 0 auto;
 }

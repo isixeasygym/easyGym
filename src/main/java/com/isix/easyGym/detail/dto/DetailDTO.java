@@ -24,12 +24,12 @@ public class DetailDTO {
 		private String detailKoClassification;
 		private String detailLatitude;
 		private String detailLongitude;
-		private int operatorNo; 
+		private String operatorNo; 
 	
-		public int getOperatorNo() {
+		public String getOperatorNo() {
 			return operatorNo;
 		}
-		public void setOperatorNo(int operatorNo) {
+		public void setOperatorNo(String operatorNo) {
 			this.operatorNo = operatorNo;
 		}
 		public String getDetailLatitude() {

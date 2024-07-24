@@ -1,21 +1,22 @@
 package com.isix.easyGym.payform.controller;
 
-import com.isix.easyGym.payform.service.PayformServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Controller;
-
-import com.isix.easyGym.payform.dto.PayformDTO;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.isix.easyGym.payform.dto.PayformDTO;
+import com.isix.easyGym.payform.service.PayformServiceImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller("payformController")
 public class PayformControllerImpl implements PayformController {
@@ -52,7 +53,7 @@ public class PayformControllerImpl implements PayformController {
         payformData.put("payformPayment", payformPayment);
         payformData.put("price", price);
         ModelAndView mav = new ModelAndView("/payform/payformCredit");
-        mav.addObject("payformData", payformData);
+        mav.addObject("payform", payformData);
         return mav;
     }
 
@@ -67,17 +68,38 @@ public class PayformControllerImpl implements PayformController {
         payformMap.put("payformPayment", payformPayment);
         int payformNo = payformService.insertPayform(payformMap);
 
-        ModelAndView mav = new ModelAndView("/payform/payformDone");
-        mav.addObject("payformNo", payformNo);
+        ModelAndView mav = new ModelAndView("redirect:/payform/payformDone.do?payformNo=" + payformNo);
         return mav;
     }
 
     @Override
     @RequestMapping("/payform/payformDone.do")
     public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
-        Map resultMap = payformService.selectPayform(payformNo);
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
-        mav.addObject("result", resultMap);
+        mav.addObject("payform", payformDTO);
         return mav;
     }
+
+    //TODO 결제 취소 하는 기능, payformCancel로 payformNo 전달하는 코드 짜주면 됨
+    @Override
+    @RequestMapping("/payform/payformCancel.do")
+    public ModelAndView payformCancel(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
+        ModelAndView mav = new ModelAndView("/payform/payformCancel");
+        mav.addObject("payform", payformDTO);
+        return mav;
+    }
+
+    @Override
+    @RequestMapping("/payform/payformRefund.do")
+    public ModelAndView payformRefund(@RequestParam(value = "payformNo") int payformNo, @RequestParam(value = "refundPrice") int refundPrice, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+        int CancelSuccess = payformService.cancelPayform(payformNo);
+        PayformDTO payformDTO = payformService.selectPayform(payformNo);
+        ModelAndView mav = new ModelAndView("/payform/payformRefund");
+        mav.addObject("payform", payformDTO);
+        mav.addObject("refundPrice", refundPrice);
+        return mav;
+    }
+
 }

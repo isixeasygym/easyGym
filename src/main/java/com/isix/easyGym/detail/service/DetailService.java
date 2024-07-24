@@ -7,8 +7,16 @@ import org.springframework.dao.DataAccessException;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 public interface DetailService {
+	
+	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException;
+	
+	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException;
+	
+	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException;
+	
 	public List findAll(String detailClassification) throws DataAccessException;
 	
 	public int popularThing(int detailNum) throws DataAccessException;
@@ -23,9 +31,17 @@ public interface DetailService {
 	
 	public void noImgReview(Map noImgReviewMap) throws DataAccessException;
 	
-	public void writeReview(Map reviewMap) throws DataAccessException;
-	
 	public void removeReview(int reviewNoww3) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
+	
+	public void addOperForm(Map detailMap) throws DataAccessException;
+	
+	public int addreview(Map reviewImageMap) throws DataAccessException;
+	
+	public List<DetailDTO> findPopularHealth() throws DataAccessException;
+
+	public List<DetailDTO> findPopularBoxing() throws DataAccessException;
+	
+	public List<DetailDTO> findPopularPilates() throws DataAccessException;
 }
