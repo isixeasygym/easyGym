@@ -223,35 +223,38 @@ public class DetailControllerImpl implements DetailController{
 		return mav;
 	}
 
-	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
-	@ResponseBody
-	public String dibs(@RequestParam("companyId") String companyId, @RequestParam("userId") String memberNo,
-	                   @RequestParam(value = "action", required = false) String action,
-	                   RedirectAttributes rAttr, HttpServletRequest request,
-	                   HttpServletResponse response) throws Exception {
-	    String status;
-	    MemberDTO result = memberService.loginCheck(Integer.parseInt(memberNo));
-	    
-	    if (result == null || !result.equals("true")) {
-	        Map<String, Object> paramMap = new HashMap<>();
-	        paramMap.put("detailNo", companyId);
-	        paramMap.put("memberNo", memberNo);
+	 @RequestMapping(value="/addFavorite", method=RequestMethod.GET)
+	    @ResponseBody
+	    public String dibs(@RequestParam("companyId") String companyId,
+	                       @RequestParam("userId") int memberNo,
+	                       @RequestParam(value = "action", required = false) String action,
+	                       HttpServletRequest request,
+	                       HttpServletResponse response) throws Exception {
+	        String status;
+	        int result = memberService.loginCheck(memberNo);
+	        HttpSession session = request.getSession();
 
-	        DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
-	        
-	        if (detailDibsDTO == null) {
-	            detailDAO.insertDibs(paramMap);
-	            status = "insert";
+	        if (result != 0) { // Check if user is logged in
+	            Map<String, Object> paramMap = new HashMap<>();
+	            paramMap.put("detailNo", companyId);
+	            paramMap.put("memberNo", memberNo);
+
+	            DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
+
+	            if (detailDibsDTO == null) {
+	                detailDAO.insertDibs(paramMap);
+	                status = "insert";
+	            } else {
+	                detailDAO.removeDibs(paramMap);
+	                status = "delete";
+	            }
 	        } else {
-	            detailDAO.removeDibs(paramMap);
-	            status = "delete";
+	            status = "nologin"; // Indicate that the user is not logged in
 	        }
-	    } else {
-	        return "redirect:/member/loginForm.do";
-	    }
 
-	    return status;
-	}
+	        return status;
+	    }
+	
 
 	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
 	@ResponseBody
@@ -300,9 +303,6 @@ public class DetailControllerImpl implements DetailController{
 	    return reviews;
 	}
 	
-	
-	
-	
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
@@ -317,6 +317,8 @@ public class DetailControllerImpl implements DetailController{
 	        HttpServletResponse response) throws Exception {
 	    
 	    String status = null;
+	    
+	    try {
 	        int memberNum = memberService.findMemberNo(memberNo);
 
 	        if (memberNum != 0) {
@@ -326,7 +328,7 @@ public class DetailControllerImpl implements DetailController{
 	                multipartRequest.setCharacterEncoding("utf-8");
 
 	                String imageFileName = fileUpload(multipartRequest); // Check if image file is uploaded
-
+	                HttpSession session=multipartRequest.getSession();
 	                if (imageFileName != null && !imageFileName.isEmpty()) {
 	                    // Handle image upload
 	                    Map<String, Object> reviewImageMap = new HashMap<>();
@@ -381,9 +383,14 @@ public class DetailControllerImpl implements DetailController{
 	        } else {
 	            status = "noLogin";
 	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Consider using proper logging
+	        status = "error";
+	    }
 
 	    return status;
 	}
+	
 	
 	//한 개 이미지 파일 업로드(fileUpload)
 	private String fileUpload(MultipartHttpServletRequest multipartRequest) throws Exception {
@@ -427,5 +434,6 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
+
 
 }

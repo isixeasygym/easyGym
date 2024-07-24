@@ -40,8 +40,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-		MemberDTO result = memberDAO.loginChecking(memberNo);
+	public int loginCheck(int memberNo) throws DataAccessException {
+		int result = memberDAO.loginChecking(memberNo);
 		return result;
 	}
 
