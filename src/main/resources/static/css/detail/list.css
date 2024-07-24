@@ -1,37 +1,21 @@
 @charset "utf-8";
 
-:root {
-    --primary-color: #001EC9;
-    --secondary-color: #9DCFFF;
-    --background-color: #F6F6F6;
-    --text-color: #333;
-    --light-text-color: #777;
-    --border-radius: 8px;
-}
-
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    font-family: 'Roboto', Arial, sans-serif;
-    color: var(--text-color);
+    background-color: #F6F6F6;
 }
 
 .search-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 730px;
     background-color: #fff;
-    padding: 15px 20px;
-    z-index: 1000;
-}
-
-.search-form {
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .back-button {
@@ -39,254 +23,213 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 15px;
-    color: var(--primary-color);
-    transition: color 0.3s ease;
+    margin-right: 10px;
 }
 
-.back-button:hover {
-    color: var(--secondary-color);
+.search-form {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .search-input {
     flex: 1;
-    padding: 12px 15px;
-    border: 2px solid var(--secondary-color);
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
     outline: none;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-    border-color: var(--primary-color);
 }
 
 .search-button {
-    padding: 12px 25px;
-    background-color: var(--primary-color);
+    padding: 10px;
+    background-color: #001EC9;
     color: white;
     border: none;
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-    background-color: #0035A9;
-}
-
-.options-container {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    padding: 10px 20px;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.option-select {
-    padding: 8px 12px;
-    border: 1px solid var(--secondary-color);
-    border-radius: var(--border-radius);
-    font-size: 14px;
-    outline: none;
-}
-
-.main-container {
-    display: flex;
-    margin-top: 100px;
-    height: calc(100vh - 100px);
-}
-
-.left-margin, .right-margin {
-    width: 10%;
-    background-color: var(--background-color);
+    background-color: #0041c2;
 }
 
 .content {
-    width: 50%;
+    position: absolute;
+    width: 730px;
+    top: 100px;
+    left: 40%;
+    transform: translate(-50%, 0%);
     background-color: #fff;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.map_wrap {
-    width: 30%;
-    height: 100%;
-    position: fixed;
-    top: 130px;
-    right: 10%;
-    bottom: 0;
-}
-
-#map {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--border-radius);
-    overflow: hidden;
 }
 
 .contentRange {
+    position: relative;
     background-color: #fff;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: var(--border-radius);
-    transition: transform 0.3s ease;
-}
-
-.contentRange:hover {
-    transform: translateY(-3px);
+    height: 215px;
+    cursor: pointer;
 }
 
 .imgRange {
-    float: left;
-    margin-right: 15px;
     position: relative;
-    overflow: hidden;
-    border-radius: var(--border-radius);
+    top: 15px;
+    left: 15px;
+    display: block;
 }
 
 .img {
-    height: 150px;
-    width: 135px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.contentRange:hover .img {
-    transform: scale(1.05);
+    height: 185px;
+    width: 165px;
+    border-radius: 10px;
 }
 
 .buttonRange {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    position: relative;
+    z-index: 30;
+    left: 675px;
+    top: -170px;
 }
 
 .favorite-button {
+    display: inline-block;
+    z-index: 30;
     background: none;
     border: none;
+    padding: 0;
     cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.favorite-button:hover {
-    transform: scale(1.1);
 }
 
 .dibs {
+    z-index: 30;
     width: 30px;
     height: 30px;
 }
 
 .infoRange {
-    margin-left: 150px;
+    position: relative;
+    display: block;
+    top: -234px;
+    left: 195px;
+    height: 60px;
 }
 
 .classification {
-    color: var(--light-text-color);
-    margin: 0;
-    font-size: 0.8em;
-    text-transform: uppercase;
+    color: #B0B0B0;
 }
 
 .name {
-    margin: 5px 0;
-    font-size: 1.2em;
-    color: var(--primary-color);
+    position: relative;
+    top: -25px;
 }
 
 .address {
-    color: var(--light-text-color);
+    position: relative;
+    color: #B0B0B0;
     font-size: 0.8em;
-    margin: 3px 0 10px;
+    top: -53px;
 }
 
 .ticketRange {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
+    position: relative;
+    display: block;
+    width: 250px;
+    height: 40px;
+    left: 195px;
+    top: -175px;
+    right: 55px;
 }
 
-.dailyTicket, .memberTicket {
-    background-color: var(--secondary-color);
-    padding: 3px 8px;
-    border-radius: var(--border-radius);
+.dailyTicket {
+    background-color: #9DCFFF;
+    width: 41px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.memberTicket {
+    position: relative;
+    top: -33px;
+    left: 48px;
+    background-color: #9DCFFF;
+    width: 79px;
+    height: 20px;
+    border-radius: 4px;
 }
 
 .boxText {
-    color: var(--primary-color);
-    font-size: 0.7em;
-    margin: 0;
-    font-weight: 500;
+    color: #001EC9;
+    font-size: 0.8em;
 }
 
 .priceRange {
-    display: flex;
-    align-items: baseline;
+    position: relative;
+    display: block;
+    top: -250px;
+    left: 570px;
 }
 
 .price {
-    font-size: 1.4em;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-right: 3px;
+    display: inline-block;
+    font-size: 1.6em;
+    font-weight: 600;
 }
 
 .month {
-    color: var(--light-text-color);
-    font-size: 0.8em;
+    display: inline-block;
 }
 
 .serviceRange {
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    padding: 8px 10px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
+    display: block;
+    position: relative;
+    width: 525px;
+    height: 30px;
+    background-color: #F6F6F6;
+    top: -275px;
+    border-radius: 10px;
+    left: 192px;
 }
 
 .freeService {
-    color: var(--light-text-color);
-    font-weight: 500;
-    margin-right: 8px;
-    font-size: 0.8em;
+    position: relative;
+    top: -15px;
+    left: 15px;
+    color: #B0B0B0;
+    display: inline-block;
+    font-size: 1.1em;
 }
 
 .provide {
-    font-size: 0.8em;
+    position: relative;
+    top: -18px;
+    display: inline-block;
+    left: 45px;
+    font-size: 0.7em;
 }
 
-@media (max-width: 1200px) {
-    .left-margin, .right-margin {
-        display: none;
-    }
-    .content {
-        width: 70%;
-    }
-    .map_wrap {
-        width: 30%;
-        right: 0;
-    }
+.contentBorder {
+    position: relative;
+    display: block;
+    top: -267px;
+    width: 695px;
+    border-bottom: 1px solid #B0B0B0;
+    margin: 0 auto;
+    height: 5px;
+    padding: 0;
 }
 
-@media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-    .content, .map_wrap {
-        width: 100%;
-    }
-    .map_wrap {
-        position: static;
-        height: 300px;
-    }
+input {
+    z-index: 30;
+}
+
+#mapRange {
+    position: fixed; /* Change to fixed positioning to ensure it stays in place */
+    top: 50%; /* Center vertically */
+    right: 0; /* Align to the right edge */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    width: 600; /* Adjust width as needed */
+    height: 600px; /* Adjust height as needed */
+    background-color: #fff; /* Optional: Set background color for better visibility */
+    border: 1px solid #ddd; /* Optional: Add border for visibility */
+    border-radius: 10px; /* Optional: Rounded corners */
+    padding: 10px; /* Optional: Add padding if needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a better look */
 }

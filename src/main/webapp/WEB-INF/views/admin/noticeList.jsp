@@ -21,9 +21,9 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/admin/index.do">관리자 페이지</a>
+            <a class="navbar-brand ps-3" href="/admin/memberList.do">관리자 페이지</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -56,11 +56,6 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                        <div class="nav">
-                           <div class="sb-sidenav-menu-heading">MAIN</div> <!-- 관리자 페이지 메인 -->
-                           <a class="nav-link" href="/admin/index.do">
-                               <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                               메인 페이지
-                           </a>
                            <div class="sb-sidenav-menu-heading">Management</div> <!-- 회원 관리 및 업체 리스트 관리 -->
                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -81,7 +76,7 @@
                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                    <a class="nav-link" href="/admin/operList.do">Operator List</a> <!-- 사업자 리스트로 이동-->
-                                   <a class="nav-link" href="/admin/withdrawOper.do">Withdraw Operator</a>
+                                   <a class="nav-link" href="/admin/companyList.do">Company List</a>
                                </nav>
                            </div>
                            <div class="sb-sidenav-menu-heading">Comunity</div>
@@ -110,7 +105,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">공지사항</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/admin/index.do">메인으로</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/noticeList.do">메인으로</a></li>
                             <li class="breadcrumb-item active">Tables</li>
                         </ol>
                         <div class="card mb-4">

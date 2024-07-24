@@ -49,14 +49,52 @@
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
 
+	<select id="selectPopularHealth"  resultMap="detailResult">
+	    <![CDATA[
+		    WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+       		COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+        	ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'health' GROUP BY
+        	drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+    		FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+    		ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+		]]>
+	</select>
+
+	<select id="selectPopularBoxing" resultMap="detailResult">
+	    <![CDATA[
+		    WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+       		COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+        	ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'boxing' GROUP BY
+        	drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+    		FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+    		ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+		]]>
+	</select>
+	
+	<select id="selectPopularPilates" resultMap="detailResult">
+	    <![CDATA[
+		    WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+       		COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+        	ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'pilates' GROUP BY
+        	drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+    		FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+    		ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+		]]>
+	</select>
+
 	<select id="selectReviewImage" parameterType="int" resultMap="detailReviewResult">
 	    <![CDATA[
-		  SELECT reviewImgName, detailNo, memberNo
-FROM detailreview_tbl
-WHERE detailNo = #{detailNo}
-  AND reviewImgName IS NOT NULL
-  AND reviewImgName != ''
-ORDER BY reviewDate DESC
+		WITH FilteredReviews AS (
+    SELECT reviewImgName, detailNo, memberNo
+    FROM detailreview_tbl
+    WHERE detailNo = #{detailNo}
+      AND reviewImgName IS NOT NULL
+      AND reviewImgName != ''
+      ORDER BY reviewDate DESC
+	)
+	SELECT reviewImgName, detailNo, memberNo
+	FROM FilteredReviews
+
 LIMIT 6;
 		]]>
 	</select>
