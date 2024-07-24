@@ -21,7 +21,7 @@
                <div class="row justify-content-between mb-3">
                   <div class="col-md-6 text-start">
                      <small class="d-block mb-2"><a href="#">아이디 · 비밀번호 찾기</a></small>
-                     <small class="d-block"><a href="joinSelect.do">회원가입</a></small>
+                     <small class="d-block"><a href="operJoin.do">회원가입</a></small>
                   </div>
                </div>
                <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>

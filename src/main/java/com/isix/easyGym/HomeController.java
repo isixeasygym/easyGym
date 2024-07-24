@@ -16,8 +16,4 @@ public class HomeController {
 		mav.setViewName("/main");
 		return mav;
 	}
-	
-	
-	
-
 }

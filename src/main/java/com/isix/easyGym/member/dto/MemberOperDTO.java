@@ -13,7 +13,7 @@ public class MemberOperDTO {
 	private String operatorPwd;
 	private String operatorPhone;
 	private String operatorEmail;
-	private int operatorResNo;
+	private long operatorResNo;
 	private String operatorImgName;
 	private Date operatorCreatedAt;
 	private int operatorState;
@@ -70,11 +70,11 @@ public class MemberOperDTO {
 		this.operatorEmail = operatorEmail;
 	}
 
-	public int getOperatorResNo() {
+	public long getOperatorResNo() {
 		return operatorResNo;
 	}
 
-	public void setOperatorResNo(int operatorResNo) {
+	public void setOperatorResNo(long operatorResNo) {
 		this.operatorResNo = operatorResNo;
 	}
 
