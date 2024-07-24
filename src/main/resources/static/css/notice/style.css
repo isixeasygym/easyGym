@@ -19,35 +19,98 @@
 }
 
 
-.form-container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.form-label {
-    font-weight: bold;
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
 }
-.form-control, .btn, .input-group {
-    margin-top: 10px;
+
+header .logo h1 {
+    margin: 0;
 }
-.dropdown-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+
+nav ul {
+    list-style: none;
+    padding: 0;
 }
-.btn-group, .upload-btn {
-    flex: 1;
+
+nav ul li {
+    display: inline;
+    margin-right: 1rem;
 }
-.btn-group {
-    margin-right: 10px;
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
 }
-.btn-group .btn, .upload-btn .btn {
+
+nav ul li a.active {
+    text-decoration: underline;
+}
+
+main {
+    padding: 2rem;
+}
+
+table {
     width: 100%;
+    border-collapse: collapse;
 }
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.write-button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container {
+       max-width: 600px;
+       margin: 50px auto;
+       padding: 20px;
+       background-color: #f8f9fa;
+       border-radius: 8px;
+       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   }
+   .form-label {
+       font-weight: bold;
+   }
+   .form-control, .btn, .input-group {
+       margin-top: 10px;
+   }
+   .dropdown-container {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-top: 10px;
+   }
+   .btn-group, .upload-btn {
+       flex: 1;
+   }
+   .btn-group {
+       margin-right: 10px;
+   }
+   .btn-group .btn, .upload-btn .btn {
+       width: 100%;
+   }
 
 .custom-select-btn {
             display: inline-block;

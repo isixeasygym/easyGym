@@ -7,10 +7,8 @@
 
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <link href="/css/notice/style.css" rel="stylesheet" />
-<style>
-
-</style>
-
+	<main>
+      <h2>공지사항</h2>
 	<table border="1" id="table">
         <thead>
             <tr>
@@ -55,33 +53,34 @@
         </tbody>
     </table>
 	<div align="center">
-	    <c:if test="${fbmap.tFreeboard > 10}">
-	        <c:if test="${fbmap.tFreeboard > 100}">
-	            <c:forEach var="num" begin="1" end="${fbmap.section > fbmap.tFreeboard / 100 ? (fbmap.tFreeboard % 100) / 10 + 1 : 10}">
-	                <c:if test="${fbmap.section > 1 && num == 1}">
-	                    <a href="/freeboard/fboardList.do?section=${fbmap.section - 1}&pageNum=${(fbmap.section - 1) * 10}">prev</a>
+	    <c:if test="${noMap.noBoard > 10}">
+	        <c:if test="${noMap.noBoard > 100}">
+	            <c:forEach var="num" begin="1" end="${noMap.section > noMap.noBoard / 100 ? (noMap.noBoard % 100) / 10 + 1 : 10}">
+	                <c:if test="${noMap.section > 1 && num == 1}">
+	                    <a href="/notice/noticeList.do?section=${noMap.section - 1}&pageNum=${(noMap.section - 1) * 10}">prev</a>
 	                </c:if>
-	                <c:if test="${num == (fbmap.pageNum % 10 == 0 ? 10 : fbmap.pageNum % 10)}">
-	                    <a class="target" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${(fbmap.section - 1) * 10 + num}">${(fbmap.section-1)*10+num}</a>
+	                <c:if test="${num == (noMap.pageNum % 10 == 0 ? 10 : noMap.pageNum % 10)}">
+	                    <a class="target" href="/notice/noticeList.do?section=${noMap.section}&pageNum=${(noMap.section - 1) * 10 + num}">${(noMap.section-1)*10+num}</a>
 	                </c:if>
-	                <c:if test="${num != (fbmap.pageNum % 10 == 0 ? 10 : fbmap.pageNum % 10)}">
-	                    <a class="noLine" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${(fbmap.section - 1) * 10 + num}">${(fbmap.section-1)*10+num}</a>
+	                <c:if test="${num != (noMap.pageNum % 10 == 0 ? 10 : noMap.pageNum % 10)}">
+	                    <a class="noLine" href="/notice/noticeList.do?section=${noMap.section}&pageNum=${(noMap.section - 1) * 10 + num}">${(noMap.section-1)*10+num}</a>
 	                </c:if>
 	                <c:if test="${num == 10}">
-	                    <a href="/freeboard/fboardList.do?section=${fbmap.section + 1}&pageNum=${fbmap.section * 10 + 1}">next</a>
+	                    <a href="/notice/noticeList.do?section=${noMap.section + 1}&pageNum=${noMap.section * 10 + 1}">next</a>
 	                </c:if>
 	            </c:forEach>
 	        </c:if>
-	        <c:if test="${fbmap.tArticles <= 100}">
-	            <c:forEach var="num" begin="1" end="${fbmap.tArticles / 10 + 1}">
-	                <c:if test="${num == fbmap.pageNum}">
-	                    <a class="target" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
+	        <c:if test="${noMap.noBoard <= 100}">
+	            <c:forEach var="num" begin="1" end="${noMap.noBoard / 10 + 1}">
+	                <c:if test="${num == noMap.pageNum}">
+	                    <a class="target" href="/notice/noticeList.do?section=${noMap.section}&pageNum=${num}">${num}</a>
 	                </c:if>
-	                <c:if test="${num != amap.pageNum}">
-	                    <a class="noLine" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
+	                <c:if test="${num != noMap.pageNum}">
+	                    <a class="noLine" href="/notice/noticeList.do?section=${noMap.section}&pageNum=${num}">${num}</a>
 	                </c:if>
 	            </c:forEach>
 	        </c:if>
 	    </c:if>
 	</div>
+	</main>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

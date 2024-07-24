@@ -40,5 +40,18 @@ public class AdminServiceImpl implements AdminService {
 		List mlist = adminDAO.selectWithMem();
 		return mlist;
 	}
-
+	
+	// 사업자 리스트
+	@Override
+	public List operList() throws DataAccessException{
+		List olist = adminDAO.selectOper();
+		return olist;
+	}
+	
+	// 업체 리스트
+	@Override
+	public List comList() throws DataAccessException{
+		List clist = adminDAO.selectCompany();
+		return clist;
+	}
 }
