@@ -75,8 +75,7 @@
                 </div>
                 <div id="dibs-list" class="section">
                     <h2>찜 목록</h2>
-                    <!-- 여기에 찜 목록 정보를 추가 -->
-					
+                    <!-- mypageMain.js 파일에 finction 및 테이블 구조 만들어져 있음 -->
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>

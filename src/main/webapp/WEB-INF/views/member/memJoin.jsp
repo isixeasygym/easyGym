@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
 <link rel="stylesheet" href="/css/member/join.css">
 
 </div>
@@ -13,7 +12,7 @@
 					autocomplete="off" id="memberId" tabindex="1"
 					placeholder="아이디를 입력해주세요." required /> <br> <span id="check"></span>
 			</div>
-			<div class="input-box">
+ 			<div class="input-box">
 				<label>&nbsp;</label> <input type="button" value="중복확인"
 					id="duplicateBtn" onclick="checkId(this.form)">
 			</div>
@@ -24,7 +23,7 @@
 			<div class="input-box">
 				<label>비밀번호</label> <input type="password"
 					placeholder="비밀번호를 입력해주세요." required name="memberPwd"
-					id="memberPWd" tabindex="2" /> <br> <span id="pwError"></span>
+					id="memberPwd" tabindex="2" /> <br> <span id="pwError"></span>
 			</div>
 			<div class="input-box">
 				<label>비밀번호 확인</label> <input type="password"
@@ -84,9 +83,9 @@
 		<div class="column">
 			<div class="input-box">
 				<label>주소</label> <input type="text" id="sample6_postcode"
-					name="memberPost" placeholder="우편번호"> <input type="button"
+					name="memberAddr" placeholder="우편번호"> <input type="button"
 					onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
-				<input type="text" id="sample6_address" name="memberAddr"
+				<input type="text" id="sample6_address" name="memberPost"
 					placeholder="주소"> <br> <input type="text"
 					id="sample6_detailAddress" placeholder="상세주소"> <input
 					type="text" id="sample6_extraAddress" placeholder="참고항목">
@@ -120,6 +119,8 @@
 			</div>
 		</div>
 
+		
+		<input type="hidden" name="memberState" value="1">
 		<button type="submit" id="join" value="Join"
 			class="btn btn-success btn-block" onclick="javascript:checkJoin()">가입하기</button>
 	</form>
@@ -189,4 +190,3 @@ function combineEmail() {
 </script>
 
 
-<%@ include file="/WEB-INF/views/layout/footer.jsp"%>

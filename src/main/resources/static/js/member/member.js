@@ -152,4 +152,4 @@ const idTag = document.getElementById('memberId');
          resultMsg.innerHTML = "인증번호가 불일치 합니다. 다시 확인해주세요";
          resultMsg.style.cssText = "color: red; font-size: 10px;";
       }
-   });
+   }); */

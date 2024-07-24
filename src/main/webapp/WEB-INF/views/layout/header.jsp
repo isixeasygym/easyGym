@@ -44,7 +44,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark ">
 		<a class="navbar-brand" href="/main.do">EasyGym</a>
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 			<li class="nav-item active"><a class="nav-link" href="${contextPath }/notice/noticeList.do">공지사항</a></li>
