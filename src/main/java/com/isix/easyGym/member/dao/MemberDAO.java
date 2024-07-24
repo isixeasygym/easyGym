@@ -21,7 +21,7 @@ public interface MemberDAO {
 	
 	public String checkId(String memberId) throws DataAccessException;
 	//detail dibs 관련 메서드이므로 지우지 말아 주세요.
-	public MemberDTO loginChecking(int memberNo) throws DataAccessException;
+	public int loginChecking(int memberNo) throws DataAccessException;
 	//detail 댓글 관련 메서드이므로 지우지 말아 주세요.
 	public int selectMemberNo(int memberNo) throws DataAccessException;
 }
