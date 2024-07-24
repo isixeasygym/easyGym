@@ -193,13 +193,13 @@
                 </p>
 				<div id="fixedContainer">
 			        <form action="${contextPath}/payform/payformForm.do" method="get">
-			            <input type="hidden" name="memberNo" value="${mem.memberNo}">
+			            <input type="hidden" name="memberNo" value="${member.memberNo}">
 			            <input type="hidden" name="detailNo" value="${details.detailNo}">
 			            <button type="submit" id="ticketChoice">회원권 선택</button>
 			        </form>
 			    </div>
             </div>
         </c:when>    
-    </c:choose>            
+    </c:choose>            `
 </body>
 </html>

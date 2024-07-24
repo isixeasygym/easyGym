@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${contextPath}/css/detail/list.css">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="${contextPath}/js/detail/list.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
@@ -29,12 +30,13 @@
 <div class="search-container">
     <button type="button" class="back-button" onclick="goBack()">&lt;</button>
     <form action="/detail/search.do" method="get" class="search-form">
-        <input type="text" name="query" placeholder="검색어를 입력하세요..." class="search-input">
+        <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
         <input type="hidden" name="detailClassfication" value="health">
         <button type="submit" class="search-button">검색</button>
     </form>
 </div>
 <div class="main-container">
+    <div class="left-space"></div>
     <div class="content">
         <c:choose>
             <c:when test="${!empty allList}">
@@ -77,9 +79,10 @@
             </c:when>
         </c:choose>
     </div>
-    <div class="map_wrap">
-        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-    </div>
+</div>
+<div class="map_wrap">
+    <div id="map"></div>
+</div>
 </div>
 
 <script>
