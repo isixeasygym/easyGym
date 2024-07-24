@@ -222,8 +222,8 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/List");
 		return mav;
 	}
-
-	 @RequestMapping(value="/addFavorite", method=RequestMethod.GET)
+		@Override
+	 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
 	    @ResponseBody
 	    public String dibs(@RequestParam("companyId") String companyId,
 	                       @RequestParam("userId") int memberNo,
@@ -434,6 +434,7 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
+
 
 
 }

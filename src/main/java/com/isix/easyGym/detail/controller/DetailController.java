@@ -52,13 +52,10 @@ public interface DetailController{
             MultipartHttpServletRequest MultipartRequest,
             HttpServletResponse response) throws Exception;
 	
-	public String dibs(@RequestParam("companyId") String detailNo, 
-	        @RequestParam(value="memberNo", required= false) int memberNo,
-	        @RequestParam(value = "action", required = false) String action,
-	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
-	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
-	        @RequestParam(value = "reviewImageName", required = false) MultipartFile reviewImageName,
-	        MultipartHttpServletRequest multipartRequest,
-	        HttpServletResponse response) throws Exception;
+	public String dibs(@RequestParam("companyId") String companyId,
+            @RequestParam("userId") int memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception;
   
 }
