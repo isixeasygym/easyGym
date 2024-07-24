@@ -99,8 +99,8 @@
 	<!-- 사업자 추가 -->
 	<insert id="insertOperator" parameterType="memberOperDTO">
        <![CDATA[
-          INSERT INTO operators_tbl VALUES (#{operatorName}, #{operatorId}, #{operatorPwd}, #{memberName}, #{operatorEmail}, #{operatorPhone},
-          #{operatorResNo}, #{operatorImgName}, sysdate())
+          INSERT INTO operators_tbl VALUES (#{operatorNo}, #{operatorName}, #{operatorId}, #{operatorPwd}, #{operatorPhone}, #{operatorEmail},
+          #{operatorResNo}, #{operatorImgName}, sysdate(), #{operatorState})
        ]]>
     </insert>
 	<!-- 사업자 로그인 -->
