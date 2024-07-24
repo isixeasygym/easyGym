@@ -7,7 +7,6 @@
     --text-color: #333;
     --light-text-color: #777;
     --border-radius: 8px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -25,7 +24,6 @@ body {
     right: 0;
     background-color: #fff;
     padding: 15px 20px;
-    box-shadow: var(--box-shadow);
     z-index: 1000;
 }
 
@@ -79,14 +77,36 @@ body {
     background-color: #0035A9;
 }
 
-.main-container {
+.options-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 10px 20px;
+    z-index: 999;
     display: flex;
-    margin-top: 70px;
-    height: calc(100vh - 70px);
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
-.left-space {
-    width: 20%;
+.option-select {
+    padding: 8px 12px;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    outline: none;
+}
+
+.main-container {
+    display: flex;
+    margin-top: 100px;
+    height: calc(100vh - 100px);
+}
+
+.left-margin, .right-margin {
+    width: 10%;
     background-color: var(--background-color);
 }
 
@@ -95,15 +115,14 @@ body {
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
 .map_wrap {
     width: 30%;
     height: 100%;
     position: fixed;
-    top: 70px;
-    right: 0;
+    top: 130px;
+    right: 10%;
     bottom: 0;
 }
 
@@ -119,13 +138,11 @@ body {
     padding: 15px;
     margin-bottom: 20px;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .contentRange:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .imgRange {
@@ -212,7 +229,6 @@ body {
 }
 
 .priceRange {
-    margin-top: 10px;
     display: flex;
     align-items: baseline;
 }
@@ -234,6 +250,8 @@ body {
     border-radius: var(--border-radius);
     padding: 8px 10px;
     margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .freeService {
@@ -247,17 +265,16 @@ body {
     font-size: 0.8em;
 }
 
-.contentBorder {
-    border-bottom: 1px solid #E0E0E0;
-    margin: 15px 0;
-}
-
 @media (max-width: 1200px) {
-    .left-space {
+    .left-margin, .right-margin {
         display: none;
     }
     .content {
         width: 70%;
+    }
+    .map_wrap {
+        width: 30%;
+        right: 0;
     }
 }
 
