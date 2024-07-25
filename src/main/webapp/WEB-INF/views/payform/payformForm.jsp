@@ -12,6 +12,11 @@
     <title>이지짐 회원권 구매</title>
     <script src="${contextPath}/JS/payform/payformForm.js"></script>
     <script>
+        if(${loginCheck} == "-1") {
+            alert("로그인 후 이용해주세요. 로그인창으로 이동합니다.");
+            window.location.href = "${contextPath}/member/loginForm.do";
+        }
+
         function PaymentMockup() {
             let fp = document.getElementById('finalPrice').textContent;
             fp = fp.replace(/[^\d.-]/g, '');
