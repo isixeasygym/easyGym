@@ -59,6 +59,8 @@
         <option value="송파구">서울특별시 송파구</option>
         <!-- 다른 구/군 옵션들 추가 -->
     </select>
+
+    <label for="facilityType">시설 종류:</label>
     <select id="facilityType" class="option-select">
         <option value="health">헬스</option>
         <option value="pilates">필라테스</option>
@@ -140,7 +142,7 @@
             const url = '${contextPath}/detail/search.do?query=서울특별시 ' + selectedDistrict + '+&detailClassification=' + facilityType;
             window.location.href = url;
         } else {
-            const url = '${contextPath}/detail/showAll.do?detailClassification=health';
+            const url = '${contextPath}/detail/showAll.do?detailClassification='+facilityType;
             window.location.href = url;
         }
     }
