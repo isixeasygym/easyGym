@@ -109,30 +109,12 @@
           #{operatorResNo}, #{operatorImgName}, sysdate(), #{operatorState})
        ]]>
     </insert>
-<<<<<<< HEAD
-<<<<<<< HEAD
-	<!-- 사업자 로그인 -->
-	    <select id = "operLogin" parameterType="memberOperDTO" resultType = "memberOperDTO">    
-		<![CDATA[
-          SELECT * FROM operators_tbl where operatorId = #{operatorId} and operatorPwd = #{operatorPwd}
-       ]]>
-    </select>
-=======
-	<select id="operLogin" parameterType="memberDTO" resultType="memberoperDTO">    
-    <![CDATA[
-    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
-    ]]>
-</select>
->>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
-=======
     
 	<select id="operLogin" parameterType="memberoperDTO" resultType="memberoperDTO">    
 	    <![CDATA[
 	    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
 	    ]]>
 	</select>
->>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
 	<!-- 사업자 삭제 --> 
     
 </mapper>
-

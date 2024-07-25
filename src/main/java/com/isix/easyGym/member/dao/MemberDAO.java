@@ -35,11 +35,8 @@ public interface MemberDAO {
 	public void delOperator(String operatorId) throws DataAccessException;  //삭제하기 위해 id를 넘김
 
 	public MemberOperDTO operLogin(MemberOperDTO operator) throws DataAccessException;
-<<<<<<< HEAD
-=======
 		
 	public void insertGym(MemberDTO memberDTO) throws DataAccessException; 
->>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
 	
 	public boolean selectId(String memberId) throws DataAccessException; 
 	
