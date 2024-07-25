@@ -531,7 +531,7 @@ body{
 	border-bottom: 1px solid #F6F6F6;
 	padding: 30px;
 }
-#writeBorder{
+.writeBorder{
 	width: 700px;
 	border-bottom: 2px solid #F6F6F6;
 	height: 225px;

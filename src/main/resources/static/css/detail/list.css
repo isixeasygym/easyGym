@@ -1,20 +1,24 @@
-@charset "utf-8";
-
-:root {
-    --primary-color: #001EC9;
-    --secondary-color: #9DCFFF;
-    --background-color: #F6F6F6;
-    --text-color: #333;
-    --light-text-color: #777;
-    --border-radius: 8px;
-}
+@charset "UTF-8";
 
 body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background-color);
-    font-family: 'Roboto', Arial, sans-serif;
-    color: var(--text-color);
+    background-color: #F6F6F6;
+}
+
+.bg-image {
+    background-image: url("../../images/payform/fitness_inside.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .search-container {
@@ -40,34 +44,34 @@ body {
     border: none;
     cursor: pointer;
     margin-right: 15px;
-    color: var(--primary-color);
+    color: #001EC9;
     transition: color 0.3s ease;
 }
 
 .back-button:hover {
-    color: var(--secondary-color);
+    color: #9DCFFF;
 }
 
 .search-input {
     flex: 1;
     padding: 12px 15px;
-    border: 2px solid var(--secondary-color);
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border: 2px solid #9DCFFF;
+    border-radius: 8px 0 0 8px;
     outline: none;
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
 
 .search-input:focus {
-    border-color: var(--primary-color);
+    border-color: #001EC9;
 }
 
 .search-button {
     padding: 12px 25px;
-    background-color: var(--primary-color);
+    background-color: #001EC9;
     color: white;
     border: none;
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
@@ -86,28 +90,43 @@ body {
     padding: 10px 20px;
     z-index: 999;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
+}
+
+.option-group {
+    display: flex;
+    align-items: center;
+}
+
+.option-group label {
+    margin-right: 20px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #555555;
 }
 
 .option-select {
     padding: 8px 12px;
-    border: 1px solid var(--secondary-color);
-    border-radius: var(--border-radius);
+    border: 1px solid #9DCFFF;
+    border-radius: 8px;
     font-size: 14px;
     outline: none;
+    flex: 1;
+    min-width: 150px;
 }
 
 .main-container {
     display: flex;
-    margin-top: 100px;
-    height: calc(100vh - 100px);
+    margin-top: 130px;
+    min-height: calc(100vh - 130px);
 }
 
 .left-margin, .right-margin {
     width: 10%;
-    background-color: var(--background-color);
+    background-color: #F6F6F6;
 }
 
 .content {
@@ -129,7 +148,7 @@ body {
 #map {
     width: 100%;
     height: 100%;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -137,12 +156,14 @@ body {
     background-color: #fff;
     padding: 15px;
     margin-bottom: 20px;
-    border-radius: var(--border-radius);
-    transition: transform 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contentRange:hover {
     transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .imgRange {
@@ -150,7 +171,7 @@ body {
     margin-right: 15px;
     position: relative;
     overflow: hidden;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }
 
 .img {
@@ -191,7 +212,7 @@ body {
 }
 
 .classification {
-    color: var(--light-text-color);
+    color: #777;
     margin: 0;
     font-size: 0.8em;
     text-transform: uppercase;
@@ -200,13 +221,19 @@ body {
 .name {
     margin: 5px 0;
     font-size: 1.2em;
-    color: var(--primary-color);
+    color: #001EC9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .address {
-    color: var(--light-text-color);
+    color: #777;
     font-size: 0.8em;
     margin: 3px 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ticketRange {
@@ -216,13 +243,13 @@ body {
 }
 
 .dailyTicket, .memberTicket {
-    background-color: var(--secondary-color);
+    background-color: #9DCFFF;
     padding: 3px 8px;
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }
 
 .boxText {
-    color: var(--primary-color);
+    color: #001EC9;
     font-size: 0.7em;
     margin: 0;
     font-weight: 500;
@@ -237,18 +264,18 @@ body {
 .price {
     font-size: 1.4em;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #001EC9;
     margin-right: 3px;
 }
 
 .month {
-    color: var(--light-text-color);
+    color: #777;
     font-size: 0.8em;
 }
 
 .serviceRange {
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
+    background-color: #F6F6F6;
+    border-radius: 8px;
     padding: 8px 10px;
     margin-top: 10px;
     display: flex;
@@ -256,7 +283,7 @@ body {
 }
 
 .freeService {
-    color: var(--light-text-color);
+    color: #777;
     font-weight: 500;
     margin-right: 8px;
     font-size: 0.8em;
@@ -289,5 +316,20 @@ body {
     .map_wrap {
         position: static;
         height: 300px;
+    }
+    .options-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .option-group {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .option-group label {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    #districtSelect, #facilityType {
+        width: 100%;
     }
 }

@@ -56,14 +56,38 @@ const idTag = document.getElementById('memberId');
    }
    
    // 아이디
-   $('#confirmId').click(function(){
-           if($('#memberId').val().trim()==''){
-               $('#check').css('color','#fba082').text('아이디를 입력하세요');
-               $('#memberId').val('').focus();
-               return;
-           }
-   
-   
+   /** $(document).ready(function() {
+       	//ID 중복 확인
+       	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
+       	$("#memberId").on("focusout", function() {
+       		
+       		var memberId = $("#memberId").val();
+       		
+       		if(memberId == '' || memberId.length == 0) {
+       			$("#check").css("color", "red").text("공백은 ID로 사용할 수 없습니다.");
+       			return false;
+       		}
+       		
+           	//Ajax로 전송
+           	$.ajax({
+           		url : '/member/checkId.do',
+           		data : {
+           			memebrId : memberId
+           		},
+           		type : 'POST',
+           		dataType : 'json',
+           		success : function(result) {
+           			if (result == true) {
+           				$("#check").css("color", "black").text("사용 가능한 ID 입니다.");
+           			} else{
+           				$("#check").css("color", "red").text("사용 불가능한 ID 입니다.");
+           				$("#memberId").val('');
+           			}
+           		}
+           	}); //End Ajax
+       	});
+   })
+   */ 
    // 비밀번호
   pwTag.addEventListener("focus",() =>{
       pwError.innerHTML = "'숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자이상 작성해주세요";

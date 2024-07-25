@@ -11,6 +11,8 @@ import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 public interface DetailService {
 	
+	public List<DetailReviewDTO> getReviewImages(int detailNo) throws DataAccessException;
+	
 	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException;
 	
 	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException;

@@ -17,8 +17,10 @@ public interface MemberOperDAO {
 	
 	public void delMember(String operatorId) throws DataAccessException;  //삭제하기 위해 id를 넘김
 
-	public MemberOperDTO login(MemberOperDTO operator) throws DataAccessException;
+	public MemberOperDTO operLogin(MemberOperDTO operator) throws DataAccessException;
 	
 	public boolean checkOpId(String operatorId) throws DataAccessException;
+
+	public boolean selectOpId(String operatorId) throws DataAccessException; 
 
 }
