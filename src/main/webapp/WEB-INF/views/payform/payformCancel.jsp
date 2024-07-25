@@ -87,7 +87,7 @@
         <span class="hidden">헬스장 번호: <span id="detailNo">${payform.detailNo}</span></span>
     </div>
 
-    <h1><span id="detailName">${payform.detailBusinessName}</span> 헬스장 구매 취소 폼</h1>
+    <h1><span id="detailName">${payform.detailBusinessName}</span> 헬스장 구매 취소</h1>
 
     <h2>환불 정보</h2>
     <form id="payCheck_form">

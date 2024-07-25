@@ -16,8 +16,10 @@ body {
     left: 0;
 }
 
-.container { /*전체 폼*/
-    max-width: 400px;
+.container {
+    min-width: 400px;
+    width: fit-content;
+    max-width: 90%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
@@ -33,6 +35,16 @@ h1, h2 {
     text-align: center;
     color: #333333;
     margin-bottom: 30px;
+}
+
+h1 .emphasized {
+    display: block;
+    font-size: 1.2em;
+    color: #1ca16f;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .form_group {
@@ -87,7 +99,7 @@ select {
     display: block;
     width: 100%;
     padding: 15px;
-    background-color: #5cc253;
+    background-color: #1ca16f;
     color: #ffffff;
     border: none;
     border-radius: 4px;

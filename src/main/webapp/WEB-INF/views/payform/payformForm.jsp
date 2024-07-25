@@ -30,7 +30,7 @@
             <span class="hidden">헬스장 번호: <input id="detailNo" name="detailNo" value="${payform[1].detailNo}"></span>
         </div>
 
-        <h1><span id="detailName">${payform[1].detailBusinessName}</span> 헬스장 구매</h1>
+        <h1 id="detailName"><span  class="emphasized">${payform[1].detailBusinessName}</span> 이용권 구매</h1>
         <input type="hidden" name="detailNa" id="detailNa" value="${payform[1].detailBusinessName}">
 
         <h2>구매자 정보</h2>

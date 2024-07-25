@@ -51,7 +51,7 @@
                                                 <label for="inputEmail">이메일</label>
                                             </div>
                                             <div class="mt-4 mb-0">
-                                                <div class="d-grid"><a class="btn btn-primary btn-block" href="login.html"><input type="submit" value="가입하기"></a></div>
+                                                <div class="d-grid"><a class="btn btn-primary btn-block" href="/admin/loginForm.do"><input type="submit" value="가입하기"></a></div>
                                             </div>
                                         </form>
                                     </div>
