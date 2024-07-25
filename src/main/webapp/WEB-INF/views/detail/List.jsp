@@ -1,7 +1,6 @@
-<%--그냥 이 코드로 덮어 씌워주세요--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"
-         isELIgnored="false"%>
+         isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -28,7 +27,7 @@
 </head>
 <body>
 <div class="search-container">
-    <form action="/detail/search.do" method="get" class="search-form">
+    <form action="${contextPath}/detail/search.do" method="get" class="search-form">
         <button type="button" class="back-button" onclick="goHome()"><img src="${contextPath}/images/detail/listimg/home_icon.png" alt="홈으로 가기"></button>
         <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
         <input type="hidden" name="detailClassification" value="health">
@@ -38,36 +37,36 @@
 
 <div class="options-container">
     <div class="option-group">
-    <label for="districtSelect">지역명:</label>
-    <select id="districtSelect" class="option-select">
-        <option value="default">구/군 선택</option>
-        <option value="중구">서울특별시 중구</option>
-        <option value="강남구">서울특별시 강남구</option>
-        <option value="동작구">서울특별시 동작구</option>
-        <option value="마포구">서울특별시 마포구</option>
-        <option value="종로구">서울특별시 종로구</option>
-        <option value="성동구">서울특별시 성동구</option>
-        <option value="동작구">서울특별시 동작구</option>
-        <option value="중랑구">서울특별시 중랑구</option>
-        <option value="성북구">서울특별시 성북구</option>
-        <option value="영등포구">서울특별시 영등포구</option>
-        <option value="서초구">서울특별시 서초구</option>
-        <option value="광진구">서울특별시 광진구</option>
-        <option value="강동구">서울특별시 강동구</option>
-        <option value="관악구">서울특별시 관악구</option>
-        <option value="송파구">서울특별시 송파구</option>
-        <option value="도봉구">서울특별시 도봉구</option>
-        <option value="송파구">서울특별시 송파구</option>
-        <!-- 다른 구/군 옵션들 추가 -->
-    </select>
+        <label for="districtSelect">지역명:</label>
+        <select id="districtSelect" class="option-select">
+            <option value="default">구/군 선택</option>
+            <option value="중구">서울특별시 중구</option>
+            <option value="강남구">서울특별시 강남구</option>
+            <option value="동작구">서울특별시 동작구</option>
+            <option value="마포구">서울특별시 마포구</option>
+            <option value="종로구">서울특별시 종로구</option>
+            <option value="성동구">서울특별시 성동구</option>
+            <option value="동작구">서울특별시 동작구</option>
+            <option value="중랑구">서울특별시 중랑구</option>
+            <option value="성북구">서울특별시 성북구</option>
+            <option value="영등포구">서울특별시 영등포구</option>
+            <option value="서초구">서울특별시 서초구</option>
+            <option value="광진구">서울특별시 광진구</option>
+            <option value="강동구">서울특별시 강동구</option>
+            <option value="관악구">서울특별시 관악구</option>
+            <option value="송파구">서울특별시 송파구</option>
+            <option value="도봉구">서울특별시 도봉구</option>
+            <option value="송파구">서울특별시 송파구</option>
+            <!-- 다른 구/군 옵션들 추가 -->
+        </select>
     </div>
     <div class="option-group">
-    <label for="facilityType">시설 종류:</label>
-    <select id="facilityType" class="option-select">
-        <option value="health">헬스</option>
-        <option value="pilates">필라테스</option>
-        <option value="boxing">복싱</option>
-    </select>
+        <label for="facilityType">시설 종류:</label>
+        <select id="facilityType" class="option-select">
+            <option value="health">헬스</option>
+            <option value="pilates">필라테스</option>
+            <option value="boxing">복싱</option>
+        </select>
     </div>
 </div>
 
@@ -150,25 +149,22 @@
         }
     }
 
-    //지도 표시 스크립트
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    var mapContainer = document.getElementById('map'),
         mapOption = {
-            center: new kakao.maps.LatLng(37.56682194967411, 126.97864942970189), // 지도의 중심좌표
-            level: 8 // 지도의 확대 레벨
+            center: new kakao.maps.LatLng(37.56682194967411, 126.97864942970189),
+            level: 8
         };
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
     <c:choose>
     <c:when test="${!empty allList}">
     <c:forEach var="allList" items="${allList}">
-    addMarker(${allList.detailLatitude}, ${allList.detailLongitude}, "${allList.detailBusinessName}"); //마커 위치 입력
+    addMarker(${allList.detailLatitude}, ${allList.detailLongitude}, "${allList.detailBusinessName}");
     </c:forEach>
     </c:when>
     </c:choose>
 
-    // 마커를 생성하고 지도위에 표시하는 함수입니다
     function addMarker(p1, p2, content) {
         iwPosition = new kakao.maps.LatLng(p1, p2);
 
@@ -176,18 +172,16 @@
             position: iwPosition
         });
 
-        // 마커가 지도 위에 표시되도록 설정합니다
         marker.setMap(map);
 
-// 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
             position: iwPosition,
             content: content
         });
 
-// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
         infowindow.open(map, marker);
     }
 </script>
+
 </body>
 </html>
