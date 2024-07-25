@@ -40,11 +40,18 @@
             margin: 10px 0;
             font-size: 16px;
         }
+        .thumb-img {
+            width: 80px; /* 엄지손톱 크기 */
+            height: 80px; /* 엄지손톱 크기 */
+            object-fit: cover; /* 이미지가 컨테이너를 채우도록 조정 */
+            border-radius: 50%; /* 원형으로 설정 */
+            margin: 0 auto 20px; /* 아래 여백 추가 */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="/images/member/wombat.png" alt="Coming Soon Image">
+        <img src="/images/member/wombat.png" alt="Coming Soon Image" class="thumb-img">
         <h2>Coming Soon ...</h2>
         <p>저희 사이트는 현재 개발 중입니다.</p>
         <p>곧 찾아뵙겠습니다. 기대해 주세요!</p>

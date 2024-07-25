@@ -83,7 +83,7 @@
 
 .carousel-container {
 	width: 100%; /* 원하는 너비 */
-	height: 200px; /* 원하는 높이 */
+	height: 100%; /* 원하는 높이 */
 	margin: 0 auto; /* 중앙 정렬 */
 }
 
@@ -200,7 +200,7 @@ text-align: center;
 </div>
 
         <div class="container">
-        <h2>헬스장 인기순위</h2>
+        <div><h2>헬스장 인기순위</h2></div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
                 <div class="card shadow-sm">
