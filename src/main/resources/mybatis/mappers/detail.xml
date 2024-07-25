@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO"> 
+ <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO">
 
 	<resultMap type="detailDTO" id="detailResult">
  		<result property="detailNo" column="detailNo"/>
@@ -24,13 +24,13 @@
  		<result property="detailLongitude" column="detailLongitude"/>
  		<result property="operatorNo" column="operatorNo"/>
  	</resultMap>
- 	
+
  	<resultMap type="detailDibsDTO" id="detailDibsResult">
  		<result property="dibsNo" column="dibsNo"/>
  		<result property="detailNo" column="detailNo"/>
  		<result property="memberNo" column="memberNo"/>
  	</resultMap>
- 	
+
  	<resultMap type="detailReviewDTO" id="detailReviewResult">
  		<result property="reviewNo" column="reviewNo"/>
  		<result property="reviewComment" column="reviewComment"/>
@@ -41,7 +41,7 @@
  		<result property="buyNo" column="buyNo"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
- 	
+
  	<resultMap type="detailImageDTO" id="detailImageResult">
  		<result property="imageFileNo" column="imageFileNo"/>
  		<result property="imageFileName" column="imageFileName"/>
@@ -70,7 +70,7 @@
     		ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
 		]]>
 	</select>
-	
+
 	<select id="selectPopularPilates" resultMap="detailResult">
 	    <![CDATA[
 		    WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
@@ -99,11 +99,13 @@ LIMIT 6;
 		]]>
 	</select>
 
+	<!--detailRoadAddress나 detailBusinessName 중에 쿼리 내용이 있으면 결과 출력-->
 	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
 	    <![CDATA[
 		    SELECT * FROM detail_tbl
-		    WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
-		    AND detailClassification = #{detailClassification}
+			WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+		   	OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+      		AND detailClassification = #{detailClassification}
 		]]>
 	</select>
 
@@ -111,60 +113,60 @@ LIMIT 6;
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{detailNo}
  		]]>
-	</select>	
- 		
+	</select>
+
  	<select id="getNewDetailNo" resultType="int" >
 		<![CDATA[
  			select IFNULL(Max(detailNo),0)+1 from detail_tbl 
  		]]>
-	</select>	 
- 		
+	</select>
+
  	<select id="getNewReviewNo" resultType="int" >
 		<![CDATA[
  			select IFNULL(Max(reviewNo),0)+1 from detailreview_tbl 
  		]]>
-	</select>	
- 		
+	</select>
+
  	<select id="selectAll" parameterType="String" resultType="detailDTO" >
 		<![CDATA[
  			select * from detail_tbl where detailClassification = #{detailClassification} 
  		]]>
 	</select>
-	
+
 	<select id="selectPopular" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{popularRating} 
  		]]>
 	</select>
-	
+
 	<select id="selectReview" parameterType="int" resultMap="detailReviewResult">
 		<![CDATA[
  			select * from detailreview_tbl where detailNo = #{detailNo}
  		]]>
 	</select>
-	
+
  	<select id="selectPopularRating" parameterType="int" resultType="int" >
 		<![CDATA[
  			SELECT detailNo, SUM(reviewRating) as totalRating FROM reviews GROUP BY detailNo ORDER BY totalRating DESC LIMIT 5 where detailNo = {detailNum} ;
  		]]>
 	</select>
- 	
+
  	<select id="selectDetailNo" parameterType="String" resultType="int" >
 		<![CDATA[
  			selct detailNo from detail_tbl where detailClassification = #{detailClassification}
  		]]>
 	</select>
- 	
+
  	<select id="selectDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
 		<![CDATA[
  			select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
  		]]>
 	</select>
- 
+
  		<!--<![CDATA[
  			select reviewNo from detailreview_tbl where detailNo=#{detailNo}
- 		]]>-->		
- 
+ 		]]>-->
+
  	<select id="selectReviewNo" parameterType="int" resultType="int">
  		<![CDATA[
  			SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
@@ -172,25 +174,25 @@ LIMIT 6;
  			
  		]]>
  	</select>
- 	
+
  	<insert id="insertDibs" parameterType="java.util.Map">
- 		<![CDATA[ 
+ 		<![CDATA[
  			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
  		]]>
  	</insert>
- 	
+
  	<insert id="insertReviewAndImage" parameterType="java.util.Map">
- 		<![CDATA[ 
+ 		<![CDATA[
  			insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
- 	
+
  	<insert id="insertNoImgReview" parameterType="java.util.Map">
- 		<![CDATA[ 
+ 		<![CDATA[
  			insert into detailreview_tbl (reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values(#{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
- 	
+
  	<insert id="insertOperForm" parameterType="java.util.Map">
  		<![CDATA[
  			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBusinessName},
@@ -199,20 +201,20 @@ LIMIT 6;
  			#{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
  		]]>
  	</insert>
- 	
+
  	<insert id="insertNewImages" parameterType="java.util.Map">
  		insert into detailimage_tbl values
  		<foreach collection="imageFileList" item="item" separator=",">
  			(#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
  		</foreach>
  	</insert>
- 	
+
  	<delete id="deleteReview" parameterType="int">
  		<![CDATA[
  			delete from detailreview_tbl where reviewNo = #{reviewNo} 
  		]]>
  	</delete>
- 	
+
  	<delete id="removeDibs" parameterType="java.util.Map">
  		<![CDATA[
  			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
