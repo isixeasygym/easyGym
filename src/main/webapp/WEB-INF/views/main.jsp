@@ -83,20 +83,35 @@
 text-align: center;
 }
 
-#chatbot_frame {
-        position: absolute;
-        margin-top: -50vh;  /* vh : 버티칼 */
-        left: -300px;
-        display: none;
-    }
+.chatbot-icon {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    z-index: 1000; /* 다른 요소들보다 앞에 표시되도록 설정 */
+}
 
-    .chatbot {
-        position: absolute;
-        border: 1px solid blue;
-        z-index: 9999;  /* 항상 맨 앞으로 오게 => 9999 최고 숫자 부여 */
-        margin-top: -50px;
-        margin-left: 80%;
-    }
+#chatbot_frame {
+    position: fixed;
+    bottom: 180px; /* 아이콘 위에 프레임이 나타나도록 설정 */
+    right: 20px;
+    width: 350px; /* 프레임 너비 설정 */
+    height: 430px; /* 프레임 높이 설정 */
+    display: none; /* 초기 상태에서는 숨김 */
+    z-index: 999; /* 아이콘보다 뒤에 표시되도록 설정 */
+}
+
+.tooltip-image {
+            position: fixed;
+            bottom: 120px; /* 아이콘 바로 위에 위치하도록 설정 */
+            right: 100px; /* 아이콘 옆에 위치하도록 설정 */
+            width: 140px;
+          height: 70px;
+            display: none; /* 초기 상태에서는 숨김 */
+            z-index: 1001; /* 아이콘보다 앞에 표시되도록 설정 */
+}
 
 </style>
 <div
@@ -324,12 +339,37 @@ text-align: center;
         </div>
         
     </div>
-<!-- 챗봇 -->
+<!-- 챗봇 아이콘 -->
+      <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">
+      
+      <!-- 툴팁 이미지 -->
+       <img src="/images/chatbot/hello.png" class="tooltip-image" id="tooltip_image">
+      
+      <!-- 챗봇 프레임 -->
       <div class="chatbot">
            <iframe id="chatbot_frame" width="350" height="430" allow="microphone;"
            src="https://console.dialogflow.com/api-client/demo/embedded/835aec7e-894b-4357-b90d-e6fabbadfb94"></iframe>
-           <a href="#" onclick="fn_chatbot()"> ☞ 챗봇에게 물어보기</a>  <!-- 챗봇 함수 만들기 -->
        </div>
+      <script>
+      function toggleChatbot() {
+            var frame = document.getElementById('chatbot_frame');
+            if (frame.style.display === 'none' || frame.style.display === '') {
+                frame.style.display = 'block';
+            } else {
+                frame.style.display = 'none';
+            }
+        }
+      
+      function showTooltip() {
+            var tooltip = document.getElementById('tooltip_image');
+            tooltip.style.display = 'block';
+        }
+
+        function hideTooltip() {
+            var tooltip = document.getElementById('tooltip_image');
+            tooltip.style.display = 'none';
+        }
+      </script>
     
 <script src="/js/member/chatbot.js"></script>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

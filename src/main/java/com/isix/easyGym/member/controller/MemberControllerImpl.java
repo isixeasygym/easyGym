@@ -37,38 +37,39 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	// 회원가입 페이지
-	@RequestMapping(value = "/member/memJoin.do")
-    public ModelAndView showJoinForm() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("/member/memJoin"); 
-        return mav;
-    }
-	
-	// 회원가입 기능
-	@PostMapping(value = "/member/addMember.do")
-	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		memberService.addMember(memberDTO);
-		mav.setViewName("redirect:/member/afterMemJoin.do");
-		return mav;
-	}
+	   @RequestMapping(value = "/member/memJoin.do")
+	    public ModelAndView showJoinForm() {
+	        ModelAndView mav = new ModelAndView();
+	        mav.setViewName("/member/memJoin"); 
+	        return mav;
+	    }
+	   
+	   // 약관 동의 페이지로 이동
+	    @PostMapping(value = "/member/joinCheck.do")
+	    public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+	        ModelAndView mav = new ModelAndView();
+	        mav.setViewName("/member/joinCheck");
+	        return mav;
+	    }
+
+	    // 회원가입 기능
+	    @PostMapping(value = "/member/memJoin.do")
+	    public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+	        ModelAndView mav = new ModelAndView();
+	        memberService.addMember(memberDTO);
+	        mav.setViewName("redirect:/member/afterMemJoin.do");
+	        return mav;
+	    }
 	
 	@RequestMapping(value = "/member/afterMemJoin.do")
     public ModelAndView afterMemJoin() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/member/afterMemJoin"); 
+        mav.setViewName("/member/afterMemJoin");
         return mav;
     }
 	
-	@Override
-	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
-	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/joinCheck");
-		return mav;
-	}
 
 	@Override 
 	@GetMapping("/member/loginSelect.do")
@@ -173,6 +174,13 @@ public class MemberControllerImpl implements MemberController {
 		mav.addObject("result", result);
 		mav.setStatus(HttpStatus.OK);
 		return mav;
+	}
+
+	@Override
+	public ModelAndView loginForm(MemberDTO member, String action, String result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -121,8 +121,7 @@
 		</div>
 		
 	<input type ="hidden" name="memberState" value="1">
-		<button type="submit" id="join" value="Join"
-			class="btn btn-success btn-block" onclick="javascript:checkJoin()">가입하기</button>
+		<button type="submit" id="join" value="Next" class="btn btn-success btn-block">다음</button>
 	</form>
 </div>
 
