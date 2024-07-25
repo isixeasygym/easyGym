@@ -21,15 +21,15 @@
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
-        function goBack() {
-            window.history.back();
+        function goHome() {
+            window.location.href="${contextPath}/main.do";
         }
     </script>
 </head>
 <body>
 <div class="search-container">
     <form action="/detail/search.do" method="get" class="search-form">
-        <button type="button" class="back-button" onclick="goBack()">&lt;</button>
+        <button type="button" class="back-button" onclick="goHome()"><img src="${contextPath}/images/detail/listimg/home_icon.png" alt="홈으로 가기"></button>
         <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
         <input type="hidden" name="detailClassification" value="health">
         <button type="submit" class="search-button">검색</button>
@@ -37,6 +37,7 @@
 </div>
 
 <div class="options-container">
+    <div class="option-group">
     <label for="districtSelect">지역명:</label>
     <select id="districtSelect" class="option-select">
         <option value="default">구/군 선택</option>
@@ -59,13 +60,15 @@
         <option value="송파구">서울특별시 송파구</option>
         <!-- 다른 구/군 옵션들 추가 -->
     </select>
-
+    </div>
+    <div class="option-group">
     <label for="facilityType">시설 종류:</label>
     <select id="facilityType" class="option-select">
         <option value="health">헬스</option>
         <option value="pilates">필라테스</option>
         <option value="boxing">복싱</option>
     </select>
+    </div>
 </div>
 
 <div class="main-container">
