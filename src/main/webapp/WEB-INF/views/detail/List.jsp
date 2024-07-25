@@ -22,7 +22,6 @@
         window.history.back();
     }
 	$(document).ready(function() {
-	    // AJAX 요청 중복 방지
 	    $(".favorite-button").each(function() {
 	        var button = this;
 	        var companyId = $(button).find('.companyId').val();
@@ -119,7 +118,7 @@
                                <img class="img" src="${contextPath}/images/detail/${allList.detailClassification}/${allList.detailBusinessEng}/${allList.detailBusinessEng}1.PNG" alt="">
                            </div>
                             <div class="buttonRange">
-                                   <button class="favorite-button" >
+                                   <button class=" n" >
                                         <input  type="hidden" class="userId" value="${member.memberNo}">
                                         <input  type="hidden" class="companyId" value="${allList.detailNo}">
                                        <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">

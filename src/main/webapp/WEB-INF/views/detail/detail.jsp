@@ -27,85 +27,86 @@
         });
     });
 	
-$(document).ready(function() {
-    var requestInProgress = false;
+	$(document).ready(function() {
+	    var requestInProgress = false;
 
-    function updateFavoriteButton(button, status) {
-        var newSrc = (status === "insert")
-            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
-            : '${contextPath}/images/detail/detailpage/dibs.png';
-        $(button).find('.dibs').attr('src', newSrc);
-    }
+	    function updateFavoriteButton(button, status) {
+	        var newSrc = (status === "insert")
+	            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
+	            : '${contextPath}/images/detail/detailpage/dibs.png';
+	        $(button).find('.dibs').attr('src', newSrc);
+	    }
 
-    $(".favorite-button").each(function() {
-        var button = this;
-        var companyId = $(button).find('.companyId').val();
-        var userId = $(button).find('.userId').val();
+	    // 페이지 로드 시 찜 상태를 확인하는 AJAX 요청
+	    $(".favorite-button").each(function() {
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
 
-        $.ajax({
-            type: "GET",
-            url: "${contextPath}/addFavorite",
-            data: { companyId: companyId, userId: userId },
-            success: function(data) {
-                if (data === "insert" || data === "delete") {
-                    updateFavoriteButton(button, data);
-                } else if (data === "nologin") {
-                    alert("회원 정보가 없습니다.");
-                    window.location.href = '${contextPath}/member/loginForm.do';
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-            }
-        });
-    });
+	        $.ajax({
+	            type: "GET",
+	            url: "${contextPath}/getFavoriteStatus",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                if (data === "insert" || data === "delete") {
+	                    updateFavoriteButton(button, data);
+	                } else if (data === "nologin") {
+	                    alert("회원 정보가 없습니다.");
+	                    window.location.href = '${contextPath}/member/loginForm.do';
+	                } else {
+	                    alert("알 수 없는 오류가 발생했습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+	            }
+	        });
+	    });
 
-    $(".favorite-button").click(function(event) {
-        if (requestInProgress) return;
+	    $(".favorite-button").click(function(event) {
+	        if (requestInProgress) return;
 
-        requestInProgress = true;
+	        requestInProgress = true;
 
-        var button = this;
-        var companyId = $(button).find('.companyId').val();
-        var userId = $(button).find('.userId').val();
+	        var button = this;
+	        var companyId = $(button).find('.companyId').val();
+	        var userId = $(button).find('.userId').val();
 
-        if (!userId || !companyId) {
-            alert("필수 정보가 누락되었습니다.");
-            requestInProgress = false;
-            return;
-        }
+	        if (!userId || !companyId) {
+	            alert("필수 정보가 누락되었습니다.");
+	            requestInProgress = false;
+	            return;
+	        }
 
-        $.ajax({
-            type: "GET",
-            url: "${contextPath}/addFavorite",
-            data: { companyId: companyId, userId: userId },
-            success: function(data) {
-                if (data === "insert" || data === "delete") {
-                    alert(data === "insert" 
-                        ? "찜 목록에 추가되었습니다." 
-                        : "찜 목록에서 삭제되었습니다.");
-                    updateFavoriteButton(button, data);
-                } else if (data === "nologin") {
-                    alert("회원 정보가 없습니다.");
-                    window.location.href = '${contextPath}/member/loginForm.do';
-                } else {
-                    alert("알 수 없는 오류가 발생했습니다.");
-                }
-                requestInProgress = false;
-            },
-            error: function(xhr, status, error) {
-                console.error("Error: " + error);
-                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-                requestInProgress = false;
-            }
-        });
+	        $.ajax({
+	            type: "GET",
+	            url: "${contextPath}/addFavorite",
+	            data: { companyId: companyId, userId: userId },
+	            success: function(data) {
+	                if (data === "insert" || data === "delete") {
+	                    alert(data === "insert" 
+	                        ? "찜 목록에 추가되었습니다." 
+	                        : "찜 목록에서 삭제되었습니다.");
+	                    updateFavoriteButton(button, data);
+	                } else if (data === "nologin") {
+	                    alert("회원 정보가 없습니다.");
+	                    window.location.href = '${contextPath}/member/loginForm.do';
+	                } else {
+	                    alert("알 수 없는 오류가 발생했습니다.");
+	                }
+	                requestInProgress = false;
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + error);
+	                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+	                requestInProgress = false;
+	            }
+	        });
 
-        event.stopPropagation();
-    });
-});
+	        event.stopPropagation();
+	    });
+	});
 </script>
 </head>
 <body>

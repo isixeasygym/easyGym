@@ -1,6 +1,7 @@
 package com.isix.easyGym.detail.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -271,38 +272,6 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	}
 	
-	@Override
-	@ResponseBody
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
-            @RequestParam(value = "action", required = false) String action,
-            RedirectAttributes rAttr, HttpServletRequest request,
-            HttpServletResponse response) throws Exception{
-		String success=null;
-		int memberNum=memberService.findMemberNo(memberNo);
-		if(memberNum != 0) {
-			int buyNo=payformService.buyCheck(memberNum);
-			if(buyNo !=0 ) {
-				detailService.removeReview(reviewNo);
-				success="success";
-			}else {
-				success="noBuy";
-			}
-		}else {
-			success="noLogin";
-		}
-		return success;
-	}
-	
-	@Override
-	@ResponseBody
-	@RequestMapping(value = "/getReviews.do", method = RequestMethod.GET)
-	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
-	    return reviews;
-	}
-	
 	
 	
 	
@@ -311,7 +280,7 @@ public class DetailControllerImpl implements DetailController{
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(
 	        @RequestParam("companyId") String detailNo, 
-	        @RequestParam(value="memberNo", required= false) int memberNo,
+	        @RequestParam(value="memberNo", required = false) int memberNo,
 	        @RequestParam(value = "action", required = false) String action,
 	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
 	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
@@ -329,9 +298,10 @@ public class DetailControllerImpl implements DetailController{
 
 	            if (buyNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
+	                // Verify file upload
+	                String imageFileName = fileUpload(multipartRequest);
+	                HttpSession session = multipartRequest.getSession();
 
-	                String imageFileName = fileUpload(multipartRequest); // Check if image file is uploaded
-	                HttpSession session=multipartRequest.getSession();
 	                if (imageFileName != null && !imageFileName.isEmpty()) {
 	                    // Handle image upload
 	                    Map<String, Object> reviewImageMap = new HashMap<>();
@@ -360,20 +330,23 @@ public class DetailControllerImpl implements DetailController{
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
 	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo);
 	                    if (!destDir.exists()) {
-	                        destDir.mkdirs(); // Ensure destination directory exists
+	                        destDir.mkdirs(); // Ensure destinqation directory exists
 	                    }
 
 	                    File destFile = new File(destDir, imageFileName);
-	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
-	                    FileUtils.moveFile(srcFile, destFile); // Move the file
+	                    if (srcFile.exists()) {
+	                        FileUtils.moveFile(srcFile, destFile); // Move the file
+	                    } else {
+	                        throw new FileNotFoundException("Source file not found: " + srcFile.getAbsolutePath());
+	                    }
 
 	                    status = "success";
 	                } else {
 	                    // Handle no image case
-	                    Map<String,String> noImgReviewMap = new HashMap<>();
+	                    Map<String, String> noImgReviewMap = new HashMap<>();
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
-	                    noImgReviewMap.put("memberNo",String.valueOf(memberNo));
+	                    noImgReviewMap.put("memberNo", String.valueOf(memberNo));
 	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
@@ -387,11 +360,52 @@ public class DetailControllerImpl implements DetailController{
 	            status = "noLogin";
 	        }
 	    } catch (Exception e) {
-	        e.printStackTrace(); // Consider using proper logging
+	        e.printStackTrace(); // Use logging framework in production
 	        status = "error";
 	    }
 
 	    return status;
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/getReviews.do", method = RequestMethod.GET)
+	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+	    return reviews;
+	}
+	
+	@Override
+	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)
+	public List<DetailReviewDTO> getReviewImages(int detailNo, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		List<DetailReviewDTO> reviewImage = detailService.getReviewImages(detailNo);
+		return reviewImage;
+	}
+
+	
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes rAttr, HttpServletRequest request,
+            HttpServletResponse response) throws Exception{
+		String success=null;
+		int memberNum=memberService.findMemberNo(memberNo);
+		if(memberNum != 0) {
+			int buyNo=payformService.buyCheck(memberNum);
+			if(buyNo !=0 ) {
+				detailService.removeReview(reviewNo);
+				success="success";
+			}else {
+				success="noBuy";
+			}
+		}else {
+			success="noLogin";
+		}
+		return success;
 	}
 	
 	
@@ -437,7 +451,5 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
-
-
 
 }

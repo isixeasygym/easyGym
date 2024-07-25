@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
@@ -109,7 +110,7 @@ public class DetailServiceImpl implements DetailService{
 		detailDAO.insertReviewAndImage(reviewImageMap);
 		return reviewNo;
 	}
-
+	@Transactional
 	@Override
 	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException {
 		List<DetailReviewDTO> reviews = detailDAO.selectReview(detailNo); 
@@ -138,6 +139,11 @@ public class DetailServiceImpl implements DetailService{
 	public List<DetailDTO> findPopularPilates() throws DataAccessException {
 		List<DetailDTO> pilatesList = detailDAO.selectPopularPilates();
 		return pilatesList;
+	}
+
+	public List<DetailReviewDTO> getReviewImages(int detailNo) {
+		List<DetailReviewDTO> reviewImage = detailDAO.selectReviewImage(detailNo);
+		return null;
 	}
 
 	
