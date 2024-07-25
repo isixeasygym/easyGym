@@ -75,7 +75,7 @@ function writeSubmit() {
                                 // 이미지가 있는 경우만 추가
                                 if (images.length > 0) {
                                     images.forEach(function(image) {
-                                        var imgHtml = `<img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${image.detailNo}/${image.memberNo}/${image.reviewImgName}"/>`;
+                                        var imgHtml = `<img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/download.doiewImgName}"/>`;
                                         reviewImageRange.append(imgHtml);
                                     });
                                 }

@@ -16,6 +16,9 @@
 <meta charset="UTF-8">
 <title>${details.detailBusinessName}</title> 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	var contextPath = "${pageContext.request.contextPath}";
+</script>
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
 <script>
@@ -237,7 +240,7 @@
 					                        <p class="anonymous">(익명의 회원)</p>
 					                        <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
 					                        <p class="reviewDate">${review.reviewDate}</p>
-					                        <p class="reviewComment">${review.reviewComment}</p>
+					                        <textarea class="reviewComment">${review.reviewComment}</textarea>
 					                    </div>
 					                </div>
 					            </c:forEach>

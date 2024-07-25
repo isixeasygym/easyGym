@@ -143,7 +143,7 @@ public class DetailServiceImpl implements DetailService{
 
 	public List<DetailReviewDTO> getReviewImages(int detailNo) {
 		List<DetailReviewDTO> reviewImage = detailDAO.selectReviewImage(detailNo);
-		return null;
+		return reviewImage;
 	}
 
 	

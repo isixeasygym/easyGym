@@ -1,5 +1,6 @@
+let  scrollTop ;
 $(window).on('scroll', function() {
-          var scrollTop = $(window).scrollTop();
+           scrollTop = $(window).scrollTop();
           var fixedContainer = $('#fixedContainer');
 
           if (scrollTop > 500) {
@@ -32,8 +33,14 @@ function deleteComment(reviewNo) {
                     if (currentReviewNo == reviewNo) {
                         $(this).remove(); // 해당 리뷰 요소를 제거합니다.
                     }
+					
+					
+					location.href=location.href;
+					//alert(scrollTop);
+					
+					
                 });
-
+				
                 // 만약 모든 리뷰가 삭제된 경우
                 if ($('#reviewContainer').children().length === 0) {
                     $('#reviewContainer').html('<h2>리뷰가 없습니다</h2>');
@@ -51,22 +58,36 @@ function deleteComment(reviewNo) {
         }
     });
 }
-//글 등록하기
+// 글 등록하기
 function writeSubmit() {
     // 입력된 값들을 변수에 저장
     var companyId = $('.companyId').val();
     var memberNo = $('.userId').val();
     var reviewComment = $('#myTextarea').val();
-    var reviewRating = $("input[name='detailScope']:checked").val();
-    var fileInput = $('#reviewImageName')[0].files[0];
+    var reviewRating = $("input[name='detailScope']:checked").val(); // 선택된 별점 값 가져오기
+    var fileInput = $('#reviewImageName')[0].files; // 파일들 가져오기
+
+    // reviewRating 값 검증
+    if (reviewRating === undefined || reviewRating === null) {
+        reviewRating = 0; // 기본값 설정
+    }
+
     // FormData 객체 생성
     var formData = new FormData();
     formData.append('companyId', companyId);
     formData.append('memberNo', memberNo);
     formData.append('reviewComment', reviewComment);
-    formData.append('reviewRating', reviewRating);
-    if (fileInput) {
-        formData.append('reviewImageName', fileInput);
+    formData.append('reviewRating', reviewRating); // 값 추가
+
+    // 최대 5개의 이미지만 업로드하도록 설정
+    Array.from(fileInput).slice(0, 5).forEach(file => {
+        formData.append('reviewImageName', file);
+    });
+
+    if (memberNo === '') {
+        alert("회원 정보가 없습니다.");
+        window.location.href = '/member/loginForm.do';
+        return; // 함수 종료
     }
 
     // AJAX 요청
@@ -74,54 +95,96 @@ function writeSubmit() {
         async: false,
         enctype: 'multipart/form-data',
         cache: false,
-        url: '/writeReview.do', // 요청을 보낼 URL
-        type: 'POST', // HTTP 요청 메소드 (POST)
-        data: formData, // 전송할 데이터 (FormData 객체)
-        processData: false, // 데이터 처리 방식 설정 (FormData 사용 시 false)
-        contentType: false, // 컨텐츠 타입 설정 (FormData 사용 시 false)
-        success: function(response) {
-            if (response === "success") {
-                alert("작성하신 후기가 등록되었습니다.");
-                
-                // 리뷰 목록을 새로고침
-                $.ajax({
-                    url: '/getReviews.do', // 리뷰 목록을 가져오는 URL
-                    type: 'GET', // HTTP 요청 메소드 (GET)
-                    success: function(reviews) {
-                        var reviewContainer = $('#reviewContainer');
-                        reviewContainer.empty(); // 기존 리뷰 목록을 비웁니다
+        url: '/writeReview.do',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+    })
+    .done(function(response) {
+        if (response === "success") {
+            alert("작성하신 후기가 등록되었습니다.");
+            
+            // 리뷰 목록을 새로고침
+            $.ajax({
+                async: false,
+                url: '/getReviews.do',
+                type: 'GET',
+                contentType: "application/json",
+                dataType: "json",
+                data: { 
+                    companyId: companyId
+                },
+                success: function(reviews) {
+                    var reviewContainer = $('#reviewContainer');
+                    reviewContainer.empty(); // 기존 리뷰 목록을 비웁니다
 
-                        if (reviews.length > 0) {
-                            reviews.forEach(function(review) {
-                                var reviewHtml = `
-                                    <div class="ReviewRange">
-                                        <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">Delete</button>
-                                        <div class="personReviewRange">
-                                            <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-                                            <p>(익명의 회원)</p>
-                                            <img src="${contextPath}/images/detail/detailpage/star.JPG">
-                                            <p>${review.reviewDate}</p>
-                                            <p class="reviewComment">${review.reviewComment}</p>
-                                        </div>
+                    if (reviews.length > 0) {
+                        reviews.forEach(function(review) {
+                            var reviewHtml = `
+                                <div class="ReviewRange">
+                                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+                                    <div class="personReviewRange">
+                                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+                                        <p>(익명의 회원)</p>
+                                        <img src="${contextPath}/images/detail/detailpage/star.JPG">
+                                        <p>${review.reviewDate}</p>
+                                        <p class="reviewComment">${review.reviewComment}</p>
                                     </div>
-                                `;
-                                reviewContainer.append(reviewHtml);
-                            });
-                        } else {
-                            reviewContainer.html('<h2>리뷰가 없습니다</h2>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error:", error);
-                        console.error("Status:", status);
-                        console.error("Response:", xhr.responseText);
+                                </div>
+                            `;
+                            reviewContainer.append(reviewHtml);
+                        });
+                    } else {
+                        reviewContainer.html('<h2>리뷰가 없습니다</h2>');
                     }
+                    
+                    // 리뷰 이미지 새로고침
+                    updateReviewImages(companyId);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    console.error("Status:", status);
+                    console.error("Response:", xhr.responseText);
+                }
+            });
+        } else if (response === "noBuy") {
+            alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
+        } else if (response === "noLogin") {
+            alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
+            window.location.href = '/member/loginForm.do';
+        }
+    })
+    .fail(function(xhr, status, error) {
+        console.error("Error:", error);
+        console.error("Status:", status);
+        console.error("Response:", xhr.responseText);
+    });
+}
+
+// 리뷰 이미지 업데이트
+function updateReviewImages(companyId) {
+    $.ajax({
+        url: '/getReviewImages.do',
+        type: 'GET',
+        dataType: 'json',
+        data: { companyId: companyId },
+        success: function(response) {
+            var reviewImageContainer = $('#reviewImage');
+            reviewImageContainer.empty();
+
+            var imagesToShow = response.slice(0, 5);
+
+            if (imagesToShow.length > 0) {
+                imagesToShow.forEach(function(image) {
+                    var imageHtml = `
+                        <img class="reviewImage" style="width:130px; height:130px;" 
+                             src="/download.do?detailNo=${encodeURIComponent(image.detailNo)}&memberNo=${encodeURIComponent(image.memberNo)}&imageFileName=${encodeURIComponent(image.reviewImgName)}" />
+                    `;
+                    reviewImageContainer.append(imageHtml);
                 });
-            } else if (response === "noBuy") {
-                alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
-            } else if (response === "noLogin") {
-                alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-                window.location.href = '/member/loginForm.do';
+            } else {
+                reviewImageContainer.html('<p>등록된 이미지가 없습니다.</p>');
             }
         },
         error: function(xhr, status, error) {
@@ -131,8 +194,6 @@ function writeSubmit() {
         }
     });
 }
-
-//찜 기능
 
 //이미지 슬라이드
 $(function() {
@@ -205,4 +266,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // 초기 높이 조절
         adjustHeight(textarea);
     });
+	//$('body,html').animate({
+		//scrollTop:2500
+//	},0);
 });
