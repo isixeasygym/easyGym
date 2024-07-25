@@ -16,7 +16,7 @@
 			<h1>
 		        <c:choose>
 		            <c:when test="${not empty sessionScope.member}">
-						<img src="/images/member/1.png" alt="Profile Image">
+						<img src="/images/member/catgym.png" alt="Profile Image" width="100">
 		                ${sessionScope.member.memberName}님
 		            </c:when>
 		            <c:otherwise>
@@ -69,14 +69,12 @@
                         </div>
                         <div class="actions">
                             <button onclick="location.href='${contextPath}/mypage/ticketCancel.do'">취소하기</button>
-                            <button onclick="location.href='${contextPath}/mypage/ticketRefund.do'">환불하기</button>
                         </div>
                     </div>
                 </div>
                 <div id="dibs-list" class="section">
                     <h2>찜 목록</h2>
-                    <!-- 여기에 찜 목록 정보를 추가 -->
-					
+                    <!-- mypageMain.js 파일에 finction 및 테이블 구조 만들어져 있음 -->
                 </div>
                 <div id="purchase-history" class="section">
                     <h2>구매내역</h2>
@@ -153,28 +151,32 @@
                 <div id="update-info" class="section">
                     <div align="center" id="password-check">
                         <h2>비밀번호 확인</h2>
-						<form id="password-check-form" method="post" action="${contextPath}/mypage/checkPassword.do">
+						<form id="password-check-form" method="get" action="${contextPath}/mypage/checkPassword.do">
 	                        <input type="password" id="password" placeholder="비밀번호 확인">
 	                        <button id="password-check-btn">확인</button>
 						</form>
+						<!--<p>비밀번호 : <input type="password" id="password"></p>
+				        <input type="hidden" id="memberNo" value="${member.memberNo}">
+				        <button type="button" id="password-check-btn">확인</button>-->
                     </div>
                     <div align="center" id="update-form" style="display:none;">
                         <h2>회원정보 수정</h2>
-						<form method="post" action="/mypage/updateMember.do">
-	                        <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
-	                        <p>비밀번호 : <input type="password" value="${member.memberPwd}"></p>
-							<p>비밀번호 확인 : <input type="password" value="${member.memberPwd}"></p>
+						<form method="post" action="${contextPath}/mypage/memberUpdate.do" id="update-form">
 	                        <p>이름: <input type="text" value="${member.memberName}" disabled></p>
-	                        <p>성별: 
-	                            <input type="radio" name="sex" value="male" ${member.memberGender == 'male' ? 'checked' : ''}>남
-	                            <input type="radio" name="sex" value="female" ${member.memberGender == 'female' ? 'checked' : ''}>여
+							<p>아이디: <input type="text" value="${member.memberId}" disabled></p>
+							<p>성별: 
+	                            <input type="radio" name="sex" value="남" ${member.memberGender == '남' ? 'checked' : ''} disabled>남
+	                            <input type="radio" name="sex" value="여" ${member.memberGender == '여' ? 'checked' : ''} disabled>여
 	                        </p>
-	                        <p>휴대폰번호: <input type="tel" value="${member.memberPhone}"></p>
+							<p>비밀번호 : <input type="password" value="${member.memberPwd}"></p>
+							<p>비밀번호 확인 : <input type="password" value="${member.memberPwd}"></p>
+	                        <p>전화번호: <input type="tel" value="${member.memberPhone}"></p>
 	                        <p>이메일 주소: <input type="email" value="${member.memberEmail}"></p>
-	                        <p>프로필 이미지 변경: <input type="file" accept="image/*"></p>
-	                        <button id="update-btn"><a href="${contextPath}/mypage/modMember.do">수정하기</a></button>
-	                        <button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
+	                        <!--<p>프로필 이미지 변경: <input type="file" accept="image/*"></p>-->
+							<!--<button id="update-btn"><a href="${contextPath}/mypage/memberUpdate.do">수정하기</a></button>-->
+							<button type="submit">수정하기</button>
 						</form>
+						<button id="cancel-btn"><a href="${contextPath}/mypage/mypageMain.do">취소</a></button>
                         <button id="withdraw-btn"><a href="${contextPath}/mypage/withdraw.do">회원탈퇴</a></button>
                     </div>
                 </div>

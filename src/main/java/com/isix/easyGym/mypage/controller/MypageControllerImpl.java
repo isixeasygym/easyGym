@@ -1,13 +1,12 @@
 package com.isix.easyGym.mypage.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,18 +76,41 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	} */
 	@Override
-	@ResponseBody  //JSON 형태로 뷰에 다시 넘겨줌
+	@ResponseBody  // = setAttribute 역할. JSON 등 여러 형태로 뷰에 다시 넘겨줌
 	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
 	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    // 서비스 메서드 호출
 		HttpSession session= request.getSession(false);
 		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
     	List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
 	    return dibsList;
 	}
 	
+	//1-2)찜 취소
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/removeDibs.do", method = RequestMethod.GET)
+	public ModelAndView removeDibs(@RequestParam("detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String detailNoStr = request.getParameter("detailNo");
+	    System.out.println("Received detailNo: " + detailNoStr); // 디버깅용 로그
+
+	    if (detailNoStr == null || detailNoStr.isEmpty()) {
+	        System.out.println("Invalid detailNo: " + detailNoStr); // 디버깅용 로그
+	        throw new IllegalArgumentException("Invalid detail number.");
+	    }
+	    //int detailNo = Integer.parseInt(detailNoStr);
+	    HttpSession session = request.getSession(false);
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    System.out.println("Member No: " + memberDTO.getMemberNo() + ", Detail No: " + detailNo); // 디버깅용 로그
+	    mypageService.removeDibs(memberDTO.getMemberNo(), detailNo);
+	    ModelAndView mav=new ModelAndView("redirect:/mypage/mypageMain.do");
+		return mav;
+	}
+
+	
 	//2.포인트&쿠폰
-	@RequestMapping(value = "/pointsAndCoupons.do", method = RequestMethod.GET)
+/*	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/pointsAndCoupons.do", method = RequestMethod.GET)
     public String pointsAndCoupons(@RequestParam("memberNo") int memberNo, Model model) {
         try {
             List<MemberDTO> points = mypageService.getPointsByMemberNo(memberNo);
@@ -99,37 +121,32 @@ public class MypageControllerImpl implements MypageController {
             e.printStackTrace(); // 오류 처리
         }
         return "mypage/mypageMain";
-    }
+    } */
 	
 	//3.정보수정
 	//3-1)비밀번호 체크
-	@RequestMapping(value = "/checkPassword.do", method = RequestMethod.POST)
-	public String checkPassword(@RequestParam("password") String password, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return password;
-		/*MemberDTO member = (MemberDTO) session.getAttribute("member");
-        if (member != null) {
-            String storedPassword = member.getMemberPwd(); // 저장된 해시된 비밀번호
-            if (PasswordUtil.checkPassword(password, storedPassword)) {
-                // 비밀번호가 맞으면 정보 수정 폼을 보여줍니다.
-                return "mypage/updateForm"; // 수정 폼 페이지로 이동
-            } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-                return "mypage/mypageMain"; // 비밀번호 오류 페이지로 이동
-            }
-        }
-        return "redirect:/login"; // 로그인 페이지로 이동
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/checkPassword.do", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> checkPassword(@RequestParam("memberNo") int memberNo, @RequestParam("memberPwd") String memberPwd, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//HttpSession session= request.getSession(false);
+		//MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
+		//System.out.println("checkPassword called with memberNo: " + memberNo + " and memberPwd: " + memberPwd);
+	    boolean isCorrect = mypageService.checkPassword(memberNo, memberPwd);
+	    //System.out.println("Password check result: " + isCorrect);
+	    return new ResponseEntity<>(isCorrect, HttpStatus.OK);
     }
 	
 	//3-2)회원정보 수정
-	@RequestMapping(value = "/mypage/updateMember.do", method = RequestMethod.POST)
-	public ModelAndView updateMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+/*	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/memberUpdate.do", method = RequestMethod.GET)
+	public ModelAndView memberUpdate(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		mypageService.updateMember(memberDTO);  //업데이트 하기
+		mypageService.memberUpdate(memberDTO);  //업데이트 하기
 		ModelAndView mav=new ModelAndView("redirect:/mypage/mypageMain.do");
 		return mav;
-	}*/
-	}
-	
+	} */
 	
 	
 	
@@ -171,22 +188,6 @@ public class MypageControllerImpl implements MypageController {
 		}
 		return fileName;
 	}
-
-	@Override
-	public String pointsAndCoupons(int memberNo, Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ModelAndView updateMember(MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 
 	
 }

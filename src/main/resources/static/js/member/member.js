@@ -54,46 +54,42 @@ const idTag = document.getElementById('memberId');
          document.join.submit();
       }
    }
+   
    // 아이디
-   function checkId(f) {
-      if (f.memberId.value == "") {
-         alert("아이디를 입력하십시오!");
-         return;
-      }
-      if (!regID.test(idTag.value)) {
-         alert("8~15사이의 아이디를 입력하십시오");
-         return;
-      }
-    
-      var url = "/member/checkId";
-      var param = "id=" + encodeURIComponent(f.memberId.value);
-    
-      sendRequest(url, param, resultFn, "POST");
-   } 
-   function resultFn() {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-         //도착된 데이터를 읽어오기
-         var data = xhr.responseText;
-         const join = document.getElementById("join");
-         const check = document.getElementById('check');
-         const id = document.getElementById('memberId');
-    
-         check.innerText = '';
-    
-         if (data === '사용 가능한 ID입니다') {
-            check.style.cssText = "color: blue; font-size: 10px;";
-            join.disabled = false;
-         } else {
-            check.style.cssText = "color: red; font-size: 10px;";
-            join.disabled = true;
-         }
-         check.innerText = data;
-      }
-   }
-   
+   /** $(document).ready(function() {
+       	//ID 중복 확인
+       	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
+       	$("#memberId").on("focusout", function() {
+       		
+       		var memberId = $("#memberId").val();
+       		
+       		if(memberId == '' || memberId.length == 0) {
+       			$("#check").css("color", "red").text("공백은 ID로 사용할 수 없습니다.");
+       			return false;
+       		}
+       		
+           	//Ajax로 전송
+           	$.ajax({
+           		url : '/member/checkId.do',
+           		data : {
+           			memebrId : memberId
+           		},
+           		type : 'POST',
+           		dataType : 'json',
+           		success : function(result) {
+           			if (result == true) {
+           				$("#check").css("color", "black").text("사용 가능한 ID 입니다.");
+           			} else{
+           				$("#check").css("color", "red").text("사용 불가능한 ID 입니다.");
+           				$("#memberId").val('');
+           			}
+           		}
+           	}); //End Ajax
+       	});
+   })
+   */ 
    // 비밀번호
-   
-   pwTag.addEventListener("focus",() =>{
+  pwTag.addEventListener("focus",() =>{
       pwError.innerHTML = "'숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자이상 작성해주세요";
       pwError.style.cssText = "color: red; font-size: 10px;";
    }); 
@@ -127,7 +123,6 @@ const idTag = document.getElementById('memberId');
    });
    
 
-   
    // 이메일 
   /** mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기
@@ -152,4 +147,4 @@ const idTag = document.getElementById('memberId');
          resultMsg.innerHTML = "인증번호가 불일치 합니다. 다시 확인해주세요";
          resultMsg.style.cssText = "color: red; font-size: 10px;";
       }
-   });
+   }); */

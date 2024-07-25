@@ -20,5 +20,10 @@ public interface AdminService {
 	// 회원 탈퇴 리스트
 	public List withdrawMember() throws DataAccessException;
 	
-
+	// 사업자 리스트
+	public List operList() throws DataAccessException;
+	
+	// 탈퇴 사업자 리스트
+	public List comList() throws DataAccessException;
+	
 }

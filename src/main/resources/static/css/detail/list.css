@@ -1,21 +1,41 @@
-@charset "utf-8";
+@charset "UTF-8";
 
 body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #F6F6F6;
 }
 
+.bg-image {
+    background-image: url("../../images/payform/fitness_inside.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .search-container {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    width: 730px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: #fff;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 10px;
+    padding: 15px 20px;
+    z-index: 1000;
+}
+
+.search-form {
     display: flex;
     align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .back-button {
@@ -23,213 +43,293 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 15px;
+    color: #001EC9;
+    transition: color 0.3s ease;
 }
 
-.search-form {
-    flex: 1;
-    display: flex;
-    align-items: center;
+.back-button:hover {
+    color: #9DCFFF;
 }
 
 .search-input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
+    padding: 12px 15px;
+    border: 2px solid #9DCFFF;
+    border-radius: 8px 0 0 8px;
     outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #001EC9;
 }
 
 .search-button {
-    padding: 10px;
+    padding: 12px 25px;
     background-color: #001EC9;
     color: white;
     border: none;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 8px 8px 0;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-    background-color: #0041c2;
+    background-color: #0035A9;
+}
+
+.options-container {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 10px 20px;
+    z-index: 999;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.option-group {
+    display: flex;
+    align-items: center;
+}
+
+.option-group label {
+    margin-right: 20px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #555555;
+}
+
+.option-select {
+    padding: 8px 12px;
+    border: 1px solid #9DCFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    flex: 1;
+    min-width: 150px;
+}
+
+.main-container {
+    display: flex;
+    margin-top: 130px;
+    min-height: calc(100vh - 130px);
+}
+
+.left-margin, .right-margin {
+    width: 10%;
+    background-color: #F6F6F6;
 }
 
 .content {
-    position: absolute;
-    width: 730px;
-    top: 100px;
-    left: 40%;
-    transform: translate(-50%, 0%);
+    width: 50%;
     background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.map_wrap {
+    width: 30%;
+    height: 100%;
+    position: fixed;
+    top: 130px;
+    right: 10%;
+    bottom: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .contentRange {
-    position: relative;
     background-color: #fff;
-    height: 215px;
-    cursor: pointer;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contentRange:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .imgRange {
+    float: left;
+    margin-right: 15px;
     position: relative;
-    top: 15px;
-    left: 15px;
-    display: block;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 .img {
-    height: 185px;
-    width: 165px;
-    border-radius: 10px;
+    height: 150px;
+    width: 135px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.contentRange:hover .img {
+    transform: scale(1.05);
 }
 
 .buttonRange {
-    position: relative;
-    z-index: 30;
-    left: 675px;
-    top: -170px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .favorite-button {
-    display: inline-block;
-    z-index: 30;
     background: none;
     border: none;
-    padding: 0;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
 }
 
 .dibs {
-    z-index: 30;
     width: 30px;
     height: 30px;
 }
 
 .infoRange {
-    position: relative;
-    display: block;
-    top: -234px;
-    left: 195px;
-    height: 60px;
+    margin-left: 150px;
 }
 
 .classification {
-    color: #B0B0B0;
+    color: #777;
+    margin: 0;
+    font-size: 0.8em;
+    text-transform: uppercase;
 }
 
 .name {
-    position: relative;
-    top: -25px;
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: #001EC9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .address {
-    position: relative;
-    color: #B0B0B0;
+    color: #777;
     font-size: 0.8em;
-    top: -53px;
+    margin: 3px 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ticketRange {
-    position: relative;
-    display: block;
-    width: 250px;
-    height: 40px;
-    left: 195px;
-    top: -175px;
-    right: 55px;
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
 }
 
-.dailyTicket {
+.dailyTicket, .memberTicket {
     background-color: #9DCFFF;
-    width: 41px;
-    height: 20px;
-    border-radius: 4px;
-}
-
-.memberTicket {
-    position: relative;
-    top: -33px;
-    left: 48px;
-    background-color: #9DCFFF;
-    width: 79px;
-    height: 20px;
-    border-radius: 4px;
+    padding: 3px 8px;
+    border-radius: 8px;
 }
 
 .boxText {
     color: #001EC9;
-    font-size: 0.8em;
+    font-size: 0.7em;
+    margin: 0;
+    font-weight: 500;
 }
 
 .priceRange {
-    position: relative;
-    display: block;
-    top: -250px;
-    left: 570px;
+    margin-top: 10px;
+    display: flex;
+    align-items: baseline;
 }
 
 .price {
-    display: inline-block;
-    font-size: 1.6em;
-    font-weight: 600;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #001EC9;
+    margin-right: 3px;
 }
 
 .month {
-    display: inline-block;
+    color: #777;
+    font-size: 0.8em;
 }
 
 .serviceRange {
-    display: block;
-    position: relative;
-    width: 525px;
-    height: 30px;
     background-color: #F6F6F6;
-    top: -275px;
-    border-radius: 10px;
-    left: 192px;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .freeService {
-    position: relative;
-    top: -15px;
-    left: 15px;
-    color: #B0B0B0;
-    display: inline-block;
-    font-size: 1.1em;
+    color: #777;
+    font-weight: 500;
+    margin-right: 8px;
+    font-size: 0.8em;
 }
 
 .provide {
-    position: relative;
-    top: -18px;
-    display: inline-block;
-    left: 45px;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
-.contentBorder {
-    position: relative;
-    display: block;
-    top: -267px;
-    width: 695px;
-    border-bottom: 1px solid #B0B0B0;
-    margin: 0 auto;
-    height: 5px;
-    padding: 0;
+@media (max-width: 1200px) {
+    .left-margin, .right-margin {
+        display: none;
+    }
+    .content {
+        width: 70%;
+    }
+    .map_wrap {
+        width: 30%;
+        right: 0;
+    }
 }
 
-input {
-    z-index: 30;
-}
-
-#mapRange {
-    position: fixed; /* Change to fixed positioning to ensure it stays in place */
-    top: 50%; /* Center vertically */
-    right: 0; /* Align to the right edge */
-    transform: translateY(-50%); /* Adjust for vertical centering */
-    width: 600; /* Adjust width as needed */
-    height: 600px; /* Adjust height as needed */
-    background-color: #fff; /* Optional: Set background color for better visibility */
-    border: 1px solid #ddd; /* Optional: Add border for visibility */
-    border-radius: 10px; /* Optional: Rounded corners */
-    padding: 10px; /* Optional: Add padding if needed */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a better look */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    .content, .map_wrap {
+        width: 100%;
+    }
+    .map_wrap {
+        position: static;
+        height: 300px;
+    }
+    .options-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .option-group {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .option-group label {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    #districtSelect, #facilityType {
+        width: 100%;
+    }
 }

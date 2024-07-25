@@ -2,6 +2,7 @@ package com.isix.easyGym.mypage.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,14 +31,18 @@ public interface MypageController {
 	//public ModelAndView detailDibsList(@RequestParam("section") String _section, @RequestParam("pageNum") String _pageNum, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	//1-2)찜 취소
+	public ModelAndView removeDibs(@RequestParam("detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	
 	//2.포인트&쿠폰
-	public String pointsAndCoupons(@RequestParam("memberNo") int memberNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	//public String pointsAndCoupons(@RequestParam("memberNo") int memberNo, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	//3.정보수정
 	//3-1)비밀번호 체크
-	public String checkPassword(@RequestParam("password") String password, HttpSession session, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<Boolean> checkPassword(@RequestParam("memberNo") int memberNo, @RequestParam("memberPwd") String memberPwd, HttpServletRequest request, HttpServletResponse response) throws Exception;
 			
 	//3-2)회원정보 수정
-	public ModelAndView updateMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	//public ModelAndView memberUpdate(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

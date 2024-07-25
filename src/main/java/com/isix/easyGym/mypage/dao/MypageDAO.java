@@ -17,19 +17,22 @@ import com.isix.easyGym.member.dto.MemberDTO;
 public interface MypageDAO {
 
 	//1-2)찜 목록
-/*	public List<DetailDTO> selectAllDetail(@Param("count") int count) throws DataAccessException;
-	public int selectToDibs() throws DataAccessException;
-	public int getNewDibsNo() throws DataAccessException; */
-	//public List<DetailDibsDTO> selectAllDetail(int memberNo) throws DataAccessException;
 	public List<DetailDTO> selectAllDetail(@Param("memberNo") int memberNo) throws DataAccessException;
 	
+	//1-2)찜 취소
+	public void deleteDibs(@Param("memberNo") int memberNo, @Param("detailNo") int detailNo) throws DataAccessException;
+
+	
 	//2-1)포인트
-	public List<MemberDTO> selectPointsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
+	//public List<MemberDTO> selectPointsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
 
 	//2-2)쿠폰
-	public List<MemberDTO> selectCouponsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
+	//public List<MemberDTO> selectCouponsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
 
+	//3-1)비밀번호 체크
+	public String getPasswordByMemberNo(int memberNo) throws DataAccessException;
+	
 	//3-2)회원정보 수정
-	public void updateMember(MemberDTO memberDTO) throws DataAccessException;
+	//public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
 	
 }

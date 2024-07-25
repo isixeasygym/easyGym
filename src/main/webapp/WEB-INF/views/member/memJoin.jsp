@@ -1,30 +1,25 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/layout/header.jsp"%>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="/css/member/join.css">
-
 </div>
 <div class="form-container">
-	<form name="join" id="form" class="form" method="post" action="/member/memJoin.do">
+	<form name="join" id="register_form" class="form" method="post"
+		action="/member/addMember.do">
 		<div class="column">
 			<div class="input-box">
-				<label>아이디</label> <input type="text" name="memberId"
-					autocomplete="off" id="memberId" tabindex="1"
-					placeholder="아이디를 입력해주세요." required /> <br> <span id="check"></span>
-			</div>
-			<div class="input-box">
-				<label>&nbsp;</label> <input type="button" value="중복확인"
-					id="duplicateBtn" onclick="checkId(this.form)">
+				<label for="memberId"><small>아이디</small></label> <input type="text"
+					name="memberId" autocomplete="off" id="memberId" tabindex="1"
+					placeholder="아이디를 입력해주세요." required autofocus /> <br> <span
+					id="check"></span>
 			</div>
 		</div>
-
-
 		<div class="column">
 			<div class="input-box">
 				<label>비밀번호</label> <input type="password"
 					placeholder="비밀번호를 입력해주세요." required name="memberPwd"
-					id="memberPWd" tabindex="2" /> <br> <span id="pwError"></span>
+					id="memberPwd" tabindex="2" /> <br> <span id="pwError"></span>
 			</div>
 			<div class="input-box">
 				<label>비밀번호 확인</label> <input type="password"
@@ -32,7 +27,6 @@
 					tabindex="3" /> <br> <span id="repwError"></span>
 			</div>
 		</div>
-
 		<div class="column">
 			<div class="input-box">
 				<label>이름</label> <input type="text" placeholder="이름을 입력해 주세요."
@@ -64,16 +58,6 @@
 		<button type="submit" id="join" value="Join"
 			class="btn btn-success btn-block" onclick="combineEmail()">이메일
 			입력완료</button>
-		<!--  <input type="button" value="본인인증" class="btnPrimary" id="mailCheckBtn"> -->
-
-		<!--<div class="input-box">
-            <div class="column">
-                <input type="text" placeholder="인증번호 6자리를 입력해 주세요." id="mailCheckInput" disabled="disabled" maxlength="6" size="30" required />
-                <input type="button" class="specialBtn" id="mailCheck" value="확인">
-            </div>
-            <br>
-            <span id="mailCheckError"></span>
-        </div> -->
 		<div class="column">
 			<div class="input-box">
 				<label>전화번호</label> <input type="text" placeholder="전화번호를 입력해 주세요."
@@ -84,9 +68,9 @@
 		<div class="column">
 			<div class="input-box">
 				<label>주소</label> <input type="text" id="sample6_postcode"
-					name="memberPost" placeholder="우편번호"> <input type="button"
+					name="memberAddr" placeholder="우편번호"> <input type="button"
 					onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
-				<input type="text" id="sample6_address" name="memberAddr"
+				<input type="text" id="sample6_address" name="memberPost"
 					placeholder="주소"> <br> <input type="text"
 					id="sample6_detailAddress" placeholder="상세주소"> <input
 					type="text" id="sample6_extraAddress" placeholder="참고항목">
@@ -120,12 +104,50 @@
 			</div>
 		</div>
 
+		<input type="hidden" name="memberState" value="1">
 		<button type="submit" id="join" value="Join"
 			class="btn btn-success btn-block" onclick="javascript:checkJoin()">가입하기</button>
 	</form>
 </div>
 
 <script src="/js/member/member.js"></script>
+<script>
+   	//ID 중복 확인
+   	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
+   	$("#memberId").on("focusout", function() {
+   		
+   		var memberId = $("#memberId").val();
+   		
+   		if(memberId == '' || memberId.length == 0) {
+   			$("#check").css("color", "red").text("공백은 ID로 사용할 수 없습니다.");
+   			return false;
+   		}
+   		
+       	//Ajax로 전송
+   		$.ajax({
+   		    url: '/member/checkId.do',
+   		    data: {
+   		        memberId: memberId
+   		    },
+   		    type: 'POST',
+   		    dataType: 'json',
+   		    success: function(result) {
+   		        if (result === true) {
+   		            $("#check").css({
+   		                "color": "blue",
+   		                "font-size": "10px"
+   		            }).text("사용 가능한 ID 입니다.");
+   		        } else {
+   		            $("#check").css({
+   		                "color": "red",
+   		                "font-size": "10px"
+   		            }).text("사용 불가능한 ID 입니다.");
+   		            $("#memberId").val('');
+   		        }
+   		    }
+   		});
+       	}); //End Ajax
+</script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -187,6 +209,3 @@ function combineEmail() {
     console.log("완성된 이메일: " + fullEmail); // 결합된 이메일 확인
 }
 </script>
-
-
-<%@ include file="/WEB-INF/views/layout/footer.jsp"%>
