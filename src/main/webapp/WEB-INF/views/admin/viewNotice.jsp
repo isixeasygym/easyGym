@@ -146,7 +146,7 @@ DOCTYPE html>
 											            <td>
 											                <input type="hidden" name="originalFileName${status.count}" value="${imgList.imageFileName}">
 											                <input type="hidden" name="imageFileNo${status.count}" value="${imgList.imageFileNo}">
-											                <img id="preview${status.count}" src="<c:url value='/download.do'/>?noticeNo=${imgList.noticeNo}&imageFileName=${imgList.imageFileName}">
+											                <img id="preview${status.count}" src="<c:url value='/nodownload.do'/>?noticeNo=${imgList.noticeNo}&imageFileName=${imgList.imageFileName}">
 											            </td>
 											        </tr>
 											        <tr>
