@@ -39,4 +39,5 @@ public interface MemberDAO {
 	public void insertGym(MemberDTO memberDTO) throws DataAccessException; 
 	
 	public boolean selectId(String memberId) throws DataAccessException; 
+	
 }

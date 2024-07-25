@@ -109,11 +109,12 @@
           #{operatorResNo}, #{operatorImgName}, sysdate(), #{operatorState})
        ]]>
     </insert>
-	<select id="operLogin" parameterType="memberDTO" resultType="memberoperDTO">    
-    <![CDATA[
-    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
-    ]]>
-</select>
+    
+	<select id="operLogin" parameterType="memberoperDTO" resultType="memberoperDTO">    
+	    <![CDATA[
+	    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
+	    ]]>
+	</select>
 	<!-- 사업자 삭제 --> 
     
 </mapper>
