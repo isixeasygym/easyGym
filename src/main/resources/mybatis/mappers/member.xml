@@ -104,7 +104,7 @@
        ]]>
     </insert>
 	<!-- 사업자 로그인 -->
-	    <select id = "operLogin" parameterType="memberDTO" resultType = "memberDTO">    
+	    <select id = "operLogin" parameterType="memberOperDTO" resultType = "memberOperDTO">    
 		<![CDATA[
           SELECT * FROM operators_tbl where operatorId = #{operatorId} and operatorPwd = #{operatorPwd}
        ]]>
