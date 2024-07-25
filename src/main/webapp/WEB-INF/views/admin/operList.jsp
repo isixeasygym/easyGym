@@ -74,7 +74,7 @@
                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                    <a class="nav-link" href="/admin/operList.do">Operator List</a> <!-- 사업자 리스트로 이동-->
-                                   <a class="nav-link" href="/admin/withdrawOper.do">Withdraw Operator</a>
+                                   <a class="nav-link" href="/admin/companyList.do">Company List</a>
                                </nav>
                            </div>
                            <div class="sb-sidenav-menu-heading">Comunity</div>
