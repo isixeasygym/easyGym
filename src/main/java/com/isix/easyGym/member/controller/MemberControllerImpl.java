@@ -2,6 +2,7 @@ package com.isix.easyGym.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,6 +55,14 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName("redirect:/member/afterMemJoin.do");
 		return mav;
 	}
+	
+	@Override 
+	@GetMapping("/member/gymRegister.do")
+	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/member/gymRegister");
+		return mav;
+	}	
 	
 	@RequestMapping(value = "/member/afterMemJoin.do")
     public ModelAndView afterMemJoin() {
@@ -146,27 +156,46 @@ public class MemberControllerImpl implements MemberController {
 
 
 	// 아이디 중복체크
-	@Override
-	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
-	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("jsonView");
+	@PostMapping("/member/checkId.do")
+	@ResponseBody
+	public ResponseEntity<Boolean> confirmId(@RequestParam("memberId")String memberId) {
+		
 		boolean result = true;
-		System.out.println("id:"+ memberId);
-
+		
 		if(memberId.trim().isEmpty()) {
-			System.out.print("id:"+ memberId);
+			System.out.print("id : " + memberId);
 			result = false;
-		}else {
-			if(memberService.checkId(memberId) != null) {
+		} else {
+			if (memberService.selectId(memberId)) {
 				result = false;
-			}else {
+			} else {
 				result = true;
 			}
 		}
-		mav.addObject("result", result);
-		mav.setStatus(HttpStatus.OK);
-		return mav;
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+//	@Override
+//	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
+//	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav = new ModelAndView("jsonView");
+//		boolean result = true;
+//		System.out.println("id:"+ memberId);
+//
+//		if(memberId.trim().isEmpty()) {
+//			System.out.print("id:"+ memberId);
+//			result = false;
+//		}else {
+//			if(memberService.checkId(memberId) != null) {
+//				result = false;
+//			}else {
+//				result = true;
+//			}
+//		}
+//		mav.addObject("result", result);
+//		mav.setStatus(HttpStatus.OK);
+//		return mav;
+//	}
 
 
 }

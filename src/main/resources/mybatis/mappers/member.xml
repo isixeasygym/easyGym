@@ -85,10 +85,16 @@
        ]]>
     </select>
     
-    <select id="checkId" parameterType="String" resultType="String">
+<!--     <select id="checkId" parameterType="String" resultType="String">
 		select memberId from member_tbl where memberId=#{memberId}
-	</select>
+	</select> -->
+	
+	<select id = "selectId" resultType="boolean">
+	SELECT COUNT(*) FROM MEMBER_TBL WHERE memberId = #{memberId}</select>
 
+<select id = "selectOpId" resultType="boolean">
+	SELECT COUNT(*) FROM OPERATOR_TBL WHERE operatorId = #{operatorId}</select>
+	
      <select id="selectMemberNo" parameterType="int" resultType="int">
 		select memberNo from member_tbl where memberNo=#{memberNo}
 	</select>
@@ -102,12 +108,11 @@
           #{operatorResNo}, #{operatorImgName}, sysdate(), #{operatorState})
        ]]>
     </insert>
-	<!-- 사업자 로그인 -->
-	    <select id = "operLogin" parameterType="memberDTO" resultType = "memberDTO">    
-		<![CDATA[
-          SELECT * FROM operators_tbl where operatorId = #{operatorId} and operatorPwd = #{operatorPwd}
-       ]]>
-    </select>
+	<select id="operLogin" parameterType="memberDTO" resultType="memberoperDTO">    
+    <![CDATA[
+    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
+    ]]>
+</select>
 	<!-- 사업자 삭제 --> 
     
 </mapper>

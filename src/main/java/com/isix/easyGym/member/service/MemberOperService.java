@@ -14,8 +14,10 @@ public interface MemberOperService {
 	
 	public void updateOperator(MemberOperDTO memberOperDTO) throws DataAccessException;
 	
-	public MemberOperDTO login(MemberOperDTO memberDTO) throws DataAccessException;
+	public MemberOperDTO operLogin(MemberOperDTO memberDTO) throws DataAccessException;
 
 	public boolean checkId(String memberOperId) throws DataAccessException;
 	
+	public boolean selectId(String operatorId) throws DataAccessException;
+
 }

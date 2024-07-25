@@ -33,9 +33,14 @@
 	flex-grow: 1; /* 버튼을 오른쪽 끝에 배치 */
 }
 
+/* 네브바 항목 사이의 간격 조정 */
 .navbar-nav .nav-item {
-	margin-right: 1rem; /* 각 네브바 항목 사이에 간격 추가 */
-	margin-left: auto; /* 버튼들이 오른쪽으로 정렬되도록 함 */
+    margin-right: 0.5rem; /* 간격을 0.5rem으로 설정하여 "공지사항"과 "커뮤니티" 사이의 간격을 줄임 */
+}
+
+/* 마지막 항목의 오른쪽 여백 제거 */
+.navbar-nav .nav-item:last-child {
+    margin-right: 0; /* 마지막 항목의 오른쪽 여백 제거 */
 }
 
 /* 드롭다운 메뉴 스타일 */

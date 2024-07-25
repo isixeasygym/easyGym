@@ -51,4 +51,10 @@ public class MemberServiceImpl implements MemberService {
 		return 0;
 	}
 
+	@Override
+	public boolean selectId(String memberId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return memberDAO.selectId(memberId);
+	}
+
 }

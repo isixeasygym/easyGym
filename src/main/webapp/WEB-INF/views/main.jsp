@@ -2,7 +2,24 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
-<style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card-text {
+            font-weight: bold;
+        }
+        .btn-more {
+            margin-top: 20px;
+            text-align: right;
+        }
+        h2 {
+            margin-top: 40px;
+        }
 .bg-image {
 	background-image: url('/images/member/gym2.png'); /* 배경 이미지 경로 */
 	background-size: cover;
@@ -83,20 +100,35 @@
 text-align: center;
 }
 
-#chatbot_frame {
-        position: absolute;
-        margin-top: -50vh;  /* vh : 버티칼 */
-        left: -300px;
-        display: none;
-    }
+.chatbot-icon {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    z-index: 1000; /* 다른 요소들보다 앞에 표시되도록 설정 */
+}
 
-    .chatbot {
-        position: absolute;
-        border: 1px solid blue;
-        z-index: 9999;  /* 항상 맨 앞으로 오게 => 9999 최고 숫자 부여 */
-        margin-top: -50px;
-        margin-left: 80%;
-    }
+#chatbot_frame {
+    position: fixed;
+    bottom: 180px; /* 아이콘 위에 프레임이 나타나도록 설정 */
+    right: 20px;
+    width: 350px; /* 프레임 너비 설정 */
+    height: 430px; /* 프레임 높이 설정 */
+    display: none; /* 초기 상태에서는 숨김 */
+    z-index: 999; /* 아이콘보다 뒤에 표시되도록 설정 */
+}
+
+.tooltip-image {
+            position: fixed;
+            bottom: 120px; /* 아이콘 바로 위에 위치하도록 설정 */
+            right: 100px; /* 아이콘 옆에 위치하도록 설정 */
+            width: 140px;
+          height: 70px;
+            display: none; /* 초기 상태에서는 숨김 */
+            z-index: 1001; /* 아이콘보다 앞에 표시되도록 설정 */
+}
 
 </style>
 <div
@@ -104,7 +136,7 @@ text-align: center;
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
 		<h1 class="display-3">운동할 땐, EasyGym부터</h1>
 		<div class="d-flex gap-3 justify-content-center lead fw-normal">
-			<a class="icon-link" href="#"> 내 주변 운동시설 찾기</a>
+			<a class="icon-link" href="/detail/showAll.do?detailClassification=health"> 내 주변 운동시설 찾기</a>
 		</div>
 	</div>
 	<div class="product-device shadow-sm d-none d-md-block"></div>
@@ -175,11 +207,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">정글짐</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -189,11 +219,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">멋짐</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -203,19 +231,19 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">마음가짐</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="btn-more">
             <form action="${contextPath}/detail/showAll.do" method="get">
-				<input type=hidden name="detailClassification" value="health">
-				<button type="submit">헬스 전체 더 보기</button>
-			</form>
+                <input type="hidden" name="detailClassification" value="health">
+                <button type="submit" class="btn btn-primary">헬스 더보기</button>
+            </form>
         </div>
 		
         <h2>요가/필라테스 인기순위</h2>
@@ -225,11 +253,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">호주 필라테스</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -239,11 +265,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">슬림 필라테스</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -253,15 +277,19 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">멋쟁이 필라테스</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="btn-more">
+            <form action="${contextPath}/detail/showAll.do" method="get">
+                <input type="hidden" name="detailClassification" value="yoga">
+                <button type="submit" class="btn btn-primary">필라테스 더보기</button>
+            </form>
         </div>
         
         <h2>복싱장 인기순위</h2>
@@ -271,11 +299,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">펀치 복싱장</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -285,11 +311,9 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">몸짱 복싱</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
@@ -299,29 +323,54 @@ text-align: center;
                     <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">엄청나 복싱장</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
                     </div>
                 </div>
             </div>
-            			<form action="${contextPath}/detail/showAll.do" method="get">
-					<input type=hidden name="detailClassification" value="boxing">
-					<input type=hidden name="detailStatus" value="popular">
-					<button type="submit">복싱 인기 더 보기</button>
-			</form>
         </div>
-        
+        <div class="btn-more">
+            <form action="${contextPath}/detail/showAll.do" method="get">
+                <input type="hidden" name="detailClassification" value="boxing">
+                <button type="submit" class="btn btn-primary">복싱 더보기</button>
+            </form>
+        </div>
     </div>
-<!-- 챗봇 -->
+<!-- 챗봇 아이콘 -->
+      <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">
+      
+      <!-- 툴팁 이미지 -->
+       <img src="/images/chatbot/hello.png" class="tooltip-image" id="tooltip_image">
+      
+      <!-- 챗봇 프레임 -->
       <div class="chatbot">
            <iframe id="chatbot_frame" width="350" height="430" allow="microphone;"
            src="https://console.dialogflow.com/api-client/demo/embedded/835aec7e-894b-4357-b90d-e6fabbadfb94"></iframe>
-           <a href="#" onclick="fn_chatbot()"> ☞ 챗봇에게 물어보기</a>  <!-- 챗봇 함수 만들기 -->
        </div>
-    
+      <script>
+      function toggleChatbot() {
+            var frame = document.getElementById('chatbot_frame');
+            if (frame.style.display === 'none' || frame.style.display === '') {
+                frame.style.display = 'block';
+            } else {
+                frame.style.display = 'none';
+            }
+        }
+      
+      function showTooltip() {
+            var tooltip = document.getElementById('tooltip_image');
+            tooltip.style.display = 'block';
+        }
+
+        function hideTooltip() {
+            var tooltip = document.getElementById('tooltip_image');
+            tooltip.style.display = 'none';
+        }
+      </script>
 <script src="/js/member/chatbot.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
