@@ -59,7 +59,7 @@
 				            <td>
 				                <input type="hidden" name="originalFileName${status.count}" value="${imgList.imageFileName}">
 				                <input type="hidden" name="imageFileNo${status.count}" value="${imgList.imageFileNo}">
-				                <img id="preview${status.count}" src="<c:url value='/download.do'/>?freeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
+				                <img id="preview${status.count}" src="<c:url value='/frdownload.do'/>?freeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
 				            </td>
 				        </tr>
 				        <tr>
