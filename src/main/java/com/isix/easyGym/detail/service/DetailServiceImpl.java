@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 @Service("detailServicle")
 public class DetailServiceImpl implements DetailService{
@@ -23,6 +25,11 @@ public class DetailServiceImpl implements DetailService{
 	@Autowired
 	private DetailDibsDTO detailDibsDTO;
 	
+	@Override
+	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException {
+		List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
+		return searchedThing;
+	}
 	
 	@Override
 	public List findAll(String detailClassification) throws DataAccessException {
@@ -60,7 +67,7 @@ public class DetailServiceImpl implements DetailService{
 
 	@Override
 	public DetailDibsDTO findDibs(Map paramMap) throws DataAccessException {
-		detailDibsDTO=detailDAO.findDibs(paramMap);
+		detailDibsDTO=detailDAO.selectDibs(paramMap);
 		return detailDibsDTO;
 	}
 
@@ -69,10 +76,7 @@ public class DetailServiceImpl implements DetailService{
 		detailDAO.insertNoImgReview(noImgReviewMap);
 	}
 
-	@Override
-	public void writeReview(Map review) throws DataAccessException {
-		detailDAO.insertReview(review);
-	}
+	
 
 
 
@@ -82,9 +86,66 @@ public class DetailServiceImpl implements DetailService{
 	}
 
 	@Override
-	public List findReview(int detailNo) throws DataAccessException {
-		List reivew = detailDAO.selectReview(detailNo);
+	public List<DetailReviewDTO> findReview(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reivew = detailDAO.selectReview(detailNo);
 		return reivew;
 	}
+
+
+
+	@Override
+	public void addOperForm(Map detailMap) throws DataAccessException {
+		int detailNo=detailDAO.getNewDetailNo();
+		detailMap.put("detailNo", detailNo);
+		detailDAO.insertOperForm(detailMap);
+		if(detailMap.get("imageFileList")!=null) {
+			detailDAO.insertNewImages(detailMap);		}
+		
+	}
+
+	@Override
+	public int addreview(Map reviewImageMap) throws DataAccessException {
+		int reviewNo=detailDAO.getNewReviewNo();
+		reviewImageMap.put("reviewNo", reviewNo);
+		detailDAO.insertReviewAndImage(reviewImageMap);
+		return reviewNo;
+	}
+	@Transactional
+	@Override
+	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reviews = detailDAO.selectReview(detailNo); 
+		return reviews;
+	}
+
+	@Override
+	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException {
+		List<DetailReviewDTO> reviewImage=detailDAO.selectReviewImage(detailNo);
+		return reviewImage;
+	}
+
+	@Override
+	public List<DetailDTO> findPopularHealth() throws DataAccessException {
+		List<DetailDTO> healthList = detailDAO.selectPopularHealth();
+		return healthList;
+	}
+
+	@Override
+	public List<DetailDTO> findPopularBoxing() throws DataAccessException {
+		List<DetailDTO> boxingList = detailDAO.selectPopularBoxing();
+		return boxingList;
+	}
+
+	@Override
+	public List<DetailDTO> findPopularPilates() throws DataAccessException {
+		List<DetailDTO> pilatesList = detailDAO.selectPopularPilates();
+		return pilatesList;
+	}
+
+	public List<DetailReviewDTO> getReviewImages(int detailNo) {
+		List<DetailReviewDTO> reviewImage = detailDAO.selectReviewImage(detailNo);
+		return null;
+	}
+
+	
 
 }

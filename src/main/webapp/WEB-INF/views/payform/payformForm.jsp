@@ -11,30 +11,37 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이지짐 회원권 구매</title>
     <script src="${contextPath}/JS/payform/payformForm.js"></script>
+    <script>
+        function PaymentMockup() {
+            let fp = document.getElementById('finalPrice').textContent;
+            fp = fp.replace(/[^\d.-]/g, '');
+            window.open("${contextPath}/payform/payformCredit.do?memberNo=${payform[0].memberNo}&detailNo=${payform[1].detailNo}&detailNa=${payform[1].detailBusinessName}&name=${payform[0].memberName}&subscriptionMonths="+parseInt(document.getElementById('subscriptionMonths').value)+"&payformPayment="+parseInt(document.getElementById('payformPayment').value)+"&phoneNumber=${payform[0].memberPhone}&price=" + fp, "_blank");
+        }
+    </script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformForm.css">
 </head>
 <body>
 <div class="bg-image"></div>
-
-<form id="payment_form" action="${contextPath}/payform/payformCredit.do" target="_blank" method="GET">
+<button type="button" id="paymentProcess" onclick="PaymentMockup()">토스 결제 구현</button>
+<form id="payment_form" action="${contextPath}/payform/payformProcess.do" method="POST">
     <div class="container">
         <div class="receipt_info">
             <span class="hidden">멤버 번호: <input id="memberNo" name="memberNo" value="${payform[0].memberNo}"></span>
             <span class="hidden">헬스장 번호: <input id="detailNo" name="detailNo" value="${payform[1].detailNo}"></span>
         </div>
 
-        <h1><span id="detailName">${payform[1].detailBusinessName}</span> 헬스장 구매 폼</h1>
+        <h1 id="detailName"><span  class="emphasized">${payform[1].detailBusinessName}</span> 이용권 구매</h1>
         <input type="hidden" name="detailNa" id="detailNa" value="${payform[1].detailBusinessName}">
 
         <h2>구매자 정보</h2>
         <div class="form_group">
             <label for="name">이름:</label>
-            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요." value="${payform[0].memberName}" required>
+            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요." value="${payform[0].memberName}" readonly required>
         </div>
         <div class="form_group">
             <label for="phoneNumber">휴대폰 번호:</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="번호를 입력해주세요." value="${payform[0].memberPhone}"
-                   pattern="\d{3}-\d{3,4}-\d{4}" required>
+                   pattern="\d{3}-\d{3,4}-\d{4}" readonly required>
         </div>
 
         <h2>구독 정보</h2>
@@ -51,7 +58,7 @@
         <div class="form_group">
             <label for="originalPrice">원래 금액:</label>
             <div id="originalPrice"><span id="oriPrice"></span>원</div>
-            <input type="hidden" id="onePrice" value="${payform[1].detailMonthlyTicket}">
+            <input type="hidden" id="onePrice" value="${payform[1].detailMonthlyPrice}">
         </div>
 
         <div class="form_group">

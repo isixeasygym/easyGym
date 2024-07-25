@@ -74,19 +74,39 @@ document.addEventListener('DOMContentLoaded', function () {
     // 초기 내 정보 탭 설정
     myInfoTabHandler();
 
-    // 비밀번호 확인 이벤트
-    const passwordCheckBtn = document.getElementById('password-check-btn');
-    if (passwordCheckBtn) {
-        passwordCheckBtn.addEventListener('click', function() {
-            var password = document.getElementById('password').value;
-            if (password === "password") { // 실제로는 서버와의 통신이 필요합니다.
-                document.getElementById('password-check').style.display = 'none';
-                document.getElementById('update-form').style.display = 'block';
-            } else {
-                alert("비밀번호가 올바르지 않습니다.");
-            }
-        });
-    }
+    // 비밀번호 확인 이벤트 (여기 addEventListener가 찜 목록과 충돌나게 함.)
+	const passwordCheckBtn = document.getElementById('password-check-btn');
+	if (passwordCheckBtn) {
+	    passwordCheckBtn.addEventListener('click', function() {
+	        var memberPwd = document.getElementById('password').value;
+	        var memberNo = document.getElementById('memberNo').value; // memberNo를 가져오는 코드 추가
+
+	        // FormData 객체 생성 및 데이터 추가
+	        var formData = new FormData();
+	        formData.append('memberNo', memberNo);
+	        formData.append('memberPwd', memberPwd);
+
+	        // AJAX를 사용하여 서버에 비밀번호 확인 요청을 보냄
+	        fetch(`${contextPath}/mypage/checkPassword.do`, {
+	            method: 'GET',
+	            body: formData
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            if (data) { // 서버에서 반환된 값이 true인지 확인
+	                document.getElementById('password-check').style.display = 'none';
+	                document.getElementById('update-form').style.display = 'block';
+	            } else {
+	                alert("비밀번호가 올바르지 않습니다.");
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert("서버와의 통신 중 오류가 발생했습니다.");
+	        });
+	    });
+	}
+
 
     // 포인트 내역 필터링 이벤트
     const filterPointsBtn = document.getElementById('filter-points-btn');
@@ -124,24 +144,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function fn_dibsList(memberNo) {
-    console.log("fn_dibsList() 호출됨"); // 호출 여부 확인을 위한 로그
+//1-2)찜 목록
+function fn_dibsList() {
     $.ajax({
         type: "POST", // 데이터 가져오기
         async: false,  // 비동기식
         url: "/mypage/mypageMain.do", // 서버 측 URL과 맞춰야 함
-        dataType: "json", // 서버에서 JSON 형식으로 데이터 반환을 기대
+        //dataType: "json", // 서버에서 JSON 형식으로 데이터 반환을 기대
 		success: function(data) {
 			var tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>프로그램명</th><th>지역</th><th>찜</th></tr>';
-            if (data && data.dibsList && data.dibsList.length > 0) {
-                
-                data.dibsList.forEach(function(dibs) {
+            //if (data != null) {
+			if (data && data.length > 0) {
+				console.log(data); // 호출 여부 확인을 위한 로그
+                $.each(data, function(index, dibs) {
+					
                     tableHtml += '<tr>' +
-                        '<td>' + dibs.detailNo + '</td>' +
+                        '<td>' + (parseInt(index)+1) + '</td>' +
                         '<td>' + dibs.detailBusinessName + '</td>' +
                         '<td>' + dibs.detailKoClassification + '</td>' +
                         '<td>' + dibs.detailRoadAddress + '</td>' +
                         '<td><button onclick="location.href=\'/mypage/removeDibs.do?detailNo=' + dibs.detailNo + '\'">찜 취소</button></td>' +
+						//'<td><button class="remove-dibs-btn" data-detail-no="${dibs.detailNo}">찜 취소</button></td>' +
                         '</tr>';
 				});
             } else {
@@ -150,23 +173,38 @@ function fn_dibsList(memberNo) {
 
             tableHtml += '</table>';
             $('#dibs-list').html(tableHtml); // HTML로 표시
+			requestInProgress = false;
         },
         error: function(data, textStatus, errorThrown) {
             console.error("에러 발생: ", textStatus, errorThrown);
             alert("에러가 발생했습니다: " + textStatus + " " + errorThrown);
         }
-		
-/*	$.ajax({
-        url: '${contextPath}/mypage/dibsList.do',
-        type: 'GET',
-        data: { memberNo: memberNo },
-        success: function(data) {
-            // 서버로부터 데이터를 성공적으로 받아왔을 때 처리하는 코드
-            $('#dibs-list').html(data);
+   });
+}
+
+//1-2)찜 취소
+function fn_removeDibs(detailNo) {
+	if (!detailNo) {
+        alert("찜 번호가 올바르지 않습니다.");
+		console.log("Invalid detailNo:", detailNo); // 디버깅용 로그
+        return;
+    }
+    $.ajax({
+        type: "POST",
+		async: false,
+        url: "/mypage/removeDibs.do",
+        success: function() {
+            alert("찜이 취소되었습니다.");
+			console.log("찜 취소 성공:", detailNo); // 디버깅용 로그
+            fn_dibsList(); // 찜 목록 새로고침
         },
-        error: function(xhr, status, error) {
-            console.error(error);
-        } */
-				
+		
+        error: function(data, textStatus, errorThrown) {
+            console.error("에러 발생: ", textStatus, errorThrown);
+			console.log("Error response data:", data); // 디버깅용 로그
+            alert("에러가 발생했습니다: " + textStatus + " " + errorThrown);
+        }
     });
 }
+
+		

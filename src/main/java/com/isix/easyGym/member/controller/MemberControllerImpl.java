@@ -117,16 +117,23 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 
-	@Override
-	@GetMapping("/member/loginForm.do") // 회원의 정보를 가지고 간다. 없으면 로그인 폼으로 다시 보낸다.
+	@GetMapping("/member/loginForm.do")
 	public ModelAndView loginForm(@ModelAttribute("member") MemberDTO member,
-			@RequestParam(value = "action", required = false) String action,
-			@RequestParam(value = "result", required = false) String result, HttpServletRequest req,
-			HttpServletResponse res) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
-		mv.setViewName("/member/loginForm");
-		return mv;
+	                               @RequestParam(value = "action", required = false) String action,
+	                               @RequestParam(value = "result", required = false) Integer result, // Integer로 변경
+	                               HttpServletRequest req,
+	                               HttpServletResponse res) throws Exception {
+	    ModelAndView mv = new ModelAndView();
+	    
+	    // result 값이 0이라면 로그인 폼으로 이동
+	    if (result != null && result == 0) {
+	        mv.setViewName("redirect:/member/loginForm.do");
+	        return mv;
+	    }
+	    
+	    mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
+	    mv.setViewName("/member/loginForm");
+	    return mv;
 	}
 
 	

@@ -12,8 +12,10 @@ public interface PayformService {
 
     public int insertPayform(Map payformMap) throws DataAccessException;
 
-    public Map selectPayform(int payformNo) throws DataAccessException;
+    public PayformDTO selectPayform(int payformNo) throws DataAccessException;
 
-    public PayformDTO buyCheck(int memberNo) throws DataAccessException;
+    public int buyCheck(int memberNo) throws DataAccessException;
 
-}
+    public int cancelPayform(int payformNo) throws DataAccessException;
+
+    }

@@ -209,6 +209,3 @@ function combineEmail() {
     console.log("완성된 이메일: " + fullEmail); // 결합된 이메일 확인
 }
 </script>
-
-
-
