@@ -42,4 +42,5 @@ public interface MemberDAO {
 >>>>>>> branch 'develop' of https://github.com/isixeasygym/easyGym.git
 	
 	public boolean selectId(String memberId) throws DataAccessException; 
+	
 }

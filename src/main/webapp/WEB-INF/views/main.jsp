@@ -83,7 +83,7 @@
 
 .carousel-container {
 	width: 100%; /* 원하는 너비 */
-	height: 200px; /* 원하는 높이 */
+	height: 100%; /* 원하는 높이 */
 	margin: 0 auto; /* 중앙 정렬 */
 }
 
