@@ -46,9 +46,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int findMemberNo(int memberNo) throws DataAccessException {
+	public int findmemberNo(int memberNo) throws DataAccessException {
 		int memberNum=memberDAO.selectMemberNo(memberNo);
 		return memberNum;
 	}
+
 
 }
