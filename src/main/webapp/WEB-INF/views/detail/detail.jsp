@@ -19,12 +19,93 @@
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
 <script>
+	
     $(document).ready(function() {
         $('#myTextarea').on('input', function() {
             var charCount = $(this).val().length;
             $('#charCount').text(charCount + '/150');
         });
     });
+	
+$(document).ready(function() {
+    var requestInProgress = false;
+
+    function updateFavoriteButton(button, status) {
+        var newSrc = (status === "insert")
+            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
+            : '${contextPath}/images/detail/detailpage/dibs.png';
+        $(button).find('.dibs').attr('src', newSrc);
+    }
+
+    $(".favorite-button").each(function() {
+        var button = this;
+        var companyId = $(button).find('.companyId').val();
+        var userId = $(button).find('.userId').val();
+
+        $.ajax({
+            type: "GET",
+            url: "${contextPath}/addFavorite",
+            data: { companyId: companyId, userId: userId },
+            success: function(data) {
+                if (data === "insert" || data === "delete") {
+                    updateFavoriteButton(button, data);
+                } else if (data === "nologin") {
+                    alert("회원 정보가 없습니다.");
+                    window.location.href = '${contextPath}/member/loginForm.do';
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+            }
+        });
+    });
+
+    $(".favorite-button").click(function(event) {
+        if (requestInProgress) return;
+
+        requestInProgress = true;
+
+        var button = this;
+        var companyId = $(button).find('.companyId').val();
+        var userId = $(button).find('.userId').val();
+
+        if (!userId || !companyId) {
+            alert("필수 정보가 누락되었습니다.");
+            requestInProgress = false;
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "${contextPath}/addFavorite",
+            data: { companyId: companyId, userId: userId },
+            success: function(data) {
+                if (data === "insert" || data === "delete") {
+                    alert(data === "insert" 
+                        ? "찜 목록에 추가되었습니다." 
+                        : "찜 목록에서 삭제되었습니다.");
+                    updateFavoriteButton(button, data);
+                } else if (data === "nologin") {
+                    alert("회원 정보가 없습니다.");
+                    window.location.href = '${contextPath}/member/loginForm.do';
+                } else {
+                    alert("알 수 없는 오류가 발생했습니다.");
+                }
+                requestInProgress = false;
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                requestInProgress = false;
+            }
+        });
+
+        event.stopPropagation();
+    });
+});
 </script>
 </head>
 <body>
@@ -112,6 +193,13 @@
                 </div>
 				<div id="reviewImageRange">
 					<div id="reviewImage">
+						<c:choose>
+						       <c:when test="${!empty reviewImage}">
+			                       <c:forEach var="reviewImage" items="${reviewImage}">
+			                        	   <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
+								   </c:forEach> 
+							</c:when>
+						</c:choose>		   
 					</div>
 				</div>
                 <div id="reviewRange">
@@ -135,7 +223,6 @@
 			               	</div>
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
 							</button>
-							<input type="hidden" id="detailBusinessEng" value="${details.detailBusinessEng}">
 						</div>	
 			        </div>
 					<div id="reviewContainer">
@@ -193,7 +280,7 @@
                 </p>
 				<div id="fixedContainer">
 			        <form action="${contextPath}/payform/payformForm.do" method="get">
-			            <input type="hidden" name="memberNo" value="${mem.memberNo}">
+			            <input type="hidden" name="memberNo" value="${member.memberNo}">
 			            <input type="hidden" name="detailNo" value="${details.detailNo}">
 			            <button type="submit" id="ticketChoice">회원권 선택</button>
 			        </form>

@@ -1,6 +1,7 @@
 package com.isix.easyGym.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,12 +45,12 @@ public class MemberControllerImpl implements MemberController {
     }
 	
 	// 회원가입 기능
-	@PostMapping(value = "/member/memJoin.do")
+	@PostMapping(value = "/member/addMember.do")
 	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		memberService.addMember(memberDTO);
-		mav.setViewName("redirect:/afterMemJoin.do");
+		mav.setViewName("redirect:/member/afterMemJoin.do");
 		return mav;
 	}
 	
@@ -106,16 +107,23 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 
-	@Override
-	@GetMapping("/member/loginForm.do") // 회원의 정보를 가지고 간다. 없으면 로그인 폼으로 다시 보낸다.
+	@GetMapping("/member/loginForm.do")
 	public ModelAndView loginForm(@ModelAttribute("member") MemberDTO member,
-			@RequestParam(value = "action", required = false) String action,
-			@RequestParam(value = "result", required = false) String result, HttpServletRequest req,
-			HttpServletResponse res) throws Exception {
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
-		mv.setViewName("/member/loginForm");
-		return mv;
+	                               @RequestParam(value = "action", required = false) String action,
+	                               @RequestParam(value = "result", required = false) Integer result, // Integer로 변경
+	                               HttpServletRequest req,
+	                               HttpServletResponse res) throws Exception {
+	    ModelAndView mv = new ModelAndView();
+	    
+	    // result 값이 0이라면 로그인 폼으로 이동
+	    if (result != null && result == 0) {
+	        mv.setViewName("redirect:/member/loginForm.do");
+	        return mv;
+	    }
+	    
+	    mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
+	    mv.setViewName("/member/loginForm");
+	    return mv;
 	}
 
 	
@@ -148,13 +156,22 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
 	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		if (memberService.checkId(memberId)!= null) {
-			mav.addObject("message", "이미 사용중인 ID입니다.");
-		} else {
-			mav.addObject("message", "사용 가능한 ID입니다.");
+		ModelAndView mav = new ModelAndView("jsonView");
+		boolean result = true;
+		System.out.println("id:"+ memberId);
+
+		if(memberId.trim().isEmpty()) {
+			System.out.print("id:"+ memberId);
+			result = false;
+		}else {
+			if(memberService.checkId(memberId) != null) {
+				result = false;
+			}else {
+				result = true;
+			}
 		}
-		mav.setViewName("/member/checkIdResult");
+		mav.addObject("result", result);
+		mav.setStatus(HttpStatus.OK);
 		return mav;
 	}
 

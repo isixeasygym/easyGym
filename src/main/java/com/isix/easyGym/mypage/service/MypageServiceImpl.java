@@ -34,6 +34,7 @@ public class MypageServiceImpl implements MypageService {
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
+	
 	//1-2)찜 취소
 	@Override
 	public void removeDibs(int memberNo, int detailNo) throws DataAccessException {
@@ -43,7 +44,7 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	//2-1)포인트
-	@Override
+/*	@Override
 	public List<MemberDTO> getPointsByMemberNo(int memberNo) throws DataAccessException {
         return mypageDAO.selectPointsByMemberNo(memberNo);
     }
@@ -52,12 +53,20 @@ public class MypageServiceImpl implements MypageService {
 	@Override
     public List<MemberDTO> getCouponsByMemberNo(int memberNo) throws DataAccessException {
         return mypageDAO.selectCouponsByMemberNo(memberNo);
+    } */
+	
+	//3-1)비밀번호 체크
+	public boolean checkPassword(int memberNo, String memberPwd) throws DataAccessException {
+		//System.out.println("checkPassword service called with memberNo: " + memberNo);
+	    String storedPassword = mypageDAO.getPasswordByMemberNo(memberNo);
+	    //System.out.println("Stored password: " + storedPassword);
+	    return storedPassword != null && storedPassword.equals(memberPwd);
     }
 	
 	//3-2)회원정보 수정
-	public void updateMember(MemberDTO memberDTO) throws DataAccessException {
-		mypageDAO.updateMember(memberDTO);
-	}
+/*	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
+		mypageDAO.memberUpdate(memberDTO);
+	} */
 		
 		
 }

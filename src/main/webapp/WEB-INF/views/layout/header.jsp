@@ -8,8 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="/images/member/icecream.png" type="image/x-icon">
-<link rel="icon" href="/images/member/icecream.png" type="image/x-icon">
-<title>이지집 공식웹사이트</title>
+<link rel="icon" href="/images/member/panda.png" type="image/x-icon">
+<title>EasyGym</title>
 <!-- jQuery 로드 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="annonymous"></script>
 <script
@@ -42,12 +42,11 @@
 }
 </style>
 </head>
-
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 		<a class="navbar-brand" href="/main.do">EasyGym</a>
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			<li class="nav-item active"><a class="nav-link" href="${contextPath }/notice/noticeList.do">공지사항</a></li>
+			<li class="nav-item active"><a class="nav-link" href="">공지사항</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="${contextPath }/freeboard/fboardList.do">커뮤니티</a></li>
 			<li class="nav-item dropdown"><a
@@ -71,7 +70,7 @@
 						<li class="nav-item">
 							<h1 class="welcome-message">
 								환영합니다, <span>${sessionScope.member.memberName}님!</span>
-							</h1></li>
+							</h1>
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item"><a class="btn btn-info btn-sm"
@@ -83,7 +82,7 @@
 			</ul>
 		</div>
 	</nav>
-	<div id="mainContainer">
+	<div>
 	<!-- 부트스트랩 JS 로드 -->
 	<script
 		src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

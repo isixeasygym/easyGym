@@ -33,20 +33,20 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO login(MemberDTO member) throws DataAccessException {
 		return memberDAO.login(member);
 	}
+	
 	// 중복체크
 	public String checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
-
 	}
 
 	@Override
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-		MemberDTO result = memberDAO.loginChecking(memberNo);
+	public int loginCheck(int memberNo) throws DataAccessException {
+		int result = memberDAO.loginChecking(memberNo);
 		return result;
 	}
 
 	@Override
-	public int findmemberNo(int memberNo) throws DataAccessException {
+	public int findMemberNo(int memberNo) throws DataAccessException {
 		int memberNum=memberDAO.selectMemberNo(memberNo);
 		return memberNum;
 	}
