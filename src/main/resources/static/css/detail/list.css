@@ -1,3 +1,4 @@
+/*그냥 이 코드로 덮어 씌워주세요*/
 @charset "utf-8";
 
 :root {
@@ -78,25 +79,25 @@ body {
 }
 
 .options-container {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    padding: 10px 20px;
-    z-index: 999;
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 20px;
+    gap: 70px; /* 요소들 사이의 전체적인 간격 */
 }
 
-.option-select {
-    padding: 8px 12px;
-    border: 1px solid var(--secondary-color);
-    border-radius: var(--border-radius);
-    font-size: 14px;
-    outline: none;
+.option-group {
+    display: flex;
+    align-items: center;
+}
+
+.option-group label {
+    margin-right: 20px; /* 라벨과 리스트박스 사이의 간격 */
+    white-space: nowrap; /* 라벨이 줄바꿈되지 않도록 설정 */
+}
+
+#districtSelect, #facilityType {
+    flex: 1; /* 남은 공간을 채우도록 설정 */
+    min-width: 150px; /* 최소 너비 설정 */
 }
 
 .main-container {
