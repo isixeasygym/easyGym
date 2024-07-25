@@ -94,8 +94,7 @@
 	)
 	SELECT reviewImgName, detailNo, memberNo
 	FROM FilteredReviews
-
-LIMIT 6;
+	LIMIT 5;
 		]]>
 	</select>
 
@@ -187,7 +186,7 @@ LIMIT 6;
  	
  	<insert id="insertNoImgReview" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into detailreview_tbl (reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values(#{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreview_tbl ( reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values( #{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
  		]]>
  	</insert>
  	

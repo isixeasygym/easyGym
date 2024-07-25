@@ -1,24 +1,59 @@
-package com.isix.easyGym.common;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.OutputStream;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller("fileDownload")
 public class FileDownloadController extends HttpServlet {
-	private static String ARTICLE_IMG_REPO="C:\\kh\\fileupload";
-
+	
+	@ResponseBody
 	@GetMapping("/download.do")
-	public void fileDown(@RequestParam("noticeNo") int noticeNo, @RequestParam("imageFileName") String imageFileName,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
+	public void fileDown(@RequestParam("imageFileName") String imageFileName,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		System.out.print("1");
+		String downFile= imageFileName;
+		File file=new File(downFile);
+		
+		if(file.exists()) {
+			Thumbnails.of(file).size(100, 100).outputFormat("png").toOutputStream(out);
+			
+		}else {
+			return; //이미지 없으면
+		}
+		byte[] buffer = new byte[1024*8];
+		out.write(buffer);
+		out.close();
+	}
+}
+	/*@ResponseBody
+	@GetMapping("/download.do")
+	public void fileDown(@RequestParam("imageFileName") String imageFileName,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		System.out.print("1");
+		String downFile= imageFileName;
+		File file=new File(downFile);
+		
+		if(file.exists()) {
+			Thumbnails.of(file).size(100, 100).outputFormat("png").toOutputStream(out);
+			
+		}else {
+			return; //이미지 없으면
+		}
+		byte[] buffer = new byte[1024*8];
+		out.write(buffer);
+		out.close();
+		
+	}
+}
+		/*request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		//읽어오는 것 input / 읽어온것을 클라이언트에 전달하는 것 output
 		OutputStream outs = response.getOutputStream();
@@ -37,5 +72,5 @@ public class FileDownloadController extends HttpServlet {
 		}
 		inputs.close();
 		outs.close();
-	}
-}
+	}*/
+

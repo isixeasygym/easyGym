@@ -369,16 +369,17 @@ public class DetailControllerImpl implements DetailController{
 	
 	@Override
 	@ResponseBody
-	@RequestMapping(value = "/getReviews.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/getReviews.do", method = {RequestMethod.POST, RequestMethod.GET})
 	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+	    System.out.print(reviews.get(0).getReviewImgName());
 	    return reviews;
 	}
-	
+	@ResponseBody
 	@Override
 	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)
-	public List<DetailReviewDTO> getReviewImages(int detailNo, HttpServletRequest request, HttpServletResponse response)
+	public List<DetailReviewDTO> getReviewImages(@RequestParam("companyId") int detailNo, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		List<DetailReviewDTO> reviewImage = detailService.getReviewImages(detailNo);
 		return reviewImage;
