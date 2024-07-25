@@ -1,5 +1,6 @@
 package com.isix.easyGym.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.isix.easyGym.admin.dao.AdminDAO;
 import com.isix.easyGym.admin.dto.AdminDTO;
 import com.isix.easyGym.admin.service.AdminServiceImpl;
 import com.isix.easyGym.member.dto.MemberDTO;
@@ -30,6 +32,9 @@ public class AdminControllerImpl implements AdminController {
 	
 	@Autowired
 	private AdminDTO adminDTO;
+	
+	@Autowired
+	private AdminDAO adminDAO;
 	
 	// 관리자 가입
 	@Override
@@ -82,7 +87,7 @@ public class AdminControllerImpl implements AdminController {
 			if(action != null) {
 				mv.setViewName("redirect:" + action);
 			}else {
-				mv.setViewName("redirect:/admin/index.do");
+				mv.setViewName("redirect:/admin/memberList.do");
 			}
 		}else {
 			rAttr.addAttribute("result","아이디, 비밀번호가 다릅니다.");
@@ -105,16 +110,8 @@ public class AdminControllerImpl implements AdminController {
 	
 	
 	
-	// 관리자 메인 페이지
-	@Override
-	@GetMapping("/admin/index.do")
-	public ModelAndView adminMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/index");
-		return mav;
-	} 
 	
-	// 회원 전체 조회
+	// 회원 전체 조회 
 	@RequestMapping(value = "/admin/memberList.do", method = RequestMethod.GET)
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.memberList();
@@ -134,28 +131,28 @@ public class AdminControllerImpl implements AdminController {
 		return mav;
 	}
 	
-	/*
+	
 	// 사업자 전체 조회
-	@RequestMapping(value = "/admin/operatorList.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/operList.do", method = RequestMethod.GET)
 	public ModelAndView operatorList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List mlist=adminService.memberList();
+		List olist=adminService.operList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/memberList");
-		mav.addObject("mlist",mlist);
+		mav.setViewName("/admin/operList");
+		mav.addObject("olist",olist);
 		return mav;
 	}
 
-	// 탈퇴 사업자 조회 
-	@RequestMapping(value = "/admin/withdrawMember.do", method = RequestMethod.GET)
-	public ModelAndView withdrawOperator(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List mlist=adminService.memberList();
+	// 업체 리스트 조회 
+	@RequestMapping(value = "/admin/companyList.do", method = RequestMethod.GET)
+	public ModelAndView companyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List clist=adminService.comList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/withdrawMember");
-		mav.addObject("mlist",mlist);
+		mav.setViewName("/admin/companyList");
+		mav.addObject("clist",clist);
 		return mav;
 	}
 	
-	*/
+	
 	
 	
 

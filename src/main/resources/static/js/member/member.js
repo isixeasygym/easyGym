@@ -54,46 +54,18 @@ const idTag = document.getElementById('memberId');
          document.join.submit();
       }
    }
+   
    // 아이디
-   function checkId(f) {
-      if (f.memberId.value == "") {
-         alert("아이디를 입력하십시오!");
-         return;
-      }
-      if (!regID.test(idTag.value)) {
-         alert("8~15사이의 아이디를 입력하십시오");
-         return;
-      }
-    
-      var url = "/member/checkId";
-      var param = "id=" + encodeURIComponent(f.memberId.value);
-    
-      sendRequest(url, param, resultFn, "POST");
-   } 
-   function resultFn() {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-         //도착된 데이터를 읽어오기
-         var data = xhr.responseText;
-         const join = document.getElementById("join");
-         const check = document.getElementById('check');
-         const id = document.getElementById('memberId');
-    
-         check.innerText = '';
-    
-         if (data === '사용 가능한 ID입니다') {
-            check.style.cssText = "color: blue; font-size: 10px;";
-            join.disabled = false;
-         } else {
-            check.style.cssText = "color: red; font-size: 10px;";
-            join.disabled = true;
-         }
-         check.innerText = data;
-      }
-   }
+   $('#confirmId').click(function(){
+           if($('#memberId').val().trim()==''){
+               $('#check').css('color','#fba082').text('아이디를 입력하세요');
+               $('#memberId').val('').focus();
+               return;
+           }
+   
    
    // 비밀번호
-   
-   pwTag.addEventListener("focus",() =>{
+  pwTag.addEventListener("focus",() =>{
       pwError.innerHTML = "'숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자이상 작성해주세요";
       pwError.style.cssText = "color: red; font-size: 10px;";
    }); 
@@ -127,7 +99,6 @@ const idTag = document.getElementById('memberId');
    });
    
 
-   
    // 이메일 
   /** mailCheckBtn.addEventListener("click", ()=>{
       const memberEmail = $('#memberEmail').val() + $('#memberEmail2').val(); // 이메일 주소값 가져오기
@@ -152,4 +123,4 @@ const idTag = document.getElementById('memberId');
          resultMsg.innerHTML = "인증번호가 불일치 합니다. 다시 확인해주세요";
          resultMsg.style.cssText = "color: red; font-size: 10px;";
       }
-   });
+   }); */

@@ -27,7 +27,36 @@
  		<result property="memberMarketing" column="memberMarketing"/>
  	</resultMap> 
 	
-	
+	<resultMap type="java.util.Map" id="operResult">
+		<result property="operatorNo" column="operatorNo"/>
+ 		<result property="operatorName" column="operatorName"/>
+ 		<result property="operatorId" column="operatorId"/>
+ 		<result property="operatorPhone" column="operatorPhone"/>
+ 		<result property="operatorEmail" column="operatorEmail"/>
+ 		<result property="operatorResNo" column="operatorResNo"/>
+ 		<result property="detailBusinessName" column="detailBusinessName"/>
+	</resultMap>
+
+	<resultMap type="detailDTO" id="deResult">
+		<result property="detailNo" column="detailNo"/>
+		<result property="detailDate" column="detailDate"/>
+		<result property="detailRoadAddress" column="detailRoadAddress"/>
+		<result property="detailBusinessName" column="detailBusinessName"/>
+		<result property="detailBusinessEng" column="detailBusinessEng"/>
+		<result property="detailDailyTicket" column="detailDailyTicket"/>
+		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+		<result property="detailScope" column="detailScope"/>
+		<result property="detailComment" column="detailComment"/>
+		<result property="detailServiceProgram" column="detailServiceProgram"/>
+		<result property="detailStatus" column="detailStatus"/>
+		<result property="detailClassification" column="detailClassification"/>
+		<result property="detailFreeService" column="detailFreeService"/>
+		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+		<result property="detailKoClassification" column="detailKoClassification"/>
+		<result property="detailLatitude" column="detailLatitude"/>
+		<result property="detailLongitude" column="detailLongitude"/>
+		<result property="operatorNo" column="operatorNo"/>
+	</resultMap>
 
 	<!-- SQL문 중복 제거하기 -->
  	<sql id="sr">
@@ -92,6 +121,25 @@
  		order by joinDate desc
  	</select>
 	
+ 	<!-- 전체 사업자정보 리스트 -->
+ 	<select id="selectOper" resultMap="operResult">
+ 		<![CDATA[
+ 			select o.operatorNo, o.operatorName, o.operatorId, o.operatorPhone, o.operatorEmail, o.operatorResNo, d.detailBusinessName from operators_tbl o join detail_tbl d on o.operatorNo = d.operatorNo order by o.operatorNo desc 		
+ 		]]>
+ 	</select>
  	
+ 	<!-- 탈퇴 사업자정보 리스트 -->
+ 	<select id="selectWithOper" resultMap="operResult">
+ 		<![CDATA[
+ 			select * from operators_tbl where operatorState=0 order by operatorNo desc 		
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 업체 리스트 -->
+ 	<select id="selectCompany" resultMap="deResult">
+ 		<![CDATA[
+ 			select * from detail_tbl  order by detailNo desc 		
+ 		]]>
+ 	</select>
  </mapper>
  
