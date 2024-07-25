@@ -1,4 +1,7 @@
+package com.isix.easyGym.common;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.OutputStream;
 
 import org.springframework.stereotype.Controller;
@@ -11,11 +14,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.coobird.thumbnailator.Thumbnails;
 
-@Controller("fileDownload")
-public class FileDownloadController extends HttpServlet {
+@Controller("detailFileDownload")
+public class DetailFileDownloadController extends HttpServlet {
 	
 	@ResponseBody
-	@GetMapping("/download.do")
+	@GetMapping("/reviewDownload.do")
 	public void fileDown(@RequestParam("imageFileName") String imageFileName,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		OutputStream out = response.getOutputStream();
 		System.out.print("1");
