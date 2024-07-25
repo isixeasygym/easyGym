@@ -8,7 +8,7 @@
                     <li class="nav-item"><a href="/main.do" class="nav-link px-2 text-body-secondary">Features</a></li>
                     <li class="nav-item"><a href="/main.do" class="nav-link px-2 text-body-secondary">Pricing</a></li>
                     <li class="nav-item"><a href="/main.do" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item"><a href="/admin/loginform.do" class="nav-link px-2 text-body-secondary">Admin</a></li>
+                    <li class="nav-item"><a href="/admin/loginForm.do" class="nav-link px-2 text-body-secondary">관리자</a></li>
                 </ul>
                 <p class="text-center text-body-secondary">&copy; 2024 Company, Inc</p>
       </div>
