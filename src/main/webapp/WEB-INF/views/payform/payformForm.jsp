@@ -20,12 +20,29 @@
         function PaymentMockup() {
             let fp = document.getElementById('finalPrice').textContent;
             fp = fp.replace(/[^\d.-]/g, '');
-            window.open("${contextPath}/payform/payformCredit.do?memberNo=${payform[0].memberNo}&detailNo=${payform[1].detailNo}&detailNa=${payform[1].detailBusinessName}&name=${payform[0].memberName}&subscriptionMonths="+parseInt(document.getElementById('subscriptionMonths').value)+"&payformPayment="+parseInt(document.getElementById('payformPayment').value)+"&phoneNumber=${payform[0].memberPhone}&price=" + fp, "_blank");
+
+            // 폼 필드 값 설정
+            document.getElementById('formSubscriptionMonths').value = document.getElementById('subscriptionMonths').value;
+            document.getElementById('formPayformPayment').value = document.getElementById('payformPayment').value;
+            document.getElementById('formPrice').value = fp;
+
+            // 폼 제출
+            document.getElementById('creditForm').submit();
         }
     </script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformForm.css">
 </head>
 <body>
+<form id="creditForm" action="${contextPath}/payform/payformCredit.do" method="POST" target="_blank" style="display: none;">
+    <input type="hidden" name="memberNo" value="${payform[0].memberNo}">
+    <input type="hidden" name="detailNo" value="${payform[1].detailNo}">
+    <input type="hidden" name="detailNa" value="${payform[1].detailBusinessName}">
+    <input type="hidden" name="name" value="${payform[0].memberName}">
+    <input type="hidden" name="subscriptionMonths" id="formSubscriptionMonths">
+    <input type="hidden" name="payformPayment" id="formPayformPayment">
+    <input type="hidden" name="phoneNumber" value="${payform[0].memberPhone}">
+    <input type="hidden" name="price" id="formPrice">
+</form>
 <div class="bg-image"></div>
 <button type="button" id="paymentProcess" onclick="PaymentMockup()">토스 결제 구현</button>
 <form id="payment_form" action="${contextPath}/payform/payformProcess.do" method="POST">

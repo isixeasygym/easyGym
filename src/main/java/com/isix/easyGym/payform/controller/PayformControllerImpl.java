@@ -76,7 +76,7 @@ public class PayformControllerImpl implements PayformController {
     }
 
     @Override
-    @RequestMapping(value = "/payform/payformDone.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/payform/payformDone.do",method = RequestMethod.GET)
     public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
