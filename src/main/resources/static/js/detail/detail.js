@@ -122,16 +122,16 @@ function writeSubmit() {
                     if (reviews.length > 0) {
                         reviews.forEach(function(review) {
                             var reviewHtml = `
-                                <div class="ReviewRange">
-                                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
-                                    <div class="personReviewRange">
-                                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-                                        <p>(익명의 회원)</p>
-                                        <img src="${contextPath}/images/detail/detailpage/star.JPG">
-                                        <p>${review.reviewDate}</p>
-                                        <p class="reviewComment">${review.reviewComment}</p>
-                                    </div>
-                                </div>
+							<div class="ReviewRange" data-review-no="${review.reviewNo}">
+			                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+			                    <div class="personReviewRange">
+			                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+			                        <p class="anonymous">(익명의 회원)</p>
+			                        <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
+			                        <p class="reviewDate">${review.reviewDate}</p>
+			                        <textarea class="reviewComment">${review.reviewComment}</textarea>
+			                    </div>
+			                </div>
                             `;
                             reviewContainer.append(reviewHtml);
                         });
@@ -171,15 +171,15 @@ function updateReviewImages(companyId) {
         data: { companyId: companyId },
         success: function(response) {
             var reviewImageContainer = $('#reviewImage');
-            reviewImageContainer.empty();
+            reviewImageContainer.empty(); // Clear existing images
 
-            var imagesToShow = response.slice(0, 5);
+            var imagesToShow = response.slice(0, 5); // Limit to 5 images
 
             if (imagesToShow.length > 0) {
                 imagesToShow.forEach(function(image) {
                     var imageHtml = `
                         <img class="reviewImage" style="width:130px; height:130px;" 
-                             src="/download.do?detailNo=${encodeURIComponent(image.detailNo)}&memberNo=${encodeURIComponent(image.memberNo)}&imageFileName=${encodeURIComponent(image.reviewImgName)}" />
+                             src="/detailDownload.do?detailNo=${encodeURIComponent(image.detailNo)}&memberNo=${encodeURIComponent(image.memberNo)}&imageFileName=${encodeURIComponent(image.reviewImgName)}"
                     `;
                     reviewImageContainer.append(imageHtml);
                 });
