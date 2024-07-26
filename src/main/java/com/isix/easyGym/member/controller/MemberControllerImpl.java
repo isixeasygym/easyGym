@@ -133,28 +133,41 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		memberDTO = memberService.login(member);
-		ModelAndView mv = new ModelAndView();	
-		if (memberDTO != null) {
-			HttpSession session= request.getSession();
-			session.setMaxInactiveInterval(30 * 60);
-			session.setAttribute("member", memberDTO);
-			session.setAttribute("isLogOn", true);
-			String action = (String) session.getAttribute("action");
-			if (action != null) {
-				mv.setViewName("redirect:" + action);
-			} else {
-				mv.setViewName("redirect:/main.do");
-			}
-		} else {
-			RedirectView redirectView = new RedirectView("/member/loginForm.do");
-			redirectView.addStaticAttribute("result", "아이디, 비밀번호가 다릅니다. 다시 로그인해주세요.");
-			mv.setView(redirectView);
-		}
-		return mv;
+	                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // 로그인 시도
+	    memberDTO = memberService.login(member);
+	    ModelAndView mv = new ModelAndView();
+	    
+	    // 로그인 성공 시
+	    if (memberDTO != null) {
+	        // 탈퇴한 회원인지 확인
+	        if (memberDTO.getMemberState() == 0) {
+	            // 탈퇴한 회원이면 로그인 실패 처리
+	            rAttr.addAttribute("alertMessage", "탈퇴한 회원입니다.");
+	            mv.setViewName("redirect:/member/loginForm.do");
+	        } else {
+	            // 정상 회원이면 로그인 성공 처리
+	            HttpSession session = request.getSession();
+	            session.setMaxInactiveInterval(30 * 60);
+	            session.setAttribute("member", memberDTO);
+	            session.setAttribute("isLogOn", true);
+	            
+	            // 세션에서 action을 가져와서 리디렉션 처리
+	            String action = (String) session.getAttribute("action");
+	            if (action != null) {
+	                mv.setViewName("redirect:" + action);
+	            } else {
+	                mv.setViewName("redirect:/main.do");
+	            }
+	        }
+	    } else {
+	        // 로그인 실패 시 메시지를 쿼리 파라미터로 전달
+	        rAttr.addAttribute("alertMessage", "아이디, 비밀번호가 다릅니다. 다시 로그인해주세요.");
+	        mv.setViewName("redirect:/member/loginForm.do");
+	    }
+	    
+	    return mv;
 	}
-
 
 	// 아이디 중복체크
 	@PostMapping("/member/checkId.do")
