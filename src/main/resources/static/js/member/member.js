@@ -132,4 +132,4 @@ const idTag = document.getElementById('memberId');
        document.getElementById('memberEmail').value = fullEmail;
 
        console.log("완성된 이메일: " + fullEmail); // 결합된 이메일 확인
-   }
+   }	
