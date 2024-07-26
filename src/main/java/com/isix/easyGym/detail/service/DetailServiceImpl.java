@@ -30,6 +30,12 @@ public class DetailServiceImpl implements DetailService{
 		List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
 		return searchedThing;
 	}
+
+	@Override
+	public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException {
+		List<DetailDTO> searchedPlace = detailDAO.selectPLaceQuery(searchMap);
+		return searchedPlace;
+	}
 	
 	@Override
 	public List findAll(String detailClassification) throws DataAccessException {
