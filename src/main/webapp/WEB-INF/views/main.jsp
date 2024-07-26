@@ -286,12 +286,11 @@ text-align: center;
             </c:otherwise>
         </c:choose>
     </div>
-    <div class="btn-more">
-        <form action="${contextPath}/detail/search.do?query=&detailClassification=health" method="get">
-            <input type="hidden" name="detailClassification" value="health">
-            <button type="submit" class="btn btn-primary">헬스 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+	    <a href="${contextPath}/detail/search.do?query=&detailClassification=health" class="btn btn-primary">
+	        헬스 더보기
+	    </a>
+	</div>
 
     <h2>필라테스 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -332,12 +331,11 @@ text-align: center;
 			</a>
         </div>
     </div>
-    <div class="btn-more">
-        <form action="${contextPath}/detail/search.do?query=&detailClassification=pilates" method="get">
-            <input type="hidden" name="detailClassification" value="yoga">
-            <button type="submit" class="btn btn-primary">필라테스 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+	    <a href="${contextPath}/detail/search.do?query=&detailClassification=pilates" class="btn btn-primary">
+	        헬스 더보기
+	    </a>
+	</div>
     
     <h2>복싱장 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -378,12 +376,11 @@ text-align: center;
 			</a>
         </div>
     </div>
-    <div class="btn-more">
-        <form action="{contextPath}/detail/search.do?query=&detailClassification=boxing" method="get">
-            <input type="hidden" name="detailClassification" value="boxing">
-            <button type="submit" class="btn btn-primary">복싱 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+		    <a href="${contextPath}/detail/search.do?query=&detailClassification=boxing" class="btn btn-primary">
+		        헬스 더보기
+		    </a>
+		</div>
 </div>
 <!-- 챗봇 아이콘 -->
       <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">
