@@ -37,18 +37,19 @@ public class MemberServiceImpl implements MemberService {
 	// 중복체크
 	public String checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
+
 	}
 
 	@Override
-	public MemberDTO loginCheck(int memberNo) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public int loginCheck(int memberNo) throws DataAccessException {
+		int result = memberDAO.loginChecking(memberNo);
+		return result;
 	}
 
 	@Override
-	public int findmemberNo(int memberNo) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int findMemberNo(int memberNo) throws DataAccessException {
+		int memberNum=memberDAO.selectMemberNo(memberNo);
+		return memberNum;
 	}
 
 	@Override

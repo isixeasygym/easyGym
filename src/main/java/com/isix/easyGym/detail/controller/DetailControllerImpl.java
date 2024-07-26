@@ -266,21 +266,29 @@ public class DetailControllerImpl implements DetailController{
 	        return status;
 	    }
 	
+		
+		
 
-	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
-	@ResponseBody
-	public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
-	    Map<String, Object> paramMap = new HashMap<>();
-	    paramMap.put("detailNo", detailNo);
-	    paramMap.put("memberNo", memberNo);
+		@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
+		@ResponseBody
+		public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
+		    // 로그인 여부 확인
+		    if (memberNo == null || memberNo.isEmpty()) {
+		        return "nologin"; // 로그인하지 않은 경우
+		    }
 
-	    DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
-	    if (detailDibsDTO != null) {
-	        return "insert"; // 찜 되어 있는 상태
-	    } else {
-	        return "delete"; // 찜 되어 있지 않은 상태
-	    }
-	}
+		    // 찜 상태 확인
+		    Map<String, Object> paramMap = new HashMap<>();
+		    paramMap.put("detailNo", detailNo);
+		    paramMap.put("memberNo", memberNo);
+
+		    DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
+		    if (detailDibsDTO != null) {
+		        return "insert"; // 찜 상태
+		    } else {
+		        return "delete"; // 찜 상태 아님
+		    }
+		}
 	
 	
 	

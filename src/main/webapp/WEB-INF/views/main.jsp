@@ -129,7 +129,9 @@ text-align: center;
             display: none; /* 초기 상태에서는 숨김 */
             z-index: 1001; /* 아이콘보다 앞에 표시되도록 설정 */
 }
-
+.card-text{
+	height:48px;
+}
 </style>
 <div
 	class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
@@ -199,145 +201,190 @@ text-align: center;
 	</button>
 </div>
 
-        <div class="container">
-        <div><h2>헬스장 인기순위</h2></div>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">정글짐</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">멋짐</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">마음가짐</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="btn-more">
-            <form action="${contextPath}/detail/showAll.do" method="get">
-                <input type="hidden" name="detailClassification" value="health">
-                <button type="submit" class="btn btn-primary">헬스 더보기</button>
-            </form>
-        </div>
-		
-        <h2>요가/필라테스 인기순위</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">호주 필라테스</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">슬림 필라테스</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">멋쟁이 필라테스</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="btn-more">
-            <form action="${contextPath}/detail/showAll.do" method="get">
-                <input type="hidden" name="detailClassification" value="yoga">
-                <button type="submit" class="btn btn-primary">필라테스 더보기</button>
-            </form>
-        </div>
+<div class="container">
+    <h2>헬스장 인기순위</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- 첫 번째 헬스장 -->
+		<c:choose>
+		    <c:when test="${not empty healthList[0]}">
+		        <div class="col">
+		                <a href="${contextPath}/detail/detail.do?detailNo=${healthList[0].detailNo}">
+		            <div class="card shadow-sm">
+		                    <img src="${contextPath}/images/detail/${healthList[0].detailClassification}/${healthList[0].detailBusinessEng}/${healthList[0].detailBusinessEng}1.PNG" class="card-img-top" alt="${healthList[0].detailBusinessName}">
+		                <div class="card-body">
+		                        <p class="card-text">${healthList[0].detailBusinessName}</p>
+		                    	<p class="card-text">${healthList[0].detailRoadAddress}</p>
+		                </div>
+		            </div>
+		                </a>
+		        </div>
+		    </c:when>
+		    <c:otherwise>
+		        <div class="col">
+		            <div class="card shadow-sm">
+		                <img src="${contextPath}/images/placeholder.png" class="card-img-top" alt="Placeholder">
+		                <div class="card-body">
+		                    <p class="card-text">헬스장 정보가 없습니다.</p>
+		                </div>
+		            </div>
+		        </div>
+		    </c:otherwise>
+		</c:choose>
+
         
-        <h2>복싱장 인기순위</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">펀치 복싱장</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <!-- 두 번째 헬스장 -->
+        <c:choose>
+            <c:when test="${not empty healthList[1]}">
+                <div class="col">
+					<a href="${contextPath}/detail/detail.do?detailNo=${healthList[1].detailNo}">
+                    <div class="card shadow-sm">
+                        <img src="${contextPath}/images/detail/${healthList[1].detailClassification}/${healthList[1].detailBusinessEng}/${healthList[1].detailBusinessEng}2.PNG" class="card-img-top" alt="${healthList[1].detailBusinessName}">
+                        <div class="card-body">
+                            <p class="card-text">${healthList[1].detailBusinessName}</p>
+                            <p class="card-text">${healthList[1].detailRoadAddress}</p>
+                        </div>
+                    </div>
+					</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="${contextPath}/images/placeholder.png" class="card-img-top" alt="Placeholder">
+                        <div class="card-body">
+                            <p class="card-text">헬스장 정보가 없습니다.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">몸짱 복싱</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </c:otherwise>
+        </c:choose>
+
+        <!-- 세 번째 헬스장 -->
+        <c:choose>
+            <c:when test="${not empty healthList[2]}">
+                <div class="col">
+					<a href="${contextPath}/detail/detail.do?detailNo=${healthList[2].detailNo}">
+                    <div class="card shadow-sm">
+                        <img src="${contextPath}/images/detail/${healthList[2].detailClassification}/${healthList[2].detailBusinessEng}/${healthList[2].detailBusinessEng}3.PNG" class="card-img-top" alt="${healthList[2].detailBusinessName}">
+                        <div class="card-body">
+                            <p class="card-text">${healthList[2].detailBusinessName}</p>
+                            <p class="card-text">${healthList[2].detailRoadAddress}</p>
+                        </div>
+                    </div>
+					</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="${contextPath}/images/placeholder.png" class="card-img-top" alt="Placeholder">
+                        <div class="card-body">
+                            <p class="card-text">헬스장 정보가 없습니다.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://via.placeholder.com/800x600.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">엄청나 복싱장</p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2">View</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        </div>
-                    </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+    <div class="btn-more">
+        <form action="${contextPath}/detail/showAll.do" method="get">
+            <input type="hidden" name="detailClassification" value="health">
+            <button type="submit" class="btn btn-primary">헬스 더보기</button>
+        </form>
+    </div>
+
+    <h2>요가/필라테스 인기순위</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- 첫 번째 요가/필라테스 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[0].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${pilatesList[0].detailClassification}/${pilatesList[0].detailBusinessEng}/${pilatesList[0].detailBusinessEng}1.PNG" class="card-img-top" alt="${pilatesList[0].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${pilatesList[0].detailBusinessName}</p>
+                    <p class="card-text">${pilatesList[0].detailRoadAddress}</p>
                 </div>
             </div>
+			</a>
         </div>
-        <div class="btn-more">
-            <form action="${contextPath}/detail/showAll.do" method="get">
-                <input type="hidden" name="detailClassification" value="boxing">
-                <button type="submit" class="btn btn-primary">복싱 더보기</button>
-            </form>
+        <!-- 두 번째 요가/필라테스 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[1].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${pilatesList[1].detailClassification}/${pilatesList[1].detailBusinessEng}/${pilatesList[1].detailBusinessEng}2.PNG" class="card-img-top" alt="${pilatesList[1].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${pilatesList[1].detailBusinessName}</p>
+                    <p class="card-text">${pilatesList[1].detailRoadAddress}</p>
+                </div>
+            </div>
+			</a>
+        </div>
+        <!-- 세 번째 요가/필라테스 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[2].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${pilatesList[2].detailClassification}/${pilatesList[2].detailBusinessEng}/${pilatesList[2].detailBusinessEng}3.PNG" class="card-img-top" alt="${pilatesList[2].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${pilatesList[2].detailBusinessName}</p>
+                    <p class="card-text">${pilatesList[2].detailRoadAddress}</p>
+                </div>
+            </div>
+			</a>
         </div>
     </div>
+    <div class="btn-more">
+        <form action="${contextPath}/detail/showAll.do" method="get">
+            <input type="hidden" name="detailClassification" value="yoga">
+            <button type="submit" class="btn btn-primary">필라테스 더보기</button>
+        </form>
+    </div>
+    
+    <h2>복싱장 인기순위</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- 첫 번째 복싱장 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${boxingList[0].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${boxingList[0].detailClassification}/${boxingList[0].detailBusinessEng}/${boxingList[0].detailBusinessEng}1.PNG" class="card-img-top" alt="${boxingList[0].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${boxingList[0].detailBusinessName}</p>
+                    <p class="card-text">${boxingList[0].detailRoadAddress}</p>
+                </div>
+            </div>
+			</a>
+        </div>
+        <!-- 두 번째 복싱장 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${boxingList[1].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${boxingList[1].detailClassification}/${boxingList[1].detailBusinessEng}/${boxingList[1].detailBusinessEng}2.PNG" class="card-img-top" alt="${boxingList[1].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${boxingList[1].detailBusinessName}</p>
+                    <p class="card-text">${boxingList[1].detailRoadAddress}</p>
+                </div>
+            </div>
+			</a>
+        </div>
+        <!-- 세 번째 복싱장 -->
+        <div class="col">
+			<a href="${contextPath}/detail/detail.do?detailNo=${boxingList[2].detailNo}">
+            <div class="card shadow-sm">
+                <img src="${contextPath}/images/detail/${boxingList[2].detailClassification}/${boxingList[2].detailBusinessEng}/${boxingList[2].detailBusinessEng}3.PNG" class="card-img-top" alt="${boxingList[2].detailBusinessName}">
+                <div class="card-body">
+                    <p class="card-text">${boxingList[2].detailBusinessName}</p>
+                    <p class="card-text">${boxingList[2].detailRoadAddress}</p>
+                </div>
+            </div>
+			</a>
+        </div>
+    </div>
+    <div class="btn-more">
+        <form action="${contextPath}/detail/showAll.do" method="get">
+            <input type="hidden" name="detailClassification" value="boxing">
+            <button type="submit" class="btn btn-primary">복싱 더보기</button>
+        </form>
+    </div>
+</div>
 <!-- 챗봇 아이콘 -->
       <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">
       

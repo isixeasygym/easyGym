@@ -40,32 +40,41 @@
 	        $(button).find('.dibs').attr('src', newSrc);
 	    }
 
-	    // 페이지 로드 시 찜 상태를 확인하는 AJAX 요청
-	    $(".favorite-button").each(function() {
-	        var button = this;
-	        var companyId = $(button).find('.companyId').val();
-	        var userId = $(button).find('.userId').val();
+	    function checkFavoriteStatus() {
+	        $(".favorite-button").each(function() {
+	            var button = this;
+	            var companyId = $(button).find('.companyId').val();
+	            var userId = $(button).find('.userId').val();
 
-	        $.ajax({
-	            type: "GET",
-	            url: "${contextPath}/getFavoriteStatus",
-	            data: { companyId: companyId, userId: userId },
-	            success: function(data) {
-	                if (data === "insert" || data === "delete") {
-	                    updateFavoriteButton(button, data);
-	                } else if (data === "nologin") {
-	                    alert("회원 정보가 없습니다.");
-	                    window.location.href = '${contextPath}/member/loginForm.do';
-	                } else {
-	                    alert("알 수 없는 오류가 발생했습니다.");
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                console.error("Error: " + error);
-	                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+	            if (!userId || !companyId) {
+	                console.error("필수 정보가 누락되었습니다.");
+	                return;
 	            }
+
+	            $.ajax({
+	                type: "GET",
+	                url: "${contextPath}/getFavoriteStatus",
+	                data: { companyId: companyId, userId: userId },
+	                success: function(data) {
+	                    if (data === "insert" || data === "delete") {
+	                        updateFavoriteButton(button, data);
+	                    } else if (data === "nologin") {
+	                        alert("회원 정보가 없습니다.");
+	                        window.location.href = '${contextPath}/member/loginForm.do';
+	                    } else {
+	                        alert("알 수 없는 오류가 발생했습니다.");
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error("Error: " + error);
+	                    alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+	                }
+	            });
 	        });
-	    });
+	    }
+
+	    // 페이지 로드 시 찜 상태 확인
+	    checkFavoriteStatus();
 
 	    $(".favorite-button").click(function(event) {
 	        if (requestInProgress) return;
@@ -200,7 +209,7 @@
 						<c:choose>
 						       <c:when test="${!empty reviewImage}">
 			                       <c:forEach var="reviewImage" items="${reviewImage}">
-			                        	   <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
+			                        	   <img class="reviewImage" style="width:100px; height:100px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
 								   </c:forEach> 
 							</c:when>
 						</c:choose>		   
@@ -215,7 +224,7 @@
 							    <input type="radio" id="star4" name="detailScope" value="4" /><label for="star4" title="4 stars">★</label>
 							    <input type="radio" id="star3" name="detailScope" value="3" /><label for="star3" title="3 stars">★</label>
 							    <input type="radio" id="star2" name="detailScope" value="2" /><label for="star2" title="2 stars">★</label>
-							    <input type="radio" id="star1" name="detailScope" value="1" /><label for="star1" title="1 star">★</label>
+								<input type="radio" id="star1" name="detailScope" value="1" /><label for="star1" title="1 star">★</label>
 							</div>
 							<div id="textArea">
 								<textarea id="myTextarea" maxlength="150"></textarea>
@@ -223,12 +232,13 @@
 							</div>
 							<div id="fileRange">
 								<p id="fileInfo">이미지파일 첨부</p>
-								 <input type="file" id="reviewImageName" name="reviewImageName">
-			               	</div>
+								<input type="file" id="reviewImageName" name="reviewImageName">
+				            </div>
 							<button id="writeButton" onclick="writeSubmit()">글쓰기
 							</button>
-						</div>	
-			        </div>
+						</div>
+					</div>	
+			    </div>
 					<div id="reviewContainer">
 					    <c:choose>
 					        <c:when test="${sessionScope.getReview == 1}">
@@ -283,7 +293,7 @@
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.
                 </p>
 				<div id="fixedContainer">
-			        <form action="${contextPath}/payform/payformForm.do" method="get">
+			        <form action="${contextPath}/payform/payformForm.do" method="POST">
 			            <input type="hidden" name="memberNo" value="${member.memberNo}">
 			            <input type="hidden" name="detailNo" value="${details.detailNo}">
 			            <button type="submit" id="ticketChoice">회원권 선택</button>
