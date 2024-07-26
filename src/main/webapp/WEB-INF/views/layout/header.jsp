@@ -69,7 +69,7 @@
                      href="/member/logout.do">로그아웃</a></li>
                   <li class="nav-item">
                      <h1 class="welcome-message">
-                        환영합니다, <span>${sessionScope.operator.operatorName}님!</span>
+                        환영합니다, 사업자<span>${sessionScope.operator.operatorName}님!</span>
                      </h1>
                </c:when>
                <c:otherwise>
