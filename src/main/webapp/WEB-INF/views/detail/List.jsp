@@ -56,7 +56,6 @@
             <option value="관악구">서울특별시 관악구</option>
             <option value="송파구">서울특별시 송파구</option>
             <option value="도봉구">서울특별시 도봉구</option>
-            <option value="송파구">서울특별시 송파구</option>
             <!-- 다른 구/군 옵션들 추가 -->
         </select>
     </div>
