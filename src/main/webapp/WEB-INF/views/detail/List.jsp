@@ -27,10 +27,9 @@
 </head>
 <body>
 <div class="search-container">
-    <form action="${contextPath}/detail/search.do" method="get" class="search-form">
+    <form class="search-form">
         <button type="button" class="back-button" onclick="goHome()"><img src="${contextPath}/images/detail/listimg/home_icon.png" alt="홈으로 가기"></button>
         <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
-        <input type="hidden" name="detailClassification" value="health">
         <button type="submit" class="search-button">검색</button>
     </form>
 </div>

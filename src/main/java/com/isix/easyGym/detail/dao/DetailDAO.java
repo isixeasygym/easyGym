@@ -24,7 +24,9 @@ public interface DetailDAO {
 	public List<DetailReviewDTO> selectReviewImage(int detailNo) throws DataAccessException;
 	
 	public List<DetailDTO> selectQuery(Map searchMap) throws DataAccessException;
-	
+
+    public List<DetailDTO> selectPLaceQuery(Map searchMap) throws DataAccessException;
+
 	public int getNewDetailNo() throws DataAccessException;
 
 	public int getNewReviewNo() throws DataAccessException;
