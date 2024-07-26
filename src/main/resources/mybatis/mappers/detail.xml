@@ -108,6 +108,14 @@
 		]]>
 	</select>
 
+	<select id="selectPLaceQuery" parameterType="java.util.Map" resultMap="detailResult">
+		<![CDATA[
+		    SELECT * FROM detail_tbl
+			WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+		   	OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+		]]>
+	</select>
+
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{detailNo}

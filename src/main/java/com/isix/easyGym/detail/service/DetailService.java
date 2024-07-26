@@ -18,6 +18,8 @@ public interface DetailService {
 	public List<DetailReviewDTO> findReviewImage(int detailNo) throws DataAccessException;
 	
 	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException;
+
+	public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException;
 	
 	public List findAll(String detailClassification) throws DataAccessException;
 	

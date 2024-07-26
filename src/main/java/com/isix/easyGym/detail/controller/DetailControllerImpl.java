@@ -87,18 +87,28 @@ public class DetailControllerImpl implements DetailController{
 	}
 	@Override
 	@GetMapping("/detail/search.do")
-	public ModelAndView searchData(@RequestParam("query") String query, 
-			@RequestParam("detailClassification") String detailClassification,
+	public ModelAndView searchData(@RequestParam("query") String query,
+			@RequestParam(value = "detailClassification",required = false) String detailClassification,
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView mav=new ModelAndView();
 		List<DetailDTO> selectedThing = new ArrayList<>();
 		Map<String, String> searchMap= new HashMap<String, String>();
-		searchMap.put("query", query);
-		searchMap.put("detailClassification", detailClassification);
-		selectedThing = detailService.findThing(searchMap);
-		mav.addObject("allList", selectedThing);
-		mav.setViewName("/detail/List");
-		return mav;
+
+		if(detailClassification != null && !detailClassification.isEmpty()){
+			searchMap.put("query", query);
+			searchMap.put("detailClassification", detailClassification);
+			selectedThing = detailService.findThing(searchMap);
+			mav.addObject("allList", selectedThing);
+			mav.setViewName("/detail/List");
+			return mav;
+		}
+		else{
+			searchMap.put("query", query);
+			selectedThing = detailService.findPLace(searchMap);
+			mav.addObject("allList", selectedThing);
+			mav.setViewName("/detail/List");
+			return mav;
+		}
 	}
 	
 	@RequestMapping(value = "/detail/signUpForm.do", method = RequestMethod.POST)
