@@ -3,6 +3,18 @@
    pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
 
+<% 
+   // 로그인 실패 시 result 파라미터가 있는지 확인합니다.
+   String result = request.getParameter("result");
+   if (result != null && !result.isEmpty()) {
+%>
+   <script>
+      alert("<%= result %>");
+   </script>
+<% 
+   }
+%>
+
 <div class="container mt-5">
    <div class="row justify-content-center">
       <div class="col-md-6">

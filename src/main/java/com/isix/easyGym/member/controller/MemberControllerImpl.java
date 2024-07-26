@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.member.service.MemberService;
@@ -56,14 +57,6 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@Override 
-	@GetMapping("/member/gymRegister.do")
-	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/gymRegister");
-		return mav;
-	}	
-	
 	@RequestMapping(value = "/member/afterMemJoin.do")
     public ModelAndView afterMemJoin() {
         ModelAndView mav = new ModelAndView();
@@ -71,14 +64,14 @@ public class MemberControllerImpl implements MemberController {
         return mav;
     }
 	
-	@Override
-	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
-	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/joinCheck");
-		return mav;
-	}
+	// 약관 동의 페이지로 이동
+    @PostMapping(value = "/member/joinCheck.do")
+    public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/member/joinCheck");
+        return mav;
+    }
 
 	@Override 
 	@GetMapping("/member/loginSelect.do")
@@ -140,27 +133,41 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		memberDTO = memberService.login(member);
-		ModelAndView mv = new ModelAndView();	
-		if (memberDTO != null) {
-			HttpSession session= request.getSession();
-			session.setMaxInactiveInterval(30 * 60);
-			session.setAttribute("member", memberDTO);
-			session.setAttribute("isLogOn", true);
-			String action = (String) session.getAttribute("action");
-			if (action != null) {
-				mv.setViewName("redirect:" + action);
-			} else {
-				mv.setViewName("redirect:/main.do");
-			}
-		} else {
-			rAttr.addAttribute("result", "아이디, 비밀번호가 다릅니다. 다시 로그인해주세요.");
-			mv.setViewName("redirect:/member/loginForm.do");
-		}
-		return mv;
+	                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // 로그인 시도
+	    memberDTO = memberService.login(member);
+	    ModelAndView mv = new ModelAndView();
+	    
+	    // 로그인 성공 시
+	    if (memberDTO != null) {
+	        // 탈퇴한 회원인지 확인
+	        if (memberDTO.getMemberState() == 0) {
+	            // 탈퇴한 회원이면 로그인 실패 처리
+	            rAttr.addAttribute("alertMessage", "탈퇴한 회원입니다.");
+	            mv.setViewName("redirect:/member/loginForm.do");
+	        } else {
+	            // 정상 회원이면 로그인 성공 처리
+	            HttpSession session = request.getSession();
+	            session.setMaxInactiveInterval(30 * 60);
+	            session.setAttribute("member", memberDTO);
+	            session.setAttribute("isLogOn", true);
+	            
+	            // 세션에서 action을 가져와서 리디렉션 처리
+	            String action = (String) session.getAttribute("action");
+	            if (action != null) {
+	                mv.setViewName("redirect:" + action);
+	            } else {
+	                mv.setViewName("redirect:/main.do");
+	            }
+	        }
+	    } else {
+	        // 로그인 실패 시 메시지를 쿼리 파라미터로 전달
+	        rAttr.addAttribute("alertMessage", "아이디, 비밀번호가 다릅니다. 다시 로그인해주세요.");
+	        mv.setViewName("redirect:/member/loginForm.do");
+	    }
+	    
+	    return mv;
 	}
-
 
 	// 아이디 중복체크
 	@PostMapping("/member/checkId.do")
@@ -207,6 +214,12 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	public ModelAndView loginForm(MemberDTO member, String action, String result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -42,9 +42,12 @@
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProgram" role="button" data-bs-toggle="dropdown" aria-expanded="false">시설찾기</a>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="/detail/showAll.do?detailClassification=health">헬스</a></li>
-					<li><a class="dropdown-item" href="/detail/showAll.do?detailClassification=pilates">필라테스</a></li>
-					<li><a class="dropdown-item" href="/detail/showAll.do?detailClassification=boxing">복싱</a></li>
+					<li><a class="dropdown-item" href="${contextPath}/detail/search.do?query=&detailClassification=health
+					">헬스</a></li>
+					<li><a class="dropdown-item" href="${contextPath}/detail/search.do?query=&detailClassification=pilates
+					">필라테스</a></li>
+					<li><a class="dropdown-item" href="${contextPath}/detail/search.do?query=&detailClassification=boxing
+					">복싱</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -85,3 +88,5 @@
 	<div>
 	<!-- 부트스트랩 JS 로드 -->
 	<script src="/resources/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
