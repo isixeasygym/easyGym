@@ -392,15 +392,33 @@ body{
        width: 650px;
        margin: 0 auto;
    }
-#ReviewRange{
+.reviewContainer{
+	position: relative;
+} 
+   
+ 
+#reviewRange{
+	margin: 0 auto;
+	position: absolute;
 	width: 700px;
 }
 
-
+.reviewRange{
+	
+}
 
 .reviewWriteRange{
+	position: absolute;
 	width: 678px;
+	height: 400px;
 	margin: 0 auto;
+}
+
+.writeBorder{
+	position: absolute;
+	width: 700px;
+	border-bottom: 2px solid #F6F6F6;
+	height: 400px;
 }
 
 #textArea {
@@ -482,7 +500,7 @@ body{
 	z-index: 30;
 }
 .deleteButton{
-	position: relative;
+	position: absolute;
 	z-index: 30px;
 	top: 40px;
 	left: 580px;
@@ -495,52 +513,47 @@ body{
 	font-size: 0.8em;
 }
 
-.ReviewRange{
-	height: 265px;
-}
 
 .reviewImage{
-	position: relative;
-	top: -25px;
-	left: -20px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
 	
 	display: inline-block;
 }
 .anonymous{
-	position: relative;
-	top: -60px;
-	left: -20px;
+	position: absolute;
+	top: -50px;
+	left: 60px;
 	display: inline-block;
 }
 .reviewDate{
-	position: relative;
+	position: absolute;
 	top: -40px;
 	left: -116px;
 	display: inline-block;
 }
 .reviewComment{
-	position: relative;
-		left: 20px;
-	    width: 600px;
-	    height: 130px;
-	    resize: none; /* 빗금 없애기 */
-	    border: 1px solid #ccc; /* 기본 border 색상 */
-	    padding: 10px;
-	    font-size: 1em;
-	    box-sizing: border-box;
+	position: absolute;
+	top: 70px;
+	left: 20px;
+    width: 600px;
+    height: 130px;
+    resize: none; /* 빗금 없애기 */
+    border: 1px solid #ccc; /* 기본 border 색상 */
+    padding: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
 }
 .personReviewRange{
+	position: absolute;
 	width: 578px;
 	height: 180px;
 	margin:0 auto;
 	border-bottom: 1px solid #F6F6F6;
 	padding: 30px;
 }
-.writeBorder{
-	width: 700px;
-	border-bottom: 2px solid #F6F6F6;
-	height: 225px;
-}
+
 
 #produ{
     color: #757575;

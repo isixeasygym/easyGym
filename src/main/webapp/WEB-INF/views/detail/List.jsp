@@ -20,10 +20,109 @@
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
-        function goHome() {
-            window.location.href="${contextPath}/main.do";
-        }
-    </script>
+		$(document).ready(function() {
+		    var requestInProgress = false;
+
+		    function updateFavoriteButton(button, status) {
+		        var newSrc = (status === "insert")
+		            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
+		            : '${contextPath}/images/detail/detailpage/dibs.png';
+		        $(button).find('.dibs').attr('src', newSrc);
+		    }
+
+		    function checkFavoriteStatus() {
+		        // 페이지가 처음 로드된 경우에만 새로고침을 시도
+		        if (!sessionStorage.getItem('refreshed')) {
+		            sessionStorage.setItem('refreshed', 'true'); // 새로고침 플래그 설정
+		            location.reload(); // 페이지 새로고침
+		            return; // 새로고침 후에는 아래 코드 실행을 막음
+		        }
+
+		        $(".favorite-button").each(function() {
+		            var button = this;
+		            var companyId = $(button).find('.companyId').val();
+		            var userId = $(button).find('.userId').val();
+
+		            if (!userId || !companyId) {
+		                console.error("필수 정보가 누락되었습니다.");
+		                return;
+		            }
+
+		            $.ajax({
+		                type: "GET",
+		                url: "${contextPath}/getFavoriteStatus",
+		                data: { companyId: companyId, userId: userId },
+		                success: function(data) {
+		                    if (data === "insert" || data === "delete") {
+		                        updateFavoriteButton(button, data);
+		                    } else if (data === "nologin") {
+		                        alert("회원 정보가 없습니다.");
+		                        window.location.href = '${contextPath}/member/loginForm.do';
+		                    } else {
+		                        alert("알 수 없는 오류가 발생했습니다.");
+		                    }
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error("Error: " + error);
+		                    alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+		                }
+		            });
+		        });
+		    }
+
+		    // 페이지 로드 시 찜 상태 확인
+		    checkFavoriteStatus();
+
+		    // 찜 버튼 클릭 시 이벤트 처리
+		    $(".favorite-button").click(function(event) {
+		        if (requestInProgress) return;
+
+		        requestInProgress = true;
+
+		        var button = this;
+		        var companyId = $(button).find('.companyId').val();
+		        var userId = $(button).find('.userId').val();
+
+		        if (!userId || !companyId) {
+		            alert("필수 정보가 누락되었습니다.");
+		            requestInProgress = false;
+		            return;
+		        }
+
+		        $.ajax({
+		            type: "GET",
+		            url: "${contextPath}/addFavorite",
+		            data: { companyId: companyId, userId: userId },
+		            success: function(data) {
+		                if (data === "insert" || data === "delete") {
+		                    alert(data === "insert" 
+		                        ? "찜 목록에 추가되었습니다." 
+		                        : "찜 목록에서 삭제되었습니다.");
+		                    updateFavoriteButton(button, data);
+		                } else if (data === "nologin") {
+		                    alert("회원 정보가 없습니다.");
+		                    window.location.href = '${contextPath}/member/loginForm.do';
+		                } else {
+		                    alert("알 수 없는 오류가 발생했습니다.");
+		                }
+		                requestInProgress = false;
+		            },
+		            error: function(xhr, status, error) {
+		                console.error("Error: " + error);
+		                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+		                requestInProgress = false;
+		            }
+		        });
+
+		        event.stopPropagation();
+		    });
+		});
+
+		// 뒤로 가기 버튼을 눌렀을 때 호출되는 함수
+		function goBack() {
+		    window.history.back();
+		}
+</script>
 </head>
 <body>
 <div class="search-container">
