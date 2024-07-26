@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,34 +130,70 @@ public class MypageControllerImpl implements MypageController {
 	//3-1)비밀번호 체크
 	@Override
 	@ResponseBody
-	@RequestMapping(value = "/mypage/checkPassword.do", method = RequestMethod.GET)
-	public ResponseEntity<Boolean> checkPassword(@RequestParam("memberNo") int memberNo, @RequestParam("memberPwd") String memberPwd, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//HttpSession session= request.getSession(false);
-		//MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
-		//System.out.println("checkPassword called with memberNo: " + memberNo + " and memberPwd: " + memberPwd);
-	    boolean isCorrect = mypageService.checkPassword(memberNo, memberPwd);
-	    //System.out.println("Password check result: " + isCorrect);
-	    return new ResponseEntity<>(isCorrect, HttpStatus.OK);
+	@RequestMapping(value = "/mypage/checkPassword.do", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> checkPassword(
+        @RequestParam("memberNo") int memberNo,
+        @RequestParam("memberPwd") String memberPwd
+    ) throws Exception {
+        System.out.println("checkPassword 호출됨, memberNo: " + memberNo + ", memberPwd: " + memberPwd);
+        
+        boolean isCorrect = mypageService.checkPassword(memberNo, memberPwd);
+        System.out.println("비밀번호 확인 결과: " + isCorrect);
+        
+        return new ResponseEntity<>(isCorrect, HttpStatus.OK);
     }
+
+
 	
 	//3-2)회원정보 수정
-/*	@Override
-	@ResponseBody
-	@RequestMapping(value = "/mypage/memberUpdate.do", method = RequestMethod.GET)
-	public ModelAndView memberUpdate(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		mypageService.memberUpdate(memberDTO);  //업데이트 하기
-		ModelAndView mav=new ModelAndView("redirect:/mypage/mypageMain.do");
-		return mav;
-	} */
+	@Override
+	@RequestMapping(value = "/mypage/memberUpdate.do", method = RequestMethod.POST)
+	public ModelAndView memberUpdate(
+	        @RequestParam("memberPwd") String memberPwd,
+	        @RequestParam("memberPhone") String memberPhone,
+	        @RequestParam("memberEmail") String memberEmail,
+	        HttpServletRequest request) throws Exception {
+	    request.setCharacterEncoding("utf-8");
+
+	    // 세션에서 멤버 정보를 가져와 업데이트할 필드만 설정
+	    HttpSession session = request.getSession();
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    memberDTO.setMemberPwd(memberPwd);
+	    memberDTO.setMemberPhone(memberPhone);
+	    memberDTO.setMemberEmail(memberEmail);
+
+	    // 회원 정보 업데이트
+	    mypageService.memberUpdate(memberDTO);
+
+	    // 로그로 변경된 정보 확인
+	    System.out.println(memberDTO.getMemberPwd() + " 변경");
+	    System.out.println(memberDTO.getMemberEmail() + " 변경");
+	    System.out.println(memberDTO.getMemberPhone() + " 변경");
+
+	    // 성공적으로 업데이트된 후 mypageMain.do로 리다이렉트
+	    ModelAndView mav = new ModelAndView("redirect:/mypage/mypageMain.do");
+	    return mav;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
+	// 회원탈퇴
+	@Override
+    @ResponseBody
+    @RequestMapping(value = "/mypage/withdraw.do", method = {RequestMethod.POST})
+    public ModelAndView delMember(@RequestParam("memberNo") int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 HttpSession session = request.getSession();
+	        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+	        if (memberDTO == null || memberDTO.getMemberNo() != memberNo) {
+	            throw new IllegalStateException("잘못된 접근입니다.");
+	        }
+
+	        mypageService.delMember(memberNo);
+	        session.invalidate(); // 세션 무효화
+
+	        ModelAndView mav = new ModelAndView("redirect:/main.do");
+	        mav.addObject("message", "회원탈퇴가 완료되었습니다.");
+	        return mav;
+    }
 	
 	
 	
