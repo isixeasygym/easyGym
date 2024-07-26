@@ -33,6 +33,9 @@ public interface MypageDAO {
 	public String getPasswordByMemberNo(int memberNo) throws DataAccessException;
 	
 	//3-2)회원정보 수정
-	//public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+	
+	// 회원 탈퇴
+	public void memberDelete(int memberNo) throws DataAccessException;
 	
 }

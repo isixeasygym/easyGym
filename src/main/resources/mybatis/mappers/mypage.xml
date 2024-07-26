@@ -25,6 +25,8 @@
         <result property="memberCouponDes" column="memberCouponDes"/>       
     </resultMap>
  	
+
+ 	
 	<resultMap type="detailDTO" id="detailResult">
  		<result property="detailNo" column="detailNo"/>
  		<result property="detailDate" column="detailDate"/>
@@ -86,18 +88,26 @@
     	]]>
     </select>
 	
-	<!-- 회원정보 수정 쿼리문
+
 	<update id="memberUpdate" parameterType="memberDTO">
 		<![CDATA[
 	        UPDATE member_tbl
 	        SET
 	            memberPwd = #{memberPwd},
 	            memberPhone = #{memberPhone},
-	            memberEmail = #{memberEmail},
-	            memberAddr = #{memberAddr},
-	            memberPost = #{memberPost}
+	            memberEmail = #{memberEmail}
 	        WHERE memberNo = #{memberNo}
 		]]>
-    </update> -->
+    </update>
+    
+    <!-- 회원 탈퇴 -->
+    <update id="memberDelete" parameterType="int">
+    	<![CDATA[
+	        UPDATE member_tbl
+	        SET
+	            memberState = 0
+	        WHERE memberNo = #{memberNo}
+		]]>
+    </update>
  	
  </mapper>

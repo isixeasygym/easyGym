@@ -64,9 +64,13 @@ public class MypageServiceImpl implements MypageService {
     }
 	
 	//3-2)회원정보 수정
-/*	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
+	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
 		mypageDAO.memberUpdate(memberDTO);
-	} */
-		
-		
+	} 
+	
+	// 회원 탈퇴
+	@Override
+		public void delMember(int memberNo) {
+			mypageDAO.memberDelete(memberNo);
+		}	
 }
