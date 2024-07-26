@@ -520,9 +520,14 @@ body{
 }
 .reviewComment{
 	position: relative;
-	border: 1px solid #ccc;;
-	top: -50px;
-	height: 130px;
+		left: 20px;
+	    width: 600px;
+	    height: 130px;
+	    resize: none; /* 빗금 없애기 */
+	    border: 1px solid #ccc; /* 기본 border 색상 */
+	    padding: 10px;
+	    font-size: 1em;
+	    box-sizing: border-box;
 }
 .personReviewRange{
 	width: 578px;

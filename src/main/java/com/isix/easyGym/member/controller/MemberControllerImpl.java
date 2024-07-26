@@ -204,5 +204,12 @@ public class MemberControllerImpl implements MemberController {
 //		return mav;
 //	}
 
+	@Override
+	public ModelAndView loginForm(MemberDTO member, String action, String result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

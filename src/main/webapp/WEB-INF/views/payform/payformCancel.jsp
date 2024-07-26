@@ -56,29 +56,37 @@
                 if (refundDay <= 7) {
                     var result = confirm("전액 환불이 가능합니다. 환불금액은 " + finalPr.toLocaleString() + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
-                        console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                        window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
+                        submitRefundForm(finalPr);
                     } else
                         alert("환불 진행을 취소했습니다.");
                 } else if (refundDay <= 15) {
                     var result = confirm("부분적인 환불이 가능합니다. 환불금액은 " + finalPr.toLocaleString() + "원입니다.\n환불을 진행하시겠습니까?");
                     if (result) {
-                        console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                        window.location.replace('${contextPath}/payform/payformRefund.do?payformNo=${payform.payformNo}&refundPrice=' + finalPr);
+                        submitRefundForm(finalPr);
                     } else
                         alert("환불 진행을 취소했습니다.");
                 } else {
                     alert("환불 가능 기간이 경과하여 환불이 불가능합니다.");
-                    console.log("경과일" + refundDay + ", 환불 비용 : " + finalPr);
-                    window.location.href = '${contextPath}/main.do';
+                    window.location.replace("${contextPath}/main.do");
                 }
             }
         }
+
+        function submitRefundForm(finalPr) {
+            document.getElementById('refundPrice').value = finalPr;
+            document.getElementById('refundForm').submit();
+        }
+
     </script>
 
     <link rel="stylesheet" type="text/css" href="${contextPath}/CSS/payform/payformCancel.css">
 </head>
 <body>
+<form id="refundForm" action="${contextPath}/payform/payformRefund.do" method="POST" style="display: none;">
+    <input type="hidden" name="payformNo" value="${payform.payformNo}">
+    <input type="hidden" name="refundPrice" id="refundPrice">
+</form>
+
 <div class="bg-image"></div>
 <div class="container">
     <div class="receipt_info">
