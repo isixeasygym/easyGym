@@ -75,25 +75,39 @@ document.addEventListener('DOMContentLoaded', function () {
     myInfoTabHandler();
 
     // 비밀번호 확인 이벤트 (여기 addEventListener가 찜 목록과 충돌나게 함.)
-	const passwordCheckBtn = document.getElementById('password-check-btn');
-	if (passwordCheckBtn) {
-	    passwordCheckBtn.addEventListener('click', function() {
-	        var memberPwd = document.getElementById('password').value;
-	        var memberNo = document.getElementById('memberNo').value; // memberNo를 가져오는 코드 추가
+	
+	    const passwordCheckBtn = document.getElementById('password-check-btn');
+	    if (passwordCheckBtn) {
+	        passwordCheckBtn.addEventListener('click', checkPassword);
+	    }
 
-	        // FormData 객체 생성 및 데이터 추가
+	    function checkPassword() {
+			//alert("비밀번호체크");
+	        var memberPwd = document.getElementById('password').value;
+	        var memberNo = document.getElementById('memberNo').value;
+	        if (!memberNo || !memberPwd) {
+	            alert("멤버 번호와 비밀번호를 입력해 주세요.");
+	            return;
+	        }
+
+	        // FormData 객체 생성
 	        var formData = new FormData();
 	        formData.append('memberNo', memberNo);
 	        formData.append('memberPwd', memberPwd);
 
-	        // AJAX를 사용하여 서버에 비밀번호 확인 요청을 보냄
+	        // 비밀번호 확인을 위해 POST 요청
 	        fetch(`${contextPath}/mypage/checkPassword.do`, {
-	            method: 'GET',
+	            method: 'POST',
 	            body: formData
 	        })
-	        .then(response => response.json())
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('Network response was not ok');
+	            }
+	            return response.json(); // 서버 응답을 JSON으로 파싱
+	        })
 	        .then(data => {
-	            if (data) { // 서버에서 반환된 값이 true인지 확인
+	            if (data) { // 반환된 값이 true인지 확인
 	                document.getElementById('password-check').style.display = 'none';
 	                document.getElementById('update-form').style.display = 'block';
 	            } else {
@@ -104,8 +118,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	            console.error('Error:', error);
 	            alert("서버와의 통신 중 오류가 발생했습니다.");
 	        });
-	    });
-	}
+	    }
+
+
 
 
     // 포인트 내역 필터링 이벤트
@@ -119,13 +134,125 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 수정하기 버튼 클릭 이벤트
-    const updateBtn = document.getElementById('update-btn');
-    if (updateBtn) {
-        updateBtn.addEventListener('click', function() {
-            // 여기에 수정 로직을 추가합니다.
-            alert("수정되었습니다.");
-        });
-    }
+	const updateBtn = document.getElementById('update-btn');
+	    const withdrawBtn = document.getElementById('withdraw-btn');
+
+	    if (updateBtn) {
+	        updateBtn.addEventListener('click', function(event) {
+	            event.preventDefault();
+
+	            const memberPwd = document.getElementById('memberPwd').value;
+	            const memberPwdConfirm = document.getElementById('memberPwdConfirm').value;
+	            const memberPhone = document.getElementById('memberPhone').value;
+	            const memberEmail = document.getElementById('memberEmail').value;
+
+	            if (memberPwd !== memberPwdConfirm) {
+	                alert("비밀번호가 일치하지 않습니다.");
+	                return;
+	            }
+
+	            const formData = new URLSearchParams();
+	            formData.append('memberPwd', memberPwd);
+	            formData.append('memberPhone', memberPhone);
+	            formData.append('memberEmail', memberEmail);
+
+	            fetch(`${contextPath}/mypage/memberUpdate.do`, {
+	                method: 'POST',
+	                headers: {
+	                    'Content-Type': 'application/x-www-form-urlencoded'
+	                },
+	                body: formData.toString()
+	            })
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Network response was not ok');
+	                }
+	                return response.text();
+	            })
+	            .then(data => {
+	                window.location.href = `${contextPath}/mypage/mypageMain.do`;
+	            })
+	            .catch(error => {
+	                console.error('Error:', error);
+	                alert("서버와의 통신 중 오류가 발생했습니다.");
+	            });
+	        });
+	    }
+
+	    if (withdrawBtn) {
+	        withdrawBtn.addEventListener('click', function() {
+	            const memberNo = document.getElementById('memberNo').value;
+
+	            const formData = new URLSearchParams();
+	            formData.append('memberNo', memberNo);
+
+	            fetch(`${contextPath}/mypage/withdraw.do`, {
+	                method: 'POST',
+	                headers: {
+	                    'Content-Type': 'application/x-www-form-urlencoded'
+	                },
+	                body: formData.toString()
+	            })
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Network response was not ok');
+	                }
+	                return response.text();
+	            })
+	            .then(data => {
+	                alert("회원탈퇴가 완료되었습니다.");
+	                window.location.href = `${contextPath}/main.do`;
+	            })
+	            .catch(error => {
+	                console.error('Error:', error);
+	                alert("서버와의 통신 중 오류가 발생했습니다.");
+	            });
+	        });
+	    }
+	/*const updateBtn = document.getElementById('update-btn');
+	    if (updateBtn) {
+	        updateBtn.addEventListener('click', function(event) {
+	            event.preventDefault(); // 폼의 기본 제출 동작을 막음
+
+	            // 폼 데이터 수집
+	            const memberPwd = document.getElementById('memberPwd').value;
+	            const memberPwdConfirm = document.getElementById('memberPwdConfirm').value;
+	            const memberPhone = document.getElementById('memberPhone').value;
+	            const memberEmail = document.getElementById('memberEmail').value;
+
+	            // 비밀번호 확인
+	            if (memberPwd !== memberPwdConfirm) {
+	                alert("비밀번호가 일치하지 않습니다.");
+	                return;
+	            }
+
+	            // FormData 객체 생성
+	            const formData = new FormData();
+	            formData.append('memberPwd', memberPwd);
+	            formData.append('memberPhone', memberPhone);
+	            formData.append('memberEmail', memberEmail);
+
+	            // AJAX 요청
+	            fetch(`${contextPath}/mypage/memberUpdate.do`, {
+	                method: 'POST',
+	                body: formData
+	            })
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Network response was not ok');
+	                }
+	                return response.text(); // 서버에서 텍스트 응답을 받음
+	            })
+	            .then(data => {
+	                // 업데이트 성공 후 페이지 리다이렉트
+	                window.location.href = `${contextPath}/mypage/mypageMain.do`;
+	            })
+	            .catch(error => {
+	                console.error('Error:', error);
+	                alert("서버와의 통신 중 오류가 발생했습니다.");
+	            });
+	        });
+	    }*/
 
     // 취소 버튼 클릭 이벤트
     const cancelBtn = document.getElementById('cancel-btn');
@@ -135,8 +262,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 비밀번호 확인 이벤트 및 추가 요소가 동적으로 생성되는 경우를 대비해 null 체크 추가
+	/*const withdrawBtn = document.getElementById('withdraw-btn');
+	
+	if (withdrawBtn) {
+	        withdrawBtn.addEventListener('click', function() {
+	            const memberNo = document.getElementById('memberNo').value;
 
+	            fetch(`${contextPath}/mypage/withdraw.do`, {
+	                method: 'POST',
+	                headers: {
+	                    'Content-Type': 'application/x-www-form-urlencoded'
+	                },
+	                body: `memberNo=${memberNo}`
+	            })
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Network response was not ok');
+	                }
+	                return response.text();
+	            })
+	            .then(data => {
+	                alert("회원탈퇴가 완료되었습니다.");
+	                window.location.href = `${contextPath}/main.do`;
+	            })
+	            .catch(error => {
+	                console.error('Error:', error);
+	                alert("서버와의 통신 중 오류가 발생했습니다.");
+	            });
+	        });
+	    }*/
+	
+	
+	
     // 찜 목록 버튼 클릭 이벤트 추가
     const dibsListBtn = document.querySelector('[data-target="dibs-list"]');
     if (dibsListBtn) {

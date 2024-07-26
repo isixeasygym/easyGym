@@ -30,7 +30,10 @@ public interface MypageService {
 	public boolean checkPassword(int memberNo, String memberPwd) throws DataAccessException;
 	
     //3-2)회원정보 수정
-	//public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+
+
+	public void delMember(int memberNo);
 	
 	
 	

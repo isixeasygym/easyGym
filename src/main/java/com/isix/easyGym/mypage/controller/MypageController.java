@@ -40,9 +40,17 @@ public interface MypageController {
 	
 	//3.정보수정
 	//3-1)비밀번호 체크
-	public ResponseEntity<Boolean> checkPassword(@RequestParam("memberNo") int memberNo, @RequestParam("memberPwd") String memberPwd, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<Boolean> checkPassword(
+	        @RequestParam("memberNo") int memberNo,
+	        @RequestParam("memberPwd") String memberPwd) throws Exception;
 			
 	//3-2)회원정보 수정
-	//public ModelAndView memberUpdate(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+
+	public ModelAndView memberUpdate(String memberPwd, String memberPhone,
+			String memberEmail, HttpServletRequest request) throws Exception;
+
+
+	public ModelAndView delMember(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }
