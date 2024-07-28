@@ -2,6 +2,7 @@ package com.isix.easyGym.detail.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,25 +23,19 @@ public interface DetailController{
             HttpServletResponse response) throws Exception;
 	
 	public ModelAndView searchData(@RequestParam("query") String query, 
-			@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
+            @RequestParam("detailClassification") String detailClassification,
+            HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView signUpForm(@RequestParam("detailBusinessEng") String detailBusinessEng,
 			@RequestParam("operatorNo") int operatorNo,@RequestParam("detailClassification") String detailClassification, 
 			MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	
-	public ModelAndView selectAll(@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	public ModelAndView selectPopular(@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 	public ModelAndView detailForm(
 			@RequestParam("detailNo") int detailNo,
 			@RequestParam(value = "memberNo", required = false) String memberNo,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
-	
+
 	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes rAttr, HttpServletRequest request,

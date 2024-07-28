@@ -47,7 +47,7 @@ public class NoticeControllerImpl implements NoticeController{
 		
 		List nlist=noticeService.noticeList();
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/noticeList");
+		mv.setViewName("admin/noticeList");
 		mv.addObject("nlist",nlist);
 		
 		return mv;
@@ -58,7 +58,7 @@ public class NoticeControllerImpl implements NoticeController{
 	@GetMapping("/admin/noticeForm.do")
 	public ModelAndView noticeForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/noticeForm");
+		mv.setViewName("admin/noticeForm");
 		return mv;
 	}
 	
@@ -121,7 +121,7 @@ public class NoticeControllerImpl implements NoticeController{
 	public ModelAndView viewNotice(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map noticeMap=noticeService.viewNotice(noticeNo);
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/viewNotice");  
+		mv.setViewName("admin/viewNotice");  
 		mv.addObject("noticeMap",noticeMap);  
 		return mv;
 	}
@@ -237,7 +237,7 @@ public class NoticeControllerImpl implements NoticeController{
 			
 			
 			ModelAndView mv=new ModelAndView();
-			mv.setViewName("/notice/noticeList");
+			mv.setViewName("notice/noticeList");
 			mv.addObject("noMap",noMap);
 			
 			return mv;
@@ -249,7 +249,7 @@ public class NoticeControllerImpl implements NoticeController{
 	public ModelAndView viewNoticePage(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map noMap=noticeService.viewNotice(noticeNo);
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/notice/viewNotice");  
+		mv.setViewName("notice/viewNotice");  
 		mv.addObject("noMap",noMap);  
 		return mv;
 	}

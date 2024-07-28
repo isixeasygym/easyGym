@@ -100,13 +100,21 @@
 
 	<!--detailRoadAddress나 detailBusinessName 중에 쿼리 내용이 있으면 결과 출력-->
 	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
-	    <![CDATA[
-		    SELECT * FROM detail_tbl
-			WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
-		   	OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
-      		AND detailClassification = #{detailClassification}
-		]]>
-	</select>
+        <![CDATA[
+            SELECT * FROM detail_tbl
+            WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+               OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+              AND detailClassification = #{detailClassification}
+        ]]>
+    </select>
+
+    <select id="selectPLaceQuery" parameterType="java.util.Map" resultMap="detailResult">
+        <![CDATA[
+            SELECT * FROM detail_tbl
+            WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+               OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+        ]]>
+    </select>
 
  	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
 		<![CDATA[

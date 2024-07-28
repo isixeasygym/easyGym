@@ -2,12 +2,11 @@
     pageEncoding="UTF-8"
     isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="member" value="${member}" scope="session"/>
 <%
-	
-	request.setCharacterEncoding("utf-8");
+   
+   request.setCharacterEncoding("utf-8");
 %>
 
 <!DOCTYPE html>
@@ -17,108 +16,98 @@
 <title>${details.detailBusinessName}</title> 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-	var contextPath = "${pageContext.request.contextPath}";
+   var contextPath = "${pageContext.request.contextPath}";
 </script>
 <link rel="stylesheet" href="${contextPath}/css/detail/detail.css">
 <script src="${contextPath}/js/detail/detail.js"></script>
 <script>
-	
-    $(document).ready(function() {
-        $('#myTextarea').on('input', function() {
-            var charCount = $(this).val().length;
-            $('#charCount').text(charCount + '/150');
-        });
-    });
-	
-	$(document).ready(function() {
-	    var requestInProgress = false;
+   $(document).ready(function() {
+       var requestInProgress = false;
 
-	    function updateFavoriteButton(button, status) {
-	        var newSrc = (status === "insert")
-	            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
-	            : '${contextPath}/images/detail/detailpage/dibs.png';
-	        $(button).find('.dibs').attr('src', newSrc);
-	    }
+       function updateFavoriteButton(button, status) {
+           var newSrc = (status === "insert")
+               ? '${contextPath}/images/detail/detailpage/pickDibs.png'
+               : '${contextPath}/images/detail/detailpage/dibs.png';
+           $(button).find('.dibs').attr('src', newSrc);
+       }
 
-	    function checkFavoriteStatus() {
-	        $(".favorite-button").each(function() {
-	            var button = this;
-	            var companyId = $(button).find('.companyId').val();
-	            var userId = $(button).find('.userId').val();
+       function checkFavoriteStatus() {
+           $(".favorite-button").each(function() {
+               var button = this;
+               var companyId = $(button).find('.companyId').val();
+               var userId = $(button).find('.userId').val();
 
-	            if (!userId || !companyId) {
-	                console.error("필수 정보가 누락되었습니다.");
-	                return;
-	            }
+               $.ajax({
+                   type: "GET",
+                   url: "${contextPath}/getFavoriteStatus",
+                   data: { companyId: companyId, userId: userId },
+                   success: function(data) {
+                       if (data === "insert" || data === "delete") {
+                           updateFavoriteButton(button, data);
+                       } else if (data === "nologin") {
+                           // Handle no login case
+                       } else {
+                           alert("알 수 없는 오류가 발생했습니다.");
+                       }
+                   },
+                   error: function(xhr, status, error) {
+                       console.error("Error: " + error);
+                       alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                   }
+               });
+           });
+       }
 
-	            $.ajax({
-	                type: "GET",
-	                url: "${contextPath}/getFavoriteStatus",
-	                data: { companyId: companyId, userId: userId },
-	                success: function(data) {
-	                    if (data === "insert" || data === "delete") {
-	                        updateFavoriteButton(button, data);
-	                    } else if (data === "nologin") {
-	                        alert("회원 정보가 없습니다.");
-	                        window.location.href = '${contextPath}/member/loginForm.do';
-	                    } else {
-	                        alert("알 수 없는 오류가 발생했습니다.");
-	                    }
-	                },
-	                error: function(xhr, status, error) {
-	                    console.error("Error: " + error);
-	                    alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-	                }
-	            });
-	        });
-	    }
+       // Page load
+       checkFavoriteStatus();
 
-	    // 페이지 로드 시 찜 상태 확인
-	    checkFavoriteStatus();
+       // Button click
+       $(".favorite-button").click(function(event) {
+           if (requestInProgress) return;
 
-	    $(".favorite-button").click(function(event) {
-	        if (requestInProgress) return;
+           requestInProgress = true;
 
-	        requestInProgress = true;
+           var button = this;
+           var companyId = $(button).find('.companyId').val();
+           var userId = $(button).find('.userId').val();
 
-	        var button = this;
-	        var companyId = $(button).find('.companyId').val();
-	        var userId = $(button).find('.userId').val();
+           if (!userId || !companyId) {
+               alert("회원 정보가 없습니다.");
+               var currentPageUrl = encodeURIComponent(window.location.href);
+               window.location.href = '${contextPath}/member/loginForm.do?redirect=' + currentPageUrl;
+               requestInProgress = false;
+               return;
+           }
 
-	        if (!userId || !companyId) {
-	            alert("필수 정보가 누락되었습니다.");
-	            requestInProgress = false;
-	            return;
-	        }
+           $.ajax({
+               type: "GET",
+               url: "${contextPath}/addFavorite",
+               data: { companyId: companyId, userId: userId },
+               success: function(data) {
+                   if (data === "insert" || data === "delete") {
+                       alert(data === "insert" 
+                           ? "찜 목록에 추가되었습니다." 
+                           : "찜 목록에서 삭제되었습니다.");
+                       updateFavoriteButton(button, data);
+                   } else if (data === "nologin") {
+                       alert("회원 정보가 없습니다.");
+                       var currentPageUrl = encodeURIComponent(window.location.href);
+                       window.location.href = '${contextPath}/member/loginForm.do?redirect=' + currentPageUrl;
+                   } else {
+                       alert("알 수 없는 오류가 발생했습니다.");
+                   }
+                   requestInProgress = false;
+               },
+               error: function(xhr, status, error) {
+                   console.error("Error: " + error);
+                   alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                   requestInProgress = false;
+               }
+           });
 
-	        $.ajax({
-	            type: "GET",
-	            url: "${contextPath}/addFavorite",
-	            data: { companyId: companyId, userId: userId },
-	            success: function(data) {
-	                if (data === "insert" || data === "delete") {
-	                    alert(data === "insert" 
-	                        ? "찜 목록에 추가되었습니다." 
-	                        : "찜 목록에서 삭제되었습니다.");
-	                    updateFavoriteButton(button, data);
-	                } else if (data === "nologin") {
-	                    alert("회원 정보가 없습니다.");
-	                    window.location.href = '${contextPath}/member/loginForm.do';
-	                } else {
-	                    alert("알 수 없는 오류가 발생했습니다.");
-	                }
-	                requestInProgress = false;
-	            },
-	            error: function(xhr, status, error) {
-	                console.error("Error: " + error);
-	                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-	                requestInProgress = false;
-	            }
-	        });
-
-	        event.stopPropagation();
-	    });
-	});
+           event.stopPropagation();
+       });
+   });
 </script>
 </head>
 <body>
@@ -146,13 +135,13 @@
                     <p id="gradeLink">후기<a id="toReview"href="#1"> ></a></p><br>
                     <img id="dailyTicket" src="${contextPath}/images/detail/detailpage/dailyTicket.PNG"><br><br>
                 </div>
-				<div class="buttonRange">
-	               <button class="favorite-button" >
-						<input  type="hidden" class="userId" value="${member.memberNo}">
-						<input  type="hidden" class="companyId" value="${details.detailNo}">
-	                   <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
-	               </button>
-	            </div>
+            <div class="buttonRange">
+                  <button class="favorite-button" >
+                  <input  type="hidden" class="userId" value="${member.memberNo}">
+                  <input  type="hidden" class="companyId" value="${details.detailNo}">
+                      <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
+                  </button>
+               </div>
                 <div id="memberTicketRange">
                     <h4 id="memberTicket">회원권</h4>
                     <div class="memberTicketBox">
@@ -198,109 +187,105 @@
                 </div>
                 <div id="imageRange">
                     <h4 id="imageInfo">사진</h4>
-					<div id="imageBox">
-	                    <c:forEach var="i" begin="1" end="10">
-	                        <img src="${contextPath}/images/detail/${details.detailClassification}/${details.detailBusinessEng}/${details.detailBusinessEng}${i}.PNG" height="130" width="130"/>
-	                    </c:forEach>
-					</div>	
+               <div id="imageBox">
+                       <c:forEach var="i" begin="1" end="10">
+                           <img src="${contextPath}/images/detail/${details.detailClassification}/${details.detailBusinessEng}/${details.detailBusinessEng}${i}.PNG" height="130" width="130"/>
+                       </c:forEach>
+               </div>   
                 </div>
-				<div id="reviewImageRange">
-					<div id="reviewImage">
-						<c:choose>
-						       <c:when test="${!empty reviewImage}">
-			                       <c:forEach var="reviewImage" items="${reviewImage}">
-			                        	   <img class="reviewImage" style="width:100px; height:100px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>			                       
-								   </c:forEach> 
-							</c:when>
-						</c:choose>		   
-					</div>
-				</div>
+            <div id="reviewImageRange">
+               <div id="reviewImage">
+                  <c:choose>
+                         <c:when test="${!empty reviewImage}">
+                                <c:forEach var="reviewImage" items="${reviewImage}">
+                                    <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>                    
+                           </c:forEach> 
+                     </c:when>
+                  </c:choose>         
+               </div>
+            </div>
                 <div id="reviewRange">
-					<a name="1"></a>
-					<div class="reviewWriteRange">
-						<div id="writeBorder">
-							<div class="rating">
-							    <input type="radio" id="star5" name="detailScope" value="5" /><label for="star5" title="5 stars">★</label>
-							    <input type="radio" id="star4" name="detailScope" value="4" /><label for="star4" title="4 stars">★</label>
-							    <input type="radio" id="star3" name="detailScope" value="3" /><label for="star3" title="3 stars">★</label>
-							    <input type="radio" id="star2" name="detailScope" value="2" /><label for="star2" title="2 stars">★</label>
-								<input type="radio" id="star1" name="detailScope" value="1" /><label for="star1" title="1 star">★</label>
-							</div>
-							<div id="textArea">
-								<textarea id="myTextarea" maxlength="150"></textarea>
-								<div id="charCount">0/150</div>
-							</div>
-							<div id="fileRange">
-								<p id="fileInfo">이미지파일 첨부</p>
-								<input type="file" id="reviewImageName" name="reviewImageName">
-				            </div>
-							<button id="writeButton" onclick="writeSubmit()">글쓰기
-							</button>
-						</div>
-					</div>	
-			    </div>
-					<div id="reviewContainer">
-					    <c:choose>
-					        <c:when test="${sessionScope.getReview == 1}">
-					            <c:forEach var="review" items="${review}">
-					                <div class="ReviewRange" data-review-no="${review.reviewNo}">
-					                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
-					                    <div class="personReviewRange">
-					                        <img class="reviewImage" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-					                        <p class="anonymous">(익명의 회원)</p>
-					                        <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
-					                        <p class="reviewDate">${review.reviewDate}</p>
-					                        <textarea class="reviewComment">${review.reviewComment}</textarea>
-					                    </div>
-					                </div>
-					            </c:forEach>
-					        </c:when>
-					        <c:otherwise>
-					            <h2>리뷰가 없습니다</h2>
-					        </c:otherwise>
-					    </c:choose>
-					</div>
-	                <div id="mapRange">
-	                    <h5>위치</h5>
-	                    <a name="2"></a>
-						<div id="map" style="width:85%;height:350px;"></div>
-					</div>
-						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
-						<script>
-							var mapContainer = document.getElementById('map'),
-							    mapOption = { 
-							        center: new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}),
-							        draggable: false, 
-							        level: 3
-							    };
-	
-						var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	
-						// 마커가 표시될 위치입니다 
-						var markerPosition  = new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}); 
-	
-						// 마커를 생성합니다
-						var marker = new kakao.maps.Marker({
-						    position: markerPosition
-						});
-	
-						// 마커가 지도 위에 표시되도록 설정합니다
-						marker.setMap(map);
-						</script>
-	                
+               <a name="1"></a>
+               <div class="reviewWriteRange">
+                  <div class="rating">
+                      <input type="radio" id="star5" name="detailScope" value="5" /><label for="star5" title="5 stars">★</label>
+                      <input type="radio" id="star4" name="detailScope" value="4" /><label for="star4" title="4 stars">★</label>
+                      <input type="radio" id="star3" name="detailScope" value="3" /><label for="star3" title="3 stars">★</label>
+                      <input type="radio" id="star2" name="detailScope" value="2" /><label for="star2" title="2 stars">★</label>
+                     <input type="radio" id="star1" name="detailScope" value="1" /><label for="star1" title="1 star">★</label>
+                  </div>
+                  <div id="textArea">
+                     <textarea id="myTextarea" maxlength="150"></textarea>
+                     <div id="charCount">0/150</div>
+                  </div>
+                  <div id="fileRange">
+                     <p id="fileInfo">이미지파일 첨부</p>
+                     <input type="file" id="reviewImageName" name="reviewImageName">
+                     </div>
+                  <button id="writeButton" onclick="writeSubmit()">글쓰기
+                  </button>
+                  <div id="writeBorder"></div>
+               </div>   
+             </div>
+            <div id="reviewContainer">
+                <c:choose>
+                    <c:when test="${sessionScope.getReview == 1}">
+                        <c:forEach var="review" items="${review}">
+                            <div class="ReviewRange" data-review-no="${review.reviewNo}">
+                                <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+                                <div class="personReviewRange">
+                                    <img class="reviewPicture" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+                                    <p class="anonymous">(익명의 회원)</p>
+                                    <!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
+                                    <p class="reviewDate">${review.reviewDate}</p>
+                                    <textarea class="reviewComment" readonly>${review.reviewComment}</textarea>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
+            </div>
+                   <div id="mapRange">
+                       <h5>위치</h5>
+                       <a name="2"></a>
+                  <div id="map" style="width:85%;height:350px;"></div>
+               </div>
+                  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c4473ba88781ad9e6acab08ae4ef53e5"></script>
+                  <script>
+                     var mapContainer = document.getElementById('map'),
+                         mapOption = { 
+                             center: new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}),
+                             draggable: false, 
+                             level: 3
+                         };
+   
+                  var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+   
+                  // 마커가 표시될 위치입니다 
+                  var markerPosition  = new kakao.maps.LatLng(${details.detailLatitude}, ${details.detailLongitude}); 
+   
+                  // 마커를 생성합니다
+                  var marker = new kakao.maps.Marker({
+                      position: markerPosition
+                  });
+   
+                  // 마커가 지도 위에 표시되도록 설정합니다
+                  marker.setMap(map);
+                  </script>
+                   
                 <p id="produ">easyGym은 통신판매의 중개자이며, 통신판매의 당사자가 아닙니다. 따라서<br>
                    이지짐은 상품의 구매, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.
                 </p>
-				<div id="fixedContainer">
-			        <form action="${contextPath}/payform/payformForm.do" method="POST">
-			            <input type="hidden" name="memberNo" value="${member.memberNo}">
-			            <input type="hidden" name="detailNo" value="${details.detailNo}">
-			            <button type="submit" id="ticketChoice">회원권 선택</button>
-			        </form>
-			    </div>
+            <div id="fixedContainer">
+                 <form action="${contextPath}/payform/payformForm.do" method="post">
+                     <input type="hidden" name="memberNo" value="${member.memberNo}">
+                     <input type="hidden" name="detailNo" value="${details.detailNo}">
+                     <button type="submit" id="ticketChoice">회원권 선택</button>
+                 </form>
+             </div>
             </div>
         </c:when>    
     </c:choose>            
 </body>
-</html>
+</html> 디테일은 헤더 내에 css가 계속 먹어서 힘들 거 같아요

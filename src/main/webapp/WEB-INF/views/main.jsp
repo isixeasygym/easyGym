@@ -138,7 +138,7 @@ text-align: center;
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
 		<h1 class="display-3">운동할 땐, EasyGym부터</h1>
 		<div class="d-flex gap-3 justify-content-center lead fw-normal">
-			<a class="icon-link" href="/detail/showAll.do?detailClassification=health"> 내 주변 운동시설 찾기</a>
+			<a class="icon-link" href="${contextPath}/detail/search.do?query=">운동 시설 찾기</a>
 		</div>
 	</div>
 	<div class="product-device shadow-sm d-none d-md-block"></div>
@@ -286,16 +286,15 @@ text-align: center;
             </c:otherwise>
         </c:choose>
     </div>
-    <div class="btn-more">
-        <form action="${contextPath}/detail/showAll.do" method="get">
-            <input type="hidden" name="detailClassification" value="health">
-            <button type="submit" class="btn btn-primary">헬스 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+	    <a href="${contextPath}/detail/search.do?query=&detailClassification=health" class="btn btn-primary">
+	        헬스 더보기
+	    </a>
+	</div>
 
-    <h2>요가/필라테스 인기순위</h2>
+    <h2>필라테스 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <!-- 첫 번째 요가/필라테스 -->
+        <!-- 첫 번째 필라테스 -->
         <div class="col">
 			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[0].detailNo}">
             <div class="card shadow-sm">
@@ -307,7 +306,7 @@ text-align: center;
             </div>
 			</a>
         </div>
-        <!-- 두 번째 요가/필라테스 -->
+        <!-- 두 번째 필라테스 -->
         <div class="col">
 			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[1].detailNo}">
             <div class="card shadow-sm">
@@ -319,7 +318,7 @@ text-align: center;
             </div>
 			</a>
         </div>
-        <!-- 세 번째 요가/필라테스 -->
+        <!-- 세 번째 필라테스 -->
         <div class="col">
 			<a href="${contextPath}/detail/detail.do?detailNo=${pilatesList[2].detailNo}">
             <div class="card shadow-sm">
@@ -332,12 +331,11 @@ text-align: center;
 			</a>
         </div>
     </div>
-    <div class="btn-more">
-        <form action="${contextPath}/detail/showAll.do" method="get">
-            <input type="hidden" name="detailClassification" value="yoga">
-            <button type="submit" class="btn btn-primary">필라테스 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+	    <a href="${contextPath}/detail/search.do?query=&detailClassification=pilates" class="btn btn-primary">
+	        필라테스 더보기
+	    </a>
+	</div>
     
     <h2>복싱장 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -378,12 +376,11 @@ text-align: center;
 			</a>
         </div>
     </div>
-    <div class="btn-more">
-        <form action="${contextPath}/detail/showAll.do" method="get">
-            <input type="hidden" name="detailClassification" value="boxing">
-            <button type="submit" class="btn btn-primary">복싱 더보기</button>
-        </form>
-    </div>
+	<div class="btn-more">
+		    <a href="${contextPath}/detail/search.do?query=&detailClassification=boxing" class="btn btn-primary">
+		        복싱 더보기
+		    </a>
+		</div>
 </div>
 <!-- 챗봇 아이콘 -->
       <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">

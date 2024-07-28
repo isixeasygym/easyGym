@@ -34,6 +34,11 @@ public class MypageServiceImpl implements MypageService {
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
+
+	@Override
+	public List getPayformNo(int memberNo) throws DataAccessException {
+		return mypageDAO.selectPayformNo(memberNo);
+	}
 	
 	//1-2)찜 취소
 	@Override
@@ -64,9 +69,13 @@ public class MypageServiceImpl implements MypageService {
     }
 	
 	//3-2)회원정보 수정
-/*	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
+	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
 		mypageDAO.memberUpdate(memberDTO);
-	} */
-		
-		
+	} 
+	
+	// 회원 탈퇴
+	@Override
+		public void delMember(int memberNo) {
+			mypageDAO.memberDelete(memberNo);
+		}	
 }

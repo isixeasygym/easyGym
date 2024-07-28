@@ -57,7 +57,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 		fbmap.put("pageNum", pageNum);
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/freeboard/fboardList");
+		mv.setViewName("freeboard/fboardList");
 		mv.addObject("fbmap",fbmap);
 		return mv;
 	}
@@ -67,7 +67,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	@GetMapping("/freeboard/fboardForm.do")
 	public ModelAndView fboardForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("/freeboard/fboardForm");
+		mv.setViewName("freeboard/fboardForm");
 		return mv;
 	}
 	
@@ -162,7 +162,7 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	      }else {
 	         session.setAttribute("getAnswer", 0);
 	      }
-		mv.setViewName("/freeboard/viewfboard");
+		mv.setViewName("freeboard/viewfboard");
 		mv.addObject("fbmap",fbmap);
 		return mv;
 	}

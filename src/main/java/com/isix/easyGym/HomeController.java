@@ -28,7 +28,7 @@ public class HomeController {
 		mav.addObject("healthList", healthList);
 		mav.addObject("boxingList", boxingList);
 		mav.addObject("pilatesList", pilatesList);
-		mav.setViewName("/main");
+		mav.setViewName("main");
 		return mav;
 	}
 }

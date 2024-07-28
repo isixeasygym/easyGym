@@ -34,7 +34,7 @@ public class MemberOperControllerImpl implements MemberOperController {
 	@RequestMapping(value = "/member/operJoinForm.do")
 	public ModelAndView operJoinPage(@ModelAttribute("memberOperDTO") MemberOperDTO memberOperDTO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/operJoin");
+		mav.setViewName("member/operJoin");
 		return mav;
 	}
 	// 사업자 회원가입 기능
@@ -52,7 +52,7 @@ public class MemberOperControllerImpl implements MemberOperController {
 	public ModelAndView afterEntJoin(MemberOperDTO memberOperDTO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/afterEntJoin");
+		mav.setViewName("member/afterEntJoin");
 		return mav;
 	}
 	
@@ -62,7 +62,7 @@ public class MemberOperControllerImpl implements MemberOperController {
 	public ModelAndView operLoginForm(MemberOperDTO operator, String action, String result, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/operLoginForm");
+		mav.setViewName("member/operLoginForm");
 		return mav;
 	}
 

@@ -34,7 +34,7 @@ public class MemberControllerImpl implements MemberController {
 	@GetMapping("/member/joinSelect.do")
 	public ModelAndView joinSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/joinSelect");
+		mav.setViewName("member/joinSelect");
 		return mav;
 	}
 	
@@ -42,7 +42,7 @@ public class MemberControllerImpl implements MemberController {
 	@RequestMapping(value = "/member/memJoin.do")
     public ModelAndView showJoinForm() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/member/memJoin"); 
+        mav.setViewName("member/memJoin"); 
         return mav;
     }
 	
@@ -60,14 +60,14 @@ public class MemberControllerImpl implements MemberController {
 	@GetMapping("/member/gymRegister.do")
 	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/gymRegister");
+		mav.setViewName("member/gymRegister");
 		return mav;
 	}	
 	
 	@RequestMapping(value = "/member/afterMemJoin.do")
     public ModelAndView afterMemJoin() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/member/afterMemJoin"); 
+        mav.setViewName("member/afterMemJoin"); 
         return mav;
     }
 	
@@ -76,7 +76,7 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/joinCheck");
+		mav.setViewName("member/joinCheck");
 		return mav;
 	}
 
@@ -84,7 +84,7 @@ public class MemberControllerImpl implements MemberController {
 	@GetMapping("/member/loginSelect.do")
 	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/loginSelect");
+		mav.setViewName("member/loginSelect");
 		return mav;
 	}	
 	@Override
@@ -132,7 +132,7 @@ public class MemberControllerImpl implements MemberController {
 	    }
 	    
 	    mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
-	    mv.setViewName("/member/loginForm");
+	    mv.setViewName("member/loginForm");
 	    return mv;
 	}
 
