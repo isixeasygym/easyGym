@@ -2,112 +2,91 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.mypage.dao.MypageDAO">  <!-- namespace는 mapper의 이름을 정의 -->
-
-	<resultMap type="memberDTO" id="memberResult">
-        <result property="memberNo" column="memberNo"/>
-        <result property="memberName" column="memberName"/>
-        <result property="memberId" column="memberId"/>
-        <result property="memberPwd" column="memberPwd"/>
-        <result property="memberPhone" column="memberPhone"/>
-        <result property="memberEmail" column="memberEmail"/>
-        <result property="memberAddr" column="memberAddr"/>
-        <result property="memberPost" column="memberPost"/>
-        <result property="memberCreatedAt" column="memberCreatedAt"/>
-        <result property="memberState" column="memberState"/>
-        <result property="memberGender" column="memberGender"/>
-        <result property="memberMarketing" column="memberMarketing"/>
-        <result property="memberPointDate" column="memberPointDate"/>
-        <result property="memberPoint" column="memberPoint"/>
-        <result property="memberPointDes" column="memberPointDes"/> 
-        <result property="memberExpirationDate" column="memberExpirationDate"/>
-        <result property="memberCoupon" column="memberCoupon"/>
-        <result property="memberCouponDes" column="memberCouponDes"/>       
-    </resultMap>
- 	
-
- 	
-	<resultMap type="detailDTO" id="detailResult">
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="detailDate" column="detailDate"/>
- 		<result property="detailRoadAddress" column="detailRoadAddress"/>
- 		<result property="detailBusinessName" column="detailBusinessName"/>
- 		<result property="detailBusinessEng" column="detailBusinessEng"/>
- 		<result property="detailDailyTicket" column="detailDailyTicket"/>
- 		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
- 		<result property="detailScope" column="detailScope"/>
- 		<result property="detailComment" column="detailComment"/>
- 		<result property="detailServiceProgram" column="detailServiceProgram"/>
- 		<result property="reviewNo" column="reviewNo"/>
- 		<result property="detailStatus" column="detailStatus"/>
- 		<result property="detailClassification" column="detailClassification"/>
- 		<result property="detailFreeService" column="detailFreeService"/>
- 		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
- 		<result property="detailKoClassification" column="detailKoClassification"/>
- 		<result property="detailTest" column="detailTest"/>
- 	</resultMap>
- 	
- 	<resultMap type="detailDibsDTO" id="detailDibsResult">
- 		<result property="dibsNo" column="dibsNo"/>
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="memberNo" column="memberNo"/>
- 	</resultMap>
- 	
- 	<!-- 찜 목록 불러오기 쿼리문 -->
- 	<select id="selectAllDetail" resultMap="detailResult" parameterType="int">
- 		<![CDATA[
- 			select d.detailNo, d.detailBusinessName, d.detailKoClassification, d.detailRoadAddress 
- 			from detail_tbl d 
- 			join detaildibs_tbl j on d.detailNo=j.detailNo 
- 			where j.memberNo = #{memberNo}
- 		]]>
- 	</select>
-	
-	<!-- 찜 목록 취소 쿼리문 -->
-    <delete id="deleteDibs" parameterType="map">
-   		<![CDATA[
-		    DELETE FROM detaildibs_tbl 
-		    WHERE memberNo = #{memberNo} AND detailNo = #{detailNo}
-	    ]]>
-	</delete>
-
- 	
- 	<!-- 포인트 쿼리문 
+<mapper namespace="com.isix.easyGym.mypage.dao.MypageDAO">
+<!--  namespace는 mapper의 이름을 정의  -->
+<resultMap type="memberDTO" id="memberResult">
+<result property="memberNo" column="memberNo"/>
+<result property="memberName" column="memberName"/>
+<result property="memberId" column="memberId"/>
+<result property="memberPwd" column="memberPwd"/>
+<result property="memberPhone" column="memberPhone"/>
+<result property="memberEmail" column="memberEmail"/>
+<result property="memberAddr" column="memberAddr"/>
+<result property="memberPost" column="memberPost"/>
+<result property="memberCreatedAt" column="memberCreatedAt"/>
+<result property="memberState" column="memberState"/>
+<result property="memberGender" column="memberGender"/>
+<result property="memberMarketing" column="memberMarketing"/>
+<result property="memberPointDate" column="memberPointDate"/>
+<result property="memberPoint" column="memberPoint"/>
+<result property="memberPointDes" column="memberPointDes"/>
+<result property="memberExpirationDate" column="memberExpirationDate"/>
+<result property="memberCoupon" column="memberCoupon"/>
+<result property="memberCouponDes" column="memberCouponDes"/>
+</resultMap>
+<resultMap type="detailDTO" id="detailResult">
+<result property="detailNo" column="detailNo"/>
+<result property="detailDate" column="detailDate"/>
+<result property="detailRoadAddress" column="detailRoadAddress"/>
+<result property="detailBusinessName" column="detailBusinessName"/>
+<result property="detailBusinessEng" column="detailBusinessEng"/>
+<result property="detailDailyTicket" column="detailDailyTicket"/>
+<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+<result property="detailScope" column="detailScope"/>
+<result property="detailComment" column="detailComment"/>
+<result property="detailServiceProgram" column="detailServiceProgram"/>
+<result property="reviewNo" column="reviewNo"/>
+<result property="detailStatus" column="detailStatus"/>
+<result property="detailClassification" column="detailClassification"/>
+<result property="detailFreeService" column="detailFreeService"/>
+<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+<result property="detailKoClassification" column="detailKoClassification"/>
+<result property="detailTest" column="detailTest"/>
+</resultMap>
+<resultMap type="detailDibsDTO" id="detailDibsResult">
+<result property="dibsNo" column="dibsNo"/>
+<result property="detailNo" column="detailNo"/>
+<result property="memberNo" column="memberNo"/>
+</resultMap>
+<resultMap type="payformDTO" id="payformResult">
+<result property="payformNo" column="payformNo"/>
+<result property="memberNo" column="memberNo"/>
+<result property="detailNo" column="detailNo"/>
+<result property="payformSub" column="payformSub"/>
+<result property="payformPrice" column="payformPrice"/>
+<result property="payformDate" column="payformDate"/>
+<result property="payformStatus" column="payformStatus"/>
+<result property="payformPayment" column="payformPayment"/>
+<result property="payformCancelDate" column="payformCancelDate"/>
+</resultMap>
+<!--  찜 목록 불러오기 쿼리문  -->
+<select id="selectAllDetail" resultMap="detailResult" parameterType="int">
+<![CDATA[ select d.detailNo, d.detailBusinessName, d.detailKoClassification, d.detailRoadAddress from detail_tbl d join detaildibs_tbl j on d.detailNo=j.detailNo where j.memberNo = #{memberNo} ]]>
+</select>
+<select id="selectPayformNo" resultMap="payformResult" parameterType="int">
+<![CDATA[ SELECT * FROM payform_tbl p JOIN member_tbl m ON p.memberNo = m.memberNo JOIN detail_tbl d ON p.detailNo = d.detailNo WHERE m.memberNo = #{memberNo} AND p.payformStatus = 1 ]]>
+</select>
+<!--  찜 목록 취소 쿼리문  -->
+<delete id="deleteDibs" parameterType="map">
+<![CDATA[ DELETE FROM detaildibs_tbl WHERE memberNo = #{memberNo} AND detailNo = #{detailNo} ]]>
+</delete>
+<!--  포인트 쿼리문
  	<select id="selectPointsByMemberNo" parameterType="int" resultType="memberDTO">
 	    <![CDATA[
 	        SELECT memberPointDate, memberPoint, memberPointDes
 	        FROM member_tbl
 	        WHERE member_no = #{memberNo}
 	    ]]>
-	</select> -->
-	
-	<!-- 비밀번호 체크 -->
-	<select id="getPasswordByMemberNo" parameterType="int" resultType="string">
-		<![CDATA[
-        	SELECT memberPwd FROM member_tbl WHERE memberNo = #{memberNo}
-    	]]>
-    </select>
-	
-
-	<update id="memberUpdate" parameterType="memberDTO">
-		<![CDATA[
-	        UPDATE member_tbl
-	        SET
-	            memberPwd = #{memberPwd},
-	            memberPhone = #{memberPhone},
-	            memberEmail = #{memberEmail}
-	        WHERE memberNo = #{memberNo}
-		]]>
-    </update>
-    
-    <!-- 회원 탈퇴 -->
-    <update id="memberDelete" parameterType="int">
-    	<![CDATA[
-	        UPDATE member_tbl
-	        SET
-	            memberState = 0
-	        WHERE memberNo = #{memberNo}
-		]]>
-    </update>
- 	
- </mapper>
+	</select>  -->
+<!--  비밀번호 체크  -->
+<select id="getPasswordByMemberNo" parameterType="int" resultType="string">
+<![CDATA[ SELECT memberPwd FROM member_tbl WHERE memberNo = #{memberNo} ]]>
+</select>
+<update id="memberUpdate" parameterType="memberDTO">
+<![CDATA[ UPDATE member_tbl SET memberPwd = #{memberPwd}, memberPhone = #{memberPhone}, memberEmail = #{memberEmail} WHERE memberNo = #{memberNo} ]]>
+</update>
+<!--  회원 탈퇴  -->
+<update id="memberDelete" parameterType="int">
+<![CDATA[ UPDATE member_tbl SET memberState = 0 WHERE memberNo = #{memberNo} ]]>
+</update>
+</mapper>

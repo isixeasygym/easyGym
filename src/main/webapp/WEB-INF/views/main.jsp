@@ -138,7 +138,7 @@ text-align: center;
 	<div class="col-md-6 p-lg-5 mx-auto my-5">
 		<h1 class="display-3">운동할 땐, EasyGym부터</h1>
 		<div class="d-flex gap-3 justify-content-center lead fw-normal">
-			<a class="icon-link" href="${contextPath}/detail/search.do?query="> 내 주변 운동시설 찾기</a>
+			<a class="icon-link" href="${contextPath}/detail/search.do?query=">운동 시설 찾기</a>
 		</div>
 	</div>
 	<div class="product-device shadow-sm d-none d-md-block"></div>
@@ -333,7 +333,7 @@ text-align: center;
     </div>
 	<div class="btn-more">
 	    <a href="${contextPath}/detail/search.do?query=&detailClassification=pilates" class="btn btn-primary">
-	        헬스 더보기
+	        필라테스 더보기
 	    </a>
 	</div>
     
@@ -378,7 +378,7 @@ text-align: center;
     </div>
 	<div class="btn-more">
 		    <a href="${contextPath}/detail/search.do?query=&detailClassification=boxing" class="btn btn-primary">
-		        헬스 더보기
+		        복싱 더보기
 		    </a>
 		</div>
 </div>

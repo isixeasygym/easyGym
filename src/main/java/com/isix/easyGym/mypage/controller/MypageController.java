@@ -1,6 +1,7 @@
 package com.isix.easyGym.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -20,6 +21,8 @@ public interface MypageController {
 	
 	//1.내 정보 - 첫 페이지(이용중인 상품)
 	public ModelAndView mypageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public Map<String, Object> mypageData(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	//1-1)이용중인 상품 - 이용권 취소하기
 	public ModelAndView ticketCancel(HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -29,7 +32,7 @@ public interface MypageController {
 	
 	//1-2)찜 목록
 	//public ModelAndView detailDibsList(@RequestParam("section") String _section, @RequestParam("pageNum") String _pageNum, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	//public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	//1-2)찜 취소
 	public ModelAndView removeDibs(@RequestParam("detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws Exception;

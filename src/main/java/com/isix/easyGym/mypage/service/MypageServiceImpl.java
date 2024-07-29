@@ -34,6 +34,11 @@ public class MypageServiceImpl implements MypageService {
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
+
+	@Override
+	public List getPayformNo(int memberNo) throws DataAccessException {
+		return mypageDAO.selectPayformNo(memberNo);
+	}
 	
 	//1-2)찜 취소
 	@Override

@@ -11,6 +11,8 @@ import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 public interface DetailService {
 	
+	//public String findImage(int reviewNo) throws DataAccessException;
+	
 	public List<DetailReviewDTO> getReviewImages(int detailNo) throws DataAccessException;
 	
 	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException;
@@ -19,13 +21,11 @@ public interface DetailService {
 	
 	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException;
 
-	public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException;
-	
-	public List findAll(String detailClassification) throws DataAccessException;
+    public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException;
 	
 	public int popularThing(int detailNum) throws DataAccessException;
 	
-	public List findPopular(int popularRating) throws DataAccessException;
+	public DetailDTO findBussinessName(String detailBusinessName) throws DataAccessException;
 	
 	public int findDetailNo(String detailClassification) throws DataAccessException; 
 	

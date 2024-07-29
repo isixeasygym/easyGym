@@ -85,31 +85,32 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/registration");
 		return mav;
 	}
+	
 	@Override
-	@GetMapping("/detail/search.do")
-	public ModelAndView searchData(@RequestParam("query") String query,
-			@RequestParam(value = "detailClassification",required = false) String detailClassification,
-			HttpServletRequest request, HttpServletResponse response) throws Exception{
-		ModelAndView mav=new ModelAndView();
-		List<DetailDTO> selectedThing = new ArrayList<>();
-		Map<String, String> searchMap= new HashMap<String, String>();
+    @GetMapping("/detail/search.do")
+    public ModelAndView searchData(@RequestParam("query") String query,
+            @RequestParam(value = "detailClassification",required = false) String detailClassification,
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
+        ModelAndView mav=new ModelAndView();
+        List<DetailDTO> selectedThing = new ArrayList<>();
+        Map<String, String> searchMap= new HashMap<String, String>();
 
-		if(detailClassification != null && !detailClassification.isEmpty()){
-			searchMap.put("query", query);
-			searchMap.put("detailClassification", detailClassification);
-			selectedThing = detailService.findThing(searchMap);
-			mav.addObject("allList", selectedThing);
-			mav.setViewName("/detail/List");
-			return mav;
-		}
-		else{
-			searchMap.put("query", query);
-			selectedThing = detailService.findPLace(searchMap);
-			mav.addObject("allList", selectedThing);
-			mav.setViewName("/detail/List");
-			return mav;
-		}
-	}
+        if(detailClassification != null && !detailClassification.isEmpty()){
+            searchMap.put("query", query);
+            searchMap.put("detailClassification", detailClassification);
+            selectedThing = detailService.findThing(searchMap);
+            mav.addObject("allList", selectedThing);
+            mav.setViewName("/detail/List");
+            return mav;
+        }
+        else{
+            searchMap.put("query", query);
+            selectedThing = detailService.findPLace(searchMap);
+            mav.addObject("allList", selectedThing);
+            mav.setViewName("/detail/List");
+            return mav;
+        }
+    }
 	
 	@RequestMapping(value = "/detail/signUpForm.do", method = RequestMethod.POST)
 	public ModelAndView signUpForm(
@@ -192,7 +193,8 @@ public class DetailControllerImpl implements DetailController{
 		List<DetailReviewDTO> review = new ArrayList<>();
 		review = detailService.findReview(detailNo); 
 		List<DetailReviewDTO> reviewImage = new ArrayList<>();
-		reviewImage = detailService.findReviewImage(detailNo);
+		reviewImage = detailService.getReviewImages(detailNo);
+		
 		if(review != null ) {
 			session.setAttribute("getReview", 1);
 			mav.addObject("reviewImage",reviewImage);
@@ -204,35 +206,17 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/detail");
 		return mav;
 	}
-	
-    
 	@Override
-	@RequestMapping(value="/detail/showAll.do", method=RequestMethod.GET)
-	public ModelAndView selectAll(
-			@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-			List selectAllList = new ArrayList<>();
-			selectAllList = detailService.findAll(detailClassification);
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("allList", selectAllList);
-			mav.setViewName("/detail/List");
-		return mav;
+	@ResponseBody
+	@RequestMapping(value = "/getReviews.do", method = {RequestMethod.POST, RequestMethod.GET})
+	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+	    System.out.print(reviews.get(0).getReviewImgName());
+	    return reviews;
 	}
+   
 	
-	@Override
-	public ModelAndView selectPopular(@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		int detailNum = detailService.findDetailNo(detailClassification);
-		int popularRating = detailService.popularThing(detailNum);
-		List PopularThing = new ArrayList<>();
-		PopularThing = detailService.findPopular(popularRating);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("allList", PopularThing);
-		mav.setViewName("/detail/List");
-		return mav;
-	}
 		@Override
 	 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
 	    @ResponseBody
@@ -266,29 +250,21 @@ public class DetailControllerImpl implements DetailController{
 	        return status;
 	    }
 	
-		
-		
 
-		@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
-		@ResponseBody
-		public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
-		    // 로그인 여부 확인
-		    if (memberNo == null || memberNo.isEmpty()) {
-		        return "nologin"; // 로그인하지 않은 경우
-		    }
+	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
+	@ResponseBody
+	public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("detailNo", detailNo);
+	    paramMap.put("memberNo", memberNo);
 
-		    // 찜 상태 확인
-		    Map<String, Object> paramMap = new HashMap<>();
-		    paramMap.put("detailNo", detailNo);
-		    paramMap.put("memberNo", memberNo);
-
-		    DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
-		    if (detailDibsDTO != null) {
-		        return "insert"; // 찜 상태
-		    } else {
-		        return "delete"; // 찜 상태 아님
-		    }
-		}
+	    DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
+	    if (detailDibsDTO != null) {
+	        return "insert"; // 찜 되어 있는 상태
+	    } else {
+	        return "delete"; // 찜 되어 있지 않은 상태
+	    }
+	}
 	
 	
 	
@@ -385,15 +361,7 @@ public class DetailControllerImpl implements DetailController{
 	    return status;
 	}
 	
-	@Override
-	@ResponseBody
-	@RequestMapping(value = "/getReviews.do", method = {RequestMethod.POST, RequestMethod.GET})
-	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
-	    System.out.print(reviews.get(0).getReviewImgName());
-	    return reviews;
-	}
+	
 	@ResponseBody
 	@Override
 	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)

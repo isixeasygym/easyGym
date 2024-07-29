@@ -22,7 +22,8 @@ public interface MypageDAO {
 	//1-2)찜 취소
 	public void deleteDibs(@Param("memberNo") int memberNo, @Param("detailNo") int detailNo) throws DataAccessException;
 
-	
+	public List selectPayformNo(@Param("memberNo") int memberNo) throws DataAccessException;
+
 	//2-1)포인트
 	//public List<MemberDTO> selectPointsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
 

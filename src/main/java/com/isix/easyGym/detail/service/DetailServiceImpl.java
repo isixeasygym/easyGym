@@ -26,35 +26,21 @@ public class DetailServiceImpl implements DetailService{
 	private DetailDibsDTO detailDibsDTO;
 	
 	@Override
-	public List<DetailDTO> findThing(Map searchMap) throws DataAccessException {
-		List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
-		return searchedThing;
-	}
+    public List<DetailDTO> findThing(Map searchMap) throws DataAccessException {
+        List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
+        return searchedThing;
+    }
 
 	@Override
-	public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException {
-		List<DetailDTO> searchedPlace = detailDAO.selectPLaceQuery(searchMap);
-		return searchedPlace;
-	}
-	
-	@Override
-	public List findAll(String detailClassification) throws DataAccessException {
-		List selectAllList=detailDAO.selectAll(detailClassification);
-		return selectAllList;
-	}
-	
-
+    public List<DetailDTO> findPLace(Map searchMap) throws DataAccessException {
+        List<DetailDTO> searchedPlace = detailDAO.selectPLaceQuery(searchMap);
+        return searchedPlace;
+    }
 	
 	@Override
 	public int popularThing(int detailNum) throws DataAccessException {
 		int popularRating = detailDAO.selectPopularRating(detailNum);
 		return popularRating;
-	}
-
-	@Override
-	public List findPopular(int popularRating) throws DataAccessException {
-		List PopularThing= detailDAO.selectPopular(popularRating);
-		return null;
 	}
 	
 	@Override
@@ -151,6 +137,23 @@ public class DetailServiceImpl implements DetailService{
 		List<DetailReviewDTO> reviewImage = detailDAO.selectReviewImage(detailNo);
 		return reviewImage;
 	}
+
+
+
+	@Override
+	public DetailDTO findBussinessName(String detailBusinessName) throws DataAccessException {
+		DetailDTO searchBusinessName = detailDAO.selectBusinessName(detailBusinessName);
+		return searchBusinessName;
+	}
+
+
+
+	
+	/*@Override
+	public String findImage(int reviewNo) throws DataAccessException {
+		String image=detailDAO.selectImage(reviewNo);
+		return image;
+	}*/
 
 	
 

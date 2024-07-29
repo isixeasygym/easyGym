@@ -1,7 +1,10 @@
 package com.isix.easyGym.mypage.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.isix.easyGym.payform.dto.PayformDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +35,12 @@ public class MypageControllerImpl implements MypageController {
 
 	@Autowired
 	private MypageService mypageService;
-	
+
 	@Autowired
 	private MemberDTO memberDTO;  //멤버
 	private DetailDTO detailDTO;  //업체정보
 	private DetailDibsDTO detailDibsDTO;  //찜목록
-	
+
 	//1.내 정보 - 첫 페이지(이용중인 상품)
 	@RequestMapping(value = "/mypage/mypageMain.do")
 	public ModelAndView mypageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -45,7 +48,27 @@ public class MypageControllerImpl implements MypageController {
 		mav.setViewName("/mypage/mypageMain");
 		return mav;
 	}
-	
+
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
+	public Map<String, Object> mypageData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession(false);
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+		Map<String, Object> result = new HashMap<>();
+
+		// 찜 목록 가져오기
+		List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
+		result.put("dibsList", dibsList);
+
+		// 이용 중인 상품 목록 가져오기
+		List payformList = mypageService.getPayformNo(memberDTO.getMemberNo());
+		result.put("payformList", payformList);
+
+		return result;
+	}
+
 	//1-1)이용중인 상품 - 이용권 취소하기
 	@RequestMapping(value = "/mypage/ticketCancel.do")
 	public ModelAndView ticketCancel(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -53,7 +76,7 @@ public class MypageControllerImpl implements MypageController {
 		mav.setViewName("/mypage/ticketCancel");
 		return mav;
 	}
-	
+
 	//1-1)이용중인 상품 - 이용권 환불하기
 	@RequestMapping(value = "/mypage/ticketRefund.do")
 	public ModelAndView ticketRefund(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -61,7 +84,7 @@ public class MypageControllerImpl implements MypageController {
 		mav.setViewName("/mypage/ticketRefund");
 		return mav;
 	}
-	
+
 	//1-2)찜 목록
 /*	@RequestMapping(value = "/dibs-list")
 	public ModelAndView detailDibsList(@RequestParam(value = "section", required = false) String _section, @RequestParam(value = "pageNum", required = false) String _pageNum, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -78,16 +101,7 @@ public class MypageControllerImpl implements MypageController {
 		mav.addObject("dibsMap", dibsMap);
 		return mav;
 	} */
-	@Override
-	@ResponseBody  // = setAttribute 역할. JSON 등 여러 형태로 뷰에 다시 넘겨줌
-	@RequestMapping(value = "/mypage/mypageMain.do", method = RequestMethod.POST)
-	public List<DetailDTO> detailDibsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session= request.getSession(false);
-		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
-    	List<DetailDTO> dibsList = mypageService.detailDibsList(memberDTO.getMemberNo());
-	    return dibsList;
-	}
-	
+
 	//1-2)찜 취소
 	@Override
 	@ResponseBody
@@ -109,7 +123,7 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	}
 
-	
+
 	//2.포인트&쿠폰
 /*	@Override
 	@ResponseBody
@@ -125,7 +139,7 @@ public class MypageControllerImpl implements MypageController {
         }
         return "mypage/mypageMain";
     } */
-	
+
 	//3.정보수정
 	//3-1)비밀번호 체크
 	@Override
@@ -136,15 +150,15 @@ public class MypageControllerImpl implements MypageController {
         @RequestParam("memberPwd") String memberPwd
     ) throws Exception {
         System.out.println("checkPassword 호출됨, memberNo: " + memberNo + ", memberPwd: " + memberPwd);
-        
+
         boolean isCorrect = mypageService.checkPassword(memberNo, memberPwd);
         System.out.println("비밀번호 확인 결과: " + isCorrect);
-        
+
         return new ResponseEntity<>(isCorrect, HttpStatus.OK);
     }
 
 
-	
+
 	//3-2)회원정보 수정
 	@Override
 	@RequestMapping(value = "/mypage/memberUpdate.do", method = RequestMethod.POST)
@@ -174,7 +188,7 @@ public class MypageControllerImpl implements MypageController {
 	    ModelAndView mav = new ModelAndView("redirect:/mypage/mypageMain.do");
 	    return mav;
 	}
-	
+
 	// 회원탈퇴
 	@Override
     @ResponseBody
@@ -194,9 +208,9 @@ public class MypageControllerImpl implements MypageController {
 	        mav.addObject("message", "회원탈퇴가 완료되었습니다.");
 	        return mav;
     }
-	
-	
-	
+
+
+
 	//요청명과 메서드와 jsp를 동일한 이름으로 표시 메서드
 	private String getViewName(HttpServletRequest request) throws Exception {
 		String contextPath=request.getContextPath();
@@ -228,5 +242,5 @@ public class MypageControllerImpl implements MypageController {
 		return fileName;
 	}
 
-	
+
 }

@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"
          isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ include file="/WEB-INF/views/detail/header.jsp"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%
     Object member = session.getAttribute("member");
@@ -20,114 +20,100 @@
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
-		$(document).ready(function() {
-		    var requestInProgress = false;
+        $(document).ready(function() {
+            var requestInProgress = false;
 
-		    function updateFavoriteButton(button, status) {
-		        var newSrc = (status === "insert")
-		            ? '${contextPath}/images/detail/detailpage/pickDibs.png'
-		            : '${contextPath}/images/detail/detailpage/dibs.png';
-		        $(button).find('.dibs').attr('src', newSrc);
-		    }
+            // 페이지 로드 시 초기화 작업
+            initializePage();
 
-		    function checkFavoriteStatus() {
-		        // 페이지가 처음 로드된 경우에만 새로고침을 시도
-		        if (!sessionStorage.getItem('refreshed')) {
-		            sessionStorage.setItem('refreshed', 'true'); // 새로고침 플래그 설정
-		            location.reload(); // 페이지 새로고침
-		            return; // 새로고침 후에는 아래 코드 실행을 막음
-		        }
+            function initializePage() {
+                $(".favorite-button").each(function() {
+                    var button = this;
+                    var companyId = $(button).find('.companyId').val();
+                    var userId = $(button).find('.userId').val();
 
-		        $(".favorite-button").each(function() {
-		            var button = this;
-		            var companyId = $(button).find('.companyId').val();
-		            var userId = $(button).find('.userId').val();
 
-		            if (!userId || !companyId) {
-		                console.error("필수 정보가 누락되었습니다.");
-		                return;
-		            }
 
-		            $.ajax({
-		                type: "GET",
-		                url: "${contextPath}/getFavoriteStatus",
-		                data: { companyId: companyId, userId: userId },
-		                success: function(data) {
-		                    if (data === "insert" || data === "delete") {
-		                        updateFavoriteButton(button, data);
-		                    } else if (data === "nologin") {
-		                        alert("회원 정보가 없습니다.");
-		                        window.location.href = '${contextPath}/member/loginForm.do';
-		                    } else {
-		                        alert("알 수 없는 오류가 발생했습니다.");
-		                    }
-		                },
-		                error: function(xhr, status, error) {
-		                    console.error("Error: " + error);
-		                    alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-		                }
-		            });
-		        });
-		    }
+                    $.ajax({
+                        type: "GET",
+                        url: "${contextPath}/getFavoriteStatus",
+                        data: { companyId: companyId, userId: userId },
+                        success: function(data) {
+                            if (data === "insert" || data === "delete") {
+                                updateFavoriteButton(button, data);
+                            } else if (data === "nologin") {
 
-		    // 페이지 로드 시 찜 상태 확인
-		    checkFavoriteStatus();
+                            } else {
+                                alert("알 수 없는 오류가 발생했습니다.");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error: " + error);
+                            alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                        }
+                    });
+                });
+            }
 
-		    // 찜 버튼 클릭 시 이벤트 처리
-		    $(".favorite-button").click(function(event) {
-		        if (requestInProgress) return;
+            function updateFavoriteButton(button, status) {
+                var newSrc = (status === "insert")
+                    ? '/images/detail/detailpage/pickDibs.png'
+                    : '/images/detail/detailpage/dibs.png';
+                $(button).find('.dibs').attr('src', newSrc);
+            }
 
-		        requestInProgress = true;
+            $(".favorite-button").click(function(event) {
+                if (requestInProgress) return;
 
-		        var button = this;
-		        var companyId = $(button).find('.companyId').val();
-		        var userId = $(button).find('.userId').val();
+                var button = this;
+                var companyId = $(button).find('.companyId').val();
+                var userId = $(button).find('.userId').val();
 
-		        if (!userId || !companyId) {
-		            alert("필수 정보가 누락되었습니다.");
-		            requestInProgress = false;
-		            return;
-		        }
+                if (!userId) {
+                    // 로그인하지 않은 경우
+                    alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                    window.location.href = '/member/loginForm.do';
+                    return; // 함수 종료
+                }
 
-		        $.ajax({
-		            type: "GET",
-		            url: "${contextPath}/addFavorite",
-		            data: { companyId: companyId, userId: userId },
-		            success: function(data) {
-		                if (data === "insert" || data === "delete") {
-		                    alert(data === "insert" 
-		                        ? "찜 목록에 추가되었습니다." 
-		                        : "찜 목록에서 삭제되었습니다.");
-		                    updateFavoriteButton(button, data);
-		                } else if (data === "nologin") {
-		                    alert("회원 정보가 없습니다.");
-		                    window.location.href = '${contextPath}/member/loginForm.do';
-		                } else {
-		                    alert("알 수 없는 오류가 발생했습니다.");
-		                }
-		                requestInProgress = false;
-		            },
-		            error: function(xhr, status, error) {
-		                console.error("Error: " + error);
-		                alert("오류가 발생했습니다. 관리자에게 문의하세요.");
-		                requestInProgress = false;
-		            }
-		        });
+                requestInProgress = true;
 
-		        event.stopPropagation();
-		    });
-		});
+                $.ajax({
+                    type: "GET",
+                    url: "${contextPath}/addFavorite",
+                    data: { companyId: companyId, userId: userId },
+                    success: function(data) {
+                        if (data === "insert" || data === "delete") {
+                            alert(data === "insert"
+                                ? "찜 목록에 추가되었습니다."
+                                : "찜 목록에서 삭제되었습니다.");
+                            updateFavoriteButton(button, data);
+                        }  else {
+                            alert("알 수 없는 오류가 발생했습니다.");
+                        }
+                        requestInProgress = false;
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error: " + error);
+                        alert("오류가 발생했습니다. 관리자에게 문의하세요.");
+                        requestInProgress = false;
+                    }
+                });
 
-		// 뒤로 가기 버튼을 눌렀을 때 호출되는 함수
-		function goBack() {
-		    window.history.back();
-		}
-</script>
+                event.stopPropagation(); // 부모 요소에 대한 클릭 이벤트를 방지
+            });
+
+            $(window).on('pageshow', function(event) {
+                initializePage();
+            });
+        });
+    </script>
 </head>
 <body>
+
 <div class="search-container">
     <form class="search-form">
-        <button type="button" class="back-button" onclick="goHome()"><img src="${contextPath}/images/detail/listimg/home_icon.png" alt="홈으로 가기"></button>
+
         <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
         <button type="submit" class="search-button">검색</button>
     </form>
@@ -215,6 +201,30 @@
 </div>
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const favoriteButtons = document.querySelectorAll('.favorite-button');
+
+        favoriteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();  // 이벤트 버블링 중지
+                // 여기에 찜하기 기능 구현
+                console.log('찜하기 버튼 클릭됨');
+            });
+        });
+
+        const contentRanges = document.querySelectorAll('.contentRange');
+
+        contentRanges.forEach(content => {
+            content.addEventListener('click', function(event) {
+                if (!event.target.closest('.favorite-button')) {
+                    // 리스트 항목 클릭 시 실행될 코드
+                    console.log('리스트 항목 클릭됨');
+                    // 예: window.location.href = 상세 페이지 URL;
+                }
+            });
+        });
+    });
     const urlParams = new URLSearchParams(window.location.search); //url param들을 불러옴
 
     window.onload = function () { //윈도우가 로드되면 url 확인해서 옵션을 해당 옵션으로 설정
@@ -241,7 +251,7 @@
             const url = '${contextPath}/detail/search.do?query=서울특별시 ' + selectedDistrict + '+&detailClassification=' + facilityType;
             window.location.href = url;
         } else {
-            const url = '${contextPath}/detail/showAll.do?detailClassification='+facilityType;
+            const url = '${contextPath}/detail/search.do?query=&detailClassification='+facilityType;
             window.location.href = url;
         }
     }
@@ -279,6 +289,3 @@
         infowindow.open(map, marker);
     }
 </script>
-
-</body>
-</html>
