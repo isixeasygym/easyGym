@@ -26,11 +26,11 @@ body {
     width: 100%;
     right: 0;
     background-color: #fff;
-	left: 50%;
-	transform: translate(-50%, 0%);
+    left: 50%;
+    transform: translate(-50%, 0%);
     padding: 15px 20px;
     z-index: 1000;
-	top: 60px;
+    top: 60px;
 }
 
 .search-form {
@@ -85,20 +85,20 @@ body {
 
 
 .options-container {
-       position: absolute; /* 부모 요소를 기준으로 위치 설정 */
-       left: 0; /* 좌측 끝에 맞춤 */
-       right: 0; /* 우측 끝에 맞춤 */
-       top: 141px; /* 화면에서의 상단 위치 설정 */
-       width: 100%; /* 화면 너비를 100%로 설정 */
-       background-color: #fff;
-       padding: 10px 20px;
-       z-index: 999;
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: center;
-       align-items: center;
-       gap: 40px;
-   }
+    position: absolute; /* 부모 요소를 기준으로 위치 설정 */
+    left: 0; /* 좌측 끝에 맞춤 */
+    right: 0; /* 우측 끝에 맞춤 */
+    top: 141px; /* 화면에서의 상단 위치 설정 */
+    width: 100%; /* 화면 너비를 100%로 설정 */
+    background-color: #fff;
+    padding: 10px 20px;
+    z-index: 999;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
 
 .option-group {
     display: flex;
@@ -126,13 +126,13 @@ body {
 
 .main-container {
     display: flex;
-	top: 100px;
+    top: 100px;
     margin-top: 130px;
     min-height: calc(100vh - 130px);
 }
 
 .left-margin, .right-margin {
-	
+
     width: 10%;
     background-color: #F6F6F6;
 }
@@ -145,8 +145,8 @@ body {
 }
 
 .map_wrap {
-	position: relative;
-	top: 6px;
+    position: relative;
+    top: 6px;
     width: 30%;
     height: 80%;
     position: fixed;
@@ -300,8 +300,8 @@ body {
 }
 
 .freeService {
-	position: relative;
-	top: 10px;
+    position: relative;
+    top: 10px;
     color: #777;
     font-weight: 500;
     margin-right: 8px;
@@ -309,8 +309,8 @@ body {
 }
 
 .provide {
-	position: relative;
-	top:10px;
+    position: relative;
+    top:10px;
     font-size: 0.8em;
 }
 

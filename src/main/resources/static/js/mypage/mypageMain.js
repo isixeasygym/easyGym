@@ -100,24 +100,24 @@ document.addEventListener('DOMContentLoaded', function () {
          method: 'POST',
          body: formData
       })
-         .then(response => {
-            if (!response.ok) {
-               throw new Error('Network response was not ok');
-            }
-            return response.json(); // 서버 응답을 JSON으로 파싱
-         })
-         .then(data => {
-            if (data) { // 반환된 값이 true인지 확인
-               document.getElementById('password-check').style.display = 'none';
-               document.getElementById('update-form').style.display = 'block';
-            } else {
-               alert("비밀번호가 올바르지 않습니다.");
-            }
-         })
-         .catch(error => {
-            console.error('Error:', error);
-            alert("서버와의 통신 중 오류가 발생했습니다.");
-         });
+          .then(response => {
+             if (!response.ok) {
+                throw new Error('Network response was not ok');
+             }
+             return response.json(); // 서버 응답을 JSON으로 파싱
+          })
+          .then(data => {
+             if (data) { // 반환된 값이 true인지 확인
+                document.getElementById('password-check').style.display = 'none';
+                document.getElementById('update-form').style.display = 'block';
+             } else {
+                alert("비밀번호가 올바르지 않습니다.");
+             }
+          })
+          .catch(error => {
+             console.error('Error:', error);
+             alert("서버와의 통신 중 오류가 발생했습니다.");
+          });
    }
 
 
@@ -163,19 +163,19 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: formData.toString()
          })
-            .then(response => {
-               if (!response.ok) {
-                  throw new Error('Network response was not ok');
-               }
-               return response.text();
-            })
-            .then(data => {
-               window.location.href = `${contextPath}/mypage/mypageMain.do`;
-            })
-            .catch(error => {
-               console.error('Error:', error);
-               alert("서버와의 통신 중 오류가 발생했습니다.");
-            });
+             .then(response => {
+                if (!response.ok) {
+                   throw new Error('Network response was not ok');
+                }
+                return response.text();
+             })
+             .then(data => {
+                window.location.href = `${contextPath}/mypage/mypageMain.do`;
+             })
+             .catch(error => {
+                console.error('Error:', error);
+                alert("서버와의 통신 중 오류가 발생했습니다.");
+             });
       });
    }
 
@@ -193,20 +193,20 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: formData.toString()
          })
-            .then(response => {
-               if (!response.ok) {
-                  throw new Error('Network response was not ok');
-               }
-               return response.text();
-            })
-            .then(data => {
-               alert("회원탈퇴가 완료되었습니다.");
-               window.location.href = `${contextPath}/main.do`;
-            })
-            .catch(error => {
-               console.error('Error:', error);
-               alert("서버와의 통신 중 오류가 발생했습니다.");
-            });
+             .then(response => {
+                if (!response.ok) {
+                   throw new Error('Network response was not ok');
+                }
+                return response.text();
+             })
+             .then(data => {
+                alert("회원탈퇴가 완료되었습니다.");
+                window.location.href = `${contextPath}/main.do`;
+             })
+             .catch(error => {
+                console.error('Error:', error);
+                alert("서버와의 통신 중 오류가 발생했습니다.");
+             });
       });
    }
    /*const updateBtn = document.getElementById('update-btn');
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
    }
 
    /*const withdrawBtn = document.getElementById('withdraw-btn');
-   
+
    if (withdrawBtn) {
            withdrawBtn.addEventListener('click', function() {
                const memberNo = document.getElementById('memberNo').value;
@@ -309,49 +309,49 @@ function fn_dibsList() {
          'Content-Type': 'application/json',
       },
    })
-      .then(response => response.json())
-      .then(data => {
-         let tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>프로그램명</th><th>지역</th><th>찜</th></tr>';
-         if (data.dibsList && data.dibsList.length > 0) {
-            data.dibsList.forEach((dibs, index) => {
-               tableHtml += `<tr>
+       .then(response => response.json())
+       .then(data => {
+          let tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>프로그램명</th><th>지역</th><th>찜</th></tr>';
+          if (data.dibsList && data.dibsList.length > 0) {
+             data.dibsList.forEach((dibs, index) => {
+                tableHtml += `<tr>
                     <td>${index + 1}</td>
                     <td>${dibs.detailBusinessName}</td>
                     <td>${dibs.detailKoClassification}</td>
                     <td>${dibs.detailRoadAddress}</td>
                     <td><button onclick="fn_removeDibs(${dibs.detailNo})">찜 취소</button></td>
                 </tr>`;
-            });
-         } else {
-            tableHtml += '<tr><td colspan="5">찜 목록이 없습니다.</td></tr>';
-         }
-         tableHtml += '</table>';
-         document.getElementById('dibs-list').innerHTML = '<h2>찜 목록</h2>' + tableHtml;
-      })
-      .catch(error => {
-         console.error('Error:', error);
-         alert('찜 목록을 불러오는 중 오류가 발생했습니다.');
-      });
+             });
+          } else {
+             tableHtml += '<tr><td colspan="5">찜 목록이 없습니다.</td></tr>';
+          }
+          tableHtml += '</table>';
+          document.getElementById('dibs-list').innerHTML = '<h2>찜 목록</h2>' + tableHtml;
+       })
+       .catch(error => {
+          console.error('Error:', error);
+          alert('찜 목록을 불러오는 중 오류가 발생했습니다.');
+       });
 }
 
 function fn_removeDibs(detailNo) {
    fetch(`${contextPath}/mypage/removeDibs.do?detailNo=${detailNo}`, {
       method: 'GET'
    })
-      .then(response => {
-         if (!response.ok) {
-            throw new Error('Network response was not ok');
-         }
-         return response.text();
-      })
-      .then(() => {
-         alert('찜이 취소되었습니다.');
-         fn_dibsList(); // 찜 목록 새로고침
-      })
-      .catch(error => {
-         console.error('Error:', error);
-         alert('찜 취소 중 오류가 발생했습니다.');
-      });
+       .then(response => {
+          if (!response.ok) {
+             throw new Error('Network response was not ok');
+          }
+          return response.text();
+       })
+       .then(() => {
+          alert('찜이 취소되었습니다.');
+          fn_dibsList(); // 찜 목록 새로고침
+       })
+       .catch(error => {
+          console.error('Error:', error);
+          alert('찜 취소 중 오류가 발생했습니다.');
+       });
 }
 
 function loadUsingProducts() {
@@ -361,12 +361,12 @@ function loadUsingProducts() {
          'Content-Type': 'application/json',
       },
    })
-      .then(response => response.json())
-      .then(data => {
-         let html = '';
-         if (data.payformList && data.payformList.length > 0) {
-            data.payformList.forEach(payform => {
-               html += `
+       .then(response => response.json())
+       .then(data => {
+          let html = '';
+          if (data.payformList && data.payformList.length > 0) {
+             data.payformList.forEach(payform => {
+                html += `
                         <div class="item">
                             <div class="info">
                                 <p>이용권</p>
@@ -381,16 +381,16 @@ function loadUsingProducts() {
                             </div>
                         </div>
                     `;
-            });
-         } else {
-            html = '<p>이용 중인 상품이 없습니다.</p>';
-         }
-         document.getElementById('using-products').innerHTML = '<h2>이용중인 상품</h2>' + html;
-      })
-      .catch(error => {
-         console.error('Error:', error);
-         alert('이용 중인 상품 목록을 불러오는 중 오류가 발생했습니다.');
-      });
+             });
+          } else {
+             html = '<p>이용 중인 상품이 없습니다.</p>';
+          }
+          document.getElementById('using-products').innerHTML = '<h2>이용중인 상품</h2>' + html;
+       })
+       .catch(error => {
+          console.error('Error:', error);
+          alert('이용 중인 상품 목록을 불러오는 중 오류가 발생했습니다.');
+       });
 }
 
 function cancelPayform(payformNo) {
@@ -416,5 +416,3 @@ document.addEventListener('DOMContentLoaded', function() {
    loadUsingProducts();
    // 기존의 이벤트 리스너들 유지
 });
-
-      

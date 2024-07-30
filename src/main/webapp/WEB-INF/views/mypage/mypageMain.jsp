@@ -10,7 +10,7 @@
 </script>
 <link rel="stylesheet" href="${contextPath}/css/mypage/mypageMain.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<<script src="${contextPath}/js/mypage/mypageMain.js"></script>
+<script src="${contextPath}/js/mypage/mypageMain.js"></script>
 <!--<script src="${contextPath}/js/mypage/mypageDibs.js"></script>-->
 
 
@@ -101,4 +101,3 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
-

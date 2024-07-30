@@ -22,16 +22,10 @@
                </div>
                <div class="row justify-content-between mb-3">
                   <div class="col-md-6 text-start">
-                     <!--<small class="d-block mb-2"><a href="#">아이디 · 비밀번호 찾기</a></small>-->
-                     <small class="d-block"><a href="joinSelect">회원가입</a></small>
+                     <small class="d-block"><a href="${contextPath}/member/joinSelect.do">회원가입</a></small>
                   </div>
                </div>
                <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
-               <!--<div class="wrap">
-                     <a class="kakao"href="https://kauth.kakao.com/oauth/authorize?client_id=3c843cca4013634dd38d454b2948d9de&redirect_uri=http://localhost:8090/kakao-login&response_type=code">
-                     <img src="/images/member/kakao_login_medium_wide.png" style="width: 100%;">
-                     </a>
-               </div>-->
             </form>
          </div>
       </div>
