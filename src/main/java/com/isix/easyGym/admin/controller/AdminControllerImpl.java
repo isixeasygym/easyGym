@@ -50,7 +50,7 @@ public class AdminControllerImpl implements AdminController {
 	@GetMapping("/admin/joinForm.do")
 	public ModelAndView adminForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/joinForm");
+		mav.setViewName("admin/joinForm");
 		return mav;
 	} 
 
@@ -67,7 +67,7 @@ public class AdminControllerImpl implements AdminController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result",result); 
 		mv.addObject("admin",admin); 
-		mv.setViewName("/admin/loginForm");
+		mv.setViewName("admin/loginForm");
 		return mv;
 	}
 	
@@ -116,7 +116,7 @@ public class AdminControllerImpl implements AdminController {
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.memberList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/memberList");
+		mav.setViewName("admin/memberList");
 		mav.addObject("mlist",mlist);
 		return mav;
 	}
@@ -126,7 +126,7 @@ public class AdminControllerImpl implements AdminController {
 	public ModelAndView withdrawMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.withdrawMember();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/withdrawMem");
+		mav.setViewName("admin/withdrawMem");
 		mav.addObject("mlist",mlist);
 		return mav;
 	}
@@ -137,7 +137,7 @@ public class AdminControllerImpl implements AdminController {
 	public ModelAndView operatorList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List olist=adminService.operList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/operList");
+		mav.setViewName("admin/operList");
 		mav.addObject("olist",olist);
 		return mav;
 	}
@@ -147,7 +147,7 @@ public class AdminControllerImpl implements AdminController {
 	public ModelAndView companyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List clist=adminService.comList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/companyList");
+		mav.setViewName("admin/companyList");
 		mav.addObject("clist",clist);
 		return mav;
 	}

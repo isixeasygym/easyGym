@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
-@Component("memberoperDTO")
+@Component("memberOperDTO")
 public class MemberOperDTO {
 
 	private int operatorNo;

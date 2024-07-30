@@ -237,11 +237,26 @@ body{
 }
 
 #dailyInfoBox{
+	position: relative;
     margin: 0 auto;
+	top: 30px;
     width: 620px;
     height: 120px;
     border-radius:  20px;
     background-color:  #F6F6F6;
+}
+
+#dailyInfo{
+	position: absolute;
+	top: 5px;
+	left: 25px;
+	
+}
+
+#dailyInfoDetail{
+	position: absolute;
+	top: 50px;
+	left: 25px;
 }
 
 #commentRange{
@@ -344,21 +359,28 @@ body{
 }
 
 #reviewImageRange{
-	height: 120px;
+	position: relative;
+	height: 130px;
 	border-bottom: 2px solid #F6F6F6;
 }
 
 #reviewRange{
+	position: relative;
+	
 	border-bottom: 2px solid #F6F6F6;
 }
 
+
+
 .reviewImage{
-	width: 60px;
-	height: 60px;
-	display: block;
+	position: relative;
+	top: -10px;
+	left: 20px;
+	display: inline-block;
+	padding-right: 10px;
+	width: 115px;
+	height: 115px;
 }
-
-
 
 
 #ticketChoiceRange {
@@ -373,7 +395,7 @@ body{
        position: sticky; /* 최신 브라우저 지원 */
        bottom: 0;
        left: 0;
-       width: 100%;
+       width: 680px;
        background-color: white;
        border-top: 1px solid #ccc;
        padding: 10px;
@@ -393,7 +415,9 @@ body{
        margin: 0 auto;
    }
 #ReviewRange{
+	position: relative;
 	width: 700px;
+	
 }
 
 
@@ -401,6 +425,7 @@ body{
 .reviewWriteRange{
 	width: 678px;
 	margin: 0 auto;
+	height: 230px;
 }
 
 #textArea {
@@ -411,19 +436,34 @@ body{
 #myTextarea {
 	position: relative;
 	left: 20px;
-    width: 600px;
-    height: 130px;
+	width: 600px;
+	height: 141px;
+	border-radius: 25px;
     resize: none; /* 빗금 없애기 */
     border: 1px solid #ccc; /* 기본 border 색상 */
-    padding: 10px;
+    padding: 15px;
     font-size: 1em;
     box-sizing: border-box;
 }
 
 #myTextarea:focus {
-    border: 1px solid #ccc; /* 클릭할 때 border 색상 */
-    outline: none; /* 클릭할 때 기본 outline 제거 */
+	border: 1px solid #0066cc; /* 포커스 시 보더 색상 변경 */
+	box-shadow: 0 0 5px rgba(0, 102, 204, 0.5); /* 포커스 시 그림자 색상 추가 */
 }
+.reviewComment {
+    position: relative;
+	top: -50px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #ccc; /* 기본 보더 색상 */
+    border-radius: 25px;
+    width: 600px;
+    height: 141px;
+    resize: none; /* 리사이즈 가능성 제거 */
+    box-sizing: border-box;
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+}
+
 
 #charCount {
 	position: relative;
@@ -440,7 +480,7 @@ body{
     display: block;
     position: relative;
 	top: -5px;
-    left: -500px;
+    left: -470px;
 }
 
 .rating input {
@@ -481,61 +521,79 @@ body{
 	border-radius: 8px;
 	z-index: 30;
 }
-.deleteButton{
-	position: relative;
-	z-index: 30px;
-	top: 40px;
-	left: 580px;
-	background: none;
-	border: none;
-	color: inherit;
-	font: inherit;
-	cursor: pointer;
-	outline: none;
-	font-size: 0.8em;
+.deleteButton {
+    position: relative;
+    z-index: 1000; /* 버튼이 다른 요소들 위에 위치하도록 설정 */
+    top: 30px;
+    left: 580px;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    font-size: 0.8em;
+    display: inline-block; /* 버튼이 인라인 블록으로 설정되어 있어야 보임 */
+    /* 필요한 경우, 추가적인 스타일을 여기 추가 */
+}
+
+.deleteButton:hover {
+    color: red; /* 버튼 호버 시 색상 변화 (옵션) */
 }
 
 .ReviewRange{
-	height: 265px;
+	height: 250px;
 }
 
-.reviewImage{
+.reviewPicture{
 	position: relative;
-	top: -25px;
-	left: -20px;
+    top: -40px;
+    left: 5px;
+    display: inline-block;
+	width: 60px;
+	height: 60px;
 	
-	display: inline-block;
 }
+
 .anonymous{
 	position: relative;
-	top: -60px;
-	left: -20px;
+	top: -70px;
 	display: inline-block;
 }
 .reviewDate{
 	position: relative;
-	top: -40px;
-	left: -116px;
+	top: -50px;
+	left: -96px;
 	display: inline-block;
 }
-.reviewComment{
-	position: relative;
-	border: 1px solid #ccc;;
+.reviewComment {
+    position: relative;
 	top: -50px;
-	height: 130px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #ccc; /* 기본 보더 색상 */
+    border-radius: 25px;
+    width: 600px;
+    height: 141px;
+    resize: none; /* 리사이즈 가능성 제거 */
+    box-sizing: border-box;
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+}
+
+/* 포커스 시 보더와 그림자 스타일 변경 */
+.reviewComment:focus {
+    border: 1px solid #0066cc; /* 포커스 시 보더 색상 변경 */
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.5); /* 포커스 시 그림자 색상 추가 */
 }
 .personReviewRange{
-	width: 578px;
-	height: 180px;
+	position: relative;
+	width: 600px;
+	height: 170px;
 	margin:0 auto;
 	border-bottom: 1px solid #F6F6F6;
 	padding: 30px;
 }
-#writeBorder{
-	width: 700px;
-	border-bottom: 2px solid #F6F6F6;
-	height: 225px;
-}
+
 
 #produ{
     color: #757575;

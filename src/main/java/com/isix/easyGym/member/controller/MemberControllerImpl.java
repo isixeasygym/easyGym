@@ -2,6 +2,7 @@ package com.isix.easyGym.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,50 +34,57 @@ public class MemberControllerImpl implements MemberController {
 	@GetMapping("/member/joinSelect.do")
 	public ModelAndView joinSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/joinSelect");
+		mav.setViewName("member/joinSelect");
 		return mav;
 	}
 	
 	// 회원가입 페이지
-	   @RequestMapping(value = "/member/memJoin.do")
-	    public ModelAndView showJoinForm() {
-	        ModelAndView mav = new ModelAndView();
-	        mav.setViewName("/member/memJoin"); 
-	        return mav;
-	    }
-	   
-	   // 약관 동의 페이지로 이동
-	    @PostMapping(value = "/member/joinCheck.do")
-	    public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-	            HttpServletResponse response) throws Exception {
-	        ModelAndView mav = new ModelAndView();
-	        mav.setViewName("/member/joinCheck");
-	        return mav;
-	    }
-
-	    // 회원가입 기능
-	    @PostMapping(value = "/member/memJoin.do")
-	    public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
-	            HttpServletResponse response) throws Exception {
-	        ModelAndView mav = new ModelAndView();
-	        memberService.addMember(memberDTO);
-	        mav.setViewName("redirect:/member/afterMemJoin.do");
-	        return mav;
-	    }
+	@RequestMapping(value = "/member/memJoin.do")
+    public ModelAndView showJoinForm() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("member/memJoin"); 
+        return mav;
+    }
+	
+	// 회원가입 기능
+	@PostMapping(value = "/member/addMember.do")
+	public ModelAndView addMember(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		memberService.addMember(memberDTO);
+		mav.setViewName("redirect:/member/afterMemJoin.do");
+		return mav;
+	}
+	
+	@Override 
+	@GetMapping("/member/gymRegister.do")
+	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("member/gymRegister");
+		return mav;
+	}	
 	
 	@RequestMapping(value = "/member/afterMemJoin.do")
     public ModelAndView afterMemJoin() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/member/afterMemJoin");
+        mav.setViewName("member/afterMemJoin"); 
         return mav;
     }
 	
+	@Override
+	@RequestMapping(value = "/member/joinCheck.do")	// 이용 약관 동의
+	public ModelAndView joinCheck(@ModelAttribute("memberDTO") MemberDTO memberDTO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("member/joinCheck");
+		return mav;
+	}
 
 	@Override 
 	@GetMapping("/member/loginSelect.do")
 	public ModelAndView loginSelect(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/member/loginSelect");
+		mav.setViewName("member/loginSelect");
 		return mav;
 	}	
 	@Override
@@ -123,7 +132,7 @@ public class MemberControllerImpl implements MemberController {
 	    }
 	    
 	    mv.addObject("result", result); // 로그인 실패시 띄우는 메세지 ...
-	    mv.setViewName("/member/loginForm");
+	    mv.setViewName("member/loginForm");
 	    return mv;
 	}
 
@@ -154,27 +163,46 @@ public class MemberControllerImpl implements MemberController {
 
 
 	// 아이디 중복체크
-	@Override
-	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
-	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView("jsonView");
+	@PostMapping("/member/checkId.do")
+	@ResponseBody
+	public ResponseEntity<Boolean> confirmId(@RequestParam("memberId")String memberId) {
+		
 		boolean result = true;
-		System.out.println("id:"+ memberId);
-
+		
 		if(memberId.trim().isEmpty()) {
-			System.out.print("id:"+ memberId);
+			System.out.print("id : " + memberId);
 			result = false;
-		}else {
-			if(memberService.checkId(memberId) != null) {
+		} else {
+			if (memberService.selectId(memberId)) {
 				result = false;
-			}else {
+			} else {
 				result = true;
 			}
 		}
-		mav.addObject("result", result);
-		mav.setStatus(HttpStatus.OK);
-		return mav;
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+//	@Override
+//	@RequestMapping(value = "/member/checkId.do", produces = "application/text;charset=utf8")
+//	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav = new ModelAndView("jsonView");
+//		boolean result = true;
+//		System.out.println("id:"+ memberId);
+//
+//		if(memberId.trim().isEmpty()) {
+//			System.out.print("id:"+ memberId);
+//			result = false;
+//		}else {
+//			if(memberService.checkId(memberId) != null) {
+//				result = false;
+//			}else {
+//				result = true;
+//			}
+//		}
+//		mav.addObject("result", result);
+//		mav.setStatus(HttpStatus.OK);
+//		return mav;
+//	}
 
 	@Override
 	public ModelAndView loginForm(MemberDTO member, String action, String result, HttpServletRequest request,

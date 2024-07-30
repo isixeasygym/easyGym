@@ -22,7 +22,8 @@ public interface MypageDAO {
 	//1-2)찜 취소
 	public void deleteDibs(@Param("memberNo") int memberNo, @Param("detailNo") int detailNo) throws DataAccessException;
 
-	
+	public List selectPayformNo(@Param("memberNo") int memberNo) throws DataAccessException;
+
 	//2-1)포인트
 	//public List<MemberDTO> selectPointsByMemberNo(@Param("memberNo") int memberNo) throws DataAccessException;
 
@@ -33,6 +34,9 @@ public interface MypageDAO {
 	public String getPasswordByMemberNo(int memberNo) throws DataAccessException;
 	
 	//3-2)회원정보 수정
-	//public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException;
+	
+	// 회원 탈퇴
+	public void memberDelete(int memberNo) throws DataAccessException;
 	
 }

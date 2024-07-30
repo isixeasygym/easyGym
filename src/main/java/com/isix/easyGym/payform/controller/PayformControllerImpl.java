@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,8 +29,9 @@ public class PayformControllerImpl implements PayformController {
     private PayformDTO payformDTO;
 
     @Override
-    @RequestMapping("/payform/payformForm.do")
-    public ModelAndView payformForm(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
+    @RequestMapping(value = "/payform/payformForm.do",method = RequestMethod.POST)
+    //memberNo가 없으면(로그인을 안하면 -1 값으로 줘서 memberNo는 빈값으로 들어감)
+    public ModelAndView payformForm(@RequestParam(value = "memberNo",defaultValue = "-1") int memberNo, @RequestParam(value = "detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         Map payformData = new HashMap(); //테이블에 있는 쿼리들을 불러올 맵을 생성
         List payform = new ArrayList(); //불러와야 할 테이블이 2개이므로 리스트로 생성하며 0번 리스트에는 member, 1번 리스트에는 detail이 들어감
         payformData.put("member", memberNo);
@@ -37,11 +39,12 @@ public class PayformControllerImpl implements PayformController {
         payform = payformService.getPayformData(payformData);
         ModelAndView mav = new ModelAndView("/payform/payformForm");
         mav.addObject("payform", payform);
+        mav.addObject("loginCheck",memberNo);
         return mav;
     }
 
     @Override
-    @RequestMapping("/payform/payformCredit.do")
+    @RequestMapping(value = "/payform/payformCredit.do",method = RequestMethod.POST)
     public ModelAndView payformCredit(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "detailNa") String detailNa, @RequestParam(value = "name") String name, @RequestParam(value = "phoneNumber") String phoneNumber, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "payformPayment") int payformPayment, @RequestParam(value = "price") int price, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         Map payformData = new HashMap(); //테이블에 있는 쿼리들을 불러올 맵을 생성
         payformData.put("memberNo", memberNo);
@@ -58,7 +61,7 @@ public class PayformControllerImpl implements PayformController {
     }
 
     @Override
-    @RequestMapping("/payform/payformProcess.do")
+    @RequestMapping(value = "/payform/payformProcess.do",method = RequestMethod.POST)
     public ModelAndView payformProcess(@RequestParam(value = "memberNo") int memberNo, @RequestParam(value = "detailNo") int detailNo, @RequestParam(value = "subscriptionMonths") int subscriptionMonths, @RequestParam(value = "price") int price, @RequestParam(value = "payformPayment") int payformPayment, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         Map payformMap = new HashMap(); //테이블에 있는 쿼리들을 불러올 맵을 생성
         payformMap.put("memberNo", memberNo);
@@ -73,7 +76,7 @@ public class PayformControllerImpl implements PayformController {
     }
 
     @Override
-    @RequestMapping("/payform/payformDone.do")
+    @RequestMapping(value = "/payform/payformDone.do",method = RequestMethod.GET)
     public ModelAndView payformDone(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformDone");
@@ -83,7 +86,7 @@ public class PayformControllerImpl implements PayformController {
 
     //TODO 결제 취소 하는 기능, payformCancel로 payformNo 전달하는 코드 짜주면 됨
     @Override
-    @RequestMapping("/payform/payformCancel.do")
+    @RequestMapping(value = "/payform/payformCancel.do",method = RequestMethod.POST)
     public ModelAndView payformCancel(@RequestParam(value = "payformNo") int payformNo, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         PayformDTO payformDTO = payformService.selectPayform(payformNo);
         ModelAndView mav = new ModelAndView("/payform/payformCancel");
@@ -92,7 +95,7 @@ public class PayformControllerImpl implements PayformController {
     }
 
     @Override
-    @RequestMapping("/payform/payformRefund.do")
+    @RequestMapping(value = "/payform/payformRefund.do",method = RequestMethod.POST)
     public ModelAndView payformRefund(@RequestParam(value = "payformNo") int payformNo, @RequestParam(value = "refundPrice") int refundPrice, HttpServletRequest request, HttpServletResponse response) throws DataAccessException {
         int CancelSuccess = payformService.cancelPayform(payformNo);
         PayformDTO payformDTO = payformService.selectPayform(payformNo);

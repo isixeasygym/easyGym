@@ -83,7 +83,7 @@
 	<!-- 전체 회원정보 리스트 -->
  	<select id="selectAll" resultMap="memResult">
  		<![CDATA[
- 			select * from member_tbl  order by memberNo desc 		
+ 			select * from member_tbl where memberState = 1 order by memberNo desc
  		]]>
  	</select>
  	

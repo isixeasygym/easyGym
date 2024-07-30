@@ -1,6 +1,7 @@
 package com.isix.easyGym.detail.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -84,21 +85,32 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/registration");
 		return mav;
 	}
+	
 	@Override
-	@GetMapping("/detail/search.do")
-	public ModelAndView searchData(@RequestParam("query") String query, 
-			@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request, HttpServletResponse response) throws Exception{
-		ModelAndView mav=new ModelAndView();
-		List<DetailDTO> selectedThing = new ArrayList<>();
-		Map<String, String> searchMap= new HashMap<String, String>();
-		searchMap.put("query", query);
-		searchMap.put("detailClassification", detailClassification);
-		selectedThing = detailService.findThing(searchMap);
-		mav.addObject("allList", selectedThing);
-		mav.setViewName("/detail/List");
-		return mav;
-	}
+    @GetMapping("/detail/search.do")
+    public ModelAndView searchData(@RequestParam("query") String query,
+            @RequestParam(value = "detailClassification",required = false) String detailClassification,
+            HttpServletRequest request, HttpServletResponse response) throws Exception{
+        ModelAndView mav=new ModelAndView();
+        List<DetailDTO> selectedThing = new ArrayList<>();
+        Map<String, String> searchMap= new HashMap<String, String>();
+
+        if(detailClassification != null && !detailClassification.isEmpty()){
+            searchMap.put("query", query);
+            searchMap.put("detailClassification", detailClassification);
+            selectedThing = detailService.findThing(searchMap);
+            mav.addObject("allList", selectedThing);
+            mav.setViewName("/detail/List");
+            return mav;
+        }
+        else{
+            searchMap.put("query", query);
+            selectedThing = detailService.findPLace(searchMap);
+            mav.addObject("allList", selectedThing);
+            mav.setViewName("/detail/List");
+            return mav;
+        }
+    }
 	
 	@RequestMapping(value = "/detail/signUpForm.do", method = RequestMethod.POST)
 	public ModelAndView signUpForm(
@@ -181,7 +193,8 @@ public class DetailControllerImpl implements DetailController{
 		List<DetailReviewDTO> review = new ArrayList<>();
 		review = detailService.findReview(detailNo); 
 		List<DetailReviewDTO> reviewImage = new ArrayList<>();
-		reviewImage = detailService.findReviewImage(detailNo);
+		reviewImage = detailService.getReviewImages(detailNo);
+		
 		if(review != null ) {
 			session.setAttribute("getReview", 1);
 			mav.addObject("reviewImage",reviewImage);
@@ -193,35 +206,17 @@ public class DetailControllerImpl implements DetailController{
 		mav.setViewName("/detail/detail");
 		return mav;
 	}
-	
-    
 	@Override
-	@RequestMapping(value="/detail/showAll.do", method=RequestMethod.GET)
-	public ModelAndView selectAll(
-			@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-			List selectAllList = new ArrayList<>();
-			selectAllList = detailService.findAll(detailClassification);
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("allList", selectAllList);
-			mav.setViewName("/detail/List");
-		return mav;
+	@ResponseBody
+	@RequestMapping(value = "/getReviews.do", method = {RequestMethod.POST, RequestMethod.GET})
+	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+	    System.out.print(reviews.get(0).getReviewImgName());
+	    return reviews;
 	}
+   
 	
-	@Override
-	public ModelAndView selectPopular(@RequestParam("detailClassification") String detailClassification,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		int detailNum = detailService.findDetailNo(detailClassification);
-		int popularRating = detailService.popularThing(detailNum);
-		List PopularThing = new ArrayList<>();
-		PopularThing = detailService.findPopular(popularRating);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("allList", PopularThing);
-		mav.setViewName("/detail/List");
-		return mav;
-	}
 		@Override
 	 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
 	    @ResponseBody
@@ -271,38 +266,6 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	}
 	
-	@Override
-	@ResponseBody
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
-            @RequestParam(value = "action", required = false) String action,
-            RedirectAttributes rAttr, HttpServletRequest request,
-            HttpServletResponse response) throws Exception{
-		String success=null;
-		int memberNum=memberService.findMemberNo(memberNo);
-		if(memberNum != 0) {
-			int buyNo=payformService.buyCheck(memberNum);
-			if(buyNo !=0 ) {
-				detailService.removeReview(reviewNo);
-				success="success";
-			}else {
-				success="noBuy";
-			}
-		}else {
-			success="noLogin";
-		}
-		return success;
-	}
-	
-	@Override
-	@ResponseBody
-	@RequestMapping(value = "/getReviews.do", method = RequestMethod.GET)
-	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
-	    return reviews;
-	}
-	
 	
 	
 	
@@ -311,7 +274,7 @@ public class DetailControllerImpl implements DetailController{
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(
 	        @RequestParam("companyId") String detailNo, 
-	        @RequestParam(value="memberNo", required= false) int memberNo,
+	        @RequestParam(value="memberNo", required = false) int memberNo,
 	        @RequestParam(value = "action", required = false) String action,
 	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
 	        @RequestParam(value = "reviewRating", required = false) String reviewRating,
@@ -329,9 +292,10 @@ public class DetailControllerImpl implements DetailController{
 
 	            if (buyNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
+	                // Verify file upload
+	                String imageFileName = fileUpload(multipartRequest);
+	                HttpSession session = multipartRequest.getSession();
 
-	                String imageFileName = fileUpload(multipartRequest); // Check if image file is uploaded
-	                HttpSession session=multipartRequest.getSession();
 	                if (imageFileName != null && !imageFileName.isEmpty()) {
 	                    // Handle image upload
 	                    Map<String, Object> reviewImageMap = new HashMap<>();
@@ -360,20 +324,23 @@ public class DetailControllerImpl implements DetailController{
 	                    File srcFile = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + "temp" + File.separator + imageFileName);
 	                    File destDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage" + File.separator + detailNo + File.separator + memberNo);
 	                    if (!destDir.exists()) {
-	                        destDir.mkdirs(); // Ensure destination directory exists
+	                        destDir.mkdirs(); // Ensure destinqation directory exists
 	                    }
 
 	                    File destFile = new File(destDir, imageFileName);
-	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
-	                    FileUtils.moveFile(srcFile, destFile); // Move the file
+	                    if (srcFile.exists()) {
+	                        FileUtils.moveFile(srcFile, destFile); // Move the file
+	                    } else {
+	                        throw new FileNotFoundException("Source file not found: " + srcFile.getAbsolutePath());
+	                    }
 
 	                    status = "success";
 	                } else {
 	                    // Handle no image case
-	                    Map<String,String> noImgReviewMap = new HashMap<>();
+	                    Map<String, String> noImgReviewMap = new HashMap<>();
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
-	                    noImgReviewMap.put("memberNo",String.valueOf(memberNo));
+	                    noImgReviewMap.put("memberNo", String.valueOf(memberNo));
 	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
@@ -387,11 +354,45 @@ public class DetailControllerImpl implements DetailController{
 	            status = "noLogin";
 	        }
 	    } catch (Exception e) {
-	        e.printStackTrace(); // Consider using proper logging
+	        e.printStackTrace(); // Use logging framework in production
 	        status = "error";
 	    }
 
 	    return status;
+	}
+	
+	
+	@ResponseBody
+	@Override
+	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)
+	public List<DetailReviewDTO> getReviewImages(@RequestParam("companyId") int detailNo, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		List<DetailReviewDTO> reviewImage = detailService.getReviewImages(detailNo);
+		return reviewImage;
+	}
+
+	
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes rAttr, HttpServletRequest request,
+            HttpServletResponse response) throws Exception{
+		String success=null;
+		int memberNum=memberService.findMemberNo(memberNo);
+		if(memberNum != 0) {
+			int buyNo=payformService.buyCheck(memberNum);
+			if(buyNo !=0 ) {
+				detailService.removeReview(reviewNo);
+				success="success";
+			}else {
+				success="noBuy";
+			}
+		}else {
+			success="noLogin";
+		}
+		return success;
 	}
 	
 	
@@ -437,7 +438,5 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
-
-
 
 }

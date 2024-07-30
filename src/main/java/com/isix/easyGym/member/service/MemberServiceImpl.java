@@ -37,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
 	// 중복체크
 	public String checkId(String memberId) throws DataAccessException {
 		return memberDAO.checkId(memberId);
+
 	}
 
 	@Override
@@ -49,6 +50,12 @@ public class MemberServiceImpl implements MemberService {
 	public int findMemberNo(int memberNo) throws DataAccessException {
 		int memberNum=memberDAO.selectMemberNo(memberNo);
 		return memberNum;
+	}
+
+	@Override
+	public boolean selectId(String memberId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return memberDAO.selectId(memberId);
 	}
 
 }
