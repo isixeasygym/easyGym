@@ -416,5 +416,3 @@ document.addEventListener('DOMContentLoaded', function() {
    loadUsingProducts();
    // 기존의 이벤트 리스너들 유지
 });
-
-
