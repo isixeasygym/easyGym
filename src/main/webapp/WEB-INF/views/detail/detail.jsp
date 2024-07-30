@@ -228,22 +228,38 @@
 				</div>
 			</div>
 			<div id="reviewContainer">
-				<c:choose>
-					<c:when test="${sessionScope.getReview == 1}">
-						<c:forEach var="review" items="${review}">
-							<div class="ReviewRange" data-review-no="${review.reviewNo}">
-								<button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
-								<div class="personReviewRange">
-									<img class="reviewPicture" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
-									<p class="anonymous">(익명의 회원)</p>
-									<!--<img src="${contextPath}/images/detail/detailpage/star.JPG">-->
-									<p class="reviewDate">${review.reviewDate}</p>
-									<textarea class="reviewComment" readonly>${review.reviewComment}</textarea>
-								</div>
-							</div>
-						</c:forEach>
-					</c:when>
-				</c:choose>
+			    <c:choose>
+			        <c:when test="${reviewCount > 2}">
+			            <c:forEach var="review" items="${review}" varStatus="status">
+			                <c:if test="${status.index < 2}">
+			                    <div class="ReviewRange" data-review-no="${review.reviewNo}">
+			                        <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+			                        <div class="personReviewRange">
+			                            <img class="reviewPicture" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+			                            <p class="anonymous">(익명의 회원)</p>
+			                            <p class="reviewDate">${review.reviewDate}</p>
+			                            <textarea class="reviewComment" readonly>${review.reviewComment}</textarea>
+			                        </div>
+			                    </div>
+			                </c:if>
+			            </c:forEach>
+			            <!-- 두 개의 리뷰가 출력된 후에 전체보기 링크를 추가 -->
+			            <a href="${contextPath}/review.jsp?companyId=${details.detailNo}" class="viewAllReviews">후기 ${reviewCount}개 전체보기</a>
+			        </c:when>
+			        <c:otherwise>
+			            <c:forEach var="review" items="${review}">
+			                <div class="ReviewRange" data-review-no="${review.reviewNo}">
+			                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+			                    <div class="personReviewRange">
+			                        <img class="reviewPicture" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
+			                        <p class="anonymous">(익명의 회원)</p>
+			                        <p class="reviewDate">${review.reviewDate}</p>
+			                        <textarea class="reviewComment" readonly>${review.reviewComment}</textarea>
+			                    </div>
+			                </div>
+			            </c:forEach>
+			        </c:otherwise>
+			    </c:choose>
 			</div>
 			<div id="mapRange">
 				<h5>위치</h5>
