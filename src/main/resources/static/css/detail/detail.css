@@ -147,24 +147,120 @@ body{
 	left: 20px;
 	top: -40px;
 }
+/* 모달 배경 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은 배경 */
+    display: flex; /* 플렉스 컨테이너로 설정 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    z-index: 1000; /* 다른 요소보다 위에 위치 */
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px; /* 최대 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    /* 플렉스 컨테이너에 의해 중앙에 위치 */
+}
+
+/* 모달 내 버튼 스타일 */
+#confirmReport, #cancelReport {
+    margin: 10px;
+}
+
+/* 신고 유형 선택 스타일 */
+.report-type {
+    margin-bottom: 20px;
+}
+
+.report-type label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.report-type select, .report-type input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* 기타 입력 필드 스타일 */
+#otherInput {
+    display: none; /* 기본적으로 숨기기 */
+}
+
+/* 버튼 스타일 */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px; /* 버튼과 기타 입력 필드 사이의 간격 */
+}
+
+.button-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
 .buttonRange{
     position: relative;
+    padding-right: 10px;
 	z-index: 30;
-    left: 640px;
+    left: 610px;
     top: -170px;
+    display: inline-block;
 }
+
+
+.dibs{
+    z-index: 30;
+    width: 30px;
+    height: 30px;
+}
+
 
 .favorite-button {
     display: inline-block;
-	z-index: 30;
+    z-index: 30;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
 }
 
-.dibs{
-	z-index: 30;
+.report-button {
+    display: inline-block;
+    z-index: 30;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.report{
+    z-index: 30;
     width: 30px;
     height: 30px;
 }
@@ -594,6 +690,11 @@ body{
 	padding: 30px;
 }
 
+.viewAllReviews {
+    position: relative; /* 이 속성을 추가하면 z-index가 영향을 미칠 수 있습니다 */
+    z-index: 1; /* 클릭 이벤트가 다른 요소에 의해 가려지지 않도록 설정합니다 */
+    pointer-events: auto; /* 클릭 이벤트가 차단되지 않도록 설정합니다 */
+}
 
 #produ{
     color: #757575;

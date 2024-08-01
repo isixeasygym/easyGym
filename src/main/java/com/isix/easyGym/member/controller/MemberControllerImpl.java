@@ -124,7 +124,8 @@ public class MemberControllerImpl implements MemberController {
 	                               HttpServletRequest req,
 	                               HttpServletResponse res) throws Exception {
 	    ModelAndView mv = new ModelAndView();
-	    
+	    HttpSession session = req.getSession();
+		session.setAttribute("action", action);
 	    // result 값이 0이라면 로그인 폼으로 이동
 	    if (result != null && result == 0) {
 	        mv.setViewName("redirect:/member/loginForm.do");

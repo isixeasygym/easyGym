@@ -15,7 +15,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController{
-	
+
+	public String selectReport(@RequestParam("memberNo") int memberNo,HttpServletRequest request,
+							   HttpServletResponse response) throws Exception;
+
+	public String doReport(@RequestParam("memberNo") int memberNo, HttpServletRequest request,
+						   HttpServletResponse response) throws Exception;
+
+	public ModelAndView reviewViewer(@RequestParam("detailNo") int detailNo, HttpServletRequest request,
+		    HttpServletResponse response) throws Exception;
+
 	public List<DetailReviewDTO> getReviewImages(@RequestParam("companyId") int detailNo, HttpServletRequest request,
             HttpServletResponse response) throws Exception;
 	

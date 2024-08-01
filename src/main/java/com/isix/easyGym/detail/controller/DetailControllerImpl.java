@@ -69,7 +69,7 @@ public class DetailControllerImpl implements DetailController{
 	
 	@Autowired
 	private PayformServiceImpl payformService;
-	
+
 	@Autowired
 	private DetailReviewDTO detailReviewDTO;
 	
@@ -78,8 +78,40 @@ public class DetailControllerImpl implements DetailController{
 	
 	@Autowired
 	private MemberOperDTO memberOperDTO;
-	
-	@GetMapping("/detail/registration.do")  //127.0.0.1:8090 => 이렇게만 매핑 보내기
+
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
+	public String selectReport(@RequestParam("memberNo") int memberNo,HttpServletRequest request,
+							   HttpServletResponse response) throws Exception{
+		String success=null;
+		int buyNo = payformService.buyCheck(memberNo);
+		if (buyNo != 0) {
+			success="memberShip";
+		}else{
+			success="noBuy";
+		}
+		return success;
+	}
+
+	@Override
+	public String doReport(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "";
+	}
+
+	@RequestMapping(value = "/detail/reviewViewer.do", method = RequestMethod.GET)
+	public ModelAndView reviewViewer(@RequestParam("detailNo") int detailNo, HttpServletRequest request,
+		 HttpServletResponse response) throws Exception{
+		ModelAndView mav = new ModelAndView();
+		List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
+		detailDTO=detailService.viewDetail(detailNo);
+		mav.addObject("details",detailDTO);
+		mav.addObject("reviews",reviews);
+		mav.setViewName("/detail/review");
+		return mav;
+	}
+
+	@RequestMapping(value = "/detail/registration.do", method=RequestMethod.GET)  //127.0.0.1:8090 => 이렇게만 매핑 보내기
 	public ModelAndView registration(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("/detail/registration");
