@@ -15,7 +15,7 @@ import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
 import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
-@Service("detailServicle")
+@Service("detailService")
 public class DetailServiceImpl implements DetailService {
 
 	@Autowired
