@@ -84,3 +84,16 @@ body{
 .deleteButton:hover {
     color: red; /* 버튼 호버 시 색상 변화 (옵션) */
 }
+
+.target {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.noLine {
+    color: #000000;
+    font-weight: normal;
+    font-size: 1em;
+}
+
+}

@@ -67,7 +67,7 @@
 		                <c:if test="${num == fbmap.pageNum}">
 		                    <a class="target" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
 		                </c:if>
-		                <c:if test="${num != amap.pageNum}">
+		                <c:if test="${num != fbmap.pageNum}">
 		                    <a class="noLine" href="/freeboard/fboardList.do?section=${fbmap.section}&pageNum=${num}">${num}</a>
 		                </c:if>
 		            </c:forEach>

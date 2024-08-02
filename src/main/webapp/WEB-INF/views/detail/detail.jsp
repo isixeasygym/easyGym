@@ -139,38 +139,38 @@
                         <img class="report" src="${contextPath}/images/detail/detailpage/report.jpg" alt="report">
                     </button>
                 </div>
-                <div id="reportModal" class="modal" style="display: none;">
+                <div class="buttonRange">
+                    <button class="favorite-button" >
+                        <input  type="hidden" class="userId" value="${member.memberNo}">
+                        <input  type="hidden" class="companyId" value="${details.detailNo}">
+                        <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
+                    </button>
+                </div>
+                <!-- 모달 창 -->
+                <div id="reportModal" class="modal">
                     <div class="modal-content">
-                        <!-- 신고 유형 선택 -->
-                        <div class="report-type">
+                        <h2>신고하기</h2>
+                        <form id="reportForm">
                             <label for="reportType">신고 유형:</label>
                             <select id="reportType">
                                 <option value="">선택하세요</option>
-                                <option value="issue1">문제 1</option>
-                                <option value="issue2">문제 2</option>
+                                <option value="facility_cleanliness">시설 청결 상태 불량</option>
+                                <option value="exercise_environment">운동 환경이 불편</option>
+                                <option value="equipment_diversity">기구가 다양하지 않음</option>
+                                <option value="free_services">무료로 제공되는 것들이 제대로 지켜지지 않음</option>
                                 <option value="other">기타</option>
                             </select>
-                        </div>
 
-                        <!-- 기타 입력 필드 -->
-                        <div id="otherInput" style="display: none;">
-                            <label for="otherDetail">기타 상세 내용:</label>
-                            <input type="text" id="otherDetail" placeholder="자세히 입력하세요">
-                        </div>
+                            <!-- 기타 사항 입력 필드 -->
+                            <div id="otherInput" style="display: none;">
+                                <label for="otherDetail">기타 사항:</label>
+                                <input type="text" id="otherDetail" name="otherDetail" />
+                            </div>
 
-                        <!-- 버튼들 -->
-                        <div class="button-container">
-                            <button id="confirmReport" class="confirm-button">확인</button>
-                            <button id="cancelReport" class="cancel-button">취소</button>
-                        </div>
+                            <button type="button" id="confirmReport">확인</button>
+                            <button type="button" id="cancelReport">취소</button>
+                        </form>
                     </div>
-                </div>
-                <div class="buttonRange">
-                   <button class="favorite-button">
-                        <input type="hidden" class="userId" value="${member.memberNo}">
-                        <input type="hidden" class="companyId" value="${details.detailNo}">
-                       <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
-                   </button>
                 </div>
                 <div id="memberTicketRange">
                     <h4 id="memberTicket">회원권</h4>

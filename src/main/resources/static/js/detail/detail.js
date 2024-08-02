@@ -1,15 +1,14 @@
-let  scrollTop ;
+let scrollTop;
 $(window).on('scroll', function() {
-           scrollTop = $(window).scrollTop();
-          var fixedContainer = $('#fixedContainer');
+	scrollTop = $(window).scrollTop();
+	var fixedContainer = $('#fixedContainer');
 
-          if (scrollTop > 500) {
-              fixedContainer.fadeIn(); // 1000px 스크롤 시 보이게 함
-          } else {
-              fixedContainer.fadeOut(); // 1000px 이하일 때 숨김
-          }
-      });
-//신고 버튼 클릭시 발생하는 이벤트
+	if (scrollTop > 500) {
+		fixedContainer.fadeIn(); // 1000px 스크롤 시 보이게 함
+	} else {
+		fixedContainer.fadeOut(); // 1000px 이하일 때 숨김
+	}
+});
 $(document).ready(function() {
 	var requestInProgress = false;
 
@@ -22,8 +21,8 @@ $(document).ready(function() {
 			var scrollTop = window.scrollY || window.pageYOffset;
 
 			// 스크롤 위치와 화면 중앙을 기준으로 모달 콘텐츠 위치 조정
-			modalContent.style.top = `${Math.max((windowHeight - modalHeight) / 2 + scrollTop, 0)}px`;
 			modalContent.style.position = 'absolute'; // 절대 위치로 설정
+			modalContent.style.top = `${Math.max((windowHeight - modalHeight) / 2, 0) + scrollTop}px`;
 		}
 	}
 
@@ -51,7 +50,9 @@ $(document).ready(function() {
 			success: function(response) {
 				requestInProgress = false; // 요청 완료 후 플래그 리셋
 				if (response === "noBuy") {
-					alert("회원권을 구매하신 고객님만 불만사항을 제출할 수 있습니다.");
+					alert("회원권을 구매하신 고객님만 불편 사항을 제출할 수 있습니다.");
+				}else if (response === "alreadyReport"){
+					alert("이미 불편 사항을 제출한 이력이 있습니다.");
 				} else if (response === "memberShip") {
 					var modal = document.getElementById('reportModal');
 					if (modal) {
@@ -91,36 +92,39 @@ $(document).ready(function() {
 	document.getElementById('confirmReport').addEventListener('click', function() {
 		var reportType = document.getElementById('reportType').value;
 		var otherDetail = document.getElementById('otherDetail').value;
+		var reportContent = (reportType === 'other') ? otherDetail : reportType; // 신고 내용
 
-		if (!reportType) {
-			alert('신고 유형을 선택하세요.');
+		if (!reportContent) {
+			alert('신고 내용을 입력하세요.');
 			return;
 		}
 
-		// 신고 유형 및 기타 사항을 처리하는 로직을 여기에 추가
-		console.log('신고 유형:', reportType);
-		if (reportType === 'other') {
-			console.log('기타 사항:', otherDetail);
-		}
-
-		// 모달 닫기
-		document.getElementById('reportModal').style.display = 'none';
+		// Ajax 요청
+		$.ajax({
+			type: "POST",
+			url: `${contextPath}/report.do`,
+			data: {
+				detailNo: $('.companyId').val(),
+				memberNo: $('.userId').val(),
+				reportContent: reportContent // 선택된 신고 유형 또는 기타 입력 값
+			},
+			success: function(response) {
+				// 요청 성공 시 처리
+				alert('신고가 접수되었습니다.');
+				document.getElementById('reportModal').style.display = 'none'; // 모달 닫기
+			},
+			error: function(xhr, status, error) {
+				// 요청 실패 시 처리
+				alert('신고 접수에 실패하였습니다.');
+				console.error('Error:', error);
+			}
+		});
 	});
 
 	// 윈도우 크기 조정 및 스크롤 시 모달 중앙 위치 조정
 	window.addEventListener('resize', centerModal);
 	window.addEventListener('scroll', centerModal);
 });
-
-//신고 확인 이벤트
-$('.confirm-button').click(function (event){
-	var memberNo = $('.userId').val();
-	var detailNo = $('.companyId').val();
-
-
-});
-
-
 
 // 글 삭제
 function deleteComment(reviewNo) {
@@ -309,73 +313,73 @@ function updateReviewImages(companyId) {
 }
 //이미지 슬라이드
 $(function() {
-            $('.slider_panel').append($('.slider_image').first().clone());  //마지막 5번째 사진 뒤에 1번째 사진을 복제해서 붙여둠
-            $('.slider_panel').prepend($('.slider_image').eq(-2).clone());  //첫번째 사진 앞에 마지막 5번째 사진을 복제해서 붙여둠
-            //let index=0;  //1. 원래는 0이면 첫번째 사진이 나오게 되는데
-            let index=1;  //2. 마지막 5번 사진을 붙였으니 1로 바꿔야함.
-            //moveSlider(index);
-            $('.slider_panel').css('left',-700);  //4-1) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
-            $('.slider_text').hide();  //4-2) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
-            $('.slider_text').eq(0).show();  //4-3) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
-            $('.control_button').click(function() {
-                index=$(this).index();
-                moveSlider(index+1);  //3. 아래 버튼도 +1을 해줌
-            });
+	$('.slider_panel').append($('.slider_image').first().clone());  //마지막 5번째 사진 뒤에 1번째 사진을 복제해서 붙여둠
+	$('.slider_panel').prepend($('.slider_image').eq(-2).clone());  //첫번째 사진 앞에 마지막 5번째 사진을 복제해서 붙여둠
+	//let index=0;  //1. 원래는 0이면 첫번째 사진이 나오게 되는데
+	let index=1;  //2. 마지막 5번 사진을 붙였으니 1로 바꿔야함.
+	//moveSlider(index);
+	$('.slider_panel').css('left',-700);  //4-1) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
+	$('.slider_text').hide();  //4-2) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
+	$('.slider_text').eq(0).show();  //4-3) 사이트 첫 화면에서 5번이 보이고 1번으로 나오는 화면을 없애기 위한 작업
+	$('.control_button').click(function() {
+		index=$(this).index();
+		moveSlider(index+1);  //3. 아래 버튼도 +1을 해줌
+	});
 
-            $('.left_control').click(function() {
-                if(index > 1 ) {
-                    index--;
-                    moveSlider(index);
-                }else {
-                    $('.slider_panel').css('left',-7700)
-                    index=10;
-                    moveSlider(index);
-                }
-            });
+	$('.left_control').click(function() {
+		if(index > 1 ) {
+			index--;
+			moveSlider(index);
+		}else {
+			$('.slider_panel').css('left',-7700)
+			index=10;
+			moveSlider(index);
+		}
+	});
 
-            $('.right_control').click(function() {
-                if(index < 10) {  //4. 기존 : < 4 / 이미지 앞뒤로 추가하고는 < 5 로 바꿈
-                    index++;
-                    moveSlider(index);
-                }else {
-                    $('.slider_panel').css('left',0);
-                    index=1;
-                    moveSlider(index);
-                }
-            });
+	$('.right_control').click(function() {
+		if(index < 10) {  //4. 기존 : < 4 / 이미지 앞뒤로 추가하고는 < 5 로 바꿈
+			index++;
+			moveSlider(index);
+		}else {
+			$('.slider_panel').css('left',0);
+			index=1;
+			moveSlider(index);
+		}
+	});
 
-            //이미지 슬라이드 구현 함수 (아래 버튼)
-            function moveSlider(index) {  //내가 만든 함수 이름(매개변수를 index로 받겠다)
-                $('.slider_panel').animate({
-                    left:-(index*700)
-                },'slow');
-                $('.control_button').removeClass('active');
-                $('.control_button').eq(index-1).addClass('active');
-                $('.slider_text').hide();  //설명글을 fadeout 안하고 바로 사라지게
-                $('.slider_text').eq(index-1).fadeIn('slow');  //그럼 어떨 때 설명글을 보이게 하느냐? => eq(index)일 때 ~
-            }
+	//이미지 슬라이드 구현 함수 (아래 버튼)
+	function moveSlider(index) {  //내가 만든 함수 이름(매개변수를 index로 받겠다)
+		$('.slider_panel').animate({
+			left:-(index*700)
+		},'slow');
+		$('.control_button').removeClass('active');
+		$('.control_button').eq(index-1).addClass('active');
+		$('.slider_text').hide();  //설명글을 fadeout 안하고 바로 사라지게
+		$('.slider_text').eq(index-1).fadeIn('slow');  //그럼 어떨 때 설명글을 보이게 하느냐? => eq(index)일 때 ~
+	}
 
-            //이미지 슬라이드 구현 함수 (좌우 버튼)
-            function moveSlider(index) {
-                $('.slider_panel').animate({
-                    left:-(index*700)
-                },'slow');
-                $('.control_button').removeClass('active');
-                $('.control_button').eq(index-1).addClass('active');  //5. 설명도 -1해줘야함.
+	//이미지 슬라이드 구현 함수 (좌우 버튼)
+	function moveSlider(index) {
+		$('.slider_panel').animate({
+			left:-(index*700)
+		},'slow');
+		$('.control_button').removeClass('active');
+		$('.control_button').eq(index-1).addClass('active');  //5. 설명도 -1해줘야함.
 
-            }
-        });
+	}
+});
 document.addEventListener('DOMContentLoaded', (event) => {
-    const textareas = document.querySelectorAll('.auto-resize-textarea');
+	const textareas = document.querySelectorAll('.auto-resize-textarea');
 
-    const adjustHeight = (textarea) => {
-        textarea.style.height = 'auto'; // 높이 자동 설정
-        textarea.style.height = `${textarea.scrollHeight}px`; // 실제 내용 높이로 설정
-    };
+	const adjustHeight = (textarea) => {
+		textarea.style.height = 'auto'; // 높이 자동 설정
+		textarea.style.height = `${textarea.scrollHeight}px`; // 실제 내용 높이로 설정
+	};
 
-    textareas.forEach(textarea => {
-        textarea.addEventListener('input', () => adjustHeight(textarea));
-        // 초기 높이 조절
-        adjustHeight(textarea);
-    });
+	textareas.forEach(textarea => {
+		textarea.addEventListener('input', () => adjustHeight(textarea));
+		// 초기 높이 조절
+		adjustHeight(textarea);
+	});
 });

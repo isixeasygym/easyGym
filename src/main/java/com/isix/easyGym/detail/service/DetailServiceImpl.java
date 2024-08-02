@@ -1,8 +1,10 @@
 package com.isix.easyGym.detail.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.isix.easyGym.freeboard.dto.FreeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,7 @@ import com.isix.easyGym.detail.dto.DetailDibsDTO;
 import com.isix.easyGym.detail.dto.DetailReviewDTO;
 
 @Service("detailServicle")
-public class DetailServiceImpl implements DetailService{
+public class DetailServiceImpl implements DetailService {
 
 	@Autowired
 	private DetailDAO detailDAO;
@@ -24,7 +26,7 @@ public class DetailServiceImpl implements DetailService{
 	
 	@Autowired
 	private DetailDibsDTO detailDibsDTO;
-	
+
 	@Override
     public List<DetailDTO> findThing(Map searchMap) throws DataAccessException {
         List<DetailDTO> searchedThing = detailDAO.selectQuery(searchMap);
@@ -68,22 +70,33 @@ public class DetailServiceImpl implements DetailService{
 		detailDAO.insertNoImgReview(noImgReviewMap);
 	}
 
-	
-
-
 
 	@Override
 	public void removeReview(int reviewNo) throws DataAccessException {
 		detailDAO.deleteReview(reviewNo);
 	}
-
+	//상세 페이지에 사용
 	@Override
 	public List<DetailReviewDTO> findReview(int detailNo) throws DataAccessException {
 		List<DetailReviewDTO> reivew = detailDAO.selectReview(detailNo);
 		return reivew;
+	} 
+
+	@Override
+	public int findOperatorNo(int detailNo) throws DataAccessException {
+		int operatorNo =detailDAO.selectOperatorNo(detailNo);
+		return operatorNo;
+	}
+	public int findReportCount(int detailNo) throws DataAccessException{
+		int reportCount = detailDAO.selectReportCount(detailNo);
+		return reportCount;
 	}
 
-
+	@Override
+	public int findReport(int memberNo) throws DataAccessException {
+		int report = detailDAO.selectReport(memberNo);
+		return report;
+	}
 
 	@Override
 	public void addOperForm(Map detailMap) throws DataAccessException {
@@ -102,7 +115,20 @@ public class DetailServiceImpl implements DetailService{
 		detailDAO.insertReviewAndImage(reviewImageMap);
 		return reviewNo;
 	}
-	@Transactional
+	public Map listReview(Map<String,Integer> pagingMap) throws DataAccessException{
+		Map reviewMap = new HashMap<>();
+		int section = pagingMap.get("section");
+		int pageNum = pagingMap.get("pageNum");
+		int count = (section-1)*50+(pageNum-1)*5;
+		List<DetailReviewDTO> reviewList  = detailDAO.selectAll(count);
+		int tReview = detailDAO.selectToReview(); // 토탈 게시글
+		reviewMap.put("reviews", reviewList); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
+		reviewMap.put("tReview", 324); // 페이징 임시 처리
+		//fbmap.put("tFreeboard", tFreeboard);
+		return reviewMap;
+	}
+
+
 	@Override
 	public List<DetailReviewDTO> getReviews(int detailNo) throws DataAccessException {
 		List<DetailReviewDTO> reviews = detailDAO.selectReview(detailNo); 
@@ -131,6 +157,11 @@ public class DetailServiceImpl implements DetailService{
 	public List<DetailDTO> findPopularPilates() throws DataAccessException {
 		List<DetailDTO> pilatesList = detailDAO.selectPopularPilates();
 		return pilatesList;
+	}
+
+	@Override
+	public void addReport(Map<String, Object> reportMap) throws DataAccessException {
+		detailDAO.insertReport(reportMap);
 	}
 
 	public List<DetailReviewDTO> getReviewImages(int detailNo) {
