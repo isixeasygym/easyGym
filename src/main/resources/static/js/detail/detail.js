@@ -135,7 +135,7 @@ function deleteComment(reviewNo) {
         window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
         return;
     }
-    
+
     $.ajax({
         type: "POST",
         url: "/delete.do",
@@ -147,7 +147,7 @@ function deleteComment(reviewNo) {
         success: function(data) {
             if (data === "success") {
                 alert("해당 글은 삭제되었습니다.");
-                
+
                 // 삭제된 리뷰를 화면에서 제거합니다.
                 $('.ReviewRange').each(function() {
                     var currentReviewNo = $(this).data('review-no');
@@ -155,9 +155,10 @@ function deleteComment(reviewNo) {
                         $(this).remove(); // 해당 리뷰 요소를 제거합니다.
                     }
                 });
-                
+
                 // 리뷰와 이미지 새로고침
                 refreshReviews(detailNo);
+                updateReviewImagesForDeletion(detailNo); // 함수명 업데이트
             } else if (data === "noBuy") {
                 alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
             }
@@ -168,6 +169,33 @@ function deleteComment(reviewNo) {
         }
     });
 }
+
+// 리뷰 이미지 업데이트 (삭제 전용)
+function updateReviewImagesForDeletion(detailNo) {
+    $.ajax({
+        url: '/getReviewImages.do',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        data: { detailNo: detailNo },
+        success: function(response) {
+            var reviewImageContainer = $('#reviewImage');
+            reviewImageContainer.empty(); // 기존 이미지 제거
+
+            // 서버로부터 받은 응답이 비어있는 경우, 이미지 컨테이너는 이미 비워졌으므로 추가 처리 없음
+            if (!response || !Array.isArray(response) || response.length === 0) {
+                console.log("No images to display.");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+            console.error("Status:", status);
+            console.error("Response:", xhr.responseText);
+        }
+    });
+}
+
+
 // 글 등록하기
 function writeSubmit() {
 	var memberNo = $('.memberNo').val();
