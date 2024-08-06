@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
-
+<script src="/js/member/kakao.js"></script>
 <div class="container mt-5">
    <div class="row justify-content-center">
       <div class="col-md-6">
@@ -26,6 +26,10 @@
                   </div>
                </div>
                <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
+			   <a href="javascript:fn_kakao()">
+	   				<img src="/images/member/kakao_login_large_wide.png"
+	   				width="100%" height="45px" alt="카카오 로그인 버튼">
+	   			</a>
             </form>
          </div>
       </div>

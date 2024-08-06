@@ -1,12 +1,17 @@
 function fn_fboardForm(isLogOn, freeboard, loginForm) {
-	
-    if (isLogOn == true) {
+    console.log('isLogOn:', isLogOn); // 디버깅: isLogOn 값 확인
+    console.log('freeboard:', freeboard); // 디버깅: freeboard 값 확인
+    console.log('loginForm:', loginForm); // 디버깅: loginForm 값 확인
+    
+    if (isLogOn) {
         location.href = freeboard;
     } else {
         alert("로그인 후 글쓰기가 가능합니다.");
         location.href = loginForm + '?action=/member/loginForm.do';
     }
 }
+
+
 function readImage(input, num){
 	if(input.files && input.files[0]){
 		let reader = new FileReader();
