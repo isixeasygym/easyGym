@@ -1,0 +1,100 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* 카드 및 테이블 */
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* 테이블 스타일 */
+.details-table {
+    width: 80%; 
+    max-width: 1200px; 
+    margin: 2rem auto; 
+    border-collapse: collapse;
+}
+
+.details-table th, .details-table td {
+    text-align: left;
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+.details-table th {
+    background-color: #f2f2f2;
+}
+
+.details-table .title {
+    width: 20%;
+}
+
+.details-table .author {
+    width: 15%;
+}
+
+.details-table .hit {
+    width: 15%;
+}
+
+.details-table .content {
+    width: 50%;
+}
+
+/* 제목 스타일 */
+.details-header h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* 버튼 그룹 스타일 */
+.details-button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.details-button-group .btn {
+    margin-left: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.details-button-group .btn:hover {
+    background-color: #0056b3;
+}
+
+.reBtn {
+    margin-left: 252px;
+}
+
+/* 이미지 컨테이너 스타일 */
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}

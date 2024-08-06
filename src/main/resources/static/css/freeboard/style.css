@@ -94,13 +94,27 @@ h2 {
 .write-button {
     display: block;
     width: fit-content;
-    margin: 2rem auto 0; /* 위쪽 마진과 중앙 정렬 */
     padding: 0.5rem 1rem;
+	margin-right: 14rem;
     background-color: #333;
     color: #fff;
     border: none;
+	border-radius: 5px;
     cursor: pointer;
+	float: right;
 }
+
+.table-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+
+.write-button:hover {
+    background-color: #0056b3;
+}
+
 
 /* 폼 컨테이너 스타일 */
 .form-container {
@@ -163,3 +177,10 @@ h2 {
 .link, .write-button {
     text-decoration: none;
 }
+
+
+
+
+
+
+
