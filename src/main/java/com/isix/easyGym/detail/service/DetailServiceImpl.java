@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.isix.easyGym.freeboard.dto.FreeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
@@ -119,11 +117,8 @@ public class DetailServiceImpl implements DetailService {
 		Map reviewMap = new HashMap<>();
 		int section = pagingMap.get("section");
 		int pageNum = pagingMap.get("pageNum");
-		int count = (section-1)*50+(pageNum-1)*5;
-		List<DetailReviewDTO> reviewList  = detailDAO.selectAll(count);
 		int tReview = detailDAO.selectToReview(); // 토탈 게시글
-		reviewMap.put("reviews", reviewList); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
-		reviewMap.put("tReview", 324); // 페이징 임시 처리
+		reviewMap.put("tReview", 150); // 페이징 임시 처리
 		//fbmap.put("tFreeboard", tFreeboard);
 		return reviewMap;
 	}
@@ -175,6 +170,12 @@ public class DetailServiceImpl implements DetailService {
 	public DetailDTO findBussinessName(String detailBusinessName) throws DataAccessException {
 		DetailDTO searchBusinessName = detailDAO.selectBusinessName(detailBusinessName);
 		return searchBusinessName;
+	}
+
+	@Override
+	public DetailReviewDTO getReviewByNo(int reviewNo) throws DataAccessException {
+		DetailReviewDTO reviewDTO = detailDAO.selectReviewDTO(reviewNo);
+		return reviewDTO;
 	}
 
 

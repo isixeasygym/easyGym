@@ -33,13 +33,13 @@
         function checkFavoriteStatus() {
             $(".favorite-button").each(function() {
                 var button = this;
-                var companyId = $(button).find('.companyId').val();
-                var userId = $(button).find('.userId').val();
+                var detailNo = $(button).find('.detailNo').val();
+                var memberNo = $('.memberNo').val();
 
                 $.ajax({
                     type: "GET",
                     url: "${contextPath}/getFavoriteStatus",
-                    data: { companyId: companyId, userId: userId },
+                    data: { detailNo: detailNo, memberNo: memberNo },
                     success: function(data) {
                         if (data === "insert" || data === "delete") {
                             updateFavoriteButton(button, data);
@@ -62,26 +62,25 @@
 
         // Button click
         $(".favorite-button").click(function(event) {
-            if (requestInProgress) return;
+			var button = this;
+            var detailNo = $(button).find('.detailNo').val();
+            var memberNo = $(button).find('.memberNo').val();
 
+			if (!memberNo) {
+				alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+				let address = window.location.href;
+				window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
+				return;
+			}
+            if (requestInProgress) return;
             requestInProgress = true;
 
-            var button = this;
-            var companyId = $(button).find('.companyId').val();
-            var userId = $(button).find('.userId').val();
-
-            if (!userId || !companyId) {
-                alert("회원 정보가 없습니다.");
-                var currentPageUrl = encodeURIComponent(window.location.href);
-                window.location.href = '${contextPath}/member/loginForm.do?redirect=' + currentPageUrl;
-                requestInProgress = false;
-                return;
-            }
 
             $.ajax({
                 type: "GET",
                 url: "${contextPath}/addFavorite",
-                data: { companyId: companyId, userId: userId },
+                data: { detailNo: detailNo,
+					    memberNo: memberNo },
                 success: function(data) {
                     if (data === "insert" || data === "delete") {
                         alert(data === "insert" 
@@ -141,8 +140,8 @@
                 </div>
                 <div class="buttonRange">
                     <button class="favorite-button" >
-                        <input  type="hidden" class="userId" value="${member.memberNo}">
-                        <input  type="hidden" class="companyId" value="${details.detailNo}">
+                        <input  type="hidden" class="memberNo" value="${member.memberNo}">
+                        <input  type="hidden" class="detailNo" value="${details.detailNo}">
                         <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
                     </button>
                 </div>

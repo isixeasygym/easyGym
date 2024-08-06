@@ -22,6 +22,7 @@
  		<result property="detailKoClassification" column="detailKoClassification"/>
  		<result property="detailLatitude" column="detailLatitude"/>
  		<result property="detailLongitude" column="detailLongitude"/>
+ 		<result property="detailLatLongitude" column="detailLatLongitude"/>
  		<result property="operatorNo" column="operatorNo"/>
  	</resultMap>
 
@@ -55,17 +56,23 @@
 		<result property="regDate" column="regDate"/>
 		<result property="detailNo" column="detailNo"/>
 	</resultMap>
+	
+	<select id="selectToReview" parameterType="int" resultType="detailReviewDTO">
+		<![CDATA[
+ 			select * from detailreview_tbl where reviewNo = #{reviewNo}
+ 		]]>
+	</select>
 
 	<select id="selectToReview" resultType="int">
 		<![CDATA[
  			select count(*) from detailreview_tbl
  		]]>
-
 	</select>
 
-	<select id="selectAll" resultMap="detailReviewResult" parameterType="int">
+	<select id="selectAll" resultMap="detailReviewResult" parameterType="java.util.Map">
 		<![CDATA[
- 			select reviewComment, reviewDate, memberNo, detailNo from  detailreview_tbl order by reviewNo desc limit #{count},5
+ 			SELECT * FROM detailreview_tbl WHERE detailNo = #{detailNo}
+			ORDER BY reviewNo DESC LIMIT #{count}, 5
  		]]>
 	</select>
 

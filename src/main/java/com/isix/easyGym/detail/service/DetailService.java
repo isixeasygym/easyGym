@@ -58,4 +58,6 @@ public interface DetailService {
 	public int findReportCount(int detailNo) throws DataAccessException;
 
 	public int findReport(int memberNo) throws DataAccessException;
+	
+	public DetailReviewDTO getReviewByNo(int reviewNo) throws DataAccessException;
 }

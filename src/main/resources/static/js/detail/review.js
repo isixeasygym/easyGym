@@ -1,22 +1,25 @@
 function deleteComment(reviewNo) {
-    var memberNo = $('.userId').val(); // 회원 번호를 가져옵니다.
-    var companyId = $('.companyId').val(); // 회사 번호를 가져옵니다.
+	var memberNo = $('.memberNo').val();
+	if (!memberNo) {
+		alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+		let address = window.location.href;
+		window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
+		return;
+	}
+    var detailNo = $('.detailNo').val(); // 회사 번호를 가져옵니다.
     $.ajax({
         type: "POST",
         url: "/delete.do",
         data: {
             reviewNo: reviewNo,
-            memberNo: memberNo// companyId를 데이터에 포함합니다.
+            memberNo: memberNo// detailNo를 데이터에 포함합니다.
         },
         success: function(data) {
             if (data === "success") {
                 alert("해당 글은 삭제되었습니다.");
                 // 리뷰 목록을 새로고침하여 삭제된 리뷰를 반영합니다.
-                refreshReviews(companyId);
-            } else if (data === "noLogin") {
-                alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-                window.location.href = '/member/loginForm.do';
-            } else if (data === "noBuy") {
+                refreshReviews(detailNo);
+            }else if (data === "noBuy") {
                 alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
             }
         },
@@ -27,14 +30,14 @@ function deleteComment(reviewNo) {
     });
 }
 
-function refreshReviews(companyId) {
-    console.log("Company ID:", companyId);
+function refreshReviews(detailNo) {
+    console.log("Company ID:", detailNo);
     $.ajax({
         url: '/getReviews.do',
         type: 'GET',
         dataType: "json",
         data: {
-            companyId: companyId
+            detailNo: detailNo
         },
         success: function(reviews) {
             var reviewContainer = $('#reviewContainer');

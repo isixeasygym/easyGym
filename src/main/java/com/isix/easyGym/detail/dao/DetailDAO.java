@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -39,7 +38,7 @@ public interface DetailDAO {
 	
 	public List<DetailReviewDTO> selectReview(int detailNo) throws DataAccessException;
 
-	public List<DetailReviewDTO> selectAll(@Param("count") int count) throws DataAccessException;
+	public List<DetailReviewDTO> selectAll(Map reviewAndCount) throws DataAccessException;
 	//리뷰페이지
 	public int selectToReview() throws DataAccessException;
 
@@ -71,4 +70,6 @@ public interface DetailDAO {
 	public int selectReportCount(int detailNo) throws DataAccessException;
 
 	public int selectReport(int memberNo) throws DataAccessException;
+	
+	public DetailReviewDTO selectReviewDTO(int reviewNo) throws DataAccessException;
 }

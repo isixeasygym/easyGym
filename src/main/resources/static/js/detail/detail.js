@@ -27,7 +27,7 @@ $(document).ready(function() {
 	}
 
 	$(".report-button").click(function(event) {
-		var memberNo = $('.userId').val();
+		var memberNo = $('.memberNo').val();
 		event.stopPropagation();
 
 		if (!memberNo) {
@@ -104,8 +104,8 @@ $(document).ready(function() {
 			type: "POST",
 			url: `${contextPath}/report.do`,
 			data: {
-				detailNo: $('.companyId').val(),
-				memberNo: $('.userId').val(),
+				detailNo: $('.detailNo').val(),
+				memberNo: $('.memberNo').val(),
 				reportContent: reportContent // 선택된 신고 유형 또는 기타 입력 값
 			},
 			success: function(response) {
@@ -126,49 +126,63 @@ $(document).ready(function() {
 	window.addEventListener('scroll', centerModal);
 });
 
-// 글 삭제
-function deleteComment(reviewNo) {
-	var memberNo = $('.userId').val(); // 회원 번호를 가져옵니다.
-	var companyId = $('.companyId').val(); // 회사 번호를 가져옵니다.
+//글 삭제
+	    function deleteComment(reviewNo) {
+			var memberNo = $('.memberNo').val(); // 회원 번호를 가져옵니다.
+			var detailNo = $('.detailNo').val(); // 회사 번호를 가져옵니다.
 
-	$.ajax({
-		type: "POST",
-		url: "/delete.do",
-		data: {
-			reviewNo: reviewNo,
-			memberNo: memberNo
-		},
-		success: function(data) {
-			if (data === "success") {
-				alert("해당 글은 삭제되었습니다.");
-
-				// 리뷰 목록을 새로고침하여 삭제된 리뷰를 반영합니다.
-				refreshReviews(companyId);
-			} else if (data === "noLogin") {
-				alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-				window.location.href = '/member/loginForm.do';
-			} else if (data === "noBuy") {
-				alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
+			if (!memberNo) {
+				alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+				let address = window.location.href;
+				window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
+				return;
 			}
-		},
-		error: function(xhr, status, error) {
-			alert("회원 정보가 없습니다.");
-			window.location.href = '/member/loginForm.do';
-		}
-	});
-}
+	        $.ajax({
+	            type: "POST",
+	            url: "/delete.do",
+	            data: { 
+	                reviewNo: reviewNo, 
+	                memberNo: memberNo,
+					detailNo: detailNo
+	            },
+	            success: function(data) {
+	                if (data === "success") {
+	                    alert("해당 글은 삭제되었습니다.");
+	                    // 삭제된 리뷰를 화면에서 제거합니다.
+						refreshReviews(detailNo);
+	                    $('.ReviewRange').each(function() {
+	                        var currentReviewNo = $(this).data('review-no');
+	                        if (currentReviewNo == reviewNo) {
+	                            $(this).remove(); // 해당 리뷰 요소를 제거합니다.
+	                        }
+	                    });
+						
+	                } else if (data === "noBuy") {
+	                    alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	  			 alert("회원 정보가 없습니다.");
+	  			 window.location.href = '/member/loginForm.do' 
+	            }			
+	  		 		            
+	        });
+	    }
+
+
 
 // 글 등록하기
 function writeSubmit() {
-	var memberNo = $('.userId').val();
+	var memberNo = $('.memberNo').val();
 
 	if (!memberNo) {
 		alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
-		window.location.href = '/member/loginForm.do?action=address';
+		let address = window.location.href;
+		window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
 		return;
 	}
 
-	var companyId = $('.companyId').val();
+	var detailNo = $('.detailNo').val();
 	var reviewComment = $('#myTextarea').val();
 	var reviewRating = $("input[name='detailScope']:checked").val();
 	var fileInput = $('#reviewImageName')[0].files;
@@ -190,7 +204,7 @@ function writeSubmit() {
 
 	// FormData 객체 생성
 	var formData = new FormData();
-	formData.append('companyId', companyId);
+	formData.append('detailNo', detailNo);
 	formData.append('memberNo', memberNo);
 	formData.append('reviewComment', reviewComment);
 	formData.append('reviewRating', reviewRating);
@@ -215,12 +229,9 @@ function writeSubmit() {
 				alert("작성하신 후기가 등록되었습니다.");
 
 				// 리뷰 목록을 새로고침
-				refreshReviews(companyId);
+				refreshReviews(detailNo);
 			} else if (response === "noBuy") {
 				alert("후기 작성은 회원권을 구매하신 회원님만 가능합니다");
-			} else if (response === "noLogin") {
-				alert("해당 글을 삭제하기 위해서는 로그인 정보가 필요합니다.");
-				window.location.href = '/member/loginForm.do';
 			}
 		})
 		.fail(function(xhr, status, error) {
@@ -231,7 +242,7 @@ function writeSubmit() {
 }
 
 // 리뷰 목록을 새로고침
-function refreshReviews(companyId) {
+function refreshReviews(detailNo) {
 	$.ajax({
 		async: false,
 		url: '/getReviews.do',
@@ -239,7 +250,7 @@ function refreshReviews(companyId) {
 		contentType: "application/json",
 		dataType: "json",
 		data: {
-			companyId: companyId
+			detailNo: detailNo
 		},
 		success: function(reviews) {
 			var reviewContainer = $('#reviewContainer');
@@ -267,12 +278,12 @@ function refreshReviews(companyId) {
 
 			// 전체보기 링크 추가
 			if (totalReviews > 2) {
-				var viewAllReviewsHtml = `<a href="${contextPath}/detail/reviewViewer.do?detailNo=${companyId}" class="viewAllReviews">후기 ${totalReviews}개 전체보기</a>`;
+				var viewAllReviewsHtml = `<a href="${contextPath}/detail/reviewViewer.do?detailNo=${detailNo}" class="viewAllReviews">후기 ${totalReviews}개 전체보기</a>`;
 				reviewContainer.append(viewAllReviewsHtml);
 			}
 
 			// 리뷰 이미지 새로고침
-			updateReviewImages(companyId);
+			updateReviewImages(detailNo);
 		},
 
 		error: function(xhr, status, error) {
@@ -284,12 +295,12 @@ function refreshReviews(companyId) {
 }
 
 // 리뷰 이미지 업데이트
-function updateReviewImages(companyId) {
+function updateReviewImages(detailNo) {
 	$.ajax({
 		url: '/getReviewImages.do',
 		type: 'GET',
 		dataType: 'json',
-		data: { companyId: companyId },
+		data: { detailNo: detailNo },
 		success: function(response) {
 			var reviewImageContainer = $('#reviewImage');
 			reviewImageContainer.empty(); // 기존 이미지 제거
