@@ -8,6 +8,7 @@
 <c:set var="section" value="${reviewMap.section}"/>
 <c:set var="pageNum" value="${reviewMap.pageNum}"/>
 <c:set var="tot50" value="${tReview mod 50}"/>
+<c:set var="member" value="${member}" scope="session"/>
 <c:choose>
 	<c:when test = "${section > tReview/50}">
 		<c:set var="endValue" value="${(tot50%10)==0?tot50/10:tot50/10+1}"/>
@@ -33,24 +34,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>${details.detailBusinessName}</title>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script>
-        var contextPath = "${pageContext.request.contextPath}";
-    </script>
-    <link rel="stylesheet" href="${contextPath}/css/detail/review.css">
-    <script src="${contextPath}/js/detail/review.js"></script>
+<meta charset="UTF-8">
+<title>${details.detailBusinessName}</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${contextPath}/js/detail/review.js"></script>
+<link rel="stylesheet" href="${contextPath}/css/detail/review.css">
 </head>
 <body>
 <div id="reviewContainer">
 	<input type="hidden" class="memberNo" value="${member.memberNo}">
-	<input type="hidden" class="detailNo" value="${reviewMap.detailNo}">
     <c:choose>
         <c:when test="${not empty reviewMap.reviews}">
             <c:forEach var="review" items="${reviewMap.reviews}">
+				
+				<input type="hidden" class="detailNo" value="${reviewMap.detailNo}">
                 <div class="ReviewRange">
-                    <button class="deleteButton" onclick="deleteComment(${review.reviewNo})">삭제</button>
+                    <button class="deleteButton" onclick="removeComment(${review.reviewNo})">삭제</button>
                     <div class="personReviewRange">
                         <img class="reviewPicture" src="${contextPath}/images/detail/detailpage/reviewImage.PNG">
                         <p class="anonymous">(익명의 회원)</p>
@@ -82,9 +84,8 @@
 								<a class="noLine" href="${contextPath}/detail/reviewViewer.do?section=${section}&pageNum=${page}&detailNo=${reviewMap.detailNo}">${(section-1)*10+page}</a>
 							</c:otherwise>
 						</c:choose>
-                        <!-- 다음 페이지 링크 -->
                         <c:if test="${page== 10 and tReview/50>section}">
-                            <a href="{contextPage}/detail/reviewViewer.do?section=${section + 1}&pageNum=${currentPage}&detailNo=${reviewMap.detailNo}">next</a>
+                            <a href="${contextPage}/detail/reviewViewer.do?section=${section + 1}&pageNum=1&detailNo=${reviewMap.detailNo}">next</a>
                         </c:if>
                     </c:forEach>
                 </c:when>

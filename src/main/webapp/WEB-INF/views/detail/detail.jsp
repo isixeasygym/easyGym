@@ -222,17 +222,18 @@
                         </c:forEach>
                     </div>  
                 </div>
-                <div id="reviewImageRange">
-                    <div id="reviewImage">
-                        <c:choose>
-                               <c:when test="${!empty reviewImage}">
-                                   <c:forEach var="reviewImage" items="${reviewImage}">
-                                        <img class="reviewImage" style="width:130px; height:130px;" src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>                 
-                                   </c:forEach> 
-                            </c:when>
-                        </c:choose>          
-                    </div>
-                </div>
+				<div id="reviewImageRange">
+				    <div id="reviewImage">
+				        <c:choose>
+				            <c:when test="${!empty reviewImage}">
+				                <c:forEach var="reviewImage" items="${reviewImage}">
+				                    <img class="reviewImage" style="width:130px; height:130px;" 
+				                         src="${contextPath}/images/detail/reviewImage/${reviewImage.detailNo}/${reviewImage.memberNo}/${reviewImage.reviewImgName}"/>                 
+				                </c:forEach>
+				            </c:when>
+				        </c:choose>
+				    </div>
+				</div>
                 <div id="reviewRange">
                     <a name="1"></a>
                     <div class="reviewWriteRange">

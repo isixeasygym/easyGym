@@ -57,7 +57,7 @@
 		<result property="detailNo" column="detailNo"/>
 	</resultMap>
 	
-	<select id="selectToReview" parameterType="int" resultType="detailReviewDTO">
+	<select id="selectReviewDTO" parameterType="int" resultType="detailReviewDTO">
 		<![CDATA[
  			select * from detailreview_tbl where reviewNo = #{reviewNo}
  		]]>

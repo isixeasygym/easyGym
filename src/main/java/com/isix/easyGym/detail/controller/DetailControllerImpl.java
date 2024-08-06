@@ -133,7 +133,7 @@ public class DetailControllerImpl implements DetailController{
 			 HttpServletRequest request, HttpServletResponse response) throws Exception{
         int section = Integer.parseInt((_section == null) ? "1" : _section);
         int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
-
+        	
         Map<String, Integer> pagingMap = new HashMap<>();
         pagingMap.put("section", section);
         pagingMap.put("pageNum", pageNum);
@@ -430,9 +430,15 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)
 	public List<DetailReviewDTO> getReviewImages(@RequestParam("detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		List<DetailReviewDTO> reviewImage = detailService.getReviewImages(detailNo);
-		return reviewImage;
+	        throws Exception {
+	    List<DetailReviewDTO> reviewImages = detailService.getReviewImages(detailNo);
+
+	    if (reviewImages == null || reviewImages.isEmpty()) {
+	        // 빈 리스트를 반환하거나 적절한 처리를 합니다.
+	        return new ArrayList<>();
+	    }
+
+	    return reviewImages;
 	}
 
 	
@@ -446,43 +452,63 @@ public class DetailControllerImpl implements DetailController{
 	                           RedirectAttributes rAttr,
 	                           HttpServletRequest request,
 	                           HttpServletResponse response) throws Exception {
-	    String success = null;
+	    String success;
 
-	    // 구매 확인
-	    int buyNo = payformService.buyCheck(memberNo);
-	    if (buyNo != 0) {
-	        // 리뷰 정보 조회
-	        DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
-	        if (reviewDTO == null) {
-	            return "reviewNotFound";
-	        }
+	    try {
+	        // 구매 확인
+	        int buyNo = payformService.buyCheck(memberNo);
+	        if (buyNo != 0) {
+	            // 리뷰 정보 조회
+	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
+	            if (reviewDTO == null) {
+	                return "reviewNotFound";
+	            }
 
-	        // 이미지 파일 삭제
-	        List<DetailImageDTO> reviewImages = reviewDTO.getReviewImgName();// 리뷰 DTO에서 이미지 파일 정보를 가져오기
-	        if (reviewImages != null && !reviewImages.isEmpty()) {
-	            for (DetailImageDTO image : reviewImages) {
-	                String imageFileName = image.getImageFileName();
-	                String filePath = ARTICLE_IMG_REPO + File.separator + "reviewImage" 
-	                                    + File.separator + detailNo 
-	                                    + File.separator + memberNo 
+	            // 이미지 파일 삭제
+	            String imageFileName = reviewDTO.getReviewImgName(); // 단일 이미지 파일 이름 가져오기
+	            if (imageFileName != null && !imageFileName.isEmpty()) {
+	                String filePath = ARTICLE_IMG_REPO + File.separator + "reviewImage"
+	                                    + File.separator + detailNo
+	                                    + File.separator + memberNo
 	                                    + File.separator + imageFileName;
 	                File file = new File(filePath);
-	                if (file.exists()) {
-	                    file.delete();
+	                if (file.exists() && file.delete()) {
+	                    // 빈 폴더 삭제
+	                    File memberDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage"
+	                                                + File.separator + detailNo
+	                                                + File.separator + memberNo);
+	                    deleteEmptyDirectories(memberDir);
 	                }
 	            }
-	        }
 
-	        // 리뷰 삭제
-	        detailService.removeReview(reviewNo);
-	        success = "success";
-	    } else {
-	        success = "noBuy";
+	            // 리뷰 삭제
+	            detailService.removeReview(reviewNo);
+	            success = "success";
+	        } else {
+	            success = "noBuy";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 예외 로그 출력
+	        success = "error"; // 오류 발생 시 반환 값
 	    }
 
 	    return success;
 	}
-	
+
+	// 빈 폴더 삭제
+	private void deleteEmptyDirectories(File dir) {
+	    if (dir.isDirectory()) {
+	        File[] files = dir.listFiles();
+	        if (files != null && files.length == 0) {
+	            dir.delete();
+	            // 상위 폴더도 비어있으면 삭제
+	            File parentDir = dir.getParentFile();
+	            if (parentDir != null && !parentDir.getName().equals("reviewImage") && parentDir.isDirectory()) {
+	                deleteEmptyDirectories(parentDir);
+	            }
+	        }
+	    }
+	}
 	
 	
 	//한 개 이미지 파일 업로드(fileUpload)
