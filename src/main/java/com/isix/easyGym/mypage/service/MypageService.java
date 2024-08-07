@@ -29,7 +29,7 @@ public interface MypageService {
 	//신고내역
 	
 	//리뷰내역
-	public List getReview(int memberNo) throws DataAccessException;
+	//public List getReview(int memberNo) throws DataAccessException;
     
     
     //3.정보수정
