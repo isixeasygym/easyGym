@@ -32,7 +32,7 @@ public interface MypageController {
 	//포인트
 	
 	
-	//2.내역조회
+	//2.내역조회(구매내역/신고내역/리뷰내역)
 	public Map<String, Object> searchHistory(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	

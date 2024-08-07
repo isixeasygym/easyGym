@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReviewDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.service.MypageService;
 
@@ -40,6 +41,7 @@ public class MypageControllerImpl implements MypageController {
 	private MemberDTO memberDTO;  //멤버
 	private DetailDTO detailDTO;  //업체정보
 	private DetailDibsDTO detailDibsDTO;  //찜목록
+	private DetailReviewDTO detailReviewDTO;  //리뷰목록
 
 	//1.내 정보
 	//첫 페이지(이용중인 상품)
@@ -91,7 +93,7 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	}
 
-	//2.내역조회
+	//2.내역조회(구매내역/신고내역/리뷰내역)
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/mypage/searchHistory.do", method = RequestMethod.POST)
@@ -108,7 +110,8 @@ public class MypageControllerImpl implements MypageController {
 		
 
 		//리뷰내역
-		
+	    List reviewHistory = mypageService.getReview(memberDTO.getMemberNo());
+	    result.put("reviewHistory", reviewHistory);
 		
 		return result;
 	}

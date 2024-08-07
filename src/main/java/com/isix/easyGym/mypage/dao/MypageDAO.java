@@ -28,7 +28,12 @@ public interface MypageDAO {
 
 	
 	//2.내역조회
+	//구매내역
 	public List selectPurchase(@Param("memberNo") int memberNo) throws DataAccessException;
+	//신고내역
+	
+	//리뷰내역
+	public List selectReview(@Param("memberNo") int memberNo) throws DataAccessException;
 	
 	
 	//3.정보수정

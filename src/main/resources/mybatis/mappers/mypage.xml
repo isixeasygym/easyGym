@@ -51,6 +51,17 @@
 	<result property="memberNo" column="memberNo"/>
 </resultMap>
 
+<resultMap type="detailReviewDTO" id="detailReviewResult">
+	<result property="reviewNo" column="reviewNo"/>
+	<result property="reviewComment" column="reviewComment"/>
+	<result property="reviewImgName" column="reviewImgName"/>
+	<result property="reviewDate" column="reviewDate"/>
+	<result property="reviewRating" column="reviewRating"/>
+	<result property="memberNo" column="memberNo"/>
+	<result property="buyNo" column="buyNo"/>
+	<result property="detailNo" column="detailNo"/>
+</resultMap>
+
 <resultMap type="payformDTO" id="payformResult">
 	<result property="payformNo" column="payformNo"/>
 	<result property="memberNo" column="memberNo"/>
@@ -86,8 +97,15 @@
 
 
 <!--  2.내역조회  -->
+<!--  구매내역  -->
 <select id="selectPurchase" resultMap="payformResult" parameterType="int">
-	<![CDATA[ select p.detailNo, p.payformSub, p.payformPrice, p.payformDate from payform_tbl p join member_tbl m on p.memberNo=m.memberNo where p.memberNo = #{memberNo} ]]>
+	<![CDATA[ select p.payformNo, p.payformSub, p.payformPrice, p.payformDate, d.detailBusinessName from payform_tbl p join detail_tbl d on p.detailNo = d.detailNo where p.memberNo = #{memberNo} ]]>
+</select>
+<!--  신고내역  -->
+
+<!--  리뷰내역  -->
+<select id="selectReview" resultMap="payformResult" parameterType="int">
+	<![CDATA[ select p.payformNo, p.payformSub, p.payformPrice, p.payformDate, d.detailBusinessName from payform_tbl p join detail_tbl d on p.detailNo = d.detailNo where p.memberNo = #{memberNo} ]]>
 </select>
 
 

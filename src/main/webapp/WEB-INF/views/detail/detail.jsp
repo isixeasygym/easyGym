@@ -338,7 +338,7 @@
                    단, 회사가 직접 판매하는 통합회원권 상품의 경우, 다짐이 통신판매 당사자의 지위를 갖게 됩니다.
                 </p>
                 <div id="fixedContainer">
-                    <form action="${contextPath}/payform/payformForm.do" method="get">
+                    <form action="${contextPath}/payform/payformForm.do" method="post">
                         <input type="hidden" name="memberNo" value="${member.memberNo}">
                         <input type="hidden" name="detailNo" value="${details.detailNo}">
                         <button type="submit" id="ticketChoice">회원권 선택</button>
