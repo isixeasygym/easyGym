@@ -41,4 +41,12 @@ public interface MemberController {
 	public ModelAndView gymRegister(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public ResponseEntity<Boolean> confirmId(String memberId);
+	
+	public ModelAndView oauth(
+			@RequestParam(value = "code", required = false) String code,
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "error_description", required = false) String error_description,
+			@RequestParam(value = "state", required = false) String state,
+			HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }

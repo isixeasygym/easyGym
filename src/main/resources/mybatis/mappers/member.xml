@@ -32,6 +32,14 @@
         <result property="operatorCreatedAt" column="operatorCreatedAt"/>
         <result property="operatorState" column="operatorState"/>
     </resultMap>
+    
+    <resultMap type="kakaoDTO" id="kakaoResult">
+    	<result property="kakaoId" column="kakaoId"/>
+    	<result property="kakaoEmail" column="kakaoEmail"/>
+    	<result property="memberName" column="memberName"/>
+    	<result property="accessToken" column="accessToken"/>
+    </resultMap>
+    
     <!-- SQL 중복 제거 -->
     <sql id="selectAllMembers">
        <![CDATA[
@@ -115,6 +123,26 @@
 	    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
 	    ]]>
 	</select>
-	<!-- 사업자 삭제 --> 
+	<!-- 카카오 로그인 -->
+	<insert id="kakaoInsert" parameterType="kakaoDTO">
+ 		insert into kakao_tbl values(#{kakaoId}, #{kakaoEmail}, #{memberName}, #{accessToken})
+ 	</insert>
+ 	
+ 	<select id="isExistKakao" parameterType="kakaoDTO" resultType="boolean">
+ 		select if(count(*)=1, 'true','false') as result from kakao_tbl where kakaoId = #{kakaoId} 
+ 	</select>
+ 	
+ 	<update id="kakaoUpdate" parameterType="kakaoDTO">
+ 		update kakao_tbl set kakaoEmail=#{kakaoEmail}, memberName=#{memberName}, accessToken=#{accessToken} where kakaoId=#{kakaoId}
+ 	</update>
+ 	
+ 	<select id="getAccessToken" parameterType="String" resultType="String">
+		SELECT accessToken FROM kakao_tbl WHERE kakaoId=#{kakaoId}
+	</select>	
+	
+	<update id="delAccessToken" parameterType="String">
+		UPDATE kakao_tbl SET accessToken=null WHERE kakaoId=#{kakaoId} 
+	</update>
+	 
     
 </mapper>
