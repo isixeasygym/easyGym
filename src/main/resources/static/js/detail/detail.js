@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: "POST",
-			url: `${contextPath}/detail/selectReport.do`,
+			url: `/detail/selectReport.do`,
 			data: {
 				memberNo: memberNo
 			},
@@ -102,7 +102,7 @@ $(document).ready(function() {
 		// Ajax 요청
 		$.ajax({
 			type: "POST",
-			url: `${contextPath}/report.do`,
+			url: `/report.do`,
 			data: {
 				detailNo: $('.detailNo').val(),
 				memberNo: $('.memberNo').val(),
