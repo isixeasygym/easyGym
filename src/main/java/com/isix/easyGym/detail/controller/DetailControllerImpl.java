@@ -80,53 +80,54 @@ public class DetailControllerImpl implements DetailController{
 	private MemberOperDTO memberOperDTO;
 	
 	@Override
-    @ResponseBody
-    @RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
-    public String selectReport(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String success = null;
-        int buyNo = payformService.buyCheck(memberNo);
-        if (buyNo != 0) {
-            success = "memberShip";
-        } else {
-            success = "noBuy";
-        }
-        return success;
-    }
+	@ResponseBody
+	@RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
+	public String selectReport(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // 기본적으로 "noBuy"를 반환하도록 설정
+	    String success = "noBuy";
+	    
+	    // 구매 여부 체크
+	    int buyNo = payformService.buyCheck(memberNo);
+	    if (buyNo != 0) {
+	        // 구매가 있는 경우, 신고 여부 체크
+	        int report = detailService.findReport(memberNo);
+	        if (report != 0) {
+	            // 이미 신고가 되어 있는 경우
+	            success = "alreadyReport";
+	        } else {
+	            // 구매는 했으나 신고는 안한 경우
+	            success = "memberShip";
+	        }
+	    }
+	    
+	    return success;
+	}
 
-	@Override
-    @ResponseBody
-    @RequestMapping(value = "/report.do", method = RequestMethod.POST)
-    public String doReport(@RequestParam("memberNo") int memberNo, @RequestParam("detailNo") int detailNo,
-			   @RequestParam("reportContent") String reportContent, HttpServletRequest request,
-			   HttpServletResponse response) throws Exception {
-        try {
-            String success = null;
-            int report = detailService.findReport(memberNo);
-            if (report == 0) {
-                int operatorNo = detailService.findOperatorNo(detailNo);
-                int reportCount = detailService.findReportCount(detailNo);
-                Map<String, Object> reportMap = new HashMap<>();
-                reportMap.put("reportCount", reportCount);
-                reportMap.put("operatorNo", operatorNo);
-                reportMap.put("memberNo", memberNo);
-                reportMap.put("detailNo", detailNo);
-                reportMap.put("reportContent", reportContent);
-                detailService.addReport(reportMap);
-                success = "memberShip";
+	@ResponseBody
+	@RequestMapping(value = "/report.do", method = RequestMethod.POST)
+	public String doReport(@RequestParam("memberNo") int memberNo, @RequestParam("detailNo") int detailNo,
+	                       @RequestParam("reportContent") String reportContent, HttpServletRequest request,
+	                       HttpServletResponse response) throws Exception {
+	    try {
+	    	String success=null;
+            int operatorNo = detailService.findOperatorNo(detailNo);
+            int reportCount = detailService.findReportCount(detailNo);
+            Map<String, Object> reportMap = new HashMap<>();
+            reportMap.put("reportCount", reportCount);
+            reportMap.put("operatorNo", operatorNo);
+            reportMap.put("memberNo", memberNo);
+            reportMap.put("detailNo", detailNo);
+            reportMap.put("reportContent", reportContent);
+            detailService.addReport(reportMap);
+            success = "success";
+	        return success; // 성공적으로 리포트가 추가된 경우 반환할 값
 
-            } else {
-                success = "alreadyReport";
-            }
-
-            return success; // 성공적으로 리포트가 추가된 경우 반환할 값
-
-
-        } catch (Exception e) {
-            // 예외 발생 시 로깅 및 적절한 에러 메시지 반환
-            e.printStackTrace();
-            return "error"; // 에러 발생 시 반환할 값
-        }
-    }
+	    } catch (Exception e) {
+	        // 예외 발생 시 로깅 및 적절한 에러 메시지 반환
+	        e.printStackTrace();
+	        return "error"; // 에러 발생 시 반환할 값
+	    }
+	}
 	@RequestMapping(value="/detail/reviewViewer.do" , method=RequestMethod.GET)
 	@Override
     public ModelAndView reviewViewer(@RequestParam(value = "section", required = false) String _section,
