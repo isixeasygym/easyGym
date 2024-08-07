@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="${contextPath}/css/detail/list.css">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="${contextPath}/js/detail/list.js"></script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a9906a8b7e291e6dddbb2bd165b6d7f&libraries=services"></script>
     <script>
         $(document).ready(function() {
             var requestInProgress = false;
@@ -32,8 +31,6 @@
                     var detailNo = $(button).find('.detailNo').val();
                     var memberNo = $(button).find('.memberNo').val();
 
-
-
                     $.ajax({
                         type: "GET",
                         url: "${contextPath}/getFavoriteStatus",
@@ -42,7 +39,7 @@
                             if (data === "insert" || data === "delete") {
                                 updateFavoriteButton(button, data);
                             } else if (data === "nologin") {
-
+                                // 로그인 필요 알림
                             } else {
                                 alert("알 수 없는 오류가 발생했습니다.");
                             }
@@ -53,6 +50,20 @@
                         }
                     });
                 });
+
+                // URL 파라미터로 초기값 설정
+                const urlParams = new URLSearchParams(window.location.search);
+                const query = urlParams.get('query');
+                const detailClassification = urlParams.get('detailClassification');
+
+                if (query) {
+                    const district = query.split(' ')[1];
+                    document.getElementById('districtSelect').value = district;
+                }
+
+                if (detailClassification) {
+                    document.getElementById('facilityType').value = detailClassification;
+                }
             }
 
             function updateFavoriteButton(button, status) {
@@ -63,25 +74,17 @@
             }
 
             $(".favorite-button").click(function(event) {
-				var memberNo = $(button).find('.memberNo').val();
-				if (!memberNo) {
-					alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
-					let address = window.location.href;
-					window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
-					return;
-				}
+                var memberNo = $(this).find('.memberNo').val();
+                if (!memberNo) {
+                    alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                    let address = window.location.href;
+                    window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
+                    return;
+                }
                 if (requestInProgress) return;
 
                 var button = this;
                 var detailNo = $(button).find('.detailNo').val();
-               
-
-                if (!memberNo) {
-                    // 로그인하지 않은 경우
-                    alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
-                    window.location.href = '/member/loginForm.do';
-                    return; // 함수 종료
-                }
 
                 requestInProgress = true;
 
@@ -107,20 +110,66 @@
                     }
                 });
 
-                event.stopPropagation(); // 부모 요소에 대한 클릭 이벤트를 방지
+                event.stopPropagation();
             });
 
             $(window).on('pageshow', function(event) {
                 initializePage();
             });
+
+            // 옵션값이 바뀔 때 URL 업데이트
+            document.getElementById('districtSelect').addEventListener('change', updateUrl);
+            document.getElementById('facilityType').addEventListener('change', updateUrl);
+
+            function updateUrl() {
+                const selectedDistrict = document.getElementById('districtSelect').value;
+                const facilityType = document.getElementById('facilityType').value;
+                let queryParam = '';
+                if (selectedDistrict != "default") {
+                    queryParam = '서울특별시 ' + selectedDistrict;
+                }
+                const url = `${contextPath}/detail/search.do?query=${encodeURIComponent(queryParam)}&detailClassification=${facilityType}`;
+                window.location.href = url;
+            }
         });
+
+        // 지도 관련 설정
+        window.onload = function() {
+            var mapContainer = document.getElementById('map');
+            var mapOption = {
+                center: new kakao.maps.LatLng(37.56682194967411, 126.97864942970189),
+                level: 8
+            };
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            <% if (!empty allList) { %>
+                <% for (var i = 0; i < allList.size(); i++) { 
+                    var item = allList.get(i);
+                %>
+                    addMarker(<%= item.detailLatitude %>, <%= item.detailLongitude %>, "<%= item.detailBusinessName %>");
+                <% } %>
+            <% } %>
+
+            function addMarker(lat, lng, content) {
+                var position = new kakao.maps.LatLng(lat, lng);
+                var marker = new kakao.maps.Marker({
+                    position: position
+                });
+                marker.setMap(map);
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    position: position,
+                    content: content
+                });
+                infowindow.open(map, marker);
+            }
+        }
     </script>
 </head>
 <body>
 
 <div class="search-container">
     <form class="search-form">
-
         <input type="text" name="query" placeholder="업체명을 입력하세요..." class="search-input">
         <button type="submit" class="search-button">검색</button>
     </form>
@@ -208,93 +257,10 @@
 </div>
 
 <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const favoriteButtons = document.querySelectorAll('.favorite-button');
-
-        favoriteButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();  // 이벤트 버블링 중지
-                // 여기에 찜하기 기능 구현
-                console.log('찜하기 버튼 클릭됨');
-            });
-        });
-
-        const contentRanges = document.querySelectorAll('.contentRange');
-
-        contentRanges.forEach(content => {
-            content.addEventListener('click', function(event) {
-                if (!event.target.closest('.favorite-button')) {
-                    // 리스트 항목 클릭 시 실행될 코드
-                    console.log('리스트 항목 클릭됨');
-                    // 예: window.location.href = 상세 페이지 URL;
-                }
-            });
-        });
-    });
-    const urlParams = new URLSearchParams(window.location.search); //url param들을 불러옴
-
-    window.onload = function () { //윈도우가 로드되면 url 확인해서 옵션을 해당 옵션으로 설정
-        const query = urlParams.get('query');
-        const detailClassification = urlParams.get('detailClassification');
-
-        if (query) { //쿼리는 '서울특별시 강남구' 이런 형식으로 되어있는데 이걸 배열로 받아서 1번 배열이 들어있는 String만 확인
-            const district = query.split(' ')[1];  // "서울특별시 강남구"에서 "강남구" 추출
-            document.getElementById('districtSelect').value = district; //옵션값을 읽어옴
-        }
-
-        if (detailClassification) {
-            document.getElementById('facilityType').value = detailClassification; //옵션값을 읽어옴
-        }
-    }
-
-    document.getElementById('districtSelect').addEventListener('change', updateUrl); //옵션값이 바뀔때마다 이 함수를 실행
-    document.getElementById('facilityType').addEventListener('change', updateUrl);  //옵션값이 바뀔때마다 이 함수를 실행
-
-    function updateUrl() { //옵션값이 바뀌면 해당 옵션값을 읽어와서 url로 보냄
-        const selectedDistrict = document.getElementById('districtSelect').value;
-        const facilityType = document.getElementById('facilityType').value;
-        if (selectedDistrict != "default") {
-            const url = '${contextPath}/detail/search.do?query=서울특별시 ' + selectedDistrict + '+&detailClassification=' + facilityType;
-            window.location.href = url;
-        } else {
-            const url = '${contextPath}/detail/search.do?query=&detailClassification='+facilityType;
-            window.location.href = url;
-        }
-    }
-
-    var mapContainer = document.getElementById('map'),
-        mapOption = {
-            center: new kakao.maps.LatLng(37.56682194967411, 126.97864942970189),
-            level: 8
-        };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-    <c:choose>
-    <c:when test="${!empty allList}">
-    <c:forEach var="allList" items="${allList}">
-    addMarker(${allList.detailLatitude}, ${allList.detailLongitude}, "${allList.detailBusinessName}");
-    </c:forEach>
-    </c:when>
-    </c:choose>
-
-    function addMarker(p1, p2, content) {
-        iwPosition = new kakao.maps.LatLng(p1, p2);
-
-        var marker = new kakao.maps.Marker({
-            position: iwPosition
-        });
-
-        marker.setMap(map);
-
-        var infowindow = new kakao.maps.InfoWindow({
-            position: iwPosition,
-            content: content
-        });
-
-        infowindow.open(map, marker);
+    function goToDetail(detailNo) {
+        window.location.href = '${contextPath}/detail/view.do?detailNo=' + detailNo;
     }
 </script>
+
 </body>
 </html>

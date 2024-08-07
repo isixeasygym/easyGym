@@ -52,9 +52,12 @@
 
 	<resultMap type="detailReportDTO" id="detailReportResult">
 		<result property="reviewNo" column="reviewNo"/>
-		<result property="reviewDate" column="reviewDatae"/>
-		<result property="regDate" column="regDate"/>
+		<result property="reportDate" column="reportDate"/>
+		<result property="reportCount" column="reportCount"/>
+		<result property="reportContent" column="reportContent"/>
+		<result property="memberNo" column="memberNo"/>
 		<result property="detailNo" column="detailNo"/>
+		<result property="operatorNo" column="operatorNo"/>
 	</resultMap>
 	
 	<select id="selectReviewDTO" parameterType="int" resultType="detailReviewDTO">
@@ -76,10 +79,12 @@
  		]]>
 	</select>
 
-	<select id="selectReport" parameterType="int" resultType="int">
-		<![CDATA[
-            SELECT IFNULL(memberNo, 0) AS report FROM detail_tbl WHERE memberNo = #{memberNo};
-        ]]>
+	 <select id="selectReport" parameterType="int" resultType="int">
+	    <![CDATA[
+	        SELECT COALESCE(SUM(memberNo), 0) AS report
+	        FROM detailreport_tbl
+	        WHERE memberNo = #{memberNo}
+	    ]]>
 	</select>
 
 	<select id="selectOperatorNo" parameterType="int" resultType="int">
@@ -92,7 +97,7 @@
 		<![CDATA[
             SELECT CASE WHEN EXISTS (SELECT 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
     		THEN (SELECT COALESCE(MAX(reportCount), 0) + 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
-    		ELSE 1 END AS reportCount FROM dual
+    		ELSE 1 END AS reportCount FROM dual	
         ]]>
 	</select>
 

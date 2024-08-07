@@ -69,7 +69,7 @@ public interface DetailDAO {
 
 	public int selectReportCount(int detailNo) throws DataAccessException;
 
-	public int selectReport(int memberNo) throws DataAccessException;
+	public Integer selectReport(int memberNo) throws DataAccessException;
 	
 	public DetailReviewDTO selectReviewDTO(int reviewNo) throws DataAccessException;
 }

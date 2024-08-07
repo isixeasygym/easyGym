@@ -96,11 +96,13 @@ public class DetailControllerImpl implements DetailController{
 	@Override
     @ResponseBody
     @RequestMapping(value = "/report.do", method = RequestMethod.POST)
-    public String doReport(int memberNo, int detailNo, String reportContent, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String doReport(@RequestParam("memberNo") int memberNo, @RequestParam("detailNo") int detailNo,
+			   @RequestParam("reportContent") String reportContent, HttpServletRequest request,
+			   HttpServletResponse response) throws Exception {
         try {
             String success = null;
             int report = detailService.findReport(memberNo);
-            if (report != 0) {
+            if (report == 0) {
                 int operatorNo = detailService.findOperatorNo(detailNo);
                 int reportCount = detailService.findReportCount(detailNo);
                 Map<String, Object> reportMap = new HashMap<>();
