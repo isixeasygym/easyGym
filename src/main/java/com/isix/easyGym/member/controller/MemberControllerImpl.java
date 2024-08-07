@@ -128,7 +128,8 @@ public class MemberControllerImpl implements MemberController {
 	                               HttpServletRequest req,
 	                               HttpServletResponse res) throws Exception {
 	    ModelAndView mv = new ModelAndView();
-	    
+	    HttpSession session = req.getSession();
+		session.setAttribute("action", action);
 	    // result 값이 0이라면 로그인 폼으로 이동
 	    if (result != null && result == 0) {
 	        mv.setViewName("redirect:/member/loginForm.do");
@@ -143,7 +144,7 @@ public class MemberControllerImpl implements MemberController {
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
+	public ModelAndView login(@ModelAttribute("member") MemberDTO member, @RequestParam(value ="action", required=false) String action, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		memberDTO = memberService.login(member);
 		ModelAndView mv = new ModelAndView();	
@@ -153,7 +154,7 @@ public class MemberControllerImpl implements MemberController {
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("sns", 0);
-			String action = (String) session.getAttribute("action");
+			action = (String) session.getAttribute("action");
 			if (action != null) {
 				mv.setViewName("redirect:" + action);
 			} else {
