@@ -39,7 +39,7 @@
  		<result property="reviewDate" column="reviewDate"/>
  		<result property="reviewRating" column="reviewRating"/>
  		<result property="memberNo" column="memberNo"/>
- 		<result property="buyNo" column="buyNo"/>
+ 		<result property="payformNo" column="payformNo"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
 
@@ -241,13 +241,13 @@
 
  	<insert id="insertReviewAndImage" parameterType="java.util.Map">
  		<![CDATA[
- 			insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{payformNo},#{detailNo})
  		]]>
  	</insert>
 
  	<insert id="insertNoImgReview" parameterType="java.util.Map">
  		<![CDATA[ 
- 			insert into detailreview_tbl ( reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values( #{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
+ 			insert into detailreview_tbl ( reviewComment, reviewDate,reviewRating,memberNo, payformNo,detailNo) values( #{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{payformNo},#{detailNo})
  		]]>
  	</insert>
 

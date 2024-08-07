@@ -48,10 +48,10 @@ public class MypageServiceImpl implements MypageService {
 	//신고내역
 	
 	//리뷰내역
-	/*@Override
+	@Override
 	public List getReview(int memberNo) throws DataAccessException {
 		return mypageDAO.selectReview(memberNo);
-	}*/
+	}
 	
 	
 	//3.정보수정

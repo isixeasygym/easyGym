@@ -13,8 +13,9 @@ public class DetailReviewDTO {
 	private Date reviewDate;
 	private int reviewRating;
 	private int memberNo;
-	private int buyNo;
+	private int payformNo;
 	private int detailNo;
+	private String detailBusinessName; // 추가된 부분
 
 
 	public Date getReviewDate() {
@@ -56,17 +57,23 @@ public class DetailReviewDTO {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
-	public int getBuyNo() {
-		return buyNo;
+	public int getpayformNo() {
+		return payformNo;
 	}
-	public void setBuyNo(int buyNo) {
-		this.buyNo = buyNo;
+	public void setpayformNo(int payformNo) {
+		this.payformNo = payformNo;
 	}
 	public int getDetailNo() {
 		return detailNo;
 	}
 	public void setDetailNo(int detailNo) {
 		this.detailNo = detailNo;
+	}
+	public String getDetailBusinessName() {
+		return detailBusinessName;
+	}
+	public void setDetailBusinessName(String detailBusinessName) {
+		this.detailBusinessName = detailBusinessName;
 	}
 
 }
