@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <link rel="stylesheet" href="/css/member/join.css">
 </div>
 <div class="form-container">
@@ -54,11 +56,12 @@
 				</div>
 			</div>
 		</div>
+		<input type="hidden" name="memberEmail" id="memberEmail">
 		<!-- 이메일 인증 -->
 		<div class="input-group-addon">
 			<button type="button"  class="btnPrimary" id="mailCheckBtn">본인인증</button>
 		</div>
-		<div class="mail-check-box">
+		<div class="mail-check-box input-box" style="display:none;">
 			<input class="mail-check-input" placeholder="인증번호 6자리를 입력해주세요" disabled="disabled" maxlength="6">
 		</div>
 		<span id="mail-check-warn"></span>

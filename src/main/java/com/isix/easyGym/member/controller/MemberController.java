@@ -31,7 +31,7 @@ public interface MemberController {
 
 	
 
-	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView login(@ModelAttribute("memberDTO") MemberDTO memberDTO,@RequestParam(value ="action", required=false) String action, RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 //	public ModelAndView checkId(@RequestParam("memberId") String memberId, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	// ID 중복 체크 메서드 추가
