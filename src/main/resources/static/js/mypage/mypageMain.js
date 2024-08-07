@@ -18,32 +18,33 @@ document.addEventListener('DOMContentLoaded', function () {
       }
    }
 
-   // 내 정보 탭을 클릭할 때의 처리
+   // 1.내 정보 탭을 클릭할 때의 처리
    function myInfoTabHandler() {
       sidebar.style.display = 'block';
       mainContent.style.width = '70%';
       sidebar.innerHTML = `
             <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
             <button class="sidebar-btn" data-target="dibs-list">찜 목록</button>
-            <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
+			<button class="sidebar-btn" data-target="points">포인트</button>
         `;
       document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
       document.getElementById('using-products').classList.add('active');
    }
 
-   // 포인트&쿠폰 탭을 클릭할 때의 처리
-   function pointsCouponsTabHandler() {
+   // 2.내역조회 탭을 클릭할 때의 처리
+   function searchHistoryTabHandler() {
       sidebar.style.display = 'block';
       mainContent.style.width = '70%';
       sidebar.innerHTML = `
-            <button class="sidebar-btn active" data-target="points">포인트</button>
-            <button class="sidebar-btn" data-target="coupons">쿠폰</button>
-        `;
+         <button class="sidebar-btn active" data-target="purchaseHistory">구매내역</button>
+         <button class="sidebar-btn" data-target="reportHistory">신고내역</button>
+         <button class="sidebar-btn" data-target="reviewHistory">리뷰내역</button>
+      `;
       document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
-      document.getElementById('points').classList.add('active');
+      document.getElementById('purchaseHistory').classList.add('active');
    }
 
-   // 정보 수정 탭을 클릭할 때의 처리
+   // 3.정보 수정 탭을 클릭할 때의 처리
    function updateInfoTabHandler() {
       sidebar.style.display = 'none';
       mainContent.style.width = '100%';
@@ -63,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
          if (button.dataset.target === 'my-info') {
             myInfoTabHandler();
-         } else if (button.dataset.target === 'points-coupons') {
-            pointsCouponsTabHandler();
+         } else if (button.dataset.target === 'searchHistory') {
+            searchHistoryTabHandler();
          } else {
             updateInfoTabHandler();
          }
@@ -301,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
    }
 });
 
-//1-2)찜 목록
+//1-2)찜 목록 불러오기
 function fn_dibsList() {
    fetch(`${contextPath}/mypage/mypageMain.do`, {
       method: 'POST',
@@ -334,6 +335,7 @@ function fn_dibsList() {
        });
 }
 
+//찜 목록 취소하기
 function fn_removeDibs(detailNo) {
    fetch(`${contextPath}/mypage/removeDibs.do?detailNo=${detailNo}`, {
       method: 'GET'
@@ -354,6 +356,7 @@ function fn_removeDibs(detailNo) {
        });
 }
 
+//이용중인 상품 불러오기
 function loadUsingProducts() {
    fetch(`${contextPath}/mypage/mypageMain.do`, {
       method: 'POST',
@@ -393,6 +396,7 @@ function loadUsingProducts() {
        });
 }
 
+//결제 취소하기
 function cancelPayform(payformNo) {
    // 동적으로 form 생성
    var form = document.createElement('form');
@@ -416,3 +420,42 @@ document.addEventListener('DOMContentLoaded', function() {
    loadUsingProducts();
    // 기존의 이벤트 리스너들 유지
 });
+
+// 구매내역 불러오기
+function loadPurchaseHistory() {
+   fetch(`${contextPath}/mypage/searchHistory.do`, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+   })
+   .then(response => {
+      if (!response.ok) {
+         throw new Error('Network response was not ok');
+      }
+      return response.json(); // JSON으로 응답 파싱
+   })
+   .then(data => {
+      console.log('응답 데이터:', data); // 데이터 로그
+      let tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>구독개월수</th><th>결제금액</th><th>결제일</th></tr>';
+      if (data.purchaseHistory && Array.isArray(data.purchaseHistory) && data.purchaseHistory.length > 0) {
+         data.purchaseHistory.forEach((purchase, index) => {
+            tableHtml += `<tr>
+               <td>${index + 1}</td>
+               <td>${purchase.detailNo}</td>
+               <td>${purchase.payformSub}</td>
+               <td>${purchase.payformPrice}</td>
+               <td>${purchase.payformDate}</td>
+            </tr>`;
+         });
+      } else {
+         tableHtml += '<tr><td colspan="5">구매 목록이 없습니다.</td></tr>';
+      }
+      tableHtml += '</table>';
+      document.getElementById('purchaseHistory').innerHTML = '<h2>구매 목록</h2>' + tableHtml;
+   })
+   .catch(error => {
+      console.error('Error:', error);
+      alert('구매 목록을 불러오는 중 오류가 발생했습니다.');
+   });
+}
