@@ -19,5 +19,4 @@ public interface MemberOperService {
 	public boolean checkId(String memberOperId) throws DataAccessException;
 	
 	public boolean selectId(String operatorId) throws DataAccessException;
-
 }

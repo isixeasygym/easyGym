@@ -29,15 +29,15 @@
             function initializePage() {
                 $(".favorite-button").each(function() {
                     var button = this;
-                    var companyId = $(button).find('.companyId').val();
-                    var userId = $(button).find('.userId').val();
+                    var detailNo = $(button).find('.detailNo').val();
+                    var memberNo = $(button).find('.memberNo').val();
 
 
 
                     $.ajax({
                         type: "GET",
                         url: "${contextPath}/getFavoriteStatus",
-                        data: { companyId: companyId, userId: userId },
+                        data: { detailNo: detailNo, memberNo: memberNo },
                         success: function(data) {
                             if (data === "insert" || data === "delete") {
                                 updateFavoriteButton(button, data);
@@ -63,13 +63,20 @@
             }
 
             $(".favorite-button").click(function(event) {
+				var memberNo = $(button).find('.memberNo').val();
+				if (!memberNo) {
+					alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+					let address = window.location.href;
+					window.location.href = '/member/loginForm.do?action=' + encodeURIComponent(address);
+					return;
+				}
                 if (requestInProgress) return;
 
                 var button = this;
-                var companyId = $(button).find('.companyId').val();
-                var userId = $(button).find('.userId').val();
+                var detailNo = $(button).find('.detailNo').val();
+               
 
-                if (!userId) {
+                if (!memberNo) {
                     // 로그인하지 않은 경우
                     alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
                     window.location.href = '/member/loginForm.do';
@@ -81,7 +88,7 @@
                 $.ajax({
                     type: "GET",
                     url: "${contextPath}/addFavorite",
-                    data: { companyId: companyId, userId: userId },
+                    data: { detailNo: detailNo, memberNo: memberNo },
                     success: function(data) {
                         if (data === "insert" || data === "delete") {
                             alert(data === "insert"
@@ -167,8 +174,8 @@
                         </div>
                         <div class="buttonRange">
                             <button class="favorite-button">
-                                <input type="hidden" class="userId" value="${member.memberNo}">
-                                <input type="hidden" class="companyId" value="${allList.detailNo}">
+                                <input type="hidden" class="memberNo" value="${member.memberNo}">
+                                <input type="hidden" class="detailNo" value="${allList.detailNo}">
                                 <img class="dibs" src="${contextPath}/images/detail/detailpage/dibs.png" alt="Favorite">
                             </button>
                         </div>
@@ -289,3 +296,5 @@
         infowindow.open(map, marker);
     }
 </script>
+</body>
+</html>

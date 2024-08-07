@@ -22,6 +22,7 @@
  		<result property="detailKoClassification" column="detailKoClassification"/>
  		<result property="detailLatitude" column="detailLatitude"/>
  		<result property="detailLongitude" column="detailLongitude"/>
+ 		<result property="detailLatLongitude" column="detailLatLongitude"/>
  		<result property="operatorNo" column="operatorNo"/>
  	</resultMap>
 
@@ -48,6 +49,52 @@
  		<result property="regDate" column="regDate"/>
  		<result property="detailNo" column="detailNo"/>
  	</resultMap>
+
+	<resultMap type="detailReportDTO" id="detailReportResult">
+		<result property="reviewNo" column="reviewNo"/>
+		<result property="reviewDate" column="reviewDatae"/>
+		<result property="regDate" column="regDate"/>
+		<result property="detailNo" column="detailNo"/>
+	</resultMap>
+	
+	<select id="selectReviewDTO" parameterType="int" resultType="detailReviewDTO">
+		<![CDATA[
+ 			select * from detailreview_tbl where reviewNo = #{reviewNo}
+ 		]]>
+	</select>
+
+	<select id="selectToReview" resultType="int">
+		<![CDATA[
+ 			select count(*) from detailreview_tbl
+ 		]]>
+	</select>
+
+	<select id="selectAll" resultMap="detailReviewResult" parameterType="java.util.Map">
+		<![CDATA[
+ 			SELECT * FROM detailreview_tbl WHERE detailNo = #{detailNo}
+			ORDER BY reviewNo DESC LIMIT #{count}, 5
+ 		]]>
+	</select>
+
+	<select id="selectReport" parameterType="int" resultType="int">
+		<![CDATA[
+            SELECT IFNULL(memberNo, 0) AS report FROM detail_tbl WHERE memberNo = #{memberNo};
+        ]]>
+	</select>
+
+	<select id="selectOperatorNo" parameterType="int" resultType="int">
+		<![CDATA[
+            SELECT operatorNo from detail_tbl where detailNo = #{detailNo}
+        ]]>
+	</select>
+
+	<select id="selectReportCount" parameterType="int" resultType="int">
+		<![CDATA[
+            SELECT CASE WHEN EXISTS (SELECT 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
+    		THEN (SELECT COALESCE(MAX(reportCount), 0) + 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
+    		ELSE 1 END AS reportCount FROM dual
+        ]]>
+	</select>
 
 	<select id="selectPopularHealth"  resultMap="detailResult">
 	    <![CDATA[
@@ -134,12 +181,6 @@
  		]]>
 	</select>
 
- 	<select id="selectAll" parameterType="String" resultType="detailDTO" >
-		<![CDATA[
- 			select * from detail_tbl where detailClassification = #{detailClassification} 
- 		]]>
-	</select>
-
 	<select id="selectPopular" parameterType="int" resultType="detailDTO">
 		<![CDATA[
  			select * from detail_tbl where detailNo = #{popularRating} 
@@ -178,9 +219,14 @@
  		<![CDATA[
  			SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
 			UNION ALL SELECT 0 WHERE NOT EXISTS ( SELECT 1 FROM detailreview_tbl WHERE detailNo = #{detailNo})
- 			
  		]]>
  	</select>
+
+	<insert id="insertReport" parameterType="java.util.Map">
+		<![CDATA[
+ 			insert into detailreport_tbl values(reportNo,sysdate(),#{reportCount},#{reportContent},#{memberNo},#{detailNo},#{operatorNo})
+ 		]]>
+	</insert>
 
  	<insert id="insertDibs" parameterType="java.util.Map">
  		<![CDATA[
