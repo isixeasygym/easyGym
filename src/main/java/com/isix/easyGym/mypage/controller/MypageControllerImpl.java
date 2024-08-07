@@ -110,8 +110,8 @@ public class MypageControllerImpl implements MypageController {
 		
 
 		//리뷰내역
-	    List reviewHistory = mypageService.getReview(memberDTO.getMemberNo());
-	    result.put("reviewHistory", reviewHistory);
+	    //List reviewHistory = mypageService.getReview(memberDTO.getMemberNo());
+	    //result.put("reviewHistory", reviewHistory);
 		
 		return result;
 	}

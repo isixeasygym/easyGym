@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
       document.querySelectorAll('.sidebar-btn').forEach(btn => btn.addEventListener('click', sidebarBtnClickHandler));
       document.getElementById('purchaseHistory').classList.add('active');
+	  // 구매내역 로드
+      loadPurchaseHistory(); // 추가된 부분
+	  // 항상 찜 목록을 새로고침
+      fn_dibsList();
    }
 
    // 3.정보 수정 탭을 클릭할 때의 처리
@@ -438,53 +442,11 @@ function loadPurchaseHistory() {
    .then(data => {
       console.log('응답 데이터:', data); // 데이터 로그
       let tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>구독개월수</th><th>결제금액</th><th>결제일</th></tr>';
-      if (data.purchaseHistory && Array.isArray(data.purchaseHistory) && data.purchaseHistory.length > 0) {
+      if (data.purchaseHistory && data.purchaseHistory.length > 0) {  // && Array.isArray(data.purchaseHistory)
          data.purchaseHistory.forEach((purchase, index) => {
             tableHtml += `<tr>
                <td>${index + 1}</td>
-               <td>${purchase.detailNo}</td>
-               <td>${purchase.payformSub}</td>
-               <td>${purchase.payformPrice}</td>
-               <td>${purchase.payformDate}</td>
-            </tr>`;
-         });
-      } else {
-         tableHtml += '<tr><td colspan="5">구매 목록이 없습니다.</td></tr>';
-      }
-      tableHtml += '</table>';
-      document.getElementById('purchaseHistory').innerHTML = '<h2>구매 목록</h2>' + tableHtml;
-   })
-   .catch(error => {
-      console.error('Error:', error);
-      alert('구매 목록을 불러오는 중 오류가 발생했습니다.');
-   });
-}
-
-// 신고내역 불러오기
-
-
-// 리뷰내역 불러오기
-function loadReviewHistory() {
-   fetch(`${contextPath}/mypage/searchHistory.do`, {
-      method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-   })
-   .then(response => {
-      if (!response.ok) {
-         throw new Error('Network response was not ok');
-      }
-      return response.json(); // JSON으로 응답 파싱
-   })
-   .then(data => {
-      console.log('응답 데이터:', data); // 데이터 로그
-      let tableHtml = '<table><tr><th>번호</th><th>업체명</th><th>구독개월수</th><th>결제금액</th><th>결제일</th></tr>';
-      if (data.purchaseHistory && Array.isArray(data.purchaseHistory) && data.purchaseHistory.length > 0) {
-         data.purchaseHistory.forEach((purchase, index) => {
-            tableHtml += `<tr>
-               <td>${index + 1}</td>
-               <td>${purchase.detailNo}</td>
+               <td>${purchase.detailBusinessName}</td>
                <td>${purchase.payformSub}</td>
                <td>${purchase.payformPrice}</td>
                <td>${purchase.payformDate}</td>
