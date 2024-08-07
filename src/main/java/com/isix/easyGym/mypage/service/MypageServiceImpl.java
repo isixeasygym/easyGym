@@ -40,9 +40,17 @@ public class MypageServiceImpl implements MypageService {
 	
 	
 	//2.내역조회
+	//구매내역
 	@Override
 	public List getPurchase(int memberNo) throws DataAccessException {
 		return mypageDAO.selectPurchase(memberNo);
+	}
+	//신고내역
+	
+	//리뷰내역
+	@Override
+	public List getReview(int memberNo) throws DataAccessException {
+		return mypageDAO.selectReview(memberNo);
 	}
 	
 	
