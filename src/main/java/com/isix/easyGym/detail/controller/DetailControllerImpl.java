@@ -357,9 +357,9 @@ public class DetailControllerImpl implements DetailController{
 		String status = null;
 	    try {
 	    	
-	            int buyNo = payformService.buyCheck(memberNo);
+	            int payformNo = payformService.buyCheck(memberNo);
 
-	            if (buyNo != 0) {
+	            if (payformNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
 	                // Verify file upload
 	                String imageFileName = fileUpload(multipartRequest);
@@ -377,7 +377,7 @@ public class DetailControllerImpl implements DetailController{
 	                    }
 
 	                    reviewImageMap.put("reviewImageName", imageFileName);
-	                    reviewImageMap.put("buyNo", buyNo);
+	                    reviewImageMap.put("payformNo", payformNo);
 	                    reviewImageMap.put("detailNo", detailNo);
 	                    reviewImageMap.put("memberNo", memberNo);
 
@@ -410,7 +410,7 @@ public class DetailControllerImpl implements DetailController{
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
 	                    noImgReviewMap.put("memberNo", String.valueOf(memberNo));
-	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
+	                    noImgReviewMap.put("payformNo", String.valueOf(payformNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
 	                    detailService.noImgReview(noImgReviewMap);

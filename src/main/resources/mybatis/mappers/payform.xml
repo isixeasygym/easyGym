@@ -91,7 +91,12 @@
 	</update>
 
 	<select id="checkingBuy" parameterType="int" resultType="int">
-    	SELECT IFNULL((SELECT buyNo FROM buy_tbl WHERE memberNo = #{memberNo}), 0)
+    	SELECT IFNULL((SELECT payformNo 
+     FROM payform_tbl 
+     WHERE memberNo = #{memberNo} 
+     LIMIT 1), 
+    0
+) AS payformNo;
 	</select>
 	
 	
