@@ -253,7 +253,7 @@ function fn_dibsList() {
                     <td>${dibs.detailBusinessName}</td>
                     <td>${dibs.detailKoClassification}</td>
                     <td>${dibs.detailRoadAddress}</td>
-                    <td><button onclick="fn_removeDibs(${dibs.detailNo})">찜 취소</button></td>
+                    <td><button onclick="fn_removeDibs(${dibs.detailNo})">삭제</button></td>
                 </tr>`;
              });
           } else {
@@ -354,6 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // 기존의 이벤트 리스너들 유지
 });
 
+// 2.내역조회
 // 구매내역 불러오기
 function loadPurchaseHistory() {
    fetch(`${contextPath}/mypage/searchHistory.do`, {
