@@ -102,12 +102,13 @@
 	
 	<!-- 이미지 여러개 수정-->
 	<update id="updateImage" parameterType="java.util.Map">
-		<foreach collection="imageFileList" item="item" separator=";">
-			
-				update fboardimage_tbl set imageFileName=#{item.imageFileName} where imageFileNo=#{item.imageFileNo} and #{item.imageFileName} != ''
-           
-         </foreach>
+	    <foreach collection="imageFileList" item="item" separator=";">
+	        update fboardimage_tbl
+	        set imageFileName = #{item.imageFileName}
+	        where freeNo = #{item.freeNo} and #{item.imageFileName} != ''
+	    </foreach>
 	</update>
+
 	
 	<delete id="deleteFboard" parameterType="int">
 		<![CDATA[

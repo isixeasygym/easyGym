@@ -207,64 +207,67 @@ private static String ARTICLE_IMG_REPO ="C:\\kh\\fileupload";
 	
 	@RequestMapping(value="/freeboard/modFboard.do")
 	public ModelAndView modFboard(MultipartHttpServletRequest mulReq, HttpServletResponse res) throws Exception {
-		String imageFileName = null;
-		mulReq.setCharacterEncoding("utf-8");
-		Map<String, Object> fbmap = new HashMap<String,Object>();
-		Enumeration enu = mulReq.getParameterNames();
-		while(enu.hasMoreElements()) { // 매개변수가 있으면 
-			String name = (String)enu.nextElement(); // 요소들
-			String value = mulReq.getParameter(name); // 매개변수이름으로 가져온 value값
-			fbmap.put(name, value);
-		}
-		List<String> flist = mulFileUpload(mulReq);
-		String freeNo = (String)fbmap.get("freeNo");
-		List<FreeImageDTO> imageFileList = new ArrayList<FreeImageDTO>(); // 여러개의 이미지를 담을 리스트를 생성
-		int modNum = 0;
-		if(flist != null && flist.size() !=0) {
-			for(String fname : flist) {
-				modNum ++;
-				FreeImageDTO fbimageDTO = new FreeImageDTO(); // 리스트를 생성할때마다 인스턴스 객체 생성
-				fbimageDTO.setImageFileName(fname);
-				fbimageDTO.setImageFileNo(Integer.parseInt((String)fbmap.get("imageFileNo" + modNum))); 
-				imageFileList.add(fbimageDTO);
-			}
-			fbmap.put("imageFileList", imageFileList);
-		}
-		fbmap.put("id", "chulsu"); // 임시 아이디
-		try {
-			freeboardservice.modFboard(fbmap);
-			if(imageFileList != null && imageFileList.size() !=0) {
-				int cnt = 0;
-				for(FreeImageDTO imageDTO : imageFileList) {
-					cnt++;
-					imageFileName = imageDTO.getImageFileName();
-					if(imageFileName != null && imageFileName != "") {
-					File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-					File destDir = new File(ARTICLE_IMG_REPO + "\\" + freeNo);
-					FileUtils.moveFileToDirectory(srcFile, destDir,true);
-					String originalFileName = (String)fbmap.get("originalFileName" + cnt);
-					System.out.println("이전이미지 : " + originalFileName);
-					File oldFile = new File(ARTICLE_IMG_REPO + "\\" + freeNo + "\\" + originalFileName);
-					oldFile.delete();
-					}
-				}
-			}
-		}catch (Exception e){
-			// 글 쓰기 수행중 오류
-//			if(imageFileList != null && imageFileList.size() !=0) {
-//				for(ImageDTO imageDTO : imageFileList) {
-//					imageFileName = imageDTO.getImageFileName();
-//					File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
-//					// 오류 발생시 temp폴더에 있는 이미지를 삭제
-//					srcFile.delete();
-//				}
-//			}
-			e.printStackTrace();
-		}
-		ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
-		
-		return mv;
+	    String imageFileName = null;
+	    mulReq.setCharacterEncoding("utf-8");
+	    Map<String, Object> fbmap = new HashMap<String, Object>();
+	    Enumeration enu = mulReq.getParameterNames();
+
+	    while (enu.hasMoreElements()) {
+	        String name = (String) enu.nextElement();
+	        String value = mulReq.getParameter(name);
+	        fbmap.put(name, value);
+	        System.out.println(fbmap.get(name)); // map으로 가져오는것 확인하기
+	    }
+
+	    List<String> flist = mulFileUpload(mulReq);
+	    String freeNo = (String) fbmap.get("freeNo");
+	    System.out.println(freeNo+"글쓴사람");
+	    List<FreeImageDTO> imageFileList = new ArrayList<FreeImageDTO>();
+	    int modNum = 0;
+
+	    if (flist != null && flist.size() != 0) {
+	        for (String fname : flist) {
+	            modNum++;
+	            FreeImageDTO fbimageDTO = new FreeImageDTO();
+	            fbimageDTO.setImageFileName(fname);
+	            System.out.println("이미지 이름" + fname);
+	            fbimageDTO.setImageFileName(fname);
+	            fbimageDTO.setFreeNo(Integer.parseInt(freeNo));
+	            imageFileList.add(fbimageDTO);
+	        }
+	        fbmap.put("imageFileList", imageFileList);
+	    }
+	    HttpSession session = mulReq.getSession();
+	    MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+	    String id = memberDTO.getMemberId();
+	    fbmap.put("id", id);
+	    try {
+	        freeboardservice.modFboard(fbmap);
+	        if (imageFileList != null && imageFileList.size() != 0) {
+	            int cnt = 0;
+	            for (FreeImageDTO imageDTO : imageFileList) {
+	                cnt++;
+	                imageFileName = imageDTO.getImageFileName();
+	                if (imageFileName != null && !imageFileName.isEmpty()) {
+	                    File srcFile = new File(ARTICLE_IMG_REPO + "\\temp\\" + imageFileName);
+	                    File destDir = new File(ARTICLE_IMG_REPO + "\\" + freeNo);
+	                    FileUtils.moveFileToDirectory(srcFile, destDir, true);
+	                    String originalFileName = (String) fbmap.get("originalFileName" + cnt);
+	                    System.out.println("이전이미지 : " + originalFileName);
+	                    File oldFile = new File(ARTICLE_IMG_REPO + "\\" + freeNo + "\\" + originalFileName);
+	                    oldFile.delete();
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    ModelAndView mv = new ModelAndView("redirect:/freeboard/fboardList.do");
+	    return mv;
 	}
+
+
 	
 	
 	

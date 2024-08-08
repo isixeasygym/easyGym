@@ -18,6 +18,11 @@
 
 .details-table .title {
     width: 20%;
+	
+}
+.details-table .title2{
+	border: none;
+	background-color: #fff;
 }
 
 .details-table .author {
@@ -30,6 +35,8 @@
 
 .details-table .content {
     width: 50%;
+	border: none;
+	background-color: #fff;
 }
 
 /* 제목 스타일 */
@@ -55,9 +62,15 @@
     cursor: pointer;
 }
 
-.reBtn{
+/*.reBtn{
 	margin-left: 252px;
+}*/
+
+.bg{
+	max-width: 1500px;
+	text-align: right;
 }
+
 .details-button-group .btn:hover {
     background-color: #0056b3;
 }
