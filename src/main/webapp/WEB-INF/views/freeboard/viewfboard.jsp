@@ -10,68 +10,82 @@
 <script src="/js/freeboard/script.js"></script>
 
 <main>
-	
-	<table class="details-table">
-	    <thead>
-	        <tr>
-	            <th class="title">제목</th>
-	            <th class="author">작성자</th>
-	            <th class="hit">조회수</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-	        <tr>
-	            <td class="title">${fbmap.fboard.freeTitle}</td>
-	            <td class="author">${fbmap.mDTO.memberName}</td>
-	            <td class="hit">${fbmap.fboard.freeHit}</td>
-	        </tr>
-	        <tr>
-	            <td colspan="3" class="content">${fbmap.fboard.freeContent}</td>
-	        </tr>
-	        <c:if test="${not empty fbmap.imageFileList}">
-	            <tr>
-	                <td colspan="4">
-	                    <div class="image-container">
-	                        <c:forEach var="imgList" items="${fbmap.imageFileList}" varStatus="status">
-	                            <img id="preview${status.count}" src="<c:url value='/frdownload.do'/>?freeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
-	                        </c:forEach>
-	                    </div>
-	                </td>
-	            </tr>
-	        </c:if>
-	    </tbody>
-	</table>
-
-
-    <div class="button-group">
+    <form name="frmArticle" method="post" enctype="multipart/form-data">
+        <table class="details-table">
+            <thead>
+                <tr>
+                    <th class="title">제목</th>
+                    <th class="author">작성자</th>
+                    <th class="hit">조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td ><input class="title2" id="freeTitle" name="freeTitle" value="${fbmap.fboard.freeTitle}" disabled></td>
+                    <td class="author">${fbmap.mDTO.memberName}</td>
+                    <td class="hit">${fbmap.fboard.freeHit}</td>
+					<input type="hidden" name="freeNo" value="${fbmap.fboard.freeNo}">
+                </tr>
+                <tr>
+                    <td colspan="3" ><input class="content" id="freeContent" name="freeContent" value="${fbmap.fboard.freeContent}" disabled></td>
+                </tr>
+				<c:choose>
+	                <c:when test="${not empty fbmap.imageFileList}">
+	                    <!-- 이미지 리스트가 있을 때 -->
+	                    <tr>
+	                        <td colspan="4">
+	                            <div class="image-container">
+	                                <c:forEach var="imgList" items="${fbmap.imageFileList}" varStatus="status">
+	                                    <img id="preview${status.count}" src="<c:url value='/frdownload.do'/>?freeNo=${imgList.freeNo}&imageFileName=${imgList.imageFileName}">
+	                                    <input type="file" class="id_imgFile" name="imageFileName${status.count}" onchange="readImage(this, ${status.count})" disabled>
+	                                </c:forEach>
+	                            </div>
+	                        </td>
+	                    </tr>
+	                </c:when>
+	                <c:otherwise>
+	                    <!-- 이미지 리스트가 비어 있을 때 -->
+	                    <tr>
+	                        <td colspan="4">
+	                            <div class="no-image-message">
+	                                등록된 이미지가 없습니다.
+	                            </div>
+	                        </td>
+	                    </tr>
+	                </c:otherwise>
+	            </c:choose>
+            </tbody>
+        </table>
+        <div class="button-group bg" id="div_button">
+            <c:choose>
+                <c:when test="${fbmap != null && sessionScope != null && sessionScope.member != null && fbmap.fboard.memberNo == sessionScope.member.memberNo}">
+                    <input class="btn btn-outline-secondary" type="button" value="수정하기" onclick="fn_enable(frmArticle)">
+                    <input class="btn btn-outline-secondary" type="button" id="deleteButton" value="삭제하기" onclick="fn_remove_fboard('/freeboard/removeFboard.do','${fbmap.fboard.freeNo}')">
+                </c:when>
+            </c:choose>
+            <input class="btn btn-outline-secondary reBtn" type="button" value="돌아가기" onclick="location.href='/freeboard/fboardList.do'">
+        </div>
+        <div class="button-group bg" id="div_button_modify" style="display: none;">
+            <input class="btn btn-outline-secondary" value="수정 확인" onclick="fn_modify_fboard(frmArticle)">
+        </div>
+    </form>
+    <div id="commentList">
         <c:choose>
-            <c:when test="${fbmap != null && sessionScope != null && sessionScope.member != null && fbmap.fboard.memberNo == sessionScope.member.memberNo}">
-                <input class="btn btn-outline-secondary" type="button" value="수정하기" onclick="fn_enable(this.form)">
-                <input class="btn btn-outline-secondary" type="button" id="deleteButton" value="삭제하기" onclick="fn_remove_fboard('/freeboard/removeFboard.do','${fbmap.fboard.freeNo}')">
+            <c:when test="${sessionScope.getAnswer == 0}">
+                등록된 댓글이 없습니다.
             </c:when>
+            <c:otherwise>
+                <c:forEach var="answer" items="${amap.alist}">
+                    <div class="comment">
+                        <div class="comment-header">회원 번호: ${answer.memberNo}</div>
+                        <div class="comment-content">댓글 내용: ${answer.fbanswerContent}</div>
+                        <div class="comment-date">댓글 작성일: ${answer.fbanswerWriteDate}</div>
+                        <button class="delBtn" onclick="del(${answer.fbanswerNo})">삭제</button>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
         </c:choose>
-        <input class="btn btn-outline-secondary reBtn" type="button" value="돌아가기" onclick="location.href='/freeboard/fboardList.do'">
     </div>
-
-	<div id="commentList">
-	    <c:choose>
-	        <c:when test="${sessionScope.getAnswer == 0}">
-	            등록된 댓글이 없습니다.
-	        </c:when>
-	        <c:otherwise>
-	            <c:forEach var="answer" items="${amap.alist}">
-	                <div class="comment">
-	                    <div class="comment-header">회원 번호: ${answer.memberNo}</div>
-	                    <div class="comment-content">댓글 내용: ${answer.fbanswerContent}</div>
-	                    <div class="comment-date">댓글 작성일: ${answer.fbanswerWriteDate}</div>
-	                    <button class="delBtn" onclick="del(${answer.fbanswerNo})">삭제</button>
-	                </div>
-	            </c:forEach>
-	        </c:otherwise>
-	    </c:choose>
-	</div>
-
-
     <button id="showCommentForm">댓글 입력하기</button>
     <div class="comment-form" id="commentForm" style="display: none;">
         <form id="commentFormForm" enctype="multipart/form-data">
@@ -188,7 +202,5 @@
         });
     }
 </script>
-
-
 
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>

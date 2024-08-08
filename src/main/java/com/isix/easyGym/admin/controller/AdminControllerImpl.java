@@ -112,6 +112,7 @@ public class AdminControllerImpl implements AdminController {
 	
 	
 	// 회원 전체 조회 
+	@Override
 	@RequestMapping(value = "/admin/memberList.do", method = RequestMethod.GET)
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.memberList();
@@ -122,6 +123,7 @@ public class AdminControllerImpl implements AdminController {
 	}
 	
 	// 탈퇴 회원 조회 
+	@Override
 	@RequestMapping(value = "/admin/withdrawMem.do", method = RequestMethod.GET)
 	public ModelAndView withdrawMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.withdrawMember();
@@ -133,6 +135,7 @@ public class AdminControllerImpl implements AdminController {
 	
 	
 	// 사업자 전체 조회
+	@Override
 	@RequestMapping(value = "/admin/operList.do", method = RequestMethod.GET)
 	public ModelAndView operatorList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List olist=adminService.operList();
@@ -143,6 +146,7 @@ public class AdminControllerImpl implements AdminController {
 	}
 
 	// 업체 리스트 조회 
+	@Override
 	@RequestMapping(value = "/admin/companyList.do", method = RequestMethod.GET)
 	public ModelAndView companyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List clist=adminService.comList();
@@ -151,9 +155,21 @@ public class AdminControllerImpl implements AdminController {
 		mav.addObject("clist",clist);
 		return mav;
 	}
+
+	// 신고 리스트 조회
+	@Override
+	@RequestMapping(value = "/admin/reportList.do", method = RequestMethod.GET)
+	public ModelAndView reportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List rlist = adminService.reportList();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("admin/reportList");
+		mv.addObject("rlist",rlist);
+		return mv;
+	}
 	
 	
 	
+
 	
 
 	

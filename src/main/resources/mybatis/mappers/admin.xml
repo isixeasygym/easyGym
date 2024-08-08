@@ -57,7 +57,17 @@
 		<result property="detailLongitude" column="detailLongitude"/>
 		<result property="operatorNo" column="operatorNo"/>
 	</resultMap>
-
+	
+	<resultMap type="detailReportDTO" id="reResult">
+		<result property="reportNo" column="reportNo"/>
+		<result property="reportDate" column="reportDate"/>
+		<result property="reportCount" column="reportCount"/>
+		<result property="reportContent" column="reportContent"/>
+		<result property="memberNo" column="memberNo"/>
+		<result property="detailNo" column="detailNo"/>
+		<result property="operatorNo" column="operatorNo"/>
+	</resultMap>
+	
 	<!-- SQL문 중복 제거하기 -->
  	<sql id="sr">
  		<![CDATA[
@@ -139,6 +149,13 @@
  	<select id="selectCompany" resultMap="deResult">
  		<![CDATA[
  			select * from detail_tbl  order by detailNo desc 		
+ 		]]>
+ 	</select>
+ 	
+ 	<!-- 신고 리스트 -->
+ 	<select id="selectReport" resultMap="reResult">
+ 		<![CDATA[
+ 			select * from detailreport_tbl  order by reportNo desc 		
  		]]>
  	</select>
  </mapper>
