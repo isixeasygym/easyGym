@@ -79,11 +79,17 @@
  		]]>
 	</select>
 
-	 <select id="selectReport" parameterType="int" resultType="int">
+	 <select id="selectReport" parameterType="java.util.Map" resultType="int">
 	    <![CDATA[
-	        SELECT COALESCE(SUM(memberNo), 0) AS report
-	        FROM detailreport_tbl
-	        WHERE memberNo = #{memberNo}
+	            SELECT CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM detailreport_tbl
+                WHERE memberNo = #{memberNo}
+                  AND detailNo = #{detailNo}
+            ) THEN 1
+            ELSE 0
+        END
 	    ]]>
 	</select>
 
@@ -93,11 +99,13 @@
         ]]>
 	</select>
 
-	<select id="selectReportCount" parameterType="int" resultType="int">
+	<select id="selectReportCount" parameterType="java.util.Map" resultType="int">
 		<![CDATA[
-            SELECT CASE WHEN EXISTS (SELECT 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
-    		THEN (SELECT COALESCE(MAX(reportCount), 0) + 1 FROM detailreport_tbl WHERE detailNo = #{detailNo})
-    		ELSE 1 END AS reportCount FROM dual	
+           SELECT CASE WHEN EXISTS (SELECT 1 FROM detailreport_tbl 
+           WHERE detailNo = #{detailNo})
+      	   THEN (
+           SELECT COALESCE(MAX(reportCount), 0) + 1 FROM detailreport_tbl 
+           WHERE detailNo = #{detailNo}) ELSE 1 END AS reportCount;
         ]]>
 	</select>
 
@@ -194,7 +202,7 @@
 
 	<select id="selectReview" parameterType="int" resultMap="detailReviewResult">
 		<![CDATA[
- 			select * from detailreview_tbl where detailNo = #{detailNo}
+ 			select * from detailreview_tbl where detailNo = #{detailNo} ORDER BY reviewDate DESC;
  		]]>
 	</select>
 

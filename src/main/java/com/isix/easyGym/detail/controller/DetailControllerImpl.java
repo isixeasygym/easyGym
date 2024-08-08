@@ -82,15 +82,19 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
-	public String selectReport(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String selectReport(@RequestParam("memberNo") int memberNo,
+							   @RequestParam("detailNo") int detailNo,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    // 기본적으로 "noBuy"를 반환하도록 설정
 	    String success = "noBuy";
-	    
+	    Map<String,Object> selectMap = new HashMap<String,Object>();
+	    selectMap.put("detailNo", detailNo);
+	    selectMap.put("memberNo", memberNo);
 	    // 구매 여부 체크
-	    int buyNo = payformService.buyCheck(memberNo);
-	    if (buyNo != 0) {
+	    int payformNo = payformService.findpay(selectMap);
+	    if (payformNo != 0) {
 	        // 구매가 있는 경우, 신고 여부 체크
-	        int report = detailService.findReport(memberNo);
+	        int report = detailService.findReport(selectMap);
 	        if (report != 0) {
 	            // 이미 신고가 되어 있는 경우
 	            success = "alreadyReport";
@@ -110,8 +114,11 @@ public class DetailControllerImpl implements DetailController{
 	                       HttpServletResponse response) throws Exception {
 	    try {
 	    	String success=null;
+	    	Map<String,Object> countMap = new HashMap<String,Object>();
+	    	countMap.put("memberNo", memberNo);
+	    	countMap.put("detailNo", detailNo);
+	    	int reportCount = detailService.findReportCount(countMap);
             int operatorNo = detailService.findOperatorNo(detailNo);
-            int reportCount = detailService.findReportCount(detailNo);
             Map<String, Object> reportMap = new HashMap<>();
             reportMap.put("reportCount", reportCount);
             reportMap.put("operatorNo", operatorNo);
@@ -459,8 +466,8 @@ public class DetailControllerImpl implements DetailController{
 
 	    try {
 	        // 구매 확인
-	        int buyNo = payformService.buyCheck(memberNo);
-	        if (buyNo != 0) {
+	        int payformNo = payformService.buyCheck(memberNo);
+	        if (payformNo != 0) {
 	            // 리뷰 정보 조회
 	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
 	            if (reviewDTO == null) {

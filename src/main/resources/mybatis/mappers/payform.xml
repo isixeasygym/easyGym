@@ -91,13 +91,22 @@
 	</update>
 
 	<select id="checkingBuy" parameterType="int" resultType="int">
-    	SELECT IFNULL((SELECT payformNo 
-     FROM payform_tbl 
-     WHERE memberNo = #{memberNo} 
-     LIMIT 1), 
-    0
-) AS payformNo;
+		<![CDATA[
+	    	SELECT IFNULL((SELECT payformNo 
+			     FROM payform_tbl 
+			     WHERE memberNo = #{memberNo} 
+			     LIMIT 1), 
+			    0
+			) AS payformNo;
+		]]>
 	</select>
 	
+	<select id="selectPayformNo" parameterType="java.util.Map" resultType="int">
+    	<![CDATA[
+	        SELECT CASE WHEN EXISTS (SELECT 1 FROM payform_tbl
+	        WHERE detailNo = #{detailNo} AND memberNo = #{memberNo}) THEN 1
+	        ELSE 0 END
+    	]]>
+	</select>
 	
 </mapper>

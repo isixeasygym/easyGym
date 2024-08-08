@@ -67,9 +67,9 @@ public interface DetailDAO {
 
 	public int selectOperatorNo(int detailNo) throws DataAccessException;
 
-	public int selectReportCount(int detailNo) throws DataAccessException;
+	public int selectReportCount(Map<String, Object> countMap) throws DataAccessException;
 
-	public Integer selectReport(int memberNo) throws DataAccessException;
+	public int selectReport(Map<String, Object> selectMap) throws DataAccessException;
 	
 	public DetailReviewDTO selectReviewDTO(int reviewNo) throws DataAccessException;
 }
