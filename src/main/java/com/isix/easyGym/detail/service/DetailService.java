@@ -60,4 +60,5 @@ public interface DetailService {
 	public int findReport(Map<String, Object> selectMap) throws DataAccessException;
 	
 	public DetailReviewDTO getReviewByNo(int reviewNo) throws DataAccessException;
+
 }

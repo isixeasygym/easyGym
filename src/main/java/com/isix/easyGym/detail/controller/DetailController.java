@@ -79,5 +79,4 @@ public interface DetailController {
                RedirectAttributes rAttr,
                HttpServletRequest request,
                HttpServletResponse response) throws Exception ;
-
 }

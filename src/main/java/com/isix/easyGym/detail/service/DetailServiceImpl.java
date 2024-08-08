@@ -187,6 +187,4 @@ public class DetailServiceImpl implements DetailService {
 		return image;
 	}*/
 
-	
-
 }

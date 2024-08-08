@@ -14,7 +14,6 @@ $(document).ready(function() {
             modalContent.style.top = `${Math.max((windowHeight - modalHeight) / 2, 0) + scrollTop}px`;
         }
     }
-
 	$(".report-button").click(function(event) {
 	     var memberNo = $('.memberNo').val();
 		 var detailNo = $('.detailNo').val();

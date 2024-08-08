@@ -565,6 +565,4 @@ public class DetailControllerImpl implements DetailController{
 	}
 
 
-
-
 }

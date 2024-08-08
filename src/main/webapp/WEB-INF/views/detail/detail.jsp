@@ -342,6 +342,7 @@
                 </div>
             </div>
         </c:when>    
-    </c:choose>            
+    </c:choose>    
+	        
 </body>
 </html>
