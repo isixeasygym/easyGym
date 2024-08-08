@@ -41,7 +41,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller("detailController")
 public class DetailControllerImpl implements DetailController{
 	
-	private static String ARTICLE_IMG_REPO= "C:\\Users\\USER\\Desktop\\isix\\easyGym\\src\\main\\resources\\static\\images\\detail";
+	private static String ARTICLE_IMG_REPO= "C:\\isixProject\\easyGym\\src\\main\\resources\\static\\images\\detail";
 	
 	@Autowired
 	private DetailDTO detailDTO;

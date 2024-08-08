@@ -15,7 +15,7 @@ public class DetailReviewDTO {
 	private int memberNo;
 	private int payformNo;
 	private int detailNo;
-	private String detailBusinessName; // 추가된 부분
+	private String detailBusinessName;
 
 
 	public Date getReviewDate() {

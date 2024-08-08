@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.dao.MypageDAO;
+import com.isix.easyGym.payform.dao.PayformDAO;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
@@ -45,12 +47,17 @@ public class MypageServiceImpl implements MypageService {
 	public List getPurchase(int memberNo) throws DataAccessException {
 		return mypageDAO.selectPurchase(memberNo);
 	}
-	//신고내역
 	
 	//리뷰내역
 	@Override
 	public List getReview(int memberNo) throws DataAccessException {
 		return mypageDAO.selectReview(memberNo);
+	}
+	
+	//신고내역
+	@Override
+	public List getReport(int memberNo) throws DataAccessException {
+		return mypageDAO.selectReport(memberNo);
 	}
 	
 	
@@ -74,5 +81,5 @@ public class MypageServiceImpl implements MypageService {
 			mypageDAO.memberDelete(memberNo);
 		}
 
-		
+	
 }

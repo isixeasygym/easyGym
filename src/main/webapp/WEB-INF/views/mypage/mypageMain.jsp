@@ -83,8 +83,8 @@
                         <p>이름: <input type="text" value="${member.memberName}" disabled></p>
                         <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
                         <p>성별:
-                            <input type="radio" name="sex" value="남" ${member.memberGender == '남' ? 'checked' : ''} disabled>남
-                            <input type="radio" name="sex" value="여" ${member.memberGender == '여' ? 'checked' : ''} disabled>여
+                            <input type="radio" name="sex" value="남" ${member.memberGender == '1' ? 'checked' : ''} disabled>남
+                            <input type="radio" name="sex" value="여" ${member.memberGender == '2' ? 'checked' : ''} disabled>여
                         </p>
                         <p>비밀번호 : <input type="password" id="memberPwd" value="${member.memberPwd}"></p>
                         <p>비밀번호 확인 : <input type="password" id="memberPwdConfirm" value="${member.memberPwd}"></p>
