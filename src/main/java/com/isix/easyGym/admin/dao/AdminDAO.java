@@ -29,4 +29,8 @@ public interface AdminDAO {
 	
 	// 탈퇴 사업자 리스트
 	public List selectCompany() throws DataAccessException;
+
+	// 신고 리스트
+	public List selectReport() throws DataAccessException;
+	
 	}

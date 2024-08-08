@@ -54,4 +54,10 @@ public class AdminServiceImpl implements AdminService {
 		List clist = adminDAO.selectCompany();
 		return clist;
 	}
+
+	// 신고 리스트
+	public List reportList() throws DataAccessException{
+		List rlist = adminDAO.selectReport();
+		return rlist;
+	}
 }
