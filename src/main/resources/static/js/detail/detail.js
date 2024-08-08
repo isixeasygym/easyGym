@@ -17,6 +17,7 @@ $(document).ready(function() {
 
 	$(".report-button").click(function(event) {
 	     var memberNo = $('.memberNo').val();
+		 var detailNo = $('.detailNo').val();
 	     event.stopPropagation();
 
 		 if (!memberNo) {
@@ -33,7 +34,9 @@ $(document).ready(function() {
 	     $.ajax({
 	         type: "POST",
 	         url: "/detail/selectReport.do",
-	         data: { memberNo: memberNo },
+	         data: { memberNo: memberNo,
+					 detailNo: detailNo
+			  },
 	         success: function(response) {
 	             console.log('Server response:', response); // 응답 로그 추가
 	             requestInProgress = false; // 요청 완료 후 플래그 리셋
@@ -84,7 +87,8 @@ $(document).ready(function() {
         var reportType = document.getElementById('reportType').value;
         var otherDetail = document.getElementById('otherDetail').value;
         var reportContent = (reportType === 'other') ? otherDetail : reportType; // 신고 내용
-
+		var detailNo = $('.detailNo').val();
+		var memberNo = $('.memberNo').val();
         if (!reportContent) {
             alert('신고 내용을 입력하세요.');
             return;
@@ -95,8 +99,8 @@ $(document).ready(function() {
             type: "POST",
             url: `/report.do`,
             data: {
-                detailNo: $('.detailNo').val(),
-                memberNo: $('.memberNo').val(),
+                detailNo: detailNo,
+                memberNo: memberNo,
                 reportContent: reportContent // 선택된 신고 유형 또는 기타 입력 값
             },
             success: function(response) {

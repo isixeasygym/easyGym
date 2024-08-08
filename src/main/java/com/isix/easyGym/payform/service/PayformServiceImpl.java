@@ -54,5 +54,11 @@ public class PayformServiceImpl implements PayformService {
         return payformDAO.cancelPayform(payformNo);
     }
 
+	@Override
+	public int findpay(Map<String, Object> selectMap) throws DataAccessException {
+		int payformNo = payformDAO.selectPayformNo(selectMap);
+		return payformNo;
+	}
+
 
 }

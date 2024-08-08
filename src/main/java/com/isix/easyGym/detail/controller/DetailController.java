@@ -15,8 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface DetailController {
 
-	public String selectReport(@RequestParam("memberNo") int memberNo,HttpServletRequest request,
-							   HttpServletResponse response) throws Exception;
+	public String selectReport(@RequestParam("memberNo") int memberNo,
+			   				   @RequestParam("detailNo") int detailNo,
+			   HttpServletRequest request, HttpServletResponse response) throws Exception ;
 
 	public String doReport(@RequestParam("memberNo") int memberNo, @RequestParam("detailNo") int detailNo,
 						   @RequestParam("reportContent") String reportContent, HttpServletRequest request,

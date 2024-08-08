@@ -85,14 +85,14 @@ public class DetailServiceImpl implements DetailService {
 		int operatorNo =detailDAO.selectOperatorNo(detailNo);
 		return operatorNo;
 	}
-	public int findReportCount(int detailNo) throws DataAccessException{
-		int reportCount = detailDAO.selectReportCount(detailNo);
+	public int findReportCount(Map<String, Object> countMap) throws DataAccessException{
+		int reportCount = detailDAO.selectReportCount(countMap);
 		return reportCount;
 	}
 
 	@Override
-	public int findReport(int memberNo) throws DataAccessException {
-		int report = detailDAO.selectReport(memberNo);
+	public int findReport(Map<String, Object> selectMap) throws DataAccessException {
+		int report = detailDAO.selectReport(selectMap);
 		return report;
 	}
 

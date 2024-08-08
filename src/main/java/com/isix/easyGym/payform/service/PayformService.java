@@ -16,6 +16,8 @@ public interface PayformService {
 
     public int buyCheck(int memberNo) throws DataAccessException;
 
+    public int findpay(Map<String,Object> selectMap) throws DataAccessException;
+    
     public int cancelPayform(int payformNo) throws DataAccessException;
 
     }
