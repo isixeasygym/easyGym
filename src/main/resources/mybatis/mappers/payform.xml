@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isix.easyGym.payform.dao.PayformDAO">
 
-	<resultMap type="payformDTO" id="payformResult">
-		<result property="payformNo" column="payformNo"/>
-		<result property="memberNo" column="memberNo"/>
-		<result property="detailNo" column="detailNo"/>
-		<result property="payformSub" column="payformSub"/>
-		<result property="payformPrice" column="payformPrice"/>
-		<result property="payformDate" column="payformDate"/>
-		<result property="payformStatus" column="payformStatus"/>
-		<result property="payformPayment" column="payformPayment"/>
-		<result property="payformCancelDate" column="payformCancelDate"/>
-	</resultMap>
+   <resultMap type="payformDTO" id="payformResult">
+      <result property="payformNo" column="payformNo"/>
+      <result property="memberNo" column="memberNo"/>
+      <result property="detailNo" column="detailNo"/>
+      <result property="payformSub" column="payformSub"/>
+      <result property="payformPrice" column="payformPrice"/>
+      <result property="payformDate" column="payformDate"/>
+      <result property="payformStatus" column="payformStatus"/>
+      <result property="payformPayment" column="payformPayment"/>
+      <result property="payformCancelDate" column="payformCancelDate"/>
+   </resultMap>
 
-	<resultMap type="memberDTO" id="memberResult">
-		<result property="memberNo" column="memberNo"/>
-		<result property="memberName" column="memberName"/>
-		<result property="memberId" column="memberId"/>
-		<result property="memberPwd" column="memberPwd"/>
-		<result property="memberPhone" column="memberPhone"/>
-		<result property="memberEmail" column="memberEmail"/>
-		<result property="memberAddr" column="memberAddr"/>
-		<result property="memberPost" column="memberPost"/>
-		<result property="memberCreatedAt" column="memberCreatedAt"/>
-		<result property="memberState" column="memberState"/>
-		<result property="memberGender" column="memberGender"/>
-		<result property="memberMarketing" column="memberMarketing"/>
-	</resultMap>
+   <resultMap type="memberDTO" id="memberResult">
+      <result property="memberNo" column="memberNo"/>
+      <result property="memberName" column="memberName"/>
+      <result property="memberId" column="memberId"/>
+      <result property="memberPwd" column="memberPwd"/>
+      <result property="memberPhone" column="memberPhone"/>
+      <result property="memberEmail" column="memberEmail"/>
+      <result property="memberAddr" column="memberAddr"/>
+      <result property="memberPost" column="memberPost"/>
+      <result property="memberCreatedAt" column="memberCreatedAt"/>
+      <result property="memberState" column="memberState"/>
+      <result property="memberGender" column="memberGender"/>
+      <result property="memberMarketing" column="memberMarketing"/>
+   </resultMap>
 
-	<resultMap type="detailDTO" id="detailResult">
-		<result property="detailNo" column="detailNo"/>
-		<result property="detailDate" column="detailDate"/>
-		<result property="detailRoadAddress" column="detailRoadAddress"/>
-		<result property="detailBusinessName" column="detailBusinessName"/>
-		<result property="detailBusinessEng" column="detailBusinessEng"/>
-		<result property="detailDailyTicket" column="detailDailyTicket"/>
-		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
-		<result property="detailScope" column="detailScope"/>
-		<result property="detailComment" column="detailComment"/>
-		<result property="detailServiceProgram" column="detailServiceProgram"/>
-		<result property="reviewNo" column="reviewNo"/>
-		<result property="detailStatus" column="detailStatus"/>
-		<result property="detailClassification" column="detailClassification"/>
-		<result property="detailFreeService" column="detailFreeService"/>
-		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
-		<result property="detailKoClassification" column="detailKoClassification"/>
-		<result property="detailTest" column="detailTest"/>
-	</resultMap>
+   <resultMap type="detailDTO" id="detailResult">
+      <result property="detailNo" column="detailNo"/>
+      <result property="detailDate" column="detailDate"/>
+      <result property="detailRoadAddress" column="detailRoadAddress"/>
+      <result property="detailBusinessName" column="detailBusinessName"/>
+      <result property="detailBusinessEng" column="detailBusinessEng"/>
+      <result property="detailDailyTicket" column="detailDailyTicket"/>
+      <result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+      <result property="detailScope" column="detailScope"/>
+      <result property="detailComment" column="detailComment"/>
+      <result property="detailServiceProgram" column="detailServiceProgram"/>
+      <result property="reviewNo" column="reviewNo"/>
+      <result property="detailStatus" column="detailStatus"/>
+      <result property="detailClassification" column="detailClassification"/>
+      <result property="detailFreeService" column="detailFreeService"/>
+      <result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+      <result property="detailKoClassification" column="detailKoClassification"/>
+      <result property="detailTest" column="detailTest"/>
+   </resultMap>
 
-	<select id="selectMemberByNo" resultType="MemberDTO">
-		SELECT * FROM member_tbl WHERE memberNo = #{memberNo}
-	</select>
+   <select id="selectMemberByNo" resultType="MemberDTO">
+      SELECT * FROM member_tbl WHERE memberNo = #{memberNo}
+   </select>
 
-	<select id="selectDetailByNo" resultType="DetailDTO">
-		SELECT * FROM detail_tbl WHERE detailNo = #{detailNo}
-	</select>
+   <select id="selectDetailByNo" resultType="DetailDTO">
+      SELECT * FROM detail_tbl WHERE detailNo = #{detailNo}
+   </select>
 
-	<select id="getNewPayformNo" resultType="int">
-		<![CDATA[
- 			select max(payformNo)+1 from payform_tbl
- 		]]>
-	</select>
+   <select id="getNewPayformNo" resultType="int">
+      <![CDATA[
+          select max(payformNo)+1 from payform_tbl
+       ]]>
+   </select>
 
-	<select id="viewPayform" parameterType="int" resultType="payformDTO">
-		SELECT
-		*
-		FROM
-		payform_tbl p
-		JOIN member_tbl m ON p.memberNo = m.memberNo
-		JOIN detail_tbl d ON p.detailNo = d.detailNo
-		WHERE
-		p.payformNo = #{payformNo}
-	</select>
+   <select id="viewPayform" parameterType="int" resultType="payformDTO">
+      SELECT
+      *
+      FROM
+      payform_tbl p
+      JOIN member_tbl m ON p.memberNo = m.memberNo
+      JOIN detail_tbl d ON p.detailNo = d.detailNo
+      WHERE
+      p.payformNo = #{payformNo}
+   </select>
 
-	<insert id="insertPayform" parameterType="java.util.Map">
-		INSERT INTO payform_tbl (
-		payformNo, memberNo, detailNo, payformSub, payformPrice, payformDate,
-		payformStatus, payformPayment
-		) VALUES (
-		#{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
-		1, #{payformPayment}
-		)
-	</insert>
+   <insert id="insertPayform" parameterType="java.util.Map">
+      INSERT INTO payform_tbl (
+      payformNo, memberNo, detailNo, payformSub, payformPrice, payformDate,
+      payformStatus, payformPayment
+      ) VALUES (
+      #{payformNo}, #{memberNo}, #{detailNo}, #{payformSub}, #{payformPrice}, sysdate(),
+      1, #{payformPayment}
+      )
+   </insert>
 
-	<update id="cancelPayform" parameterType="int">
-		UPDATE payform_tbl SET payformStatus = -1 WHERE payformNo = #{payformNo} AND payformStatus = 1
-	</update>
+   <update id="cancelPayform" parameterType="int">
+      UPDATE payform_tbl SET payformStatus = -1 WHERE payformNo = #{payformNo} AND payformStatus = 1
+   </update>
 
-	<select id="checkingBuy" parameterType="int" resultType="int">
-		<![CDATA[
-	    	SELECT IFNULL((SELECT payformNo 
-			     FROM payform_tbl 
-			     WHERE memberNo = #{memberNo} 
-			     LIMIT 1), 
-			    0
-			) AS payformNo;
-		]]>
-	</select>
-	
-	<select id="selectPayformNo" parameterType="java.util.Map" resultType="int">
-    	<![CDATA[
-	        SELECT CASE WHEN EXISTS (SELECT 1 FROM payform_tbl
-	        WHERE detailNo = #{detailNo} AND memberNo = #{memberNo}) THEN 1
-	        ELSE 0 END
-    	]]>
-	</select>
-	
+   <select id="checkingBuy" parameterType="int" resultType="int">
+      <![CDATA[
+          SELECT IFNULL((SELECT payformNo 
+              FROM payform_tbl 
+              WHERE memberNo = #{memberNo} 
+              LIMIT 1), 
+             0
+         ) AS payformNo;
+      ]]>
+   </select>
+   
+   <select id="selectPayformNo" parameterType="java.util.Map" resultType="int">
+       <![CDATA[
+           SELECT CASE WHEN EXISTS (SELECT 1 FROM payform_tbl
+           WHERE detailNo = #{detailNo} AND memberNo = #{memberNo}) THEN 1
+           ELSE 0 END
+       ]]>
+   </select>
+   
 </mapper>

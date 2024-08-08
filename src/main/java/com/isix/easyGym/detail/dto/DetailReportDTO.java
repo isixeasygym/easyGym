@@ -13,8 +13,7 @@ public class DetailReportDTO {
     private int memberNo;
     private int detailNo;
     private int operatorNo;
-	private String detailBusinessName;
-	
+    private String detailBusinessName;
 
     public int getReportNo() {
         return reportNo;
