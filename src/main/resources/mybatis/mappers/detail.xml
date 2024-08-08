@@ -286,4 +286,5 @@
  			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
  		]]>
  	</delete>
+ 	
   </mapper>
