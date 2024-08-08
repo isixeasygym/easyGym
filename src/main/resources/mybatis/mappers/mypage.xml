@@ -64,6 +64,16 @@
 <result property="detailBusinessName" column="detailBusinessName"/> <!-- 추가된 부분 -->
 </resultMap>
 
+<resultMap type="detailReportDTO" id="detailReportResult">
+<result property="reportNo" column="reportNo"/>
+<result property="reportDate" column="reportDate"/>
+<result property="reportCount" column="reportCount"/>
+<result property="reportContent" column="reportContent"/>
+<result property="memberNo" column="memberNo"/>
+<result property="detailNo" column="detailNo"/>
+<result property="operatorNo" column="operatorNo"/>
+</resultMap>
+
 <resultMap type="payformDTO" id="payformResult">
 <result property="payformNo" column="payformNo"/>
 <result property="memberNo" column="memberNo"/>
@@ -97,17 +107,23 @@
     <![CDATA[ SELECT memberPointDate, memberPoint, memberPointDes FROM member_tbl WHERE member_no = #{memberNo} ]]>
 </select>   -->
 
+
 <!--  2.내역조회  -->
 <!--  구매내역  -->
 <select id="selectPurchase" resultMap="payformResult" parameterType="int">
 <![CDATA[ select p.payformSub, p.payformPrice, p.payformDate, d.detailBusinessName from payform_tbl p join detail_tbl d on p.detailNo = d.detailNo where p.memberNo = #{memberNo} ]]>
 </select>
-<!--  신고내역  -->
 
 <!--  리뷰내역  -->
 <select id="selectReview" resultMap="detailReviewResult" parameterType="int">
 <![CDATA[ select r.reviewComment, r.reviewDate, n.detailBusinessName from detailreview_tbl r join detail_tbl n on r.detailNo = n.detailNo where r.memberNo = #{memberNo} ]]>
 </select>
+
+<!--  신고내역  -->
+<select id="selectReport" resultMap="detailReportResult" parameterType="int">
+<![CDATA[ select r.reportContent, r.reportDate, n.detailBusinessName from detailreport_tbl r join detail_tbl n on r.detailNo = n.detailNo where r.memberNo = #{memberNo} ]]>
+</select>
+
 
 <!--   3.정보수정   -->
 <!--   비밀번호 체크   -->

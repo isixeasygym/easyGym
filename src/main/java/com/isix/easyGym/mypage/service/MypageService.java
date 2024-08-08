@@ -26,12 +26,14 @@ public interface MypageService {
     //2.내역조회
     //구매내역
 	public List getPurchase(int memberNo) throws DataAccessException;
-	//신고내역
 	
 	//리뷰내역
 	public List getReview(int memberNo) throws DataAccessException;
-    
-    
+	
+	//신고내역
+	public List getReport(int memberNo) throws DataAccessException;
+	
+	
     //3.정보수정
     //비밀번호 체크
     public boolean checkPassword(int memberNo, String memberPwd) throws DataAccessException;
@@ -42,6 +44,6 @@ public interface MypageService {
     //회원탈퇴
     public void delMember(int memberNo);
 
-
+    
 
 }
