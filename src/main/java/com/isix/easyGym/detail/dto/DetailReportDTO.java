@@ -71,12 +71,12 @@ public class DetailReportDTO {
         this.operatorNo = operatorNo;
     }
 
-	public String getDetailBusinessName() {
-		return detailBusinessName;
-	}
+   public String getDetailBusinessName() {
+      return detailBusinessName;
+   }
 
-	public void setDetailBusinessName(String detailBusinessName) {
-		this.detailBusinessName = detailBusinessName;
-	}
+   public void setDetailBusinessName(String detailBusinessName) {
+      this.detailBusinessName = detailBusinessName;
+   }
 
 }

@@ -22,14 +22,7 @@
     request.setCharacterEncoding("utf-8");
 %>
 <style>
-	.selPage {
-		color:red;
-		font-weight:bold;
-	}
-	.noLine{
-		color:black;
-		font-weight:normal;
-	}
+
 </style>
 <!DOCTYPE html>
 <html>
