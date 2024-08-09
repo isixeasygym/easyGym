@@ -96,3 +96,7 @@ body{
     font-size: 1em;
 }
 
+.selPage {
+	color:red;
+	font-weight:bold;
+}
