@@ -22,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.detail.dto.DetailDibsDTO;
+import com.isix.easyGym.detail.dto.DetailReportDTO;
 import com.isix.easyGym.detail.dto.DetailReviewDTO;
+import com.isix.easyGym.detail.service.DetailService;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.service.MypageService;
 
@@ -41,7 +43,8 @@ public class MypageControllerImpl implements MypageController {
 	private MemberDTO memberDTO;  //멤버
 	private DetailDTO detailDTO;  //업체정보
 	private DetailDibsDTO detailDibsDTO;  //찜목록
-	private DetailReviewDTO detailReviewDTO;  //리뷰목록
+	private DetailReviewDTO detailReviewDTO;  //리뷰내역
+	private DetailReportDTO detailReportDTO;  //신고내역
 
 	//1.내 정보
 	//첫 페이지(이용중인 상품)
@@ -100,18 +103,20 @@ public class MypageControllerImpl implements MypageController {
 	public Map<String, Object> searchHistory(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    HttpSession session = request.getSession(false);
 	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    int memberNo=memberDTO.getMemberNo();
 	    Map<String, Object> result = new HashMap<>();
-
+	    
 	    //구매내역
 	    List purchaseHistory = mypageService.getPurchase(memberDTO.getMemberNo());
 	    result.put("purchaseHistory", purchaseHistory);
 		
-		//신고내역
-		
-
-		//리뷰내역
+	    //리뷰내역
 	    List reviewHistory = mypageService.getReview(memberDTO.getMemberNo());
 	    result.put("reviewHistory", reviewHistory);
+		
+	    //신고내역
+	    List reportHistory = mypageService.getReport(memberDTO.getMemberNo());
+	    result.put("reportHistory", reportHistory);
 		
 		return result;
 	}
