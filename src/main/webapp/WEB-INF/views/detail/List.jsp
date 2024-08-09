@@ -150,23 +150,31 @@
     <div class="option-group">
         <label for="districtSelect">지역명:</label>
         <select id="districtSelect" class="option-select">
-            <option value="default">구/군 선택</option>
-            <option value="중구">서울특별시 중구</option>
-            <option value="강남구">서울특별시 강남구</option>
-            <option value="동작구">서울특별시 동작구</option>
-            <option value="마포구">서울특별시 마포구</option>
-            <option value="종로구">서울특별시 종로구</option>
-            <option value="성동구">서울특별시 성동구</option>
-            <option value="중랑구">서울특별시 중랑구</option>
-            <option value="성북구">서울특별시 성북구</option>
-            <option value="영등포구">서울특별시 영등포구</option>
-            <option value="서초구">서울특별시 서초구</option>
-            <option value="광진구">서울특별시 광진구</option>
-            <option value="강동구">서울특별시 강동구</option>
-            <option value="관악구">서울특별시 관악구</option>
-            <option value="송파구">서울특별시 송파구</option>
-            <option value="도봉구">서울특별시 도봉구</option>
+			<option value="default">구/군 선택</option>
+			<option value="중구">서울특별시 중구</option>
+			<option value="강남구">서울특별시 강남구</option>
+			<option value="동작구">서울특별시 동작구</option>
+			<option value="마포구">서울특별시 마포구</option>
+			<option value="종로구">서울특별시 종로구</option>
+			<option value="성동구">서울특별시 성동구</option>
+			<option value="중랑구">서울특별시 중랑구</option>
+			<option value="성북구">서울특별시 성북구</option>
+			<option value="영등포구">서울특별시 영등포구</option>
+			<option value="서초구">서울특별시 서초구</option>
+			<option value="광진구">서울특별시 광진구</option>
+			<option value="강동구">서울특별시 강동구</option>
+			<option value="관악구">서울특별시 관악구</option>
+			<option value="송파구">서울특별시 송파구</option>
+			<option value="도봉구">서울특별시 도봉구</option>
+			<option value="강북구">서울특별시 강북구</option>
+			<option value="강서구">서울특별시 강서구</option>
+			<option value="구로구">서울특별시 구로구</option>
+			<option value="금천구">서울특별시 금천구</option>
+			<option value="노원구">서울특별시 노원구</option>
+			<option value="양천구">서울특별시 양천구</option>
+			<option value="은평구">서울특별시 은평구</option>
             <!-- 다른 구/군 옵션들 추가 -->
+			
         </select>
     </div>
     <div class="option-group">
