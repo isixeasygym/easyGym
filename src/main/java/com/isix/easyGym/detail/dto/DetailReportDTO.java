@@ -13,6 +13,7 @@ public class DetailReportDTO {
     private int memberNo;
     private int detailNo;
     private int operatorNo;
+    private String detailBusinessName;
 
     public int getReportNo() {
         return reportNo;
@@ -69,5 +70,13 @@ public class DetailReportDTO {
     public void setOperatorNo(int operatorNo) {
         this.operatorNo = operatorNo;
     }
+
+   public String getDetailBusinessName() {
+      return detailBusinessName;
+   }
+
+   public void setDetailBusinessName(String detailBusinessName) {
+      this.detailBusinessName = detailBusinessName;
+   }
 
 }
