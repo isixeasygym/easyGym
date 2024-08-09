@@ -14,27 +14,18 @@ public class DetailDTO {
 		private String detailBusinessEng;
 		private String detailDailyTicket;
 		private String detailMonthlyTicket;
-		private Double detailScope;
 		private String detailComment;
 		private String detailServiceProgram;
-		private String detailStatus;
 		private String detailClassification;
 		private String detailFreeService;
 		private int detailMonthlyPrice;
 		private String detailKoClassification;
 		private String detailLatitude;
 		private String detailLongitude;
-		private String detailLatLongitude;
 		private String operatorNo; 
 		
 		
 		
-		public String getDetailLatLongitude() {
-			return detailLatLongitude;
-		}
-		public void setDetailLatLongitude(String detailLatLongitude) {
-			this.detailLatLongitude = detailLatLongitude;
-		}
 		public String getOperatorNo() {
 			return operatorNo;
 		}
@@ -95,12 +86,6 @@ public class DetailDTO {
 		public void setdetailMonthlyTicket(String detailMonthlyTicket) {
 			this.detailMonthlyTicket = detailMonthlyTicket;
 		}
-		public Double getdetailScope() {
-			return detailScope;
-		}
-		public void setdetailScope(Double detailScope) {
-			this.detailScope = detailScope;
-		}
 		public String getdetailComment() {
 			return detailComment;
 		}
@@ -112,12 +97,6 @@ public class DetailDTO {
 		}
 		public void setdetailServiceProgram(String detailServiceProgram) {
 			this.detailServiceProgram = detailServiceProgram;
-		}
-		public String getdetailStatus() {
-			return detailStatus;
-		}
-		public void setdetailStatus(String detailStatus) {
-			this.detailStatus = detailStatus;
 		}
 		public String getdetailClassification() {
 			return detailClassification;
