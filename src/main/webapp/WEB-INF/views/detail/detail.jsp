@@ -296,17 +296,13 @@
                                             </c:forEach>
                                         </c:if>
                                     </c:when>
-                                    <c:otherwise>
-                                        <h2>리뷰가 없습니다</h2>
-                                    </c:otherwise>
                                 </c:choose>
                             </div>
-                            <!-- ... 기존 코드 ... -->
                         </c:when>
                     </c:choose>
                 </div>
                 <div id="mapRange">
-                    <h5>위치</h5>
+                    <h5 id="locationInfo">위치</h5>
                     <a name="2"></a>
                     <div id="map" style="width:85%;height:350px;"></div>
                 </div>
@@ -346,6 +342,7 @@
                 </div>
             </div>
         </c:when>    
-    </c:choose>            
+    </c:choose>    
+	        
 </body>
 </html>
