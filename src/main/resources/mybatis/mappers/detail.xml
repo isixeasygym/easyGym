@@ -12,17 +12,14 @@
  		<result property="detailBusinessEng" column="detailBusinessEng"/>
  		<result property="detailDailyTicket" column="detailDailyTicket"/>
  		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
- 		<result property="detailScope" column="detailScope"/>
  		<result property="detailComment" column="detailComment"/>
  		<result property="detailServiceProgram" column="detailServiceProgram"/>
- 		<result property="detailStatus" column="detailStatus"/>
  		<result property="detailClassification" column="detailClassification"/>
  		<result property="detailFreeService" column="detailFreeService"/>
  		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
  		<result property="detailKoClassification" column="detailKoClassification"/>
  		<result property="detailLatitude" column="detailLatitude"/>
  		<result property="detailLongitude" column="detailLongitude"/>
- 		<result property="detailLatLongitude" column="detailLatLongitude"/>
  		<result property="operatorNo" column="operatorNo"/>
  	</resultMap>
 
