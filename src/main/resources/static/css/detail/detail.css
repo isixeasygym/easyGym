@@ -222,9 +222,9 @@ button:hover {
 
 .buttonRange{
     position: relative;
-    padding-right: 10px;
+    padding-right: 6px;
 	z-index: 30;
-    left: 610px;
+    left: 600px;
     top: -170px;
     display: inline-block;
 }
@@ -483,36 +483,34 @@ button:hover {
 }
 
 #fixedContainer {
-       position: -webkit-sticky; /* Safari 지원 */
-       position: sticky; /* 최신 브라우저 지원 */
-       bottom: 0;
-       left: 0;
-       width: 680px;
-       background-color: white;
-       border-top: 1px solid #ccc;
-       padding: 10px;
-       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-       z-index: 1000;
-       text-align: center;
-   }
+    position: -webkit-sticky; /* Safari 지원 */
+    position: sticky; /* 최신 브라우저 지원 */
+    bottom: 0;
+    left: 0;
+    width: 680px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
 
-   #ticketChoice {
-       color: #fff;
-       padding: 15px;
-       background-color: #2478FF;
-       font-size: 1.2em;
-       border: 1px solid #2478FF;
-       border-radius: 20px;
-       width: 650px;
-       margin: 0 auto;
-   }
+#ticketChoice {
+    color: #fff;
+    padding: 15px;
+    background-color: #2478FF;
+    font-size: 1.2em;
+    border: 1px solid #2478FF;
+    border-radius: 20px;
+    width: 650px;
+    margin: 0 auto;
+}
 #ReviewRange{
 	position: relative;
 	width: 700px;
 	
 }
-
-
 
 .reviewWriteRange{
 	width: 678px;
@@ -699,6 +697,11 @@ button:hover {
     left: 30px;
 }
 
+#locationInfo{
+	position: relative;
+	left: -280px;
+}
+
 #mapRange{
 	width: 700px;
 	text-align: center;
@@ -707,4 +710,10 @@ button:hover {
 #map{
 	position: relative;
 	margin: 0 auto;
+}
+.viewAllReviews{
+	position: relative;
+	left: 40%;
+	margin: 0 auto;
+	top: 20px;
 }
