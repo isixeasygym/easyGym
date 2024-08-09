@@ -37,7 +37,7 @@ public interface DetailService {
 	
 	public void noImgReview(Map noImgReviewMap) throws DataAccessException;
 	
-	public void removeReview(int reviewNoww3) throws DataAccessException;
+	public void removeReview(int reviewNo) throws DataAccessException;
 	
 	public List findReview(int detailNo) throws DataAccessException;
 
@@ -55,9 +55,10 @@ public interface DetailService {
 
 	public void addReport(Map<String, Object> reportMap) throws DataAccessException;
 
-	public int findReportCount(int detailNo) throws DataAccessException;
+	public int findReportCount(Map<String, Object> countMap) throws DataAccessException;
 
-	public int findReport(int memberNo) throws DataAccessException;
+	public int findReport(Map<String, Object> selectMap) throws DataAccessException;
 	
 	public DetailReviewDTO getReviewByNo(int reviewNo) throws DataAccessException;
+
 }
