@@ -37,7 +37,11 @@ public interface DetailDAO {
 	public int selectPopularRating(int detailNum) throws DataAccessException;
 	
 	public List<DetailReviewDTO> selectReview(int detailNo) throws DataAccessException;
-	
+
+	public List<DetailReviewDTO> selectAll(Map reviewAndCount) throws DataAccessException;
+	//리뷰페이지
+	public int selectToReview() throws DataAccessException;
+
 	public DetailDibsDTO selectDibs(Map ParamMap) throws DataAccessException;
 	
 	public DetailDTO selectBusiness(int detailNo) throws DataAccessException; 
@@ -58,4 +62,16 @@ public interface DetailDAO {
 	public void removeDibs(Map paramMap) throws DataAccessException;
 	
 	public void insertDibs(Map paramMap) throws DataAccessException;
+
+    public void insertReport(Map<String, Object> reportMap) throws DataAccessException;
+
+	public int selectOperatorNo(int detailNo) throws DataAccessException;
+
+	public int selectReportCount(Map<String, Object> countMap) throws DataAccessException;
+
+	public int selectReport(Map<String, Object> selectMap) throws DataAccessException;
+	
+	public DetailReviewDTO selectReviewDTO(int reviewNo) throws DataAccessException;
+
+	public int selectMember(Map selectMap) throws DataAccessException; 
 }

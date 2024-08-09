@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+
+body{
+    background-color: #F6F6F6;
+}
+
+#reviewContainer{
+    position: absolute;
+    width: 700px;
+    top: 80px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: #fff;
+}
+.ReviewRange{
+    height: 250px;
+}
+
+.reviewPicture{
+    position: relative;
+    top: -40px;
+    left: 5px;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+
+}
+
+.anonymous{
+    position: relative;
+    top: -70px;
+    display: inline-block;
+}
+.reviewDate{
+    position: relative;
+    top: -50px;
+    left: -96px;
+    display: inline-block;
+}
+.reviewComment {
+    position: relative;
+    top: -50px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #ccc; /* 기본 보더 색상 */
+    border-radius: 25px;
+    width: 600px;
+    height: 141px;
+    resize: none; /* 리사이즈 가능성 제거 */
+    box-sizing: border-box;
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+}
+
+/* 포커스 시 보더와 그림자 스타일 변경 */
+.reviewComment:focus {
+    border: 1px solid #0066cc; /* 포커스 시 보더 색상 변경 */
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.5); /* 포커스 시 그림자 색상 추가 */
+}
+.personReviewRange{
+    position: relative;
+    width: 600px;
+    height: 170px;
+    margin:0 auto;
+    border-bottom: 1px solid #F6F6F6;
+    padding: 30px;
+}
+.deleteButton {
+    position: relative;
+    z-index: 1000; /* 버튼이 다른 요소들 위에 위치하도록 설정 */
+    top: 30px;
+    left: 580px;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    font-size: 0.8em;
+    display: inline-block; /* 버튼이 인라인 블록으로 설정되어 있어야 보임 */
+    /* 필요한 경우, 추가적인 스타일을 여기 추가 */
+}
+
+.deleteButton:hover {
+    color: red; /* 버튼 호버 시 색상 변화 (옵션) */
+}
+
+.target {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.noLine {
+    color: #000000;
+    font-weight: normal;
+    font-size: 1em;
+}
+
+.selPage {
+	color:red;
+	font-weight:bold;
+}

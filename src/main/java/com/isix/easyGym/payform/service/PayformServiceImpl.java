@@ -30,11 +30,11 @@ public class PayformServiceImpl implements PayformService {
         return list;
     }
 
-	@Override
-	public int buyCheck(int memberNo) throws DataAccessException {
-		int buyNo= payformDAO.checkingBuy(memberNo);
-		return buyNo;
-	}
+   @Override
+   public int buyCheck(int memberNo) throws DataAccessException {
+      int payformNo= payformDAO.checkingBuy(memberNo);
+      return payformNo;
+   }
 
     @Override
     public int insertPayform(Map payformMap) throws DataAccessException {
@@ -53,6 +53,12 @@ public class PayformServiceImpl implements PayformService {
     public int cancelPayform(int payformNo) throws DataAccessException {
         return payformDAO.cancelPayform(payformNo);
     }
+
+   @Override
+   public int findpay(Map<String, Object> selectMap) throws DataAccessException {
+      int payformNo = payformDAO.selectPayformNo(selectMap);
+      return payformNo;
+   }
 
 
 }

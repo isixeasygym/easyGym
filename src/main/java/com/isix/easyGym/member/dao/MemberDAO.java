@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.isix.easyGym.member.dto.KakaoDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.member.dto.MemberOperDTO;
 
@@ -39,5 +40,14 @@ public interface MemberDAO {
 	public void insertGym(MemberDTO memberDTO) throws DataAccessException; 
 	
 	public boolean selectId(String memberId) throws DataAccessException; 
+	
+	public void kakaoInsert(KakaoDTO kakaoDTO) throws DataAccessException;
+	
+	public boolean isExistKakao(KakaoDTO kakaoDTO) throws DataAccessException;
+	
+	//카카오 REST API
+	public void kakaoUpdate(KakaoDTO kakaoDTO) throws DataAccessException;
+	public String getAccessToken(String kakaoId) throws DataAccessException;
+	public void delAccessToken(String kakaoId) throws DataAccessException;
 	
 }

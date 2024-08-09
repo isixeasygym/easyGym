@@ -64,7 +64,7 @@
 	height: 60px;
     left: 5px;
     cursor: pointer;
-    z-index: 10px;
+    z-index: 10;
 }
 .right_control {
    position: absolute;
@@ -72,7 +72,7 @@
    top: 170px;
    right: 5px;
    cursor: pointer;
-   z-index: 10px;
+   z-index: 10;
 }
 
 a {
@@ -147,24 +147,116 @@ body{
 	left: 20px;
 	top: -40px;
 }
+/* 전체 화면을 덮는 배경 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    z-index: 1000; /* 가장 위에 표시 */
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* 너비 조정 가능 */
+    max-width: 600px; /* 최대 너비 설정 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* 아래의 CSS는 수정된 부분입니다 */
+    margin: auto; /* 가로 방향 중앙 정렬 */
+}
+
+/* 신고 버튼 스타일 */
+.report-button {
+    background-color: #4CAF50; /* 초록색 배경 */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.report-button:hover {
+    background-color: #45a049; /* 호버 시 배경색 변경 */
+}
+
+/* 선택 박스와 입력 필드 스타일 */
+select, input[type="text"] {
+    width: calc(100% - 22px); /* 너비 조정 */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #4CAF50; /* 초록색 배경 */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; /* 버튼 사이 여백 */
+}
+
+button:hover {
+    background-color: #45a049; /* 호버 시 배경색 변경 */
+}
+
+/* 취소 버튼 스타일 */
+#cancelReport {
+    background-color: #f44336; /* 빨간색 배경 */
+}
+
+#cancelReport:hover {
+    background-color: #e53935; /* 호버 시 배경색 변경 */
+}
+
 .buttonRange{
     position: relative;
+    padding-right: 6px;
 	z-index: 30;
-    left: 640px;
+    left: 600px;
     top: -170px;
+    display: inline-block;
 }
+
+
+.dibs{
+    z-index: 30;
+    width: 30px;
+    height: 30px;
+}
+
 
 .favorite-button {
     display: inline-block;
-	z-index: 30;
+    z-index: 30;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
 }
 
-.dibs{
-	z-index: 30;
+.report-button {
+    display: inline-block;
+    z-index: 30;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.report{
+    z-index: 30;
     width: 30px;
     height: 30px;
 }
@@ -391,36 +483,34 @@ body{
 }
 
 #fixedContainer {
-       position: -webkit-sticky; /* Safari 지원 */
-       position: sticky; /* 최신 브라우저 지원 */
-       bottom: 0;
-       left: 0;
-       width: 680px;
-       background-color: white;
-       border-top: 1px solid #ccc;
-       padding: 10px;
-       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-       z-index: 1000;
-       text-align: center;
-   }
+    position: -webkit-sticky; /* Safari 지원 */
+    position: sticky; /* 최신 브라우저 지원 */
+    bottom: 0;
+    left: 0;
+    width: 680px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
 
-   #ticketChoice {
-       color: #fff;
-       padding: 15px;
-       background-color: #2478FF;
-       font-size: 1.2em;
-       border: 1px solid #2478FF;
-       border-radius: 20px;
-       width: 650px;
-       margin: 0 auto;
-   }
+#ticketChoice {
+    color: #fff;
+    padding: 15px;
+    background-color: #2478FF;
+    font-size: 1.2em;
+    border: 1px solid #2478FF;
+    border-radius: 20px;
+    width: 650px;
+    margin: 0 auto;
+}
 #ReviewRange{
 	position: relative;
 	width: 700px;
 	
 }
-
-
 
 .reviewWriteRange{
 	width: 678px;
@@ -594,12 +684,22 @@ body{
 	padding: 30px;
 }
 
+.viewAllReviews {
+    position: relative; /* 이 속성을 추가하면 z-index가 영향을 미칠 수 있습니다 */
+    z-index: 1; /* 클릭 이벤트가 다른 요소에 의해 가려지지 않도록 설정합니다 */
+    pointer-events: auto; /* 클릭 이벤트가 차단되지 않도록 설정합니다 */
+}
 
 #produ{
     color: #757575;
     font-size: 0.8em;
     position: relative;
     left: 30px;
+}
+
+#locationInfo{
+	position: relative;
+	left: -280px;
 }
 
 #mapRange{
@@ -610,4 +710,10 @@ body{
 #map{
 	position: relative;
 	margin: 0 auto;
+}
+.viewAllReviews{
+	position: relative;
+	left: 40%;
+	margin: 0 auto;
+	top: 20px;
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.isix.easyGym.member.dto.KakaoDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.member.service.MemberService;
 
@@ -29,6 +30,9 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	private MemberDTO memberDTO;
+	
+	@Autowired
+	private KakaoDTO kakaoDTO;
 	
 	@Override
 	@GetMapping("/member/joinSelect.do")
@@ -124,7 +128,8 @@ public class MemberControllerImpl implements MemberController {
 	                               HttpServletRequest req,
 	                               HttpServletResponse res) throws Exception {
 	    ModelAndView mv = new ModelAndView();
-	    
+	    HttpSession session = req.getSession();
+		session.setAttribute("action", action);
 	    // result 값이 0이라면 로그인 폼으로 이동
 	    if (result != null && result == 0) {
 	        mv.setViewName("redirect:/member/loginForm.do");
@@ -139,7 +144,7 @@ public class MemberControllerImpl implements MemberController {
 	
 	@Override
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("member") MemberDTO member, RedirectAttributes rAttr,
+	public ModelAndView login(@ModelAttribute("member") MemberDTO member, @RequestParam(value ="action", required=false) String action, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		memberDTO = memberService.login(member);
 		ModelAndView mv = new ModelAndView();	
@@ -148,7 +153,8 @@ public class MemberControllerImpl implements MemberController {
 			session.setMaxInactiveInterval(30 * 60);
 			session.setAttribute("member", memberDTO);
 			session.setAttribute("isLogOn", true);
-			String action = (String) session.getAttribute("action");
+			session.setAttribute("sns", 0);
+			action = (String) session.getAttribute("action");
 			if (action != null) {
 				mv.setViewName("redirect:" + action);
 			} else {
@@ -209,6 +215,40 @@ public class MemberControllerImpl implements MemberController {
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@RequestMapping(value = "/kakao-login", method = RequestMethod.GET)
+	@Override
+	public ModelAndView oauth(
+	        @RequestParam(value = "code", required = false) String code,
+	        @RequestParam(value = "error", required = false) String error,
+	        @RequestParam(value = "error_description", required = false) String error_description,
+	        @RequestParam(value = "state", required = false) String state,
+	        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	    HttpSession session = request.getSession();
+	    
+	    try {
+	        String access_token = memberService.getKakaoAccessToken(code);
+	        KakaoDTO kakaoDTO = memberService.getKakaoUserInfo(access_token);
+	        
+	        memberService.kakaoLogin(kakaoDTO);
+
+	        session.setAttribute("member", kakaoDTO);
+	        session.setAttribute("isLogOn", true);
+	        session.setAttribute("sns", 1);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // 예외 발생 시 오류 페이지로 리다이렉트
+	        ModelAndView mav = new ModelAndView();
+	        mav.setViewName("redirect:/errorPage.do");
+	        return mav;
+	    }
+
+	    ModelAndView mav = new ModelAndView();
+	    mav.setViewName("redirect:/main.do");
+	    return mav;
 	}
 
 

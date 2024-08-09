@@ -37,5 +37,6 @@ public interface AdminController {
 	// 회원 가입폼
 	public ModelAndView adminForm(HttpServletRequest request, HttpServletResponse response) throws Exception;  //memberForm은 미수정 => 회원가입한 폼만 보여주는거라서 Annotation 관련 수정은 필요없음
 	
-	
+	// 신고 리스트
+	public ModelAndView reportList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="${contextPath}/css/mypage/mypageMain.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${contextPath}/js/mypage/mypageMain.js"></script>
-<!--<script src="${contextPath}/js/mypage/mypageDibs.js"></script>-->
-
 
 <div class="container">
     <div class="header">
@@ -30,41 +28,45 @@
     </div>
     <div class="nav">
         <button class="nav-btn active" data-target="my-info">내 정보</button>
-        <button class="nav-btn" data-target="points-coupons">포인트&쿠폰</button>
+        <button class="nav-btn" data-target="searchHistory">내역조회</button>
         <button class="nav-btn" data-target="update-info">정보수정</button>
     </div>
     <div class="content">
         <div class="sidebar">
             <button class="sidebar-btn active" data-target="using-products">이용중인 상품</button>
             <button class="sidebar-btn" data-target="dibs-list" onclick="fn_dibsList();">찜 목록</button>
-            <button class="sidebar-btn" data-target="purchase-history">구매내역</button>
+			<button class="sidebar-btn" data-target="points">포인트</button>
         </div>
         <div class="main-content">
+			<!-- 내 정보 탭 안에 사이드바 -->
             <div id="using-products" class="section active">
                 <h2>이용중인 상품</h2>
                 <!-- 이용 중인 상품 목록이 여기에 동적으로 로드됩니다 -->
             </div>
-
-            <div class="actions">
-
-            </div>
-
             <div id="dibs-list" class="section">
                 <h2>찜 목록</h2>
                 <!-- mypageMain.js 파일에 finction 및 테이블 구조 만들어져 있음 -->
             </div>
-            <div id="purchase-history" class="section">
-                <h2>구매내역</h2>
-                <img src="${contextPath}/images/payform/ana.png" alt="커밍 쑨!">
-            </div>
-            <div id="points" class="section">
+			<div id="points" class="section">
                 <h2>포인트 적립/사용 내역</h2>
                 <img src="${contextPath}/images/payform/ana.png" alt="커밍 쑨!">
             </div>
-            <div id="coupons" class="section">
-                <h2>My 쿠폰</h2>  <!-- 사용하거나 기간이 지나면 자동 삭제 -->
+			
+			<!-- 내역조회 탭 안에 사이드바 -->
+            <div id="purchaseHistory" class="section">
+                <h2>구매내역</h2>
                 <img src="${contextPath}/images/payform/ana.png" alt="커밍 쑨!">
             </div>
+			<div id="reportHistory" class="section">
+                <h2>신고내역</h2>
+                <img src="${contextPath}/images/payform/ana.png" alt="커밍 쑨!">
+            </div>
+			<div id="reviewHistory" class="section">
+                <h2>리뷰내역</h2>
+                <img src="${contextPath}/images/payform/ana.png" alt="커밍 쑨!">
+            </div>
+            
+			<!-- 정보수정 탭 -->
             <div id="update-info" class="section">
                 <div align="center" id="password-check">
                     <h2>비밀번호 확인</h2>
@@ -81,8 +83,8 @@
                         <p>이름: <input type="text" value="${member.memberName}" disabled></p>
                         <p>아이디: <input type="text" value="${member.memberId}" disabled></p>
                         <p>성별:
-                            <input type="radio" name="sex" value="남" ${member.memberGender == '남' ? 'checked' : ''} disabled>남
-                            <input type="radio" name="sex" value="여" ${member.memberGender == '여' ? 'checked' : ''} disabled>여
+                            <input type="radio" name="sex" value="남" ${member.memberGender == '1' ? 'checked' : ''} disabled>남
+                            <input type="radio" name="sex" value="여" ${member.memberGender == '2' ? 'checked' : ''} disabled>여
                         </p>
                         <p>비밀번호 : <input type="password" id="memberPwd" value="${member.memberPwd}"></p>
                         <p>비밀번호 확인 : <input type="password" id="memberPwdConfirm" value="${member.memberPwd}"></p>

@@ -1,0 +1,202 @@
+
+.details-table {
+    width: 80%; 
+    max-width: 1200px; 
+    margin: 2rem auto; 
+    border-collapse: collapse;
+}
+
+.details-table th, .details-table td {
+    text-align: left;
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+.details-table th {
+    background-color: #f2f2f2;
+}
+
+.details-table .title {
+    width: 20%;
+	
+}
+.details-table .title2{
+	border: none;
+	background-color: #fff;
+}
+
+.details-table .author {
+    width: 15%;
+}
+
+.details-table .hit {
+    width: 15%;
+}
+
+.details-table .content {
+    width: 50%;
+	border: none;
+	background-color: #fff;
+}
+
+/* 제목 스타일 */
+.details-header h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* 버튼 그룹 스타일 */
+.details-button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.details-button-group .btn {
+    margin-left: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*.reBtn{
+	margin-left: 252px;
+}*/
+
+.bg{
+	max-width: 1500px;
+	text-align: right;
+}
+
+.details-button-group .btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* 댓글 리스트 스타일 */
+#commentList {
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 2rem auto; 
+    padding: 0 1rem; 
+    box-sizing: border-box; 
+}
+
+/* 댓글 스타일 */
+.comment {
+    width: 100%; 
+    border: 1px solid #e1e1e1; 
+    padding: 1rem; 
+    margin-bottom: 1.5rem; 
+    border-radius: 12px; 
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s; 
+    font-family: 'Arial', sans-serif; 
+}
+
+/* 댓글 호버 스타일 */
+.comment:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+}
+
+/* 댓글 헤더 스타일 */
+.comment-header {
+    font-weight: bold; 
+    font-size: 1.2rem; 
+    margin-bottom: 0.5rem; 
+    color: #333; 
+}
+
+/* 댓글 내용 스타일 */
+.comment-content {
+    margin-bottom: 0.5rem; 
+    font-size: 1rem; 
+    color: #555; 
+}
+
+/* 댓글 작성일 스타일 */
+.comment-date {
+    font-size: 0.9rem; 
+    color: #888; 
+    margin-bottom: 1rem; 
+}
+
+/* 댓글 삭제 버튼 스타일 */
+.comment .delBtn {
+    background-color: #dc3545; 
+    color: white; 
+    border: none; 
+    padding: 6px 12px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+    transition: background-color 0.3s, transform 0.2s; 
+    margin-top: 0.5rem;
+}
+
+.comment .delBtn:hover {
+    background-color: #c82333; 
+    transform: scale(1.05); 
+}
+
+.comment .delBtn:focus {
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+}
+
+
+/* 댓글 입력 폼 스타일 */
+.comment-form {
+    width: 80%; 
+    max-width: 1200px; 
+    margin: 2rem auto; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-form textarea {
+    width: 100%; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.comment-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+/* 댓글 토글 버튼 스타일 */
+#showCommentForm {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+	margin-left: 252px;
+    display: block;
+}
+
+#showCommentForm:hover {
+    background-color: #0056b3;
+}

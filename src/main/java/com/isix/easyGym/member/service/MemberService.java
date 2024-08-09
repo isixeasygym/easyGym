@@ -2,6 +2,7 @@ package com.isix.easyGym.member.service;
 
 import org.springframework.dao.DataAccessException;
 
+import com.isix.easyGym.member.dto.KakaoDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 
 public interface MemberService {
@@ -24,4 +25,9 @@ public interface MemberService {
 	public int findMemberNo(int memberNo) throws DataAccessException;
 	
 	public boolean selectId(String memberId) throws DataAccessException;
+	
+	public String getKakaoAccessToken(String code) throws Exception;
+	public KakaoDTO getKakaoUserInfo(String accessToken) throws Exception;
+	public void kakaoLogin(KakaoDTO kakaoDTO) throws Exception;
+	public void kakaoLogout(String user_id) throws Exception;
 }

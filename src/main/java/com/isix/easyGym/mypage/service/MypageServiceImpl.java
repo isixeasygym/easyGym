@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.isix.easyGym.detail.dao.DetailDAO;
 import com.isix.easyGym.detail.dto.DetailDTO;
 import com.isix.easyGym.member.dto.MemberDTO;
 import com.isix.easyGym.mypage.dao.MypageDAO;
+import com.isix.easyGym.payform.dao.PayformDAO;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
@@ -18,29 +20,20 @@ public class MypageServiceImpl implements MypageService {
 	@Autowired
 	private MypageDAO mypageDAO;
 	
-	//1-2)찜 목록
-/*	public Map detailDibsList(Map<String, Integer> pagingMap) throws DataAccessException {
-		Map dibsMap=new HashMap<>();
-		int section=pagingMap.get("section");
-		int pageNum=pagingMap.get("pageNum");
-		int count=(section-1)*100+(pageNum-1)*10;  //페이징 => 1페이지당 10개글, 1섹션당 10페이지, 한화면에 10페이지 100개글로 보이기
-		List<DetailDTO> detailList=mypageDAO.selectAllDetail(count);  //selectAllArticles => board.xml의 id
-		int totDibs=mypageDAO.selectToDibs();
-		dibsMap.put("detailList", detailList);
-		dibsMap.put("totDibs", totDibs);
-		return dibsMap;
-	} */
+	//1.내 정보
+	//찜 목록
 	@Override
 	public List<DetailDTO> detailDibsList(int memberNo) throws DataAccessException {
 		return mypageDAO.selectAllDetail(memberNo);
 	}
 
+	//이용중인 상품 목록 가져오기
 	@Override
 	public List getPayformNo(int memberNo) throws DataAccessException {
 		return mypageDAO.selectPayformNo(memberNo);
 	}
 	
-	//1-2)찜 취소
+	//찜 취소
 	@Override
 	public void removeDibs(int memberNo, int detailNo) throws DataAccessException {
 		System.out.println("Removing dibs for Member No: " + memberNo + ", Detail No: " + detailNo); // 디버깅용 로그
@@ -48,19 +41,28 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	
-	//2-1)포인트
-/*	@Override
-	public List<MemberDTO> getPointsByMemberNo(int memberNo) throws DataAccessException {
-        return mypageDAO.selectPointsByMemberNo(memberNo);
-    }
-	
-	//2-2)쿠폰
+	//2.내역조회
+	//구매내역
 	@Override
-    public List<MemberDTO> getCouponsByMemberNo(int memberNo) throws DataAccessException {
-        return mypageDAO.selectCouponsByMemberNo(memberNo);
-    } */
+	public List getPurchase(int memberNo) throws DataAccessException {
+		return mypageDAO.selectPurchase(memberNo);
+	}
 	
-	//3-1)비밀번호 체크
+	//리뷰내역
+	@Override
+	public List getReview(int memberNo) throws DataAccessException {
+		return mypageDAO.selectReview(memberNo);
+	}
+	
+	//신고내역
+	@Override
+	public List getReport(int memberNo) throws DataAccessException {
+		return mypageDAO.selectReport(memberNo);
+	}
+	
+	
+	//3.정보수정
+	//비밀번호 체크
 	public boolean checkPassword(int memberNo, String memberPwd) throws DataAccessException {
 		//System.out.println("checkPassword service called with memberNo: " + memberNo);
 	    String storedPassword = mypageDAO.getPasswordByMemberNo(memberNo);
@@ -68,14 +70,16 @@ public class MypageServiceImpl implements MypageService {
 	    return storedPassword != null && storedPassword.equals(memberPwd);
     }
 	
-	//3-2)회원정보 수정
+	//회원정보 수정
 	public void memberUpdate(MemberDTO memberDTO) throws DataAccessException {
 		mypageDAO.memberUpdate(memberDTO);
 	} 
 	
-	// 회원 탈퇴
+	//회원 탈퇴
 	@Override
 		public void delMember(int memberNo) {
 			mypageDAO.memberDelete(memberNo);
-		}	
+		}
+
+	
 }

@@ -39,8 +39,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="/main.do">Home</a></li>
                         <li><hr class="dropdown-divider" /></li>
 						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
 						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
@@ -85,10 +84,6 @@
                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                공지사항
                            </a>
-                           <a class="nav-link" href="/admin/contactList.do">
-                               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                               문의하기
-                           </a>
                            <a class="nav-link" href="/admin/reportList.do">
                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                신고리스트
@@ -96,8 +91,8 @@
                        </div>
                    </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">isix</div>
+                        easyGym
                     </div>
                 </nav>
             </div>
@@ -161,12 +156,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            <div class="text-muted">Copyright &copy; easyGym</div>
                         </div>
                     </div>
                 </footer>

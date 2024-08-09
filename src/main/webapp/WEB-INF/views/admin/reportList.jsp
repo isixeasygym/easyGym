@@ -15,7 +15,7 @@
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="/css/admin/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -36,10 +36,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="/main.do">Home</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
+						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
+						</c:if>
+						<c:if test="${sessionScope.admin == null || sessionScope.admin.adminId == null}">
+						    <li><a class="dropdown-item" href="/admin/loginForm.do">Login</a></li>
+						</c:if>
                     </ul>
                 </li>
             </ul>
@@ -77,10 +81,6 @@
                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                공지사항
                            </a>
-                           <a class="nav-link" href="/admin/contactList.do">
-                               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                               문의하기
-                           </a>
                            <a class="nav-link" href="/admin/reportList.do">
                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                신고리스트
@@ -88,86 +88,73 @@
                        </div>
                    </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">isix</div>
+                        easyGym
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tables</h1>
+                        <h1 class="mt-4">신고목록</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/reportList.do">메인으로</a></li>
                             <li class="breadcrumb-item active">Tables</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
-                                .
+                                작성된 신고 목록 리스트
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                신고 목록
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
-                                    <thead>
+									<thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>신고 번호</th>
+                                            <th>신고 내용</th>
+                                            <th>신고 날짜</th>
+                                            <th>회원 번호</th>
+                                            <th>업체 번호</th>
+                                            <th>사업자 번호</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+											<th>신고 번호</th>
+                                            <th>신고 내용</th>
+                                            <th>신고 날짜</th>
+                                            <th>회원 번호</th>
+                                            <th>업체 번호</th>
+                                            <th>사업자 번호</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>$86,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>$433,060</td>
-                                        </tr>
+										<c:choose>
+											<c:when test="${rlist == null }">
+												<tr>
+													<td colspan="7">
+														<p align="center">신고 내역이 없습니다.</p>
+													</td>
+												<tr>
+											</c:when>
+											<c:when test="${rlist != null }">
+												<c:forEach var="re" items="${rlist}">
+			                                        <tr>
+			                                            <td>${re.reportNo}</td>
+			                                            <td>${re.reportContent}</td>
+			                                            <td>${re.reportDate}</td>
+			                                            <td>${re.memberNo}</td>
+			                                            <td>${re.detailNo}</td>
+			                                            <td>${re.operatorNo}</td>
+			                                        </tr>  
+												</c:forEach>	
+											</c:when> 
+										</c:choose>
                                     </tbody>
                                 </table>
                             </div>
@@ -177,20 +164,15 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            <div class="text-muted">Copyright &copy; easyGym</div>
                         </div>
                     </div>
                 </footer>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <script src="/js/admin/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+        <script src="/js/admin/datatables-simple-demo.js"></script>
     </body>
 </html>

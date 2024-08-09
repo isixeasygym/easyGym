@@ -79,6 +79,91 @@ public class DetailControllerImpl implements DetailController{
 	@Autowired
 	private MemberOperDTO memberOperDTO;
 	
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
+	public String selectReport(@RequestParam("memberNo") int memberNo,
+							   @RequestParam("detailNo") int detailNo,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    // 기본적으로 "noBuy"를 반환하도록 설정
+	    String success = "noBuy";
+	    Map<String,Object> selectMap = new HashMap<String,Object>();
+	    selectMap.put("detailNo", detailNo);
+	    selectMap.put("memberNo", memberNo);
+	    // 구매 여부 체크
+	    int payformNo = payformService.findpay(selectMap);
+	    if (payformNo != 0) {
+	        // 구매가 있는 경우, 신고 여부 체크
+	        int report = detailService.findReport(selectMap);
+	        if (report != 0) {
+	            // 이미 신고가 되어 있는 경우
+	            success = "alreadyReport";
+	        } else {
+	            // 구매는 했으나 신고는 안한 경우
+	            success = "memberShip";
+	        }
+	    }
+	    
+	    return success;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/report.do", method = RequestMethod.POST)
+	public String doReport(@RequestParam("memberNo") int memberNo, @RequestParam("detailNo") int detailNo,
+	                       @RequestParam("reportContent") String reportContent, HttpServletRequest request,
+	                       HttpServletResponse response) throws Exception {
+	    try {
+	    	String success=null;
+	    	Map<String,Object> countMap = new HashMap<String,Object>();
+	    	countMap.put("memberNo", memberNo);
+	    	countMap.put("detailNo", detailNo);
+	    	int reportCount = detailService.findReportCount(countMap);
+            int operatorNo = detailService.findOperatorNo(detailNo);
+            Map<String, Object> reportMap = new HashMap<>();
+            reportMap.put("reportCount", reportCount);
+            reportMap.put("operatorNo", operatorNo);
+            reportMap.put("memberNo", memberNo);
+            reportMap.put("detailNo", detailNo);
+            reportMap.put("reportContent", reportContent);
+            detailService.addReport(reportMap);
+            success = "success";
+	        return success; // 성공적으로 리포트가 추가된 경우 반환할 값
+
+	    } catch (Exception e) {
+	        // 예외 발생 시 로깅 및 적절한 에러 메시지 반환
+	        e.printStackTrace();
+	        return "error"; // 에러 발생 시 반환할 값
+	    }
+	}
+	@RequestMapping(value="/detail/reviewViewer.do" , method=RequestMethod.GET)
+	@Override
+    public ModelAndView reviewViewer(@RequestParam(value = "section", required = false) String _section,
+			 @RequestParam(value = "pageNum", required = false) String _pageNum,
+			 @RequestParam(value= "detailNo", required= false) int detailNo,
+			 HttpServletRequest request, HttpServletResponse response) throws Exception{
+        int section = Integer.parseInt((_section == null) ? "1" : _section);
+        int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+        	
+        Map<String, Integer> pagingMap = new HashMap<>();
+        pagingMap.put("section", section);
+        pagingMap.put("pageNum", pageNum);
+        Map<String,Integer> reviewAndCount = new HashMap<String,Integer>();
+        int count = (section-1)*50+(pageNum-1)*5;
+        reviewAndCount.put("count", count);
+        reviewAndCount.put("detailNo", detailNo);
+		List<DetailReviewDTO> reviewList  = detailDAO.selectAll(reviewAndCount);
+        Map<String, Object> reviewMap = detailService.listReview(pagingMap);
+        reviewMap.put("detailNo", detailNo);
+        reviewMap.put("reviews", reviewList); // map안에 리스트와 토탈 글 숫자, 글 갯수 를 넣는다.
+        reviewMap.put("section", section);
+        reviewMap.put("pageNum", pageNum);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("reviewMap", reviewMap);
+        mav.setViewName("/detail/review");
+        return mav;
+    }
+	
+	
 	@GetMapping("/detail/registration.do")  //127.0.0.1:8090 => 이렇게만 매핑 보내기
 	public ModelAndView registration(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -183,10 +268,10 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@RequestMapping(value="/detail/detail.do", method = RequestMethod.GET)
 	public ModelAndView detailForm(
-			@RequestParam("detailNo") int detailNo,
-			@RequestParam(value = "memberNo", required = false) String memberNo,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+		@RequestParam("detailNo") int detailNo,
+		@RequestParam(value = "memberNo", required = false) String memberNo,
+		HttpServletRequest request,
+		HttpServletResponse response) throws Exception{
 		HttpSession session= request.getSession();
 		detailDTO=detailService.viewDetail(detailNo);
 		ModelAndView mav=new ModelAndView();
@@ -209,8 +294,8 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/getReviews.do", method = {RequestMethod.POST, RequestMethod.GET})
-	public List<DetailReviewDTO> getReviews(@RequestParam("companyId") int detailNo, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+	public List<DetailReviewDTO> getReviews(@RequestParam("detailNo") int detailNo, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
 	    List<DetailReviewDTO> reviews = detailService.getReviews(detailNo);
 	    System.out.print(reviews.get(0).getReviewImgName());
 	    return reviews;
@@ -220,40 +305,35 @@ public class DetailControllerImpl implements DetailController{
 		@Override
 	 	@RequestMapping(value="/addFavorite", method=RequestMethod.GET)
 	    @ResponseBody
-	    public String dibs(@RequestParam("companyId") String companyId,
-	                       @RequestParam("userId") int memberNo,
-	                       @RequestParam(value = "action", required = false) String action,
-	                       HttpServletRequest request,
-	                       HttpServletResponse response) throws Exception {
+	    public String dibs(@RequestParam("detailNo") String detailNo,
+            @RequestParam("memberNo") int memberNo,
+            @RequestParam(value = "action", required = false) String action,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
 	        String status;
-	        int result = memberService.loginCheck(memberNo);
 	        HttpSession session = request.getSession();
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("detailNo", detailNo);
+            paramMap.put("memberNo", memberNo);
 
-	        if (result != 0) { // Check if user is logged in
-	            Map<String, Object> paramMap = new HashMap<>();
-	            paramMap.put("detailNo", companyId);
-	            paramMap.put("memberNo", memberNo);
+            DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
 
-	            DetailDibsDTO detailDibsDTO = detailService.findDibs(paramMap);
-
-	            if (detailDibsDTO == null) {
-	                detailDAO.insertDibs(paramMap);
-	                status = "insert";
-	            } else {
-	                detailDAO.removeDibs(paramMap);
-	                status = "delete";
-	            }
-	        } else {
-	            status = "nologin"; // Indicate that the user is not logged in
-	        }
-
-	        return status;
-	    }
+            if (detailDibsDTO == null) {
+                detailDAO.insertDibs(paramMap);
+                status = "insert";
+            } else {
+                detailDAO.removeDibs(paramMap);
+                status = "delete";
+            }
+            return status;
+		}
 	
 
 	@RequestMapping(value="/getFavoriteStatus", method=RequestMethod.GET)
 	@ResponseBody
-	public String getFavoriteStatus(@RequestParam("companyId") String detailNo, @RequestParam("userId") String memberNo) {
+	public String getFavoriteStatus(@RequestParam("detailNo") String detailNo,
+			@RequestParam("memberNo") String memberNo,HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
 	    Map<String, Object> paramMap = new HashMap<>();
 	    paramMap.put("detailNo", detailNo);
 	    paramMap.put("memberNo", memberNo);
@@ -273,7 +353,7 @@ public class DetailControllerImpl implements DetailController{
 	@ResponseBody
 	@RequestMapping(value="/writeReview.do", method = RequestMethod.POST)
 	public String writeReview(
-	        @RequestParam("companyId") String detailNo, 
+	        @RequestParam("detailNo") String detailNo, 
 	        @RequestParam(value="memberNo", required = false) int memberNo,
 	        @RequestParam(value = "action", required = false) String action,
 	        @RequestParam(value = "reviewComment", required = false) String reviewComment,
@@ -281,16 +361,14 @@ public class DetailControllerImpl implements DetailController{
 	        @RequestParam(value = "reviewImageName", required = false) MultipartFile reviewImageName,
 	        MultipartHttpServletRequest multipartRequest,
 	        HttpServletResponse response) throws Exception {
-	    
-	    String status = null;
-	    
+		String status = null;
 	    try {
-	        int memberNum = memberService.findMemberNo(memberNo);
-
-	        if (memberNum != 0) {
-	            int buyNo = payformService.buyCheck(memberNum);
-
-	            if (buyNo != 0) {
+		    	Map<String,Object> selectMap = new HashMap<String,Object>();
+		 	    selectMap.put("detailNo", detailNo);
+		 	    selectMap.put("memberNo", memberNo);
+		 	    // 구매 여부 체크
+		 	    int payformNo = payformService.findpay(selectMap);
+		 	    if (payformNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
 	                // Verify file upload
 	                String imageFileName = fileUpload(multipartRequest);
@@ -308,7 +386,7 @@ public class DetailControllerImpl implements DetailController{
 	                    }
 
 	                    reviewImageMap.put("reviewImageName", imageFileName);
-	                    reviewImageMap.put("buyNo", buyNo);
+	                    reviewImageMap.put("payformNo", payformNo);
 	                    reviewImageMap.put("detailNo", detailNo);
 	                    reviewImageMap.put("memberNo", memberNo);
 
@@ -341,7 +419,7 @@ public class DetailControllerImpl implements DetailController{
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
 	                    noImgReviewMap.put("memberNo", String.valueOf(memberNo));
-	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
+	                    noImgReviewMap.put("payformNo", String.valueOf(payformNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
 	                    detailService.noImgReview(noImgReviewMap);
@@ -350,12 +428,10 @@ public class DetailControllerImpl implements DetailController{
 	            } else {
 	                status = "noBuy";
 	            }
-	        } else {
-	            status = "noLogin";
-	        }
 	    } catch (Exception e) {
 	        e.printStackTrace(); // Use logging framework in production
 	        status = "error";
+	        System.out.print("글쓰기 중 오류 발생!!");
 	    }
 
 	    return status;
@@ -365,34 +441,97 @@ public class DetailControllerImpl implements DetailController{
 	@ResponseBody
 	@Override
 	@RequestMapping(value="/getReviewImages.do", method = RequestMethod.GET)
-	public List<DetailReviewDTO> getReviewImages(@RequestParam("companyId") int detailNo, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		List<DetailReviewDTO> reviewImage = detailService.getReviewImages(detailNo);
-		return reviewImage;
+	public List<DetailReviewDTO> getReviewImages(@RequestParam("detailNo") int detailNo, HttpServletRequest request, HttpServletResponse response)
+	        throws Exception {
+	    List<DetailReviewDTO> reviewImages = detailService.getReviewImages(detailNo);
+
+	    if (reviewImages == null || reviewImages.isEmpty()) {
+	        // 빈 리스트를 반환하거나 적절한 처리를 합니다.
+	        return new ArrayList<>();
+	    }
+
+	    return reviewImages;
 	}
 
 	
 	@Override
 	@ResponseBody
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("memberNo") int memberNo,
-            @RequestParam(value = "action", required = false) String action,
-            RedirectAttributes rAttr, HttpServletRequest request,
-            HttpServletResponse response) throws Exception{
-		String success=null;
-		int memberNum=memberService.findMemberNo(memberNo);
-		if(memberNum != 0) {
-			int buyNo=payformService.buyCheck(memberNum);
-			if(buyNo !=0 ) {
-				detailService.removeReview(reviewNo);
-				success="success";
-			}else {
-				success="noBuy";
-			}
-		}else {
-			success="noLogin";
-		}
-		return success;
+	@RequestMapping(value = "/delete.do", method = RequestMethod.POST)
+	public String deleteReview(@RequestParam("detailNo") int detailNo,
+	                           @RequestParam("reviewNo") int reviewNo,
+	                           @RequestParam("memberNo") int memberNo,
+	              
+	                           @RequestParam(value = "action", required = false) String action,
+	                           RedirectAttributes rAttr,
+	                           HttpServletRequest request,
+	                           HttpServletResponse response) throws Exception {
+	    String success;
+	    
+	    try {
+	        // 구매 확인
+	    	Map<String,Object> selectMap = new HashMap<String,Object>();
+	 	    selectMap.put("detailNo", detailNo);
+	 	    selectMap.put("memberNo", memberNo);
+	 	    // 구매 여부 체크
+	 	    int payformNo = payformService.findpay(selectMap);
+	 	    if (payformNo != 0) {
+	            // 리뷰 정보 조회
+	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
+	            /*if (reviewDTO == null) {
+	                return "reviewNotFound";
+	            }지울 지 생각 하기*/
+	 	    	//differentMember
+	 	    	selectMap.put("payformNo", payformNo);
+	 	    	int selectMember = detailService.findReviewMember(selectMap);
+	 	    	if(selectMember != 0) {
+	 	    	// 이미지 파일 삭제
+		            String imageFileName = reviewDTO.getReviewImgName(); // 단일 이미지 파일 이름 가져오기
+		            if (imageFileName != null && !imageFileName.isEmpty()) {
+		                String filePath = ARTICLE_IMG_REPO + File.separator + "reviewImage"
+		                                    + File.separator + detailNo
+		                                    + File.separator + memberNo
+		                                    + File.separator + imageFileName;
+		                File file = new File(filePath);
+		                if (file.exists() && file.delete()) {
+		                    // 빈 폴더 삭제
+		                    File memberDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage"
+		                                                + File.separator + detailNo
+		                                                + File.separator + memberNo);
+		                    deleteEmptyDirectories(memberDir);
+		                }
+		            }
+
+		            // 리뷰 삭제
+		            detailService.removeReview(reviewNo);
+		            success = "success";
+	 	    	}else {
+	 	    		success="differentMember";
+	 	    	}
+	            
+	        } else {
+	            success = "noBuy";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); // 예외 로그 출력
+	        success = "error"; // 오류 발생 시 반환 값
+	    }
+
+	    return success;
+	}
+
+	// 빈 폴더 삭제
+	private void deleteEmptyDirectories(File dir) {
+	    if (dir.isDirectory()) {
+	        File[] files = dir.listFiles();
+	        if (files != null && files.length == 0) {
+	            dir.delete();
+	            // 상위 폴더도 비어있으면 삭제
+	            File parentDir = dir.getParentFile();
+	            if (parentDir != null && !parentDir.getName().equals("reviewImage") && parentDir.isDirectory()) {
+	                deleteEmptyDirectories(parentDir);
+	            }
+	        }
+	    }
 	}
 	
 	
@@ -438,5 +577,6 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
+
 
 }
