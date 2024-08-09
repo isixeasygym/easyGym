@@ -57,6 +57,22 @@
       <result property="operatorNo" column="operatorNo"/>
    </resultMap>
    
+   <select id="selectMember" parameterType="java.util.Map" resultType="int">
+      <![CDATA[
+          SELECT
+    CASE
+        WHEN COUNT(*) > 0 THEN 1
+        ELSE 0
+    END AS result
+FROM
+    detailreview_tbl
+WHERE
+    detailNo = #{detailNo}
+    AND memberNo = #{memberNo}
+    AND payformNo = #{payformNo};
+       ]]>
+   </select>
+   
    <select id="selectReviewDTO" parameterType="int" resultType="detailReviewDTO">
       <![CDATA[
           select * from detailreview_tbl where reviewNo = #{reviewNo}

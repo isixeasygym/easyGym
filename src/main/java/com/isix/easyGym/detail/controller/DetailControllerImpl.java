@@ -466,7 +466,7 @@ public class DetailControllerImpl implements DetailController{
 	                           HttpServletRequest request,
 	                           HttpServletResponse response) throws Exception {
 	    String success;
-
+	    
 	    try {
 	        // 구매 확인
 	    	Map<String,Object> selectMap = new HashMap<String,Object>();
@@ -477,30 +477,37 @@ public class DetailControllerImpl implements DetailController{
 	 	    if (payformNo != 0) {
 	            // 리뷰 정보 조회
 	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
-	            if (reviewDTO == null) {
+	            /*if (reviewDTO == null) {
 	                return "reviewNotFound";
-	            }
+	            }지울 지 생각 하기*/
+	 	    	//differentMember
+	 	    	selectMap.put("payformNo", payformNo);
+	 	    	int selectMember = detailService.findReviewMember(selectMap);
+	 	    	if(selectMember != 0) {
+	 	    	// 이미지 파일 삭제
+		            String imageFileName = reviewDTO.getReviewImgName(); // 단일 이미지 파일 이름 가져오기
+		            if (imageFileName != null && !imageFileName.isEmpty()) {
+		                String filePath = ARTICLE_IMG_REPO + File.separator + "reviewImage"
+		                                    + File.separator + detailNo
+		                                    + File.separator + memberNo
+		                                    + File.separator + imageFileName;
+		                File file = new File(filePath);
+		                if (file.exists() && file.delete()) {
+		                    // 빈 폴더 삭제
+		                    File memberDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage"
+		                                                + File.separator + detailNo
+		                                                + File.separator + memberNo);
+		                    deleteEmptyDirectories(memberDir);
+		                }
+		            }
 
-	            // 이미지 파일 삭제
-	            String imageFileName = reviewDTO.getReviewImgName(); // 단일 이미지 파일 이름 가져오기
-	            if (imageFileName != null && !imageFileName.isEmpty()) {
-	                String filePath = ARTICLE_IMG_REPO + File.separator + "reviewImage"
-	                                    + File.separator + detailNo
-	                                    + File.separator + memberNo
-	                                    + File.separator + imageFileName;
-	                File file = new File(filePath);
-	                if (file.exists() && file.delete()) {
-	                    // 빈 폴더 삭제
-	                    File memberDir = new File(ARTICLE_IMG_REPO + File.separator + "reviewImage"
-	                                                + File.separator + detailNo
-	                                                + File.separator + memberNo);
-	                    deleteEmptyDirectories(memberDir);
-	                }
-	            }
-
-	            // 리뷰 삭제
-	            detailService.removeReview(reviewNo);
-	            success = "success";
+		            // 리뷰 삭제
+		            detailService.removeReview(reviewNo);
+		            success = "success";
+	 	    	}else {
+	 	    		success="differentMember";
+	 	    	}
+	            
 	        } else {
 	            success = "noBuy";
 	        }

@@ -73,4 +73,5 @@ public interface DetailDAO {
 	
 	public DetailReviewDTO selectReviewDTO(int reviewNo) throws DataAccessException;
 
+	public int selectMember(Map selectMap) throws DataAccessException; 
 }
