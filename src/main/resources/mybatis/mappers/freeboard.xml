@@ -112,7 +112,9 @@
 	
 	<delete id="deleteFboard" parameterType="int">
 		<![CDATA[
-			delete from freeboard_tbl where freeNo=#{freeNo}
+			delete from fboardimage_tbl where freeNo=#{freeNo};
+	
+			delete from freeboard_tbl where freeNo=#{freeNo};
 		]]>
 	</delete>
  
