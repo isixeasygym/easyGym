@@ -61,4 +61,5 @@ public interface DetailService {
 	
 	public DetailReviewDTO getReviewByNo(int reviewNo) throws DataAccessException;
 
+	public int findReviewMember(Map selectMap) throws DataAccessException;
 }

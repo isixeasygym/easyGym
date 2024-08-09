@@ -178,6 +178,12 @@ public class DetailServiceImpl implements DetailService {
 		return reviewDTO;
 	}
 
+	@Override
+	public int findReviewMember(Map selectMap) throws DataAccessException {
+		int selectMember = detailDAO.selectMember(selectMap);
+		return selectMember;
+	}
+
 
 
 	

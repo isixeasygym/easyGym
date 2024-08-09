@@ -166,7 +166,9 @@ function deleteComment(reviewNo) {
                 updateReviewImagesForDeletion(detailNo); // 함수명 업데이트
             } else if (data === "noBuy") {
                 alert("해당 글은 해당 업체 회원권을 구매하고 자신이 작성한 글만 삭제 가능합니다.");
-            }
+            } else if (data === "differentMember") {
+				alert("해당 글은 직접 작성한 후기만 삭제할 수 있습니다.");
+				}
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error);
