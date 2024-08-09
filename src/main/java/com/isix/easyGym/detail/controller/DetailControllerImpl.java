@@ -363,10 +363,12 @@ public class DetailControllerImpl implements DetailController{
 	        HttpServletResponse response) throws Exception {
 		String status = null;
 	    try {
-	    	
-	            int payformNo = payformService.buyCheck(memberNo);
-
-	            if (payformNo != 0) {
+		    	Map<String,Object> selectMap = new HashMap<String,Object>();
+		 	    selectMap.put("detailNo", detailNo);
+		 	    selectMap.put("memberNo", memberNo);
+		 	    // 구매 여부 체크
+		 	    int payformNo = payformService.findpay(selectMap);
+		 	    if (payformNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
 	                // Verify file upload
 	                String imageFileName = fileUpload(multipartRequest);
@@ -458,6 +460,7 @@ public class DetailControllerImpl implements DetailController{
 	public String deleteReview(@RequestParam("detailNo") int detailNo,
 	                           @RequestParam("reviewNo") int reviewNo,
 	                           @RequestParam("memberNo") int memberNo,
+	              
 	                           @RequestParam(value = "action", required = false) String action,
 	                           RedirectAttributes rAttr,
 	                           HttpServletRequest request,
@@ -466,8 +469,12 @@ public class DetailControllerImpl implements DetailController{
 
 	    try {
 	        // 구매 확인
-	        int payformNo = payformService.buyCheck(memberNo);
-	        if (payformNo != 0) {
+	    	Map<String,Object> selectMap = new HashMap<String,Object>();
+	 	    selectMap.put("detailNo", detailNo);
+	 	    selectMap.put("memberNo", memberNo);
+	 	    // 구매 여부 체크
+	 	    int payformNo = payformService.findpay(selectMap);
+	 	    if (payformNo != 0) {
 	            // 리뷰 정보 조회
 	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
 	            if (reviewDTO == null) {
