@@ -12,8 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public interface AdminController {
 
-	// 관리자 메인 페이지 
-	public ModelAndView adminMain(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView joinAd(@ModelAttribute("adminDTO") AdminDTO adminDTO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
@@ -28,16 +26,17 @@ public interface AdminController {
 	
 	// 탈퇴 회원 리스트
 	public ModelAndView withdrawMember(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	/*
+	
 	// 사업자 리스트 
 	public ModelAndView operatorList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 탈퇴 사업자 리스트
-	public ModelAndView withdrawOperator(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	*/
+	// 업체 리스트
+	public ModelAndView companyList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	
 	// 회원 가입폼
 	public ModelAndView adminForm(HttpServletRequest request, HttpServletResponse response) throws Exception;  //memberForm은 미수정 => 회원가입한 폼만 보여주는거라서 Annotation 관련 수정은 필요없음
 	
-	
+	// 신고 리스트
+	public ModelAndView reportList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

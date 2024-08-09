@@ -1,0 +1,98 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* 카드 스타일 */
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+/* 제목 스타일 */
+h1 {
+    margin: 20px;
+}
+
+/* 브레드크럼 스타일 */
+.breadcrumb {
+    background: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* 폼 컨테이너 스타일 */
+.form-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* 입력 폼 및 버튼 스타일 */
+.form-container .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 1rem;
+}
+
+/* 제목 및 라벨 스타일 */
+.form-container .form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* 텍스트 에어리어 스타일 */
+textarea.form-control {
+    resize: none; /* 크기 조절을 막는 속성 */
+}
+
+/* 버튼 그룹 스타일 */
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.button-group .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-group .btn:hover {
+    background-color: #0056b3;
+}
+
+#dock_file {
+    margin-top: 1rem;
+}
+
+#uploadButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#uploadButton:hover {
+    background-color: #0056b3;
+}

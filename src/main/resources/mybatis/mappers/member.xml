@@ -32,6 +32,14 @@
         <result property="operatorCreatedAt" column="operatorCreatedAt"/>
         <result property="operatorState" column="operatorState"/>
     </resultMap>
+    
+    <resultMap type="kakaoDTO" id="kakaoResult">
+    	<result property="kakaoId" column="kakaoId"/>
+    	<result property="kakaoEmail" column="kakaoEmail"/>
+    	<result property="memberName" column="memberName"/>
+    	<result property="accessToken" column="accessToken"/>
+    </resultMap>
+    
     <!-- SQL 중복 제거 -->
     <sql id="selectAllMembers">
        <![CDATA[
@@ -46,18 +54,12 @@
        ]]>
     </select>
     
-    <!-- 아이디 중복체크 -->
-    <select id="checkDuplicateId" parameterType="String" resultType="int">
-        SELECT COUNT(*) 
-        FROM member_tbl 
-        WHERE memberId = #{memberId}
-    </select>
 
     <!-- 회원 추가 -->
     <insert id="insertMember" parameterType="memberDTO">
        <![CDATA[
-          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberId}, #{memberPwd}, #{memberName}, #{memberEmail}, #{memberPhone},
-          #{memberPost}, #{memberAddr}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
+          INSERT INTO member_tbl VALUES (#{memberNo}, #{memberName}, #{memberId}, #{memberPwd},#{memberPhone},  #{memberEmail}, #{memberAddr},
+          #{memberPost}, sysdate(), #{memberState}, #{memberGender}, #{memberMarketing})
        ]]>
     </insert>
     
@@ -85,19 +87,62 @@
        ]]>
     </delete>
     <!-- 아래로부터 detail관련된 것들-->
-    <select id = "loginChecking" parameterType="int" resultType = "memberDTO">
+    <select id = "loginChecking" parameterType="int" resultType = "int">
        <![CDATA[
-          select * from member_tbl where memberNo = #{memberNo}
+          SELECT IFNULL((SELECT memberNo FROM member_tbl 
+    	  WHERE memberNo = #{memberNo}), 0) AS result;
        ]]>
     </select>
     
-    <select id="checkId" parameterType="String" resultType="String">
+<!--     <select id="checkId" parameterType="String" resultType="String">
 		select memberId from member_tbl where memberId=#{memberId}
-	</select>
+	</select> -->
+	
+	<select id = "selectId" resultType="boolean">
+	SELECT COUNT(*) FROM MEMBER_TBL WHERE memberId = #{memberId}</select>
 
+<select id = "selectOpId" resultType="boolean">
+	SELECT COUNT(*) FROM OPERATOR_TBL WHERE operatorId = #{operatorId}</select>
+	
      <select id="selectMemberNo" parameterType="int" resultType="int">
 		select memberNo from member_tbl where memberNo=#{memberNo}
 	</select>
+	
+	<!--  ******************** 사업자 ******************** -->
+	
+	<!-- 사업자 추가 -->
+	<insert id="insertOperator" parameterType="memberOperDTO">
+       <![CDATA[
+          INSERT INTO operators_tbl VALUES (#{operatorNo}, #{operatorName}, #{operatorId}, #{operatorPwd}, #{operatorPhone}, #{operatorEmail},
+          #{operatorResNo}, #{operatorImgName}, sysdate(), #{operatorState})
+       ]]>
+    </insert>
+    
+	<select id="operLogin" parameterType="memberoperDTO" resultType="memberoperDTO">    
+	    <![CDATA[
+	    SELECT * FROM operators_tbl WHERE operatorId = #{operatorId} AND operatorPwd = #{operatorPwd}
+	    ]]>
+	</select>
+	<!-- 카카오 로그인 -->
+	<insert id="kakaoInsert" parameterType="kakaoDTO">
+ 		insert into kakao_tbl values(#{kakaoId}, #{kakaoEmail}, #{memberName}, #{accessToken})
+ 	</insert>
+ 	
+ 	<select id="isExistKakao" parameterType="kakaoDTO" resultType="boolean">
+ 		select if(count(*)=1, 'true','false') as result from kakao_tbl where kakaoId = #{kakaoId} 
+ 	</select>
+ 	
+ 	<update id="kakaoUpdate" parameterType="kakaoDTO">
+ 		update kakao_tbl set kakaoEmail=#{kakaoEmail}, memberName=#{memberName}, accessToken=#{accessToken} where kakaoId=#{kakaoId}
+ 	</update>
+ 	
+ 	<select id="getAccessToken" parameterType="String" resultType="String">
+		SELECT accessToken FROM kakao_tbl WHERE kakaoId=#{kakaoId}
+	</select>	
+	
+	<update id="delAccessToken" parameterType="String">
+		UPDATE kakao_tbl SET accessToken=null WHERE kakaoId=#{kakaoId} 
+	</update>
+	 
     
 </mapper>
-

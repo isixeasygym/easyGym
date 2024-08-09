@@ -47,7 +47,7 @@ public class NoticeControllerImpl implements NoticeController{
 		
 		List nlist=noticeService.noticeList();
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/noticeList");
+		mv.setViewName("admin/noticeList");
 		mv.addObject("nlist",nlist);
 		
 		return mv;
@@ -58,7 +58,7 @@ public class NoticeControllerImpl implements NoticeController{
 	@GetMapping("/admin/noticeForm.do")
 	public ModelAndView noticeForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/noticeForm");
+		mv.setViewName("admin/noticeForm");
 		return mv;
 	}
 	
@@ -121,7 +121,7 @@ public class NoticeControllerImpl implements NoticeController{
 	public ModelAndView viewNotice(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map noticeMap=noticeService.viewNotice(noticeNo);
 		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/admin/viewNotice");  
+		mv.setViewName("admin/viewNotice");  
 		mv.addObject("noticeMap",noticeMap);  
 		return mv;
 	}
@@ -213,4 +213,44 @@ public class NoticeControllerImpl implements NoticeController{
 		}
 		return fileList;
 	}	
+	
+	
+	
+	
+	
+	//------------------------------------------------- 공지사항 페이지 ---------------------------------------------
+	
+	
+	
+	
+	// 공지사항 페이지에서 조회 ( 일반 조회 )
+		@RequestMapping(value = "/notice/noticeList.do", method = RequestMethod.GET)
+		public ModelAndView noticePageList(@RequestParam(value ="section" , required = false) String _section, @RequestParam(value = "pageNum" ,  required = false) String _pageNum,HttpServletRequest request, HttpServletResponse response) throws Exception {
+			int section = Integer.parseInt((_section == null) ? "1" : _section);
+			int pageNum = Integer.parseInt((_pageNum == null) ? "1" : _pageNum);
+			Map<String, Integer> pagingMap = new HashMap<String, Integer>();
+			pagingMap.put("section", section);
+			pagingMap.put("pageNum", pageNum);
+			Map noMap = noticeService.noticePageList(pagingMap);
+			noMap.put("section", section);
+			noMap.put("pageNum", pageNum);
+			
+			
+			ModelAndView mv=new ModelAndView();
+			mv.setViewName("notice/noticeList");
+			mv.addObject("noMap",noMap);
+			
+			return mv;
+		}
+		
+	// 공지사항 페이지 상세
+	@Override
+	@RequestMapping("/notice/viewNotice.do") //상세 글 보기
+	public ModelAndView viewNoticePage(@RequestParam("noticeNo") int noticeNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map noMap=noticeService.viewNotice(noticeNo);
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("notice/viewNotice");  
+		mv.addObject("noMap",noMap);  
+		return mv;
+	}
 }

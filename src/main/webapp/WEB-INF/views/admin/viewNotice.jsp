@@ -24,7 +24,7 @@ DOCTYPE html>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/admin/index.do">관리자 페이지</a>
+            <a class="navbar-brand ps-3" href="/admin/memberList.do">관리자 페이지</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -39,8 +39,7 @@ DOCTYPE html>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="/main.do">Home</a></li>
                         <li><hr class="dropdown-divider" /></li>
 						<c:if test="${sessionScope.admin != null && sessionScope.admin.adminId != null}">
 						    <li><a class="dropdown-item" href="/admin/logout.do">Logout</a></li>
@@ -57,11 +56,6 @@ DOCTYPE html>
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 					<div class="sb-sidenav-menu">
                        <div class="nav">
-                           <div class="sb-sidenav-menu-heading">MAIN</div> <!-- 관리자 페이지 메인 -->
-                           <a class="nav-link" href="/admin/index.do">
-                               <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                               메인 페이지
-                           </a>
                            <div class="sb-sidenav-menu-heading">Management</div> <!-- 회원 관리 및 업체 리스트 관리 -->
                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -82,17 +76,13 @@ DOCTYPE html>
                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                    <a class="nav-link" href="/admin/operList.do">Operator List</a> <!-- 사업자 리스트로 이동-->
-                                   <a class="nav-link" href="/admin/withdrawOper.do">Withdraw Operator</a>
+                                   <a class="nav-link" href="/admin/companyList.do">Company List</a>
                                </nav>
                            </div>
                            <div class="sb-sidenav-menu-heading">Comunity</div>
                            <a class="nav-link" href="/admin/noticeList.do">
                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                공지사항
-                           </a>
-                           <a class="nav-link" href="/admin/contactList.do">
-                               <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                               문의하기
                            </a>
                            <a class="nav-link" href="/admin/reportList.do">
                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -101,8 +91,8 @@ DOCTYPE html>
                        </div>
                    </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">isix</div>
+                        easyGym
                     </div>
                 </nav>
             </div>
@@ -151,7 +141,7 @@ DOCTYPE html>
 											            <td>
 											                <input type="hidden" name="originalFileName${status.count}" value="${imgList.imageFileName}">
 											                <input type="hidden" name="imageFileNo${status.count}" value="${imgList.imageFileNo}">
-											                <img id="preview${status.count}" src="<c:url value='/download.do'/>?noticeNo=${imgList.noticeNo}&imageFileName=${imgList.imageFileName}">
+											                <img id="preview${status.count}" src="<c:url value='/nodownload.do'/>?noticeNo=${imgList.noticeNo}&imageFileName=${imgList.imageFileName}">
 											            </td>
 											        </tr>
 											        <tr>
@@ -193,12 +183,7 @@ DOCTYPE html>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            <div class="text-muted">Copyright &copy; easyGym</div>
                         </div>
                     </div>
                 </footer>

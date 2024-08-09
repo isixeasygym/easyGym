@@ -1,5 +1,6 @@
 package com.isix.easyGym.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.isix.easyGym.admin.dao.AdminDAO;
 import com.isix.easyGym.admin.dto.AdminDTO;
 import com.isix.easyGym.admin.service.AdminServiceImpl;
 import com.isix.easyGym.member.dto.MemberDTO;
@@ -31,6 +33,9 @@ public class AdminControllerImpl implements AdminController {
 	@Autowired
 	private AdminDTO adminDTO;
 	
+	@Autowired
+	private AdminDAO adminDAO;
+	
 	// 관리자 가입
 	@Override
 	@PostMapping("/admin/joinAd.do")
@@ -45,7 +50,7 @@ public class AdminControllerImpl implements AdminController {
 	@GetMapping("/admin/joinForm.do")
 	public ModelAndView adminForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/joinForm");
+		mav.setViewName("admin/joinForm");
 		return mav;
 	} 
 
@@ -62,7 +67,7 @@ public class AdminControllerImpl implements AdminController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result",result); 
 		mv.addObject("admin",admin); 
-		mv.setViewName("/admin/loginForm");
+		mv.setViewName("admin/loginForm");
 		return mv;
 	}
 	
@@ -82,7 +87,7 @@ public class AdminControllerImpl implements AdminController {
 			if(action != null) {
 				mv.setViewName("redirect:" + action);
 			}else {
-				mv.setViewName("redirect:/admin/index.do");
+				mv.setViewName("redirect:/admin/memberList.do");
 			}
 		}else {
 			rAttr.addAttribute("result","아이디, 비밀번호가 다릅니다.");
@@ -105,58 +110,66 @@ public class AdminControllerImpl implements AdminController {
 	
 	
 	
-	// 관리자 메인 페이지
-	@Override
-	@GetMapping("/admin/index.do")
-	public ModelAndView adminMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/index");
-		return mav;
-	} 
 	
-	// 회원 전체 조회
+	// 회원 전체 조회 
+	@Override
 	@RequestMapping(value = "/admin/memberList.do", method = RequestMethod.GET)
 	public ModelAndView memberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.memberList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/memberList");
+		mav.setViewName("admin/memberList");
 		mav.addObject("mlist",mlist);
 		return mav;
 	}
 	
 	// 탈퇴 회원 조회 
+	@Override
 	@RequestMapping(value = "/admin/withdrawMem.do", method = RequestMethod.GET)
 	public ModelAndView withdrawMember(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List mlist=adminService.withdrawMember();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/withdrawMem");
+		mav.setViewName("admin/withdrawMem");
 		mav.addObject("mlist",mlist);
 		return mav;
 	}
 	
-	/*
+	
 	// 사업자 전체 조회
-	@RequestMapping(value = "/admin/operatorList.do", method = RequestMethod.GET)
+	@Override
+	@RequestMapping(value = "/admin/operList.do", method = RequestMethod.GET)
 	public ModelAndView operatorList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List mlist=adminService.memberList();
+		List olist=adminService.operList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/memberList");
-		mav.addObject("mlist",mlist);
+		mav.setViewName("admin/operList");
+		mav.addObject("olist",olist);
 		return mav;
 	}
 
-	// 탈퇴 사업자 조회 
-	@RequestMapping(value = "/admin/withdrawMember.do", method = RequestMethod.GET)
-	public ModelAndView withdrawOperator(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List mlist=adminService.memberList();
+	// 업체 리스트 조회 
+	@Override
+	@RequestMapping(value = "/admin/companyList.do", method = RequestMethod.GET)
+	public ModelAndView companyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List clist=adminService.comList();
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("/admin/withdrawMember");
-		mav.addObject("mlist",mlist);
+		mav.setViewName("admin/companyList");
+		mav.addObject("clist",clist);
 		return mav;
 	}
+
+	// 신고 리스트 조회
+	@Override
+	@RequestMapping(value = "/admin/reportList.do", method = RequestMethod.GET)
+	public ModelAndView reportList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List rlist = adminService.reportList();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("admin/reportList");
+		mv.addObject("rlist",rlist);
+		return mv;
+	}
 	
-	*/
 	
+	
+
 	
 
 	

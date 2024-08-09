@@ -2,164 +2,302 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO"> 
+ <mapper namespace="com.isix.easyGym.detail.dao.DetailDAO">
 
-	<resultMap type="detailDTO" id="detailResult">
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="detailDate" column="detailDate"/>
- 		<result property="detailRoadAddress" column="detailRoadAddress"/>
- 		<result property="detailBusinessName" column="detailBusinessName"/>
- 		<result property="detailBusinessEng" column="detailBusinessEng"/>
- 		<result property="detailDailyTicket" column="detailDailyTicket"/>
- 		<result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
- 		<result property="detailScope" column="detailScope"/>
- 		<result property="detailComment" column="detailComment"/>
- 		<result property="detailServiceProgram" column="detailServiceProgram"/>
- 		<result property="detailStatus" column="detailStatus"/>
- 		<result property="detailClassification" column="detailClassification"/>
- 		<result property="detailFreeService" column="detailFreeService"/>
- 		<result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
- 		<result property="detailKoClassification" column="detailKoClassification"/>
- 		<result property="detailLatitude" column="detailLatitude"/>
- 		<result property="detailLongitude" column="detailLongitude"/>
- 		<result property="operatorNo" column="operatorNo"/>
- 	</resultMap>
- 	
- 	<resultMap type="detailDibsDTO" id="detailDibsResult">
- 		<result property="dibsNo" column="dibsNo"/>
- 		<result property="detailNo" column="detailNo"/>
- 		<result property="memberNo" column="memberNo"/>
- 	</resultMap>
- 	
- 	<resultMap type="detailReviewDTO" id="detailReviewResult">
- 		<result property="reviewNo" column="reviewNo"/>
- 		<result property="reviewComment" column="reviewComment"/>
- 		<result property="reviewImgName" column="reviewImgName"/>
- 		<result property="reviewDate" column="reviewDate"/>
- 		<result property="reviewRating" column="reviewRating"/>
- 		<result property="memberNo" column="memberNo"/>
- 		<result property="buyNo" column="buyNo"/>
- 		<result property="detailNo" column="detailNo"/>
- 	</resultMap>
- 	
- 	<resultMap type="detailImageDTO" id="detailImageResult">
- 		<result property="imageFileNo" column="imageFileNo"/>
- 		<result property="imageFileName" column="imageFileName"/>
- 		<result property="regDate" column="regDate"/>
- 		<result property="detailNo" column="detailNo"/>
- 	</resultMap>
+   <resultMap type="detailDTO" id="detailResult">
+       <result property="detailNo" column="detailNo"/>
+       <result property="detailDate" column="detailDate"/>
+       <result property="detailRoadAddress" column="detailRoadAddress"/>
+       <result property="detailBusinessName" column="detailBusinessName"/>
+       <result property="detailBusinessEng" column="detailBusinessEng"/>
+       <result property="detailDailyTicket" column="detailDailyTicket"/>
+       <result property="detailMonthlyTicket" column="detailMonthlyTicket"/>
+       <result property="detailComment" column="detailComment"/>
+       <result property="detailServiceProgram" column="detailServiceProgram"/>
+       <result property="detailClassification" column="detailClassification"/>
+       <result property="detailFreeService" column="detailFreeService"/>
+       <result property="detailMonthlyPrice" column="detailMonthlyPrice"/>
+       <result property="detailKoClassification" column="detailKoClassification"/>
+       <result property="detailLatitude" column="detailLatitude"/>
+       <result property="detailLongitude" column="detailLongitude"/>
+       <result property="operatorNo" column="operatorNo"/>
+    </resultMap>
 
-	<select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
-	    <![CDATA[
-	        SELECT * FROM detail_tbl
-	        WHERE detailRoadAddress LIKE CONCAT('%', #{query}, '%')
-	        AND detailClassification = #{detailClassification}
-	    ]]>
-	</select>
+    <resultMap type="detailDibsDTO" id="detailDibsResult">
+       <result property="dibsNo" column="dibsNo"/>
+       <result property="detailNo" column="detailNo"/>
+       <result property="memberNo" column="memberNo"/>
+    </resultMap>
 
- 	<select id="selectBusiness" parameterType="int" resultType="detailDTO">
-		<![CDATA[
- 			select * from detail_tbl where detailNo = #{detailNo}
- 		]]>
-	</select>	
- 		
- 	<select id="getNewDetailNo" resultType="int" >
-		<![CDATA[
- 			select IFNULL(Max(detailNo),0)+1 from detail_tbl 
- 		]]>
-	</select>	
- 		
- 	<select id="selectAll" parameterType="String" resultType="detailDTO" >
-		<![CDATA[
- 			select * from detail_tbl where detailClassification = #{detailClassification} 
- 		]]>
-	</select>
-	
-	<select id="selectPopular" parameterType="int" resultType="detailDTO">
-		<![CDATA[
- 			select * from detail_tbl where detailNo = #{popularRating} 
- 		]]>
-	</select>
-	
-	<select id="selectReview" parameterType="int" resultMap="detailReviewResult">
-		<![CDATA[
- 			select * from detailreview_tbl where detailNo = #{detailNo}
- 		]]>
-	</select>
-	
- 	<select id="selectPopularRating" parameterType="int" resultType="int" >
-		<![CDATA[
- 			SELECT detailNo, SUM(reviewRating) as totalRating FROM reviews GROUP BY detailNo ORDER BY totalRating DESC LIMIT 5 where detailNo = {detailNum} ;
- 		]]>
-	</select>
- 	
- 	<select id="selectDetailNo" parameterType="String" resultType="int" >
-		<![CDATA[
- 			selct detailNo from detail_tbl where detailClassification = #{detailClassification}
- 		]]>
-	</select>
- 	
- 	<select id="findDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
-		<![CDATA[
- 			select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
- 		]]>
-	</select>
- 
- 		<!--<![CDATA[
- 			select reviewNo from detailreview_tbl where detailNo=#{detailNo}
- 		]]>-->		
- 
- 	<select id="selectReviewNo" parameterType="int" resultType="int">
- 		<![CDATA[
- 			SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
-			UNION ALL SELECT 0 WHERE NOT EXISTS ( SELECT 1 FROM detailreview_tbl WHERE detailNo = #{detailNo})
- 			
- 		]]>
- 	</select>
- 	
- 	<insert id="insertDibs" parameterType="java.util.Map">
- 		<![CDATA[ 
- 			insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
- 		]]>
- 	</insert>
- 	
- 	<insert id="insertReview" parameterType="java.util.Map">
- 		<![CDATA[ 
- 			insert into detailreview_tbl (reviewComment,reviewImgName, reviewDate,reviewRating,memberNo, buyNo, detailNo) values(#{reviewComment},#{reviewImgName},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
- 		]]>
- 	</insert>
- 	
- 	<insert id="insertNoImgReview" parameterType="java.util.Map">
- 		<![CDATA[ 
- 			insert into detailreview_tbl (reviewComment, reviewDate,reviewRating,memberNo, buyNo,detailNo) values(#{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{buyNo},#{detailNo})
- 		]]>
- 	</insert>
- 	
- 	<insert id="insertOperForm" parameterType="java.util.Map">
- 		<![CDATA[
- 			insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBusinessName},
- 			#{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
- 			#{detailServiceProgram},#{detailClassification},#{detailFreeService},#{detailMonthlyPrice},
- 			#{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
- 		]]>
- 	</insert>
- 	
- 	<insert id="insertNewImages" parameterType="java.util.Map">
- 		insert into detailimage_tbl values
- 		<foreach collection="imageFileList" item="item" separator=",">
- 			(#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
- 		</foreach>
- 	</insert>
- 	
- 	<delete id="deleteReview" parameterType="int">
- 		<![CDATA[
- 			delete from detaildibs_tbl where reviewNo = #{reviewNo}
- 		]]>
- 	</delete>
- 	
- 	<delete id="removeDibs" parameterType="java.util.Map">
- 		<![CDATA[
- 			delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
- 		]]>
- 	</delete>
+    <resultMap type="detailReviewDTO" id="detailReviewResult">
+       <result property="reviewNo" column="reviewNo"/>
+       <result property="reviewComment" column="reviewComment"/>
+       <result property="reviewImgName" column="reviewImgName"/>
+       <result property="reviewDate" column="reviewDate"/>
+       <result property="reviewRating" column="reviewRating"/>
+       <result property="memberNo" column="memberNo"/>
+       <result property="payformNo" column="payformNo"/>
+       <result property="detailNo" column="detailNo"/>
+    </resultMap>
+
+    <resultMap type="detailImageDTO" id="detailImageResult">
+       <result property="imageFileNo" column="imageFileNo"/>
+       <result property="imageFileName" column="imageFileName"/>
+       <result property="regDate" column="regDate"/>
+       <result property="detailNo" column="detailNo"/>
+    </resultMap>
+
+   <resultMap type="detailReportDTO" id="detailReportResult">
+      <result property="reviewNo" column="reviewNo"/>
+      <result property="reportDate" column="reportDate"/>
+      <result property="reportCount" column="reportCount"/>
+      <result property="reportContent" column="reportContent"/>
+      <result property="memberNo" column="memberNo"/>
+      <result property="detailNo" column="detailNo"/>
+      <result property="operatorNo" column="operatorNo"/>
+   </resultMap>
+   
+   <select id="selectMember" parameterType="java.util.Map" resultType="int">
+      <![CDATA[
+          SELECT
+    CASE
+        WHEN COUNT(*) > 0 THEN 1
+        ELSE 0
+    END AS result
+FROM
+    detailreview_tbl
+WHERE
+    detailNo = #{detailNo}
+    AND memberNo = #{memberNo}
+    AND payformNo = #{payformNo};
+       ]]>
+   </select>
+   
+   <select id="selectReviewDTO" parameterType="int" resultType="detailReviewDTO">
+      <![CDATA[
+          select * from detailreview_tbl where reviewNo = #{reviewNo}
+       ]]>
+   </select>
+
+   <select id="selectToReview" resultType="int">
+      <![CDATA[
+          select count(*) from detailreview_tbl
+       ]]>
+   </select>
+
+   <select id="selectAll" resultMap="detailReviewResult" parameterType="java.util.Map">
+      <![CDATA[
+          SELECT * FROM detailreview_tbl WHERE detailNo = #{detailNo}
+         ORDER BY reviewNo DESC LIMIT #{count}, 5
+       ]]>
+   </select>
+
+    <select id="selectReport" parameterType="java.util.Map" resultType="int">
+       <![CDATA[
+               SELECT CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM detailreport_tbl
+                WHERE memberNo = #{memberNo}
+                  AND detailNo = #{detailNo}
+            ) THEN 1
+            ELSE 0
+        END
+       ]]>
+   </select>
+
+   <select id="selectOperatorNo" parameterType="int" resultType="int">
+      <![CDATA[
+            SELECT operatorNo from detail_tbl where detailNo = #{detailNo}
+        ]]>
+   </select>
+
+   <select id="selectReportCount" parameterType="java.util.Map" resultType="int">
+      <![CDATA[
+           SELECT CASE WHEN EXISTS (SELECT 1 FROM detailreport_tbl 
+           WHERE detailNo = #{detailNo})
+            THEN (
+           SELECT COALESCE(MAX(reportCount), 0) + 1 FROM detailreport_tbl 
+           WHERE detailNo = #{detailNo}) ELSE 1 END AS reportCount;
+        ]]>
+   </select>
+
+   <select id="selectPopularHealth"  resultMap="detailResult">
+       <![CDATA[
+          WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+             COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+           ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'health' GROUP BY
+           drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+          FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+          ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+      ]]>
+   </select>
+
+   <select id="selectPopularBoxing" resultMap="detailResult">
+       <![CDATA[
+          WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+             COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+           ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'boxing' GROUP BY
+           drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+          FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+          ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+      ]]>
+   </select>
+
+   <select id="selectPopularPilates" resultMap="detailResult">
+       <![CDATA[
+          WITH TotalRatings AS (SELECT drt.detailNo, SUM(drt.reviewRating) AS totalRating,
+             COUNT(drt.reviewRating) AS reviewCount FROM detailreview_tbl drt JOIN detail_tbl dt
+           ON drt.detailNo = dt.detailNo WHERE dt.detailClassification = 'pilates' GROUP BY
+           drt.detailNo), AvgRatings AS (SELECT detailNo, totalRating / reviewCount AS avgRating
+          FROM TotalRatings) SELECT dt.* FROM detail_tbl dt JOIN AvgRatings ar ON dt.detailNo = 
+          ar.detailNo ORDER BY ar.avgRating DESC LIMIT 3;
+      ]]>
+   </select>
+
+   <select id="selectReviewImage" parameterType="int" resultMap="detailReviewResult">
+       <![CDATA[
+      WITH FilteredReviews AS (
+    SELECT reviewImgName, detailNo, memberNo
+    FROM detailreview_tbl
+    WHERE detailNo = #{detailNo}
+      AND reviewImgName IS NOT NULL
+      AND reviewImgName != ''
+      ORDER BY reviewDate DESC
+   )
+   SELECT reviewImgName, detailNo, memberNo
+   FROM FilteredReviews
+   LIMIT 5;
+      ]]>
+   </select>
+
+   <!--detailRoadAddress나 detailBusinessName 중에 쿼리 내용이 있으면 결과 출력-->
+   <select id="selectQuery" parameterType="java.util.Map" resultMap="detailResult">
+        <![CDATA[
+            SELECT * FROM detail_tbl
+            WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+               OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+              AND detailClassification = #{detailClassification}
+        ]]>
+    </select>
+
+    <select id="selectPLaceQuery" parameterType="java.util.Map" resultMap="detailResult">
+        <![CDATA[
+            SELECT * FROM detail_tbl
+            WHERE (detailRoadAddress LIKE CONCAT('%', #{query}, '%')
+               OR detailBusinessName LIKE CONCAT('%', #{query}, '%'))
+        ]]>
+    </select>
+
+    <select id="selectBusiness" parameterType="int" resultType="detailDTO">
+      <![CDATA[
+          select * from detail_tbl where detailNo = #{detailNo}
+       ]]>
+   </select>
+
+    <select id="getNewDetailNo" resultType="int" >
+      <![CDATA[
+          select IFNULL(Max(detailNo),0)+1 from detail_tbl 
+       ]]>
+   </select>
+
+    <select id="getNewReviewNo" resultType="int" >
+      <![CDATA[
+          select IFNULL(Max(reviewNo),0)+1 from detailreview_tbl 
+       ]]>
+   </select>
+
+   <select id="selectPopular" parameterType="int" resultType="detailDTO">
+      <![CDATA[
+          select * from detail_tbl where detailNo = #{popularRating} 
+       ]]>
+   </select>
+
+   <select id="selectReview" parameterType="int" resultMap="detailReviewResult">
+      <![CDATA[
+          select * from detailreview_tbl where detailNo = #{detailNo} ORDER BY reviewDate DESC;
+       ]]>
+   </select>
+
+    <select id="selectPopularRating" parameterType="int" resultType="int" >
+      <![CDATA[
+          SELECT detailNo, SUM(reviewRating) as totalRating FROM reviews GROUP BY detailNo ORDER BY totalRating DESC LIMIT 5 where detailNo = {detailNum} ;
+       ]]>
+   </select>
+
+    <select id="selectDetailNo" parameterType="String" resultType="int" >
+      <![CDATA[
+          selct detailNo from detail_tbl where detailClassification = #{detailClassification}
+       ]]>
+   </select>
+
+    <select id="selectDibs" parameterType="java.util.Map" resultMap="detailDibsResult">
+      <![CDATA[
+          select * from detaildibs_tbl where detailNo = #{detailNo} and memberNo = #{memberNo}
+       ]]>
+   </select>
+
+       <!--<![CDATA[
+          select reviewNo from detailreview_tbl where detailNo=#{detailNo}
+       ]]>-->
+
+    <select id="selectReviewNo" parameterType="int" resultType="int">
+       <![CDATA[
+          SELECT reviewNo FROM detailreview_tbl WHERE detailNo = #{detailNo}
+         UNION ALL SELECT 0 WHERE NOT EXISTS ( SELECT 1 FROM detailreview_tbl WHERE detailNo = #{detailNo})
+       ]]>
+    </select>
+
+   <insert id="insertReport" parameterType="java.util.Map">
+      <![CDATA[
+          insert into detailreport_tbl values(reportNo,sysdate(),#{reportCount},#{reportContent},#{memberNo},#{detailNo},#{operatorNo})
+       ]]>
+   </insert>
+
+    <insert id="insertDibs" parameterType="java.util.Map">
+       <![CDATA[
+          insert into detaildibs_tbl (detailNo, memberNo) values(#{detailNo},#{memberNo})
+       ]]>
+    </insert>
+
+    <insert id="insertReviewAndImage" parameterType="java.util.Map">
+       <![CDATA[
+          insert into detailreview_tbl values(#{reviewNo},#{reviewComment},#{reviewImageName},sysdate(),#{reviewRating},#{memberNo},#{payformNo},#{detailNo})
+       ]]>
+    </insert>
+
+    <insert id="insertNoImgReview" parameterType="java.util.Map">
+       <![CDATA[ 
+          insert into detailreview_tbl ( reviewComment, reviewDate,reviewRating,memberNo, payformNo,detailNo) values( #{reviewComment},sysDate(),#{reviewRating},#{memberNo},#{payformNo},#{detailNo})
+       ]]>
+    </insert>
+
+    <insert id="insertOperForm" parameterType="java.util.Map">
+       <![CDATA[
+          insert into detail_tbl values(#{detailNo},sysdate(),#{detailRoadAddress},#{detailBusinessName},
+          #{detailBusinessEng},#{detailDailyTicket},#{detailMonthlyTicket},#{detailComment},
+          #{detailServiceProgram},#{detailClassification},#{detailFreeService},#{detailMonthlyPrice},
+          #{detailKoClassification}, #{detailLatitude}, #{detailLongitude}, #{operatorNo})
+       ]]>
+    </insert>
+
+    <insert id="insertNewImages" parameterType="java.util.Map">
+       insert into detailimage_tbl values
+       <foreach collection="imageFileList" item="item" separator=",">
+          (#{item.imageFileNo}, #{item.imageFileName}, sysdate(), #{detailNo})
+       </foreach>
+    </insert>
+
+    <delete id="deleteReview" parameterType="int">
+       <![CDATA[
+          delete from detailreview_tbl where reviewNo = #{reviewNo} 
+       ]]>
+    </delete>
+
+    <delete id="removeDibs" parameterType="java.util.Map">
+       <![CDATA[
+          delete from detaildibs_tbl where memberNo=#{memberNo} and detailNo = #{detailNo}
+       ]]>
+    </delete>
+    
   </mapper>

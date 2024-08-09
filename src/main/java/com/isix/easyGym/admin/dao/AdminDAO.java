@@ -23,4 +23,14 @@ public interface AdminDAO {
 	
 	// 탈퇴 회원 리스트
 	public List selectWithMem() throws DataAccessException;
-}
+	
+	// 사업자 리스트
+	public List selectOper() throws DataAccessException;
+	
+	// 탈퇴 사업자 리스트
+	public List selectCompany() throws DataAccessException;
+
+	// 신고 리스트
+	public List selectReport() throws DataAccessException;
+	
+	}
