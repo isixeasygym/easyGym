@@ -82,15 +82,19 @@ public class DetailControllerImpl implements DetailController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/detail/selectReport.do", method = RequestMethod.POST)
-	public String selectReport(int memberNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String selectReport(@RequestParam("memberNo") int memberNo,
+							   @RequestParam("detailNo") int detailNo,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    // 기본적으로 "noBuy"를 반환하도록 설정
 	    String success = "noBuy";
-	    
+	    Map<String,Object> selectMap = new HashMap<String,Object>();
+	    selectMap.put("detailNo", detailNo);
+	    selectMap.put("memberNo", memberNo);
 	    // 구매 여부 체크
-	    int buyNo = payformService.buyCheck(memberNo);
-	    if (buyNo != 0) {
+	    int payformNo = payformService.findpay(selectMap);
+	    if (payformNo != 0) {
 	        // 구매가 있는 경우, 신고 여부 체크
-	        int report = detailService.findReport(memberNo);
+	        int report = detailService.findReport(selectMap);
 	        if (report != 0) {
 	            // 이미 신고가 되어 있는 경우
 	            success = "alreadyReport";
@@ -110,8 +114,11 @@ public class DetailControllerImpl implements DetailController{
 	                       HttpServletResponse response) throws Exception {
 	    try {
 	    	String success=null;
+	    	Map<String,Object> countMap = new HashMap<String,Object>();
+	    	countMap.put("memberNo", memberNo);
+	    	countMap.put("detailNo", detailNo);
+	    	int reportCount = detailService.findReportCount(countMap);
             int operatorNo = detailService.findOperatorNo(detailNo);
-            int reportCount = detailService.findReportCount(detailNo);
             Map<String, Object> reportMap = new HashMap<>();
             reportMap.put("reportCount", reportCount);
             reportMap.put("operatorNo", operatorNo);
@@ -356,10 +363,12 @@ public class DetailControllerImpl implements DetailController{
 	        HttpServletResponse response) throws Exception {
 		String status = null;
 	    try {
-	    	
-	            int buyNo = payformService.buyCheck(memberNo);
-
-	            if (buyNo != 0) {
+		    	Map<String,Object> selectMap = new HashMap<String,Object>();
+		 	    selectMap.put("detailNo", detailNo);
+		 	    selectMap.put("memberNo", memberNo);
+		 	    // 구매 여부 체크
+		 	    int payformNo = payformService.findpay(selectMap);
+		 	    if (payformNo != 0) {
 	                multipartRequest.setCharacterEncoding("utf-8");
 	                // Verify file upload
 	                String imageFileName = fileUpload(multipartRequest);
@@ -377,7 +386,7 @@ public class DetailControllerImpl implements DetailController{
 	                    }
 
 	                    reviewImageMap.put("reviewImageName", imageFileName);
-	                    reviewImageMap.put("buyNo", buyNo);
+	                    reviewImageMap.put("payformNo", payformNo);
 	                    reviewImageMap.put("detailNo", detailNo);
 	                    reviewImageMap.put("memberNo", memberNo);
 
@@ -410,7 +419,7 @@ public class DetailControllerImpl implements DetailController{
 	                    noImgReviewMap.put("reviewComment", reviewComment);
 	                    noImgReviewMap.put("reviewRating", reviewRating);
 	                    noImgReviewMap.put("memberNo", String.valueOf(memberNo));
-	                    noImgReviewMap.put("buyNo", String.valueOf(buyNo));
+	                    noImgReviewMap.put("payformNo", String.valueOf(payformNo));
 	                    noImgReviewMap.put("detailNo", detailNo);
 
 	                    detailService.noImgReview(noImgReviewMap);
@@ -451,6 +460,7 @@ public class DetailControllerImpl implements DetailController{
 	public String deleteReview(@RequestParam("detailNo") int detailNo,
 	                           @RequestParam("reviewNo") int reviewNo,
 	                           @RequestParam("memberNo") int memberNo,
+	              
 	                           @RequestParam(value = "action", required = false) String action,
 	                           RedirectAttributes rAttr,
 	                           HttpServletRequest request,
@@ -459,8 +469,12 @@ public class DetailControllerImpl implements DetailController{
 
 	    try {
 	        // 구매 확인
-	        int buyNo = payformService.buyCheck(memberNo);
-	        if (buyNo != 0) {
+	    	Map<String,Object> selectMap = new HashMap<String,Object>();
+	 	    selectMap.put("detailNo", detailNo);
+	 	    selectMap.put("memberNo", memberNo);
+	 	    // 구매 여부 체크
+	 	    int payformNo = payformService.findpay(selectMap);
+	 	    if (payformNo != 0) {
 	            // 리뷰 정보 조회
 	            DetailReviewDTO reviewDTO = detailService.getReviewByNo(reviewNo);
 	            if (reviewDTO == null) {
@@ -556,8 +570,6 @@ public class DetailControllerImpl implements DetailController{
 	    }
 	    return fileList;
 	}
-
-
 
 
 }
