@@ -2,205 +2,95 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/layout/header.jsp"%>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 40px;
-        }
-        .card-text {
-            font-weight: bold;
-        }
-        .btn-more {
-            margin-top: 20px;
-            text-align: right;
-        }
-        h2 {
-            margin-top: 40px;
-        }
-.bg-image {
-	background-image: url('/images/member/gym2.png'); /* 배경 이미지 경로 */
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	color: white; 
-	height: 500px; /* 배경 이미지의 높이 설정 */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center; /* 텍스트 중앙 정렬 */
-	padding: 50px; /* 내부 여백 설정 */
+<style>
+.image.featured img {
+    width: 100%; /* 너비를 부모 요소에 맞추어 조정 */
+    height: 270px;; /* 비율을 유지하면서 높이 자동 조정 */
+}
+/* 카드 이미지 스타일 */
+.card-img-top {
+    width: 100%; /* 이미지의 너비를 카드의 너비에 맞춤 */
+    height: 200px; /* 이미지 높이를 고정 */
+    object-fit: cover; /* 비율 유지하며 잘라냄 */
 }
 
-.display-3 {
-	font-size: 3.5rem; /* 대제목의 글자 크기 */
-	font-weight: 700; /* 대제목의 글자 굵기 */
+/* 카드 스타일 */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 카드 높이를 열의 높이에 맞춤 */
+    overflow: hidden; /* 카드의 넘치는 부분을 숨김 */
 }
 
-.fw-normal {
-	font-weight: bold; /* 일반 텍스트의 글자 굵기 */
+/* 카드 바디 스타일 */
+.card-body {
+    flex: 1; /* 카드 내용 영역이 남는 공간을 차지하도록 설정 */
 }
-
-.lead {
-	font-size: 1.25rem; /* 부제목의 글자 크기 */
+footer.major {
+    text-align: center; /* 자식 요소들을 가운데 정렬 */
 }
-
-.icon-link {
-	color: white; /* 링크 텍스트 색상 */
-	text-decoration: none; /* 링크 밑줄 제거 */
-	font-weight: bold; /* 링크 텍스트 굵기 */
-	padding: 10px 20px; /* 링크 버튼의 여백 설정 */
-	border: 2px solid white; /* 링크 버튼의 테두리 설정 */
-	border-radius: 25px; /* 링크 버튼의 모서리 둥글게 설정 */
-	transition: all 0.3s ease; /* 링크 버튼에 호버 효과를 부드럽게 적용 */
-}
-
-.icon-link:hover {
-	background-color: rgba(255, 255, 255, 0.2); /* 링크 버튼에 호버 시 배경 색상 변경 */
-	color: white; /* 링크 버튼 텍스트 색상 다시 설정 */
+.intro-text {
+    font-size: 17px; /* 글꼴 크기를 작게 설정 */
+    color: #888; /* 옅은 회색으로 설정 */
 }
 
 @font-face {
-	font-family: 'HancomMalangMalang-Regular';
-	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2406-1@1.0/HancomMalangMalang-Regular.woff2')
-		format('woff2');
-	font-weight: 400;
-	font-style: normal;
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.display-3 {
-	font-family: 'HancomMalangMalang-Regular';
-	font-weight: 1000;
+/* 기본 폰트 적용 */
+p {
+    font-family: 'S-CoreDream-3Light', sans-serif; /* 폰트가 적용되지 않을 경우를 대비하여 대체 폰트 설정 */
+}
+h2{
+	font-family: 'KorailRoundGothicBold';
 }
 
-.icon-link, h2 {
-	font-family: 'HancomMalangMalang-Regular';
-	font-weight: 800;
-}
-
-.carousel-container {
-	width: 100%; /* 원하는 너비 */
-	height: 100%; /* 원하는 높이 */
-	margin: 0 auto; /* 중앙 정렬 */
-}
-
-.carousel-container img {
-	width: 100%;
-	object-fit: cover; /* 이미지가 컨테이너를 채우도록 조정 */
-}
-
-.card-img-top {
-	height: 200px; /* 원하는 이미지 높이 설정 */
-	object-fit: cover; /* 이미지가 카드에 맞게 조정되도록 설정 */
-}
-.row{
-text-align: center;
-}
-
-.chatbot-icon {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 70px;
-    height: 70px;
-    cursor: pointer;
-    z-index: 1000; /* 다른 요소들보다 앞에 표시되도록 설정 */
-}
-
-#chatbot_frame {
-    position: fixed;
-    bottom: 180px; /* 아이콘 위에 프레임이 나타나도록 설정 */
-    right: 20px;
-    width: 350px; /* 프레임 너비 설정 */
-    height: 430px; /* 프레임 높이 설정 */
-    display: none; /* 초기 상태에서는 숨김 */
-    z-index: 999; /* 아이콘보다 뒤에 표시되도록 설정 */
-}
-
-.tooltip-image {
-            position: fixed;
-            bottom: 120px; /* 아이콘 바로 위에 위치하도록 설정 */
-            right: 100px; /* 아이콘 옆에 위치하도록 설정 */
-            width: 140px;
-          height: 70px;
-            display: none; /* 초기 상태에서는 숨김 */
-            z-index: 1001; /* 아이콘보다 앞에 표시되도록 설정 */
-}
-.card-text{
-	height:48px;
-}
 </style>
-<div
-	class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
-	<div class="col-md-6 p-lg-5 mx-auto my-5">
-		<h1 class="display-3">운동할 땐, EasyGym부터</h1>
-		<div class="d-flex gap-3 justify-content-center lead fw-normal">
-			<a class="icon-link" href="${contextPath}/detail/search.do?query=">운동 시설 찾기</a>
-		</div>
-	</div>
-	<div class="product-device shadow-sm d-none d-md-block"></div>
-	<div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-</div>
+<!-- Banner -->
+<section id="banner">
+    <div class="inner">
+        <header>
+            <h2>EASYGYM</h2>
+        </header>
+        <p>This is <strong>EASYGYM</strong>. Discover<br />
+            the Best Gyms near you.
+        </p>
+        <footer>
+            <ul class="buttons stacked">
+                <li><a href="${contextPath}/detail/search.do?query=" class="button fit scrolly">Search My Location</a></li>
+            </ul>
+        </footer>
+    </div>
+</section>
 
-<div class="container marketing">
+<!-- Main -->
+<article id="main">
+    <header class="special container">
+        <span></span>
+        <h4 class="intro-text">Discover the Best Gyms, Pilates Studios, and Boxing Facilities Near You<br>
+		Easily find the top fitness locations around you. <br>
+		We help you find the perfect place that matches your fitness needs and lifestyle.
+        </h4>
+    </header>
 
-    <div class="row">
-  <div class="col-lg-4 text-center">
-    <img src="/images/member/whey-protein.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Placeholder">
-    <h2 class="fw-normal">헬스 보충제 쇼핑몰</h2>
-    <p>체중 관리의 새로운 동반자! 효과적인 다이어트 보조제로 건강하게 목표를 달성하세요. 에너지와 자신감을 더해주는 완벽한 솔루션을 만나보세요.</p>
-    <p><a class="btn btn-secondary" href="https://5colorsfood.co.kr/?gad_source=1&gclid=CjwKCAjwnei0BhB-EiwAA2xuBsNhqOgv84-y_YRFY6s6ZxLzjr-ilMy-ZYddi_MArhc9dVGj8F9HvRoCExsQAvD_BwE">바로가기 &raquo;</a></p>
-  </div><!-- /.col-lg-4 -->
-  <div class="col-lg-4 text-center">
-    <img src="/images/member/low-carb-diet.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Placeholder">
-    <h2 class="fw-normal">저탄수화물 베이커리</h2>
-    <p>건강한 삶을 위한 맛있는 선택! 저탄수화물 베이커리로 풍미 가득한 맛과 영양을 동시에 즐기세요. 다이어트와 행복을 함께 느껴보세요.</p>
-    <p><a class="btn btn-secondary" href="https://ketopantry.co.kr/29">바로가기 &raquo;</a></p>
-  </div><!-- /.col-lg-4 -->
-  <div class="col-lg-4 text-center">
-    <img src="/images/member/weight.png" class="bd-placeholder-img rounded-circle" width="140" height="140" alt="Placeholder">
-    <h2 class="fw-normal">홈트레이닝 플랫폼</h2>
-    <p>집에서 편하게, 강력하게! 다양한 운동 프로그램과 전문가의 지도로 목표를 달성하고 운동의 새로운 즐거움을 경험해보세요.</p>
-    <p><a class="btn btn-secondary" href="http://demo047.megaweb1.kr/">바로가기 &raquo;</a></p>
-  </div><!-- /.col-lg-4 -->
-</div><!-- /.row -->
-</div>
-
-<div id="carouselExampleAutoplaying"
-	class="carousel slide carousel-container" data-bs-ride="carousel">
-	<div class="carousel-inner">
-		<div class="carousel-item active">
-			<img src="/images/member/commerc1.png" class="d-block w-100"
-				alt="광고이미지">
-		</div>
-		<div class="carousel-item">
-			<img src="/images/member/commerc2.png" class="d-block w-100"
-				alt="광고이미지">
-		</div>
-		<div class="carousel-item">
-			<img src="/images/member/commerc3.png" class="d-block w-100"
-				alt="광고이미지">
-		</div>
-<!-- 		<div class="carousel-item">
-			<img src="/images/member/commerc4.png" class="d-block w-100"
-				alt="광고이미지">
-		</div> -->
-	</div>
-	<button class="carousel-control-prev" type="button"
-		data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-			class="visually-hidden">Previous</span>
-	</button>
-	<button class="carousel-control-next" type="button"
-		data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
-			class="visually-hidden">Next</span>
-	</button>
-</div>
-
+<!-- CTA -->
+<section id="cta">
+    <header>
+        <h2>사업자이신가요?</h2>
+        <p>이지짐 사업자로 등록하고, 헬스장이나 운동시설을 보다 효과적으로 관리하고 홍보하세요.<br>지금 등록하셔서 귀하의 시설을 많은 고객들에게 알리고, 더 많은 기회를 잡아보세요!</p>
+    </header>
+    <footer>
+        <ul class="buttons">
+            <li><a href="/member/operLoginForm.do" class="button primary">Sign In</a></li>
+            <li><a href="/member/oprJoin.do" class="button">Sign Up</a></li>
+        </ul>
+    </footer>
+</section>
+&nbsp;
 <div class="container">
     <h2>헬스장 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -230,8 +120,6 @@ text-align: center;
 		        </div>
 		    </c:otherwise>
 		</c:choose>
-
-        
         <!-- 두 번째 헬스장 -->
         <c:choose>
             <c:when test="${not empty healthList[1]}">
@@ -258,7 +146,6 @@ text-align: center;
                 </div>
             </c:otherwise>
         </c:choose>
-
         <!-- 세 번째 헬스장 -->
         <c:choose>
             <c:when test="${not empty healthList[2]}">
@@ -286,12 +173,11 @@ text-align: center;
             </c:otherwise>
         </c:choose>
     </div>
-	<div class="btn-more">
-	    <a href="${contextPath}/detail/search.do?query=&detailClassification=health" class="btn btn-primary">
-	        헬스 더보기
-	    </a>
-	</div>
-
+	<footer class="major">
+	<ul class="buttons">
+        <li><a href="${contextPath}/detail/search.do?query=&detailClassification=health" class="button primary">헬스 더보기</a></li>
+   </ul>
+   </footer>
     <h2>필라테스 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- 첫 번째 필라테스 -->
@@ -331,12 +217,12 @@ text-align: center;
 			</a>
         </div>
     </div>
-	<div class="btn-more">
-	    <a href="${contextPath}/detail/search.do?query=&detailClassification=pilates" class="btn btn-primary">
-	        필라테스 더보기
-	    </a>
-	</div>
-    
+	<footer class="major">
+	<ul class="buttons">
+        <li><a href="${contextPath}/detail/search.do?query=&detailClassification=pilates"" class="button primary">필라테스 더보기</a></li>
+   </ul>
+   </footer>
+   &nbsp;
     <h2>복싱장 인기순위</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <!-- 첫 번째 복싱장 -->
@@ -376,45 +262,51 @@ text-align: center;
 			</a>
         </div>
     </div>
-	<div class="btn-more">
-		    <a href="${contextPath}/detail/search.do?query=&detailClassification=boxing" class="btn btn-primary">
-		        복싱 더보기
-		    </a>
-		</div>
+	<footer class="major">
+	<ul class="buttons">
+        <li><a href="${contextPath}/detail/search.do?query=&detailClassification=boxing" class="button primary">복싱 더보기</a></li>
+   </ul>
+   </footer>
 </div>
-<!-- 챗봇 아이콘 -->
-      <img src="/images/chatbot/chatbot.png" class="chatbot-icon" onmouseover="showTooltip()" onmouseout="hideTooltip()" onclick="toggleChatbot()">
-      
-      <!-- 툴팁 이미지 -->
-       <img src="/images/chatbot/hello.png" class="tooltip-image" id="tooltip_image">
-      
-      <!-- 챗봇 프레임 -->
-      <div class="chatbot">
-           <iframe id="chatbot_frame" width="350" height="430" allow="microphone;"
-           src="https://console.dialogflow.com/api-client/demo/embedded/835aec7e-894b-4357-b90d-e6fabbadfb94"></iframe>
-       </div>
-      <script>
-      function toggleChatbot() {
-            var frame = document.getElementById('chatbot_frame');
-            if (frame.style.display === 'none' || frame.style.display === '') {
-                frame.style.display = 'block';
-            } else {
-                frame.style.display = 'none';
-            }
-        }
-      
-      function showTooltip() {
-            var tooltip = document.getElementById('tooltip_image');
-            tooltip.style.display = 'block';
-        }
+&nbsp;
+<!-- Shop -->
 
-        function hideTooltip() {
-            var tooltip = document.getElementById('tooltip_image');
-            tooltip.style.display = 'none';
-        }
-      </script>
-<script src="/js/member/chatbot.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <section class="wrapper style1 container special">
+      <h2>추천 쇼핑 및 참고 사이트</h2>
+        <div class="row">
+            <div class="col-4 col-12-narrower">
+                <section>
+                    <span>
+                    <a href="https://5colorsfood.co.kr/?gad_source=1&gclid=CjwKCAjwnei0BhB-EiwAA2xuBsNhqOgv84-y_YRFY6s6ZxLzjr-ilMy-ZYddi_MArhc9dVGj8F9HvRoCExsQAvD_BwE" class="image featured">
+                    <img src="/images/member/mainshop2.png" alt="" />
+                    </a>
+                    </span>
+                    <header>
+                        <h3>헬스 보충제 쇼핑몰</h3>
+                    </header>
+                    <p>체중 관리의 새로운 동반자! 효과적인 다이어트 보조제로 건강하게 목표를 달성하세요. 에너지와 자신감을 더해주는 완벽한 솔루션을 만나보세요.</p>
+                </section>
+            </div>
+            <div class="col-4 col-12-narrower">
+                <section>
+                    <span><a href="https://zerotohero.co.kr/?gad_source=1&gclid=CjwKCAjw2dG1BhB4EiwA998cqJBk0UsTIn0cORgsB6ViiUCPsy3b9s8IC-0nJx1RATkIcp457mc2uxoCDTsQAvD_BwE" class="image featured"><img src="/images/member/mainShop1.png" alt="" /></a></span>
+                    <header>
+                        <h3>헬스 용품 쇼핑몰</h3>
+                    </header>
+                    <p>건강한 삶을 위한 맛있는 선택! 저탄수화물 베이커리로 풍미 가득한 맛과 영양을 동시에 즐기세요. 다이어트와 행복을 함께 느껴보세요.</p>
+                </section>
+            </div>
+            <div class="col-4 col-12-narrower">
+                <section>
+                    <span><a href="http://demo047.megaweb1.kr/" class="image featured"><img src="/images/member/mainShop4.jpg" alt="" /></a></span>
+                    <header>
+                        <h3>홈트레이닝 참고 사이트</h3>
+                    </header>
+                    <p>집에서 편하게, 강력하게! 다양한 운동 프로그램과 전문가의 지도로 목표를 달성하고 운동의 새로운 즐거움을 경험해보세요.</p>
+                </section>
+            </div>
+        </div>
+    </section>
+
+    
 <%@ include file="/WEB-INF/views/layout/footer.jsp"%>
